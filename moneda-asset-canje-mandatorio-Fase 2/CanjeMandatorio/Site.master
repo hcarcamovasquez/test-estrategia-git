@@ -1,0 +1,185 @@
+﻿<%@ Master Language="VB" CodeFile="Site.master.vb" Inherits="Site" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="<%=ResolveUrl("~/Img/favicon.ico")%>" type="image/vnd.microsoft.icon" rel="icon" />
+
+    <title>Moneda - Canje Mandatorio</title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <link rel="stylesheet" href="http://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+    <link href="<%=ResolveUrl("~/Style/bootstrap.min.css")%>" rel="stylesheet" />
+    <link href="<%=ResolveUrl("~/Style/dataTables.bootstrap4.min.css")%>" rel="stylesheet" />
+    <link href="<%=ResolveUrl("~/Style/simple-sidebar.css")%>" rel="stylesheet" />
+    <link href="<%=ResolveUrl("~/Style/select2.min.css")%>" rel="stylesheet" />
+    <link href="<%=ResolveUrl("~/Style/select2-bootstrap4.css")%>" rel="stylesheet" />
+    <link href="<%=ResolveUrl("~/Style/estilos.css")%>" rel="stylesheet" />
+    <%--<link href="<%=ResolveUrl("~/Style/bootstrap-datepicker.min.css")%>" rel="stylesheet" />--%>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+
+            <div class="d-flex" id="wrapper" style="background-color: #f7f5f2;">
+
+                <!-- Sidebar -->
+                <div class="bg-dark border-right" id="sidebar-wrapper">
+                    <div class="sidebar-heading">Canje Mandatorio </div>
+                    <div class="list-group list-group-flush">
+                        <script src="<%=ResolveUrl("~/Scripts/jquery-3.4.1.js?version=1.0.0")%>"></script>
+
+                        <a href="<%=ResolveUrl("~/Presentacion/Mantenedores/frmMantenedorAportantes.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-user fa-fw fa-sm"></i> Aportantes</a>
+                        <a href="<%=ResolveUrl("~/Presentacion/Mantenedores/frmMantenedorGrupoAportantes.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-users fa-fw fa-sm"></i> Grupos de aportantes</a>
+                        <a href="<%=ResolveUrl("~/Presentacion/Mantenedores/frmMantenedorFondos.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-hand-holding-usd fa-fw fa-sm"></i> Fondos</a>
+                        <a href="<%=ResolveUrl("~/Presentacion/Mantenedores/frmMantenedorFondoSerie.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-barcode fa-fw fa-sm"></i> Series</a>
+                        <a href="<%=ResolveUrl("~/Presentacion/Mantenedores/frmMantenedorHitos.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-star fa-fw fa-sm"></i> Hitos</a>
+                        <a href="<%=ResolveUrl("~/Presentacion/Mantenedores/frmMantenedorTipoCambio.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-exchange-alt fa-fw fa-sm"></i> Tipos de cambio</a>
+                        <a href="<%=ResolveUrl("~/Presentacion/Mantenedores/frmMantenedorValoresCuota.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-dollar-sign fa-fw fa-sm"></i> Valores cuotas</a>
+                        <a href="<%=ResolveUrl("~/Presentacion/Mantenedores/frmMantenedorCertificado.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-file-invoice fa-fw fa-sm"></i> Certificados</a>
+                        <a href="<%=ResolveUrl("~/Presentacion/Mantenedores/frmMantenedorRescates.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-life-ring fa-fw fa-sm"></i> Rescates</a>
+                        <a href="<%=ResolveUrl("~/Presentacion/Mantenedores/frmMantenedorSuscripciones.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-address-book fa-fw fa-sm"></i> Suscripciones</a>
+                        <a href="<%=ResolveUrl("~/Presentacion/Mantenedores/frmMantenedorCanjes.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-random fa-fw fa-sm"></i> Canjes</a>
+                        <a href="<%=ResolveUrl("~/Presentacion/Mantenedores/frmFijacion_Maestro.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-map-pin fa-fw fa-sm"></i> Fijación</a>
+                        <a href="<%=ResolveUrl("~/Presentacion/Mantenedores/ReporteCanjeMaestro.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-chart-line fa-fw fa-sm"></i> Reporte canje mandatorio</a>
+                        <a href="<%=ResolveUrl("~/Presentacion/Mantenedores/frmMantendedorDeDocumentos.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-file-alt fa-fw fa-sm"></i> Documentos</a>
+                        <a href="<%=ResolveUrl("~/Presentacion/Mantenedores/frmMantenedorVentanasRescate.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-window-restore fa-fw fa-sm"></i> Ventanas Rescate</a>
+                    </div>
+                </div>
+                <!-- /#sidebar-wrapper -->
+
+                <!-- Page Content -->
+                <div id="page-content-wrapper">
+
+                    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
+                        <button class="btn btn-primary btn-sm" id="menu-toggle"><i class="fas fa-bars fa-sm"></i> Menú</button>
+
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Opciones</a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="<%=ResolveUrl("~/Presentacion/Administracion/frmMantenedorUsuarios.aspx")%>"><strong>Mantenedor de Usuarios</strong></a>
+                                        <div class="dropdown-divider"></div>
+                                        <asp:LinkButton ID="btnCerrarSesion" CssClass="dropdown-item" runat="server" OnClick="btnCerrarSesion_Click"><strong>Cerrar sesión</strong></asp:LinkButton>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+
+                    <div class="container-fluid body-content">
+                        <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                        </asp:ContentPlaceHolder>
+                        <hr />
+                        <footer>
+                            <p>&copy; <%= DateTime.Now.Year %> Moneda Asset - Canje Mandatorio Version : <%=System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() %></p>
+                        </footer>
+                    </div>
+                </div>
+                <!-- /#page-content-wrapper -->
+
+            </div>
+            <!-- /#wrapper -->
+
+        </div>
+
+        <script src="<%=ResolveUrl("~/Scripts/jquery-3.4.1.js?version=1.0.0")%>"></script>
+        <script src="<%=ResolveUrl("~/Scripts/popper.min.js?version=1.0.0")%>"></script>
+        <script src="<%=ResolveUrl("~/Scripts/bootstrap.min.js?version=1.0.0")%>"></script>
+        <script src="<%=ResolveUrl("~/Scripts/jquery.mask.js?version=1.0.0")%>"></script>
+        <script src="<%=ResolveUrl("~/Scripts/jquery.mask2.js?version=1.0.0")%>"></script>
+         <%--Carga los ui de jquery--%>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="Stylesheet" type="text/css" />
+
+        <asp:ContentPlaceHolder ID="FooterScript" runat="server"></asp:ContentPlaceHolder>
+
+        <!-- Menu Toggle Script -->
+        <script>
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+
+            $("a.AporteLink").parents('td').css("text-align", "center");
+
+            $.datepicker.regional['es'] = {
+                 closeText: 'Cerrar',
+                 prevText: '< Ant',
+                 nextText: 'Sig >',
+                 currentText: 'Hoy',
+                 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                 monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+                 dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                 dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+                 dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+                 weekHeader: 'Sm',
+                 dateFormat: 'dd-mm-yy',
+                 firstDay: 1,
+                 isRTL: false,
+                 showMonthAfterYear: false,
+                 yearSuffix: ''
+            }
+
+            var options = {
+                //showOn: 'button',
+                //buttonImageOnly: true,
+                changeYear: true,
+                //buttonImage: "<%=ResolveUrl("~/img/calendar.png")%>", 
+                //buttonText : "Calendario"
+            };
+
+
+            $.datepicker.setDefaults($.datepicker.regional['es']);
+            $.datepicker.setDefaults(options);
+
+            function changeFechas(fecDesde, fecHasta, pdir) {
+                var fd = fecDesde.datepicker("getDate");
+                var fh = fecHasta.datepicker("getDate");
+
+                if (Date.parse(fh) < Date.parse(fd)) {
+                    if (pdir == 1) {
+                        fecHasta.datepicker("setDate", fd);
+                    } else {
+                        fecDesde.datepicker("setDate", fh);
+                    }
+
+                }
+            }
+
+            function clickCalendar(obj) {
+                var isVisible = $("[id*=" + obj + "]").datepicker("widget").is(":visible")
+
+               if (isVisible) {
+                    $("[id*=" + obj + "]").datepicker('hide');
+                } else {
+                    $("[id*=" + obj + "]").datepicker('show');
+                }
+             
+                return false;
+            }
+            function limpiarCalendar(obj) {
+                $("[id*=" + obj + "]").datepicker('setDate', "");
+                return false
+            }
+
+        </script>
+
+    </form>
+
+</body>
+
+
+
+
+</html>

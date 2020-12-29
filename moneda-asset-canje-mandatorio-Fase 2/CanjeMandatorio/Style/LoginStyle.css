@@ -1,0 +1,18 @@
+﻿html {
+    min-height:100%;
+}
+
+body {
+    background-color: #DDDDDD;
+    background-image: url("../Img/oficinas_moneda.jpg");
+    background-size: cover;
+    background-position:center;
+    min-height:100%;
+}
+
+.cuadro {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    max-width: 400px;
+    box-shadow:rgba(0, 0, 0, 0.5) 0px 8px 8px;
+}

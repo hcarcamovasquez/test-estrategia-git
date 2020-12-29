@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Datos.ADCVDatos">
+    <Position X="0.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.ApGpDatos">
+    <Position X="5" Y="3" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.CanjeDatos">
+    <Position X="11.5" Y="7" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.FijacionDatos">
+    <Position X="10.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.MonedasDatos">
+    <Position X="8.75" Y="2" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.PatrimonioDatos">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.ProcesoDetalleDatos">
+    <Position X="6.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.ReporteDatos">
+    <Position X="5" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.AportanteDatos">
+    <Position X="16.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.CertificadoDatos">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.DocumentoDatos">
+    <Position X="3" Y="0.5" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.FondosDatos">
+    <Position X="16.5" Y="5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.FondoSeriesDatos">
+    <Position X="3" Y="3" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.GrupoAportantesDatos">
+    <Position X="14.75" Y="1" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.HitosDatos">
+    <Position X="0.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.PruebaWSDatos">
+    <Position X="12.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.RescateDatos">
+    <Position X="7" Y="4.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.SuscripcionDatos">
+    <Position X="18.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.TipoCalculoNav">
+    <Position X="7" Y="2.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.TipoCambioDatos">
+    <Position X="14.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.UsuarioDatos">
+    <Position X="5" Y="5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.ValoresCuotaDatos">
+    <Position X="5" Y="7.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Datos.VentanasRescateDatos">
+    <Position X="8.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

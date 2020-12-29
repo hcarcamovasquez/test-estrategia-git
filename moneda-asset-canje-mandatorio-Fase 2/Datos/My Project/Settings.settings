@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
+  <Profiles />
+  <Settings>
+    <Setting Name="Datos_localhost_WSPrueba" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost:2602/WSPrueba.asmx</Value>
+    </Setting>
+    <Setting Name="Datos_WSAportante_WSAportante" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost:2602/WSAportante.asmx</Value>
+    </Setting>
+    <Setting Name="Datos_WSFondos_WSFondos" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost:2602/WSFondos.asmx</Value>
+    </Setting>
+    <Setting Name="Datos_WSGrupoAportantes_WSGrupoAportantes" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost:2602/WSGrupoAportantes.asmx</Value>
+    </Setting>
+    <Setting Name="Datos_WSUsuarios_WSUsuarios" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost:2602/WSUsuarios.asmx</Value>
+    </Setting>
+    <Setting Name="Datos_WSApGp_WSApGp" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost:2602/WSApGp.asmx</Value>
+    </Setting>
+    <Setting Name="Datos_WSSeries_WSSeries" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost:2602/WSSeries.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
