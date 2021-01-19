@@ -15,6 +15,8 @@ Public class FondoDTO
     Public Property FechaVencimiento As Nullable(Of Date)
     Public Property Acumulado As Nullable(Of Decimal)
 
+    Public Property ControlCuotas As Integer
+
     Public Sub New(rut As String, razonsocial As String, nombreCorto As String, estado As String, fechaIngreso As Date, usuarioIngreso As String, fechaModificacion As Date, usuarioModificacion As String, CuotasEmitidas As Decimal, FechaEmision As Date, FechaVencimiento As Date, Acumulado As Decimal)
         Me.Rut = rut
         Me.RazonSocial = razonsocial
@@ -49,6 +51,18 @@ Public class FondoDTO
             End If
 
         End Get
+    End Property
+
+    Public ReadOnly Property ControlDeCuotas As String
+
+        Get
+            If ControlCuotas = 0 Then
+                Return "NO"
+            Else
+                Return "SI"
+            End If
+        End Get
+
     End Property
 
     Public Sub New()

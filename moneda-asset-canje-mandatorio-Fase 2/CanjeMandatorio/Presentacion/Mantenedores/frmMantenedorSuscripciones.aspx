@@ -502,6 +502,7 @@
                                                         <asp:AsyncPostBackTrigger ControlID="txtFechaNAV" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtFechaTC" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtFechaIntencion" EventName="TextChanged" />
+                                                        <asp:AsyncPostBackTrigger ControlID="ddlMonedaPago" EventName="SelectedIndexChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <div class="input-group">
@@ -529,19 +530,13 @@
                                                         <asp:AsyncPostBackTrigger ControlID="txtFechaNAV" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtFechaTC" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtFechaIntencion" EventName="TextChanged" />
+                                                        <asp:AsyncPostBackTrigger ControlID="ddlMonedaPago" EventName="SelectedIndexChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <div class="input-group">
                                                             <asp:TextBox ID="txtFechaSuscripcion" runat="server" CssClass="form-control datepicker" OnTextChanged="SuscripcionChanged" AutoPostBack="true" Enabled="false"></asp:TextBox>
                                                             <asp:LinkButton ID="LinkButton10" Class="btn btn-moneda" OnClientClick="return clickCalendar('txtFechaSuscripcion')" runat="server"><i class="far fa-calendar-alt"></i></asp:LinkButton>
-                                                            <%--<asp:Calendar ID="Calendar10" runat="server" Visible="False" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" class="calendarios">
-                                                                <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                                                                <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                                                                <OtherMonthDayStyle ForeColor="#999999" />
-                                                                <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                                                                <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="4px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" />
-                                                                <TodayDayStyle BackColor="#CCCCCC" />
-                                                            </asp:Calendar>--%>
+                   
                                                             <span id="reqtxtFecha8" class="reqError"></span>
                                                         </div>
                                                     </ContentTemplate>
@@ -560,19 +555,13 @@
                                                         <asp:AsyncPostBackTrigger ControlID="txtFechaNAV" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtFechaTC" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtFechaIntencion" EventName="TextChanged" />
+                                                        <asp:AsyncPostBackTrigger ControlID="ddlMonedaPago" EventName="SelectedIndexChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <div class="input-group">
                                                             <asp:TextBox ID="txtFechaTC" runat="server" CssClass="form-control datepicker" AutoPostBack="true" Enabled="false"></asp:TextBox>
                                                             <asp:LinkButton ID="LinkButton8" Class="btn btn-moneda" OnClientClick="return clickCalendar('txtFechaTC')" runat="server"><i class="far fa-calendar-alt"></i></asp:LinkButton>
-                                                            <%--<asp:Calendar ID="Calendar8" runat="server" Visible="False" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" class="calendarios">
-                                                                <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                                                                <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                                                                <OtherMonthDayStyle ForeColor="#999999" />
-                                                                <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                                                                <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="4px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" />
-                                                                <TodayDayStyle BackColor="#CCCCCC" />
-                                                            </asp:Calendar>--%>
+                                      
                                                             <span id="reqtxtFecha" class="reqError"></span>
                                                         </div>
                                                     </ContentTemplate>
@@ -594,6 +583,7 @@
                                                         <asp:AsyncPostBackTrigger ControlID="txtFechaNAV" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtFechaTC" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtFechaIntencion" EventName="TextChanged" />
+                                                        <asp:AsyncPostBackTrigger ControlID="ddlMonedaPago" EventName="SelectedIndexChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtTCObservado"  onpaste="return false" CssClass="form-control dbs-entero20-decimal6" runat="server" OnTextChanged="TcObservadoChanged" AutoPostBack="true" />

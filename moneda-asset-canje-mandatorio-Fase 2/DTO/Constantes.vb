@@ -19,4 +19,9 @@
 
     Public Const CONST_FORMAT_FECHA As String = "dd-MM-yyyy"
 
+
+    Public Const CONST_SOLO_DIAS_HABILES As Integer = 1
+    Public Const CONST_SOLO_DIAS_CORRIDOS As Integer = 0
+
+
 End Class

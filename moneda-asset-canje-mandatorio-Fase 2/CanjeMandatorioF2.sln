@@ -1,12 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29230.47
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1300
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "CanjeMandatorio", "CanjeMandatorio\", "{DDEC175F-7286-40C0-9A27-D11A3F8C9862}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv3.5"
-		ProjectReferences = "{e506668f-cad2-443b-a67e-a075bc0c713f}|Negocio.dll;{40089e0a-740d-44d6-b9b4-1b2c940bb494}|DTO.dll;{BF776E61-DC27-46D3-B232-0B6F3B22DE10}|Datos.dll;{F0528BE4-7C96-425D-9E88-E6ABF36296FA}|DBSqlServer.dll;{961F5AD3-B3D9-4FE7-8B40-68616156E015}|WSCanjeMandatorio.dll;{750EA437-4D5D-49D6-93DA-EE5EACE08F15}|ActiveDirectoryWrapper.dll;{b483034b-5000-4d72-8f72-69959bb90e5d}|DBSUtils.dll;"
+		ProjectReferences = "{750ea437-4d5d-49d6-93da-ee5eace08f15}|ActiveDirectoryWrapper.dll;{bf776e61-dc27-46d3-b232-0b6f3b22de10}|Datos.dll;{f0528be4-7c96-425d-9e88-e6abf36296fa}|DBSqlServer.dll;{b483034b-5000-4d72-8f72-69959bb90e5d}|DBSUtils.dll;{40089e0a-740d-44d6-b9b4-1b2c940bb494}|DTO.dll;{e506668f-cad2-443b-a67e-a075bc0c713f}|Negocio.dll;{961f5ad3-b3d9-4fe7-8b40-68616156e015}|WSCanjeMandatorio.dll;{310d3f99-f3a9-4d54-9cc7-55ec19ff8c61}|Office.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_50373"
 		Debug.AspNetCompiler.PhysicalPath = "CanjeMandatorio\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50373\"
@@ -41,6 +41,8 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WinFormTest", "WebSiteT\WinFormTest.vbproj", "{8BE63C4F-ED90-4BAB-985D-3E9253CE3037}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DBSUtils", "DBSUtils\DBSUtils.vbproj", "{B483034B-5000-4D72-8F72-69959BB90E5D}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DBSOffice", "Office\DBSOffice.vbproj", "{310D3F99-F3A9-4D54-9CC7-55EC19FF8C61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -103,6 +105,12 @@ Global
 		{B483034B-5000-4D72-8F72-69959BB90E5D}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{B483034B-5000-4D72-8F72-69959BB90E5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B483034B-5000-4D72-8F72-69959BB90E5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{310D3F99-F3A9-4D54-9CC7-55EC19FF8C61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{310D3F99-F3A9-4D54-9CC7-55EC19FF8C61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{310D3F99-F3A9-4D54-9CC7-55EC19FF8C61}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{310D3F99-F3A9-4D54-9CC7-55EC19FF8C61}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{310D3F99-F3A9-4D54-9CC7-55EC19FF8C61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{310D3F99-F3A9-4D54-9CC7-55EC19FF8C61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

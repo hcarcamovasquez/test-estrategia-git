@@ -547,11 +547,12 @@ Public Class WSSuscripcion
 
             .FijacionTC = dataRow("Sc_Fijacion_TC").ToString().Trim()
             .EstadoSuscripcion = dataRow("EstadoSuscripcion").ToString().Trim()
-            .CuotasEmitidas = dataRow("Fn_Cuotas_Emitidas").ToString().Trim()
-            .FnAcumulada = dataRow("Fn_Acumulada").ToString().Trim()
-            .ScActual = dataRow("Sc_Actual").ToString().Trim()
-            .ScUtilizado = dataRow("Sc_Utilizado").ToString().Trim()
-            .ScDisponibles = dataRow("Sc_Disponibles").ToString().Trim()
+
+            .CuotasEmitidas = Integer.TryParse(dataRow("Fn_Cuotas_Emitidas").ToString().Trim(), 0)
+            .FnAcumulada = Decimal.TryParse(dataRow("Fn_Acumulada").ToString().Trim(), 0)
+            .ScActual = Decimal.TryParse(dataRow("Sc_Actual").ToString().Trim(), 0)
+            .ScUtilizado = Decimal.TryParse(dataRow("Sc_Utilizado").ToString().Trim(), 0)
+            .ScDisponibles = Decimal.TryParse(dataRow("Sc_Disponibles").ToString().Trim(), 0)
             .ScUsuarioIngreso = dataRow("Sc_Usuario_Ingreso").ToString()
             .ScFechaIngreso = dataRow("Sc_Fecha_Ingreso").ToString().Trim()
             .ScUsuarioModificacion = dataRow("Sc_Usuario_Modificacion").ToString()

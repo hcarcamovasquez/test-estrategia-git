@@ -493,6 +493,7 @@
                                                             <asp:ListItem Value="">Seleccione una opción</asp:ListItem>
                                                             <asp:ListItem Value="FechaSolicitud">Fecha Solicitud</asp:ListItem>
                                                             <asp:ListItem Value="FechaNav">Fecha Nav</asp:ListItem>
+                                                            <asp:ListItem Value="FechaCanje">Fecha Canje</asp:ListItem>
                                                         </asp:dropdownlist>
                                                 </div>
                                                 <div class="col-md-3">
@@ -531,6 +532,7 @@
                                                     <asp:dropdownlist id="ddlFechaCanje" cssclass="form-control js-select2-rut" runat="server">
                                                             <asp:ListItem Value="">Seleccione una opción</asp:ListItem>
                                                             <asp:ListItem Value="FechaSolicitud">Fecha Solicitud</asp:ListItem>
+                                                            <asp:ListItem Value="FechaNav">Fecha Nav</asp:ListItem>
                                                         </asp:dropdownlist>
                                                 </div>
                                                 <div class="col-md-3">

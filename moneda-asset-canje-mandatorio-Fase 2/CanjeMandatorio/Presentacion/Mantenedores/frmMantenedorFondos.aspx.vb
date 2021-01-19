@@ -55,9 +55,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
     Private Sub DataInitial()
         txtFeCreacionDesde.Text = ""
         txtFeCreacionHasta.Text = ""
-        'TODO: SE VALIDA QUE CALENDARIOS DEL FILTRO INICIEN OCULTOS
-        'Calendar1.Visible = False
-        'Calendar2.Visible = False
+
         CargaFiltroRut()
         CargaFiltroNombre()
         GrvTabla.DataSource = New List(Of FondoDTO)
@@ -162,6 +160,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
 
     Protected Sub BtnBuscar_Click(sender As Object, e As EventArgs)
         FindFondos()
+
         BtnModificar.Enabled = False
         If GrvTabla.Rows.Count <> 0 Then
             BtnExportar.Enabled = True
@@ -178,17 +177,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
         txtHiddenAccion.Value = ""
     End Sub
 
-    Protected Sub LinkButton2_Click(sender As Object, e As EventArgs)
-        ' Calendar2.Visible = (Not Calendar2.Visible)
-    End Sub
 
-    Protected Sub LinkButton3_Click(sender As Object, e As EventArgs)
-        'Calendar3.Visible = (Not Calendar3.Visible)
-    End Sub
-
-    Protected Sub LinkButton5_Click(sender As Object, e As EventArgs)
-        'Calendar4.Visible = (Not Calendar4.Visible)
-    End Sub
 
     Protected Sub BtnModificar_Click(sender As Object, e As EventArgs)
         Dim fondoSelect As FondoDTO = GetFondoSelect()
@@ -394,10 +383,10 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
         txtHidenEstado.Value = fondo.Estado
 
         If fondo.CuotasEmitidas Is Nothing Then
-            Textbox1.Text = ""
+            txtCuotasEmitidas.Text = ""
         Else
-            'Textbox1.Text = fondo.CuotasEmitidas
-            Textbox1.Text = String.Format("{0:N6}", fondo.CuotasEmitidas)
+            'txtCuotasEmitidas.Text = fondo.CuotasEmitidas
+            txtCuotasEmitidas.Text = String.Format("{0:N6}", fondo.CuotasEmitidas)
         End If
 
         Textbox2.Text = fondo.FechaEmision
@@ -413,6 +402,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
             Textbox4.Text = String.Format("{0:N6}", fondo.Acumulado)
         End If
 
+        chkControlCuotas.Checked = fondo.ControlCuotas
+
     End Sub
 
     Private Sub FormateoEstiloFormModificar()
@@ -426,7 +417,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
         txtModalNombreFondo.Enabled = True
         txtModalNombreCorto.Enabled = True
 
-        Textbox1.Enabled = True
+        txtCuotasEmitidas.Enabled = True
         Textbox2.Enabled = True
         Textbox3.Enabled = True
         Textbox4.Enabled = True
@@ -449,7 +440,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
         txtModalNombreFondo.Enabled = False
         txtModalNombreCorto.Enabled = False
 
-        Textbox1.Enabled = False
+        txtCuotasEmitidas.Enabled = False
         Textbox2.Enabled = False
         Textbox3.Enabled = False
         Textbox4.Enabled = False
@@ -473,7 +464,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
         txtModalNombreFondo.Enabled = True
         txtModalNombreCorto.Enabled = True
 
-        Textbox1.Enabled = True
+        txtCuotasEmitidas.Enabled = True
         Textbox2.Enabled = True
         Textbox3.Enabled = True
         Textbox4.Enabled = True
@@ -491,10 +482,12 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
         txtModalNombreFondo.Text = ""
         txtModalNombreCorto.Text = ""
         txtHidenEstado.Value = "0"
-        Textbox1.Text = ""
+        txtCuotasEmitidas.Text = ""
         Textbox2.Text = ""
         Textbox3.Text = ""
         Textbox4.Text = ""
+
+        chkControlCuotas.Checked = False
     End Sub
 
     Private Function GetFondoModal() As FondoDTO
@@ -508,10 +501,10 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
         fondo.NombreCorto = IIf(txtModalNombreCorto.Text = "", Nothing, txtModalNombreCorto.Text.Trim())
         fondo.UsuarioIngreso = Session("NombreUsuario")
         fondo.Estado = txtHidenEstado.Value
-        If Textbox1.Text = "" Then
+        If txtCuotasEmitidas.Text = "" Then
             fondo.CuotasEmitidas = Nothing
         Else
-            fondo.CuotasEmitidas = Decimal.Parse(Replace(Textbox1.Text, ".", ""))
+            fondo.CuotasEmitidas = Decimal.Parse(Replace(txtCuotasEmitidas.Text, ".", ""))
         End If
 
         fondo.FechaEmision = Textbox2.Text
@@ -527,6 +520,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
         Else
             fondo.Acumulado = Decimal.Parse(Replace(Textbox4.Text, ".", ""))
         End If
+
+        fondo.ControlCuotas = chkControlCuotas.Checked
 
         Return fondo
     End Function

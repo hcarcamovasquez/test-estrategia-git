@@ -258,7 +258,6 @@ Public Class WSSeries
         Dim ds As DataSet
 
         Try
-
             sp.AgregarParametro("Accion", "SELECT_BY_NEMOTECNICO", System.Data.SqlDbType.VarChar)
             sp.AgregarParametro("Nemotecnico", series.Nemotecnico, System.Data.SqlDbType.VarChar)
 
@@ -313,6 +312,15 @@ Public Class WSSeries
             .FechaNavCanje = dataRow("FS_Fecha_Nav_Canje").ToString().Trim()
             .FechaTCCanje = dataRow("FS_Fecha_TC_Canje").ToString().Trim()
             .FijacionCanje = dataRow("FS_Fijacion_Nav_Canje").ToString().Trim()
+
+
+            .DiasHabilesCanje = dataRow("FS_DiasHabilesCanje").ToString().Trim()
+            .DiasHabilesRescate = dataRow("FS_DiasHabilesRescate").ToString().Trim()
+            .DiasHabilesSuscripciones = dataRow("FS_DiasHabilesSuscripciones").ToString().Trim()
+
+            .FechaCanjeCanje = dataRow("FS_Fecha_Canje_Canje").ToString().Trim()
+            .DiasHabilesFechaCanje = dataRow("FS_DiasHabilesFechaCanje").ToString().Trim()
+
         End With
         Return grupoFondoSeries
     End Function
@@ -899,7 +907,7 @@ Public Class WSSeries
         sp.AgregarParametro("FsDiasHabilesRescate", fondoSerie.DiasHabilesRescate, System.Data.SqlDbType.Int)
         sp.AgregarParametro("FsDiasHabilesSuscripciones", fondoSerie.DiasHabilesSuscripciones, System.Data.SqlDbType.Int)
         sp.AgregarParametro("FsDiasHabilesCanje", fondoSerie.DiasHabilesCanje, System.Data.SqlDbType.Int)
-        sp.AgregarParametro("FsFechaCanjeCanje", fondoSerie.FsFechaCanjeCanje, System.Data.SqlDbType.VarChar)
+        sp.AgregarParametro("FsFechaCanjeCanje", fondoSerie.FechaCanjeCanje, System.Data.SqlDbType.VarChar)
         sp.AgregarParametro("FsDiasHabilesFechaCanje", fondoSerie.DiasHabilesFechaCanje, System.Data.SqlDbType.Int)
     End Sub
 
@@ -946,7 +954,7 @@ Public Class WSSeries
             .DiasHabilesRescate = dataRow("FS_DiasHabilesRescate").ToString().Trim()
             .DiasHabilesSuscripciones = dataRow("FS_DiasHabilesSuscripciones").ToString().Trim()
 
-            .FsFechaCanjeCanje = dataRow("FS_Fecha_Canje_Canje").ToString().Trim()
+            .FechaCanjeCanje = dataRow("FS_Fecha_Canje_Canje").ToString().Trim()
             .DiasHabilesFechaCanje = dataRow("FS_DiasHabilesFechaCanje").ToString().Trim()
 
         End With

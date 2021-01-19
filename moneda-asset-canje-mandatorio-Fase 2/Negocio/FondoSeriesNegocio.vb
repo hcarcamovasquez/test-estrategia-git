@@ -153,6 +153,8 @@ Public Class FondoSeriesNegocio
         End If
 
     End Function
+
+
     Public Function UpdateFondoSerie(fondoSerie As FondoSerieDTO) As Integer
         Dim fondoDatos As New Datos.FondoSeriesDatos
         Return fondoDatos.UpdateFondoSerie(fondoSerie)
@@ -206,5 +208,17 @@ Public Class FondoSeriesNegocio
     Public Function filtrarGrupoCompatiblePorFondo(fondoSerie As FondoSerieDTO) As List(Of FondoSerieDTO)
         Dim fondoDatos As New Datos.FondoSeriesDatos
         Return fondoDatos.filtrarGrupoCompatiblePorFondo(fondoSerie)
+    End Function
+
+    Public Function GetFondoSeriesNemotecnico(paramSerie As FondoSerieDTO) As FondoSerieDTO
+        Dim serieRetorno As FondoSerieDTO
+        Dim fondoserie As New Datos.FondoSeriesDatos
+
+        serieRetorno = fondoserie.GetFondoSeriesNemotecnico(paramSerie)
+        If serieRetorno Is Nothing Then
+            serieRetorno = New FondoSerieDTO
+        End If
+
+        Return serieRetorno
     End Function
 End Class

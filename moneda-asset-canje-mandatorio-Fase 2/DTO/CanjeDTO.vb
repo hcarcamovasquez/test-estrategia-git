@@ -49,8 +49,7 @@
     Public Property TipoCambio As String
 
     Public Property FechaCanjeDate As Date
-
-
+    ' toido 
     Public Sub New(idCanje As Integer, tipoTransaccion As String, rutAportante As String, multifondo As String, nombreAportante As String, rutFondo As String, nombreFondo As String, fechaNavSaliente As Date, fechaSolicitud As Date, fechaObservado As Date, nemotecnicoSaliente As String,
                    nombreSerieSaliente As String, monedaSaliente As String, cuotaSaliente As Decimal, navSaliente As Decimal, montoSaliente As Decimal, navCLPSaliente As Decimal, montoCLPSaliente As Decimal, factor As Decimal, diferencia As Decimal,
                    diferenciaCLP As Decimal, nemotecnicoEntrante As String, nombreSerieEntrante As String, monedaEntrante As String, cuotaEntrante As Decimal, navEntrante As Decimal, montoEntrante As Decimal, navCLPEntrante As Decimal, montoCLPEntrante As Decimal, contratoGeneral As String,

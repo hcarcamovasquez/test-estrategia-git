@@ -52,14 +52,6 @@
 
                     <asp:LinkButton ID="lnkBtnFechaBorrarSolicitudDesde" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtFechaSolicitudDesde')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
 
-                    <%--<asp:Calendar ID="CalendarFechaSolicitudDesde" runat="server" Visible="False" onblur="onblurCalendar(this)" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" class="calendarios">
-                        <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                        <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                        <OtherMonthDayStyle ForeColor="#999999" />
-                        <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                        <TitleStyle BackColor="White" BorderColor="#aaaaaa" BorderWidth="1px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" CssClass="cabecera texto-cabecera" />
-                        <TodayDayStyle BackColor="#CCCCCC" />
-                    </asp:Calendar>--%>
                 </div>
             </div>
 
@@ -73,14 +65,7 @@
                         ><i class="far fa-calendar-alt"></i></asp:LinkButton>
                     <asp:LinkButton ID="BtnLimpiarFechaDesde" Text="" class="btn btn-secondary ml-1" 
                         OnClientClick="return limpiarCalendar('txtFechaSolicitudHasta')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                    <%--<asp:Calendar ID="CalendarFechaSolicitudHasta" runat="server" Visible="False" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" class="calendarios">
-                        <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                        <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                        <OtherMonthDayStyle ForeColor="#999999" />
-                        <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                        <TitleStyle BackColor="White" BorderColor="#aaaaaa" BorderWidth="1px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" CssClass="cabecera texto-cabecera" />
-                        <TodayDayStyle BackColor="#CCCCCC" />
-                    </asp:Calendar>--%>
+
                 </div>
             </div>
 
@@ -93,14 +78,7 @@
                         OnClientClick="return clickCalendar('txtFechaNAVDesde')" 
                         ><i class="far fa-calendar-alt"></i></asp:LinkButton>
                     <asp:LinkButton ID="lnkBtnFechaBorrarNAVDesde" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtFechaNAVDesde')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                    <%--<asp:Calendar ID="CalendarFechaNAVDesde" runat="server" Visible="False" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" class="calendarios">
-                        <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                        <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                        <OtherMonthDayStyle ForeColor="#999999" />
-                        <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                        <TitleStyle BackColor="White" BorderColor="#aaaaaa" BorderWidth="1px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" CssClass="cabecera texto-cabecera" />
-                        <TodayDayStyle BackColor="#CCCCCC" />
-                    </asp:Calendar>--%>
+
                 </div>
             </div>
 
@@ -113,14 +91,7 @@
                         OnClientClick="return clickCalendar('txtFechaNAVHasta')" 
                         ><i class="far fa-calendar-alt"></i></asp:LinkButton>
                     <asp:LinkButton ID="lnkBtnFechaBorrarNAVHasta" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtFechaNAVHasta')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                    <%--<asp:Calendar ID="CalendarFechaNAVHasta" runat="server" Visible="False" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" class="calendarios">
-                        <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                        <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                        <OtherMonthDayStyle ForeColor="#999999" />
-                        <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                        <TitleStyle BackColor="White" BorderColor="#aaaaaa" BorderWidth="1px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" CssClass="cabecera texto-cabecera" />
-                        <TodayDayStyle BackColor="#CCCCCC" />
-                    </asp:Calendar>--%>
+
                 </div>
             </div>
         </div>
@@ -135,14 +106,7 @@
                         OnClientClick="return clickCalendar('txtFechaPagoDesde')" 
                         ><i class="far fa-calendar-alt"></i></asp:LinkButton>
                     <asp:LinkButton ID="lnkBtnFechaBorrarPagoDesde" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtFechaPagoDesde')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                    <%--<asp:Calendar ID="CalendarFechaPagoDesde" runat="server" Visible="False" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" class="calendarios">
-                        <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                        <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                        <OtherMonthDayStyle ForeColor="#999999" />
-                        <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                        <TitleStyle BackColor="White" BorderColor="#aaaaaa" BorderWidth="1px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" CssClass="cabecera texto-cabecera" />
-                        <TodayDayStyle BackColor="#CCCCCC" />
-                    </asp:Calendar>--%>
+
                 </div>
             </div>
 
@@ -155,14 +119,7 @@
                         OnClientClick="return clickCalendar('txtFechaPagoHasta')" 
                         ><i class="far fa-calendar-alt"></i></asp:LinkButton>
                     <asp:LinkButton ID="lnlBtnFechaBorrarPagoHasta" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtFechaPagoHasta')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                    <%--<asp:Calendar ID="CalendarFechaPagoHasta" runat="server" Visible="False" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" class="calendarios">
-                        <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                        <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                        <OtherMonthDayStyle ForeColor="#999999" />
-                        <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                        <TitleStyle BackColor="White" BorderColor="#aaaaaa" BorderWidth="1px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" CssClass="cabecera texto-cabecera" />
-                        <TodayDayStyle BackColor="#CCCCCC" />
-                    </asp:Calendar>--%>
+
                 </div>
             </div>
         </div>
@@ -421,20 +378,15 @@
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondo" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnico" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalFechaSolicitud" EventName="TextChanged" />
+                                                            <asp:AsyncPostBackTrigger ControlID="ddlModalMonedaPago" EventName="SelectedIndexChanged" />
+                                                            
                                                         </Triggers>
                                                         <ContentTemplate>
                                                             <div class="input-group">
                                                                 <asp:TextBox ID="txtModalFechaSolicitud" runat="server" CssClass="form-control datepicker" AutoPostBack="true" Enabled="false"></asp:TextBox>
                                                                 <asp:LinkButton ID="lnkModalFechaSolicitud" class="btn btn-moneda" runat="server" Visible="false" OnClientClick="return clickCalendar('txtModalFechaSolicitud')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
                                                                 <asp:LinkButton ID="lnkModalBorrarFechaSolicitud" Text="" OnClientClick="return limpiarCalendar('txtModalFechaSolicitud')" class="btn btn-secondary ml-1" runat="server" Visible="false"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                                                                <%-- <asp:Calendar ID="CalendarModalFechaSolicitud" runat="server" Visible="False" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" class="calendarios">
-                                                                    <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                                                                    <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                                                                    <OtherMonthDayStyle ForeColor="#999999" />
-                                                                    <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                                                                    <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="4px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" CssClass="cabecera texto-cabecera" />
-                                                                    <TodayDayStyle BackColor="#CCCCCC" />
-                                                                </asp:Calendar>--%>
+                                                                
                                                             </div>
                                                         </ContentTemplate>
                                                     </asp:UpdatePanel>
@@ -451,20 +403,14 @@
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondo" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnico" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalFechaSolicitud" EventName="TextChanged" />
+                                                            <asp:AsyncPostBackTrigger ControlID="ddlModalMonedaPago" EventName="SelectedIndexChanged" />
                                                         </Triggers>
                                                         <ContentTemplate>
                                                             <div class="input-group">
                                                                 <asp:TextBox ID="txtModalFechaNAV" runat="server" CssClass="form-control datepicker" AutoPostBack="true" Enabled="false"></asp:TextBox>
                                                                 <asp:LinkButton ID="lnkBtnModalFechaNAV" class="btn btn-moneda" runat="server" Visible="false" OnClientClick="return clickCalendar('txtModalFechaNAV')" ><i class="far fa-calendar-alt"></i></asp:LinkButton>
                                                                 <asp:LinkButton ID="lnkBtnModalBorrarFechaNAV" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtModalFechaNAV')" runat="server" Visible="false"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                                                                <%--<asp:Calendar ID="CalendarModalFechaNAV" runat="server" Visible="False" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" class="calendarios">
-                                                                    <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                                                                    <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                                                                    <OtherMonthDayStyle ForeColor="#999999" />
-                                                                    <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                                                                    <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="1px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" CssClass="cabecera texto-cabecera" />
-                                                                    <TodayDayStyle BackColor="#CCCCCC" />
-                                                                </asp:Calendar>--%>
+                                                                
                                                             </div>
                                                         </ContentTemplate>
                                                     </asp:UpdatePanel>
@@ -481,20 +427,14 @@
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondo" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnico" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalFechaSolicitud" EventName="TextChanged" />
+                                                            <asp:AsyncPostBackTrigger ControlID="ddlModalMonedaPago" EventName="SelectedIndexChanged" />
                                                         </Triggers>
                                                         <ContentTemplate>
                                                             <div class="input-group">
                                                                 <asp:TextBox ID="txtModalFechaPago" runat="server" CssClass="form-control datepicker" Enabled="false" AutoPostBack="true"></asp:TextBox>
                                                                 <asp:LinkButton ID="lnkBtnModalFechaPago" class="btn btn-moneda" runat="server" Visible="false" OnClientClick="return clickCalendar('txtModalFechaPago')" ><i class="far fa-calendar-alt"></i></asp:LinkButton>
                                                                 <asp:LinkButton ID="lnkBtnModalBorrarFechaPago" Text="" class="btn btn-secondary ml-1" runat="server" OnClientClick="return limpiarCalendar('txtModalFechaPago')" Visible="false"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                                                                <%--<asp:Calendar ID="CalendarModalFechaPago" runat="server" Visible="False" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" class="calendarios">
-                                                                    <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                                                                    <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                                                                    <OtherMonthDayStyle ForeColor="#999999" />
-                                                                    <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                                                                    <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="1px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" CssClass="cabecera texto-cabecera" />
-                                                                    <TodayDayStyle BackColor="#CCCCCC" />
-                                                                </asp:Calendar>--%>
+                                                                
                                                             </div>
                                                         </ContentTemplate>
                                                     </asp:UpdatePanel>
@@ -511,20 +451,14 @@
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondo" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnico" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalFechaSolicitud" EventName="TextChanged" />
+                                                            <asp:AsyncPostBackTrigger ControlID="ddlModalMonedaPago" EventName="SelectedIndexChanged" />
                                                         </Triggers>
                                                         <ContentTemplate>
                                                             <div class="input-group">
                                                                 <asp:TextBox ID="txtModalFechaTCObs" runat="server" CssClass="form-control datepicker" Enabled="false" AutoPostBack="true"></asp:TextBox>
                                                                 <asp:LinkButton ID="lnkBtnModalFechaTCObs" class="btn btn-moneda" runat="server" Visible="true" OnClientClick="return clickCalendar('txtModalFechaTCObs')" ><i class="far fa-calendar-alt"></i></asp:LinkButton>
                                                                 <asp:LinkButton ID="lnkBtnModalBorrarFechaTCObs" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtModalFechaTCObs')" runat="server" Visible="false"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                                                                <%--<asp:Calendar ID="CalendarModalFechaTCObs" runat="server" Visible="False" OnSelectionChanged="CargarValorTipoCambioPorMonedaPago" AutoPostBack="true" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" class="calendarios">
-                                                                    <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                                                                    <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                                                                    <OtherMonthDayStyle ForeColor="#999999" />
-                                                                    <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                                                                    <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="1px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" CssClass="cabecera texto-cabecera" />
-                                                                    <TodayDayStyle BackColor="#CCCCCC" />
-                                                                </asp:Calendar>--%>
+                                                                
                                                             </div>
                                                         </ContentTemplate>
                                                     </asp:UpdatePanel>

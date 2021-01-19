@@ -1,9 +1,59 @@
 ﻿Imports DTO
 Imports Negocio
 Imports DBSUtils
+Imports DBSOffice
 
 Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
     Inherits System.Web.UI.Page
+
+#Region "Constantes"
+    Public Const CONST_TITULO_FIJACION As String = "Fijación"
+    Public Const CONST_TITULO_MODAL_MODIFICAR As String = "Modificar Fijación"
+    Public Const CONST_MODIFICAR_ERROR As String = "Error al modificar los datos de la Fijación"
+    Public Const CONST_MODIFICAR_EXITO As String = "Fijación modificada con éxito"
+    Public Const CONST_ELIMINAR_ERROR As String = "Error al eliminar la fijacion seleccionada"
+    Public Const CONST_ELIMINAR_EXITO As String = "Fijación eliminada con éxito"
+    Public Const CONST_ELIMINAR_ESTADO_CERO As String = "No se puede eliminar un registro ya deshabilitado"
+    Public Const CONST_ELIMINAR_EXISTE_EN_OTRA_TABLA As String = "Fijación se encuentra relacionada en otra Tabla"
+    Public Const CONST_TITULO_MODAL_ELIMINAR As String = "Eliminar Fijación"
+    Public Const CONST_TITULO_MODAL_CREAR As String = "Nueva Fijación"
+    Public Const CONST_NEMOTECNICO_EXISTE As String = "El Nemotécnico ya existe"
+    Public Const CONST_ERROR_AL_GUARDAR As String = "Error al guardar la Fijación"
+    Public Const CONST_EXITO_AL_GUARDAR As String = "Fijación guardada con éxito"
+    Public Const CONST_SIN_RESULTADOS As String = "No se obtuvieron resultados de la búsqueda"
+    Public Const CONST_MAXIMO As String = "EL Monto Máximo debe ser mayor o igual que el Monto Mínimo"
+    Public Const CONST_MODIFICAR_TC_EXITO As String = "Éxito al fijar TC observado. "
+    Public Const CONST_MODIFICAR_TC_ERROR As String = "Error al fijar TC observado. "
+    Public Const CONST_MODIFICAR_NAV_EXITO As String = "Éxito al fijar NAV. "
+    Public Const CONST_MODIFICAR_NAV_ERROR As String = "Error al fijar NAV. "
+    Public Const CONST_SIN_MODIFICACION As String = "No se realizó ninguna modificación"
+
+    Public Const CONST_COL_ID As Integer = 1
+    Public Const CONST_COL_TIPOTRANSACCION As Integer = 2
+    Public Const CONST_COL_APRUT As Integer = 3
+    Public Const CONST_COL_RAZONSOCIAL As Integer = 4
+    Public Const CONST_COL_RUT As Integer = 5
+    Public Const CONST_COL_FNNOMBRECORTO As Integer = 6
+    Public Const CONST_COL_FECHANAV As Integer = 7
+    Public Const CONST_COL_FECHATCOBS As Integer = 8
+
+    Public Const CONST_COL_FECHAPAGO As Integer = 9
+    Public Const CONST_COL_NAV_FIJADO As Integer = 10
+    Public Const CONST_COL_TC_OBSERVADO As Integer = 11
+
+    Public Const CONST_COL_FIJACIONNAV As Integer = 12
+    Public Const CONST_COL_FIJACIONTCOBSERVADO As Integer = 13
+    Public Const CONST_COL_NEMOTECNICO As Integer = 14
+
+    Private Const CONST_LLENAR_CAMPOS As String = "Debe llenar todos los campos"
+    Private Const CONST_NO_HAY_TRANSACCIONES_SELECCIONADAS As String = "No hay trascacciones seleccionadas"
+
+#End Region
+    Dim NegocioSuscripcion As SuscripcionNegocio = New SuscripcionNegocio
+    Dim NegocioRescate As RescateNegocio = New RescateNegocio
+    Dim NegocioCanje As CanjeNegocio = New CanjeNegocio
+    Dim Negocio As FijacionNegocio = New FijacionNegocio
+
 
 #Region "DATA INICIAL"
     Private Sub Presentacion_Mantenedores_frmFijacion_Maestro_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -20,11 +70,13 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         If Session("PERFIL") = Constantes.CONST_PERFIL_CONSULTA Then
             BtnModificar.Enabled = False
             BtnExportar.Enabled = False
+            btnImprimir.Enabled = False
 
         ElseIf Session("PERFIL") = Constantes.CONST_PERFIL_FULL Or Session("PERFIL") = Constantes.CONST_PERFIL_ADMIN Then
             BtnModificar.Visible = True
             BtnModificar.Enabled = False
             BtnExportar.Visible = True
+            btnImprimir.Enabled = False
         End If
     End Sub
 
@@ -59,46 +111,6 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
     End Sub
 
 #End Region
-#Region "Constantes"
-    Public Const CONST_TITULO_FIJACION As String = "Fijación"
-    Public Const CONST_TITULO_MODAL_MODIFICAR As String = "Modificar Fijación"
-    Public Const CONST_MODIFICAR_ERROR As String = "Error al modificar los datos de la Fijación"
-    Public Const CONST_MODIFICAR_EXITO As String = "Fijación modificada con éxito"
-    Public Const CONST_ELIMINAR_ERROR As String = "Error al eliminar la fijacion seleccionada"
-    Public Const CONST_ELIMINAR_EXITO As String = "Fijación eliminada con éxito"
-    Public Const CONST_ELIMINAR_ESTADO_CERO As String = "No se puede eliminar un registro ya deshabilitado"
-    Public Const CONST_ELIMINAR_EXISTE_EN_OTRA_TABLA As String = "Fijación se encuentra relacionada en otra Tabla"
-    Public Const CONST_TITULO_MODAL_ELIMINAR As String = "Eliminar Fijación"
-    Public Const CONST_TITULO_MODAL_CREAR As String = "Nueva Fijación"
-    Public Const CONST_NEMOTECNICO_EXISTE As String = "El Nemotécnico ya existe"
-    Public Const CONST_ERROR_AL_GUARDAR As String = "Error al guardar la Fijación"
-    Public Const CONST_EXITO_AL_GUARDAR As String = "Fijación guardada con éxito"
-    Public Const CONST_SIN_RESULTADOS As String = "No se obtuvieron resultados de la búsqueda"
-    Public Const CONST_MAXIMO As String = "EL Monto Máximo debe ser mayor o igual que el Monto Mínimo"
-    Public Const CONST_MODIFICAR_TC_EXITO As String = "Éxito al fijar TC observado. "
-    Public Const CONST_MODIFICAR_TC_ERROR As String = "Error al fijar TC observado. "
-    Public Const CONST_MODIFICAR_NAV_EXITO As String = "Éxito al fijar NAV. "
-    Public Const CONST_MODIFICAR_NAV_ERROR As String = "Error al fijar NAV. "
-    Public Const CONST_SIN_MODIFICACION As String = "No se realizó ninguna modificación"
-
-    Public Const CONST_COL_ID As Integer = 1
-    Public Const CONST_COL_TIPOTRANSACCION As Integer = 2
-    Public Const CONST_COL_APRUT As Integer = 3
-    Public Const CONST_COL_RAZONSOCIAL As Integer = 4
-    Public Const CONST_COL_RUT As Integer = 5
-    Public Const CONST_COL_FNNOMBRECORTO As Integer = 6
-    Public Const CONST_COL_FECHANAV As Integer = 7
-    Public Const CONST_COL_FECHATCOBS As Integer = 8
-    Public Const CONST_COL_FIJACIONNAV As Integer = 10
-    Public Const CONST_COL_FIJACIONTCOBSERVADO As Integer = 11
-    Public Const CONST_COL_NEMOTECNICO As Integer = 12
-    Private Const CONST_LLENAR_CAMPOS As String = "Debe llenar todos los campos"
-
-#End Region
-    Dim NegocioSuscripcion As SuscripcionNegocio = New SuscripcionNegocio
-    Dim NegocioRescate As RescateNegocio = New RescateNegocio
-    Dim NegocioCanje As CanjeNegocio = New CanjeNegocio
-    Dim Negocio As FijacionNegocio = New FijacionNegocio
 
 #Region "Click Botones"
 
@@ -881,6 +893,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
 
             MantenedorSuscripcion(SuscripcionActualizada)
         End If
+
         If (txtAccionHidden.Value = "x") Then
             txtAccionHidden.Value = ""
         Else
@@ -955,7 +968,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                     ShowAlert(Mensaje)
                 End If
                 txtAccionHidden.Value = ""
-                DataInitial()
+                'DataInitial()
                 Session("TC") = Nothing
                 Session("NAV") = Nothing
                 findfijacion()
@@ -1670,6 +1683,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             txtModalCuota.Text = Utiles.SetToCapitalizedNumber(Rescate.RES_Cuotas)
             ddlModalRutFondoRescate.SelectedValue = Rescate.FN_RUT
             ddlModalNombreFondoRescate.SelectedValue = Rescate.FN_Nombre_Corto
+
             If (ddlModalNombreAportanteRescate.Items.IndexOf(ddlModalNombreAportanteRescate.Items.FindByValue(Rescate.AP_Razon_Social)) <> -1) Then
                 ddlModalNombreAportanteRescate.SelectedValue = Rescate.AP_Razon_Social
             End If
@@ -1994,6 +2008,10 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
 
         txtNAVDesde.Text = ""
         txtNAVHasta.Text = ""
+
+        txtFechaPagoHasta.Text = ""
+        txtFechaPagoDesde.Text = ""
+
 
         GrvTabla.DataSource = New List(Of SuscripcionDTO)
         GrvTabla.DataBind()
@@ -2691,6 +2709,18 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             FechaTCHasta = Date.Parse(Request.Form(txtFechaTCHasta.UniqueID))
         End If
 
+        If Request.Form(txtFechaPagoDesde.UniqueID).Equals("") Then
+            FechaPagoDesde = Nothing
+        Else
+            FechaPagoDesde = Date.Parse(Request.Form(txtFechaPagoDesde.UniqueID))
+        End If
+
+        If Request.Form(txtFechaPagoHasta.UniqueID).Equals("") Then
+            FechaPagoHasta = Nothing
+        Else
+            FechaPagoHasta = Date.Parse(Request.Form(txtFechaPagoHasta.UniqueID))
+        End If
+
         If ddlFijacionTCObservacion.SelectedValue.Trim() = Nothing And _
             ddlListaTipoTransaccion.SelectedValue.Trim() = Nothing And _
             ddlListaRutFondo.SelectedValue.Trim() = Nothing And _
@@ -2704,6 +2734,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             Request.Form(txtFechaPagoHasta.UniqueID).Equals("") Then
 
             GrvTabla.DataSource = negocio.ConsultarTodos(Fijacion)
+
         Else
             GrvTabla.DataSource = negocio.ConsultarFiltro(Fijacion, FechaNAVDesde, FechaNAVHasta, FechaTCDesde, FechaTCHasta, FechaPagoDesde, FechaPagoHasta)
         End If
@@ -2836,12 +2867,15 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         Dim listaSerie As List(Of FondoSerieDTO) = negocioSerie.GrupoSeriesPorNemotecnico(serie)
         Dim FechaNavSuscripcion As String
         For Each series As FondoSerieDTO In listaSerie
-            Dim desNavC As String() = Utiles.splitCharByComma(series.FechaNavSuscripcion)
+            Dim estructuraFechas As EstructuraFechasDto = New EstructuraFechasDto
+            estructuraFechas = Utiles.splitCharByComma(series.FechaNavSuscripcion)
+
             FechaNavSuscripcion = series.FechaNavSuscripcion
             Dim fechaNavC As String
             Dim diasNavC As String
-            fechaNavC = desNavC(0)
-            diasNavC = desNavC(1)
+            fechaNavC = estructuraFechas.DesdeQueFecha
+            diasNavC = estructuraFechas.DiasASumar
+
             Dim Suscripcion As SuscripcionDTO = New SuscripcionDTO
             If diasNavC = "" Then
                 Suscripcion.FechaSuscripcion = txtFechaSuscripcion.Text
@@ -2878,12 +2912,14 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         Dim listaSerie As List(Of FondoSerieDTO) = negocioSerie.GrupoSeriesPorNemotecnico(serie)
         Dim FechaNavSuscripcion As String
         For Each series As FondoSerieDTO In listaSerie
-            Dim desNavC As String() = Utiles.splitCharByComma(series.FechaTCSuscripcion)
+            Dim estructuraFechas As EstructuraFechasDto = New EstructuraFechasDto
+            estructuraFechas = Utiles.splitCharByComma(series.FechaTCSuscripcion)
             FechaNavSuscripcion = series.FechaTCSuscripcion
             Dim fechaNavC As String
             Dim diasNavC As String
-            fechaNavC = desNavC(0)
-            diasNavC = desNavC(1)
+            fechaNavC = estructuraFechas.DesdeQueFecha
+            diasNavC = estructuraFechas.DiasASumar
+
             Dim Suscripcion As SuscripcionDTO = New SuscripcionDTO
             If (FechaNavSuscripcion = ",") Then
                 txtFechaTC.Text = txtFechaSuscripcion.Text
@@ -2927,12 +2963,14 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         Dim listaSerie As List(Of FondoSerieDTO) = negocioSerie.GrupoSeriesPorNemotecnico(serie)
         Dim FechaNavSuscripcion As String
         For Each series As FondoSerieDTO In listaSerie
-            Dim desNavC As String() = Utiles.splitCharByComma(series.FechaSuscripcion)
+            Dim estructuraFechas As EstructuraFechasDto = New EstructuraFechasDto
+            estructuraFechas = Utiles.splitCharByComma(series.FechaSuscripcion)
             FechaNavSuscripcion = series.FechaSuscripcion
             Dim fechaNavC As String
             Dim diasNavC As String
-            fechaNavC = desNavC(0)
-            diasNavC = desNavC(1)
+            fechaNavC = estructuraFechas.DesdeQueFecha
+            diasNavC = estructuraFechas.DiasASumar
+
             Dim Suscripcion As SuscripcionDTO = New SuscripcionDTO
             If diasNavC = "" Then
                 Suscripcion.FechaIntencion = txtFechaIntencion.Text
@@ -2942,23 +2980,19 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                 txtFechaSuscripcion.Text = FechaSolicitud
                 Calendar10.SelectedDate = FechaSolicitud
             Else
-                Dim dias As Integer
-                dias = Integer.Parse(diasNavC)
-                Suscripcion.FechaIntencion = txtFechaIntencion.Text
+                Dim dias As Integer = Integer.Parse(diasNavC)
+
                 Dim fechaSolicitud As Date
                 Dim testString As String = FormatDateTime(fechaSolicitud, DateFormat.LongDate)
+
+                Suscripcion.FechaIntencion = txtFechaIntencion.Text
                 fechaSolicitud = Suscripcion.FechaIntencion
-                'Dim dia As Integer
-                'Dim mes As Integer
-                'Dim año As Integer
-                'dia = Day(fechaSolicitud)
-                'mes = Month(fechaSolicitud)
-                'año = Year(fechaSolicitud)
-                'Dim suma = dia + dias
 
                 'FechaPagoFondoRescatableINT es días que hay que sumar o restar, FechaCalculo es a la fecha a la que hay que sumar o restar
                 'FECHA PAGO DIAS HABILES
-                fechaSolicitud = NegocioRescate.SelectFechaPagoSIRescatable(dias, fechaSolicitud, 0)
+                'fechaSolicitud = NegocioRescate.SelectFechaPagoSIRescatable(dias, fechaSolicitud, 0)
+                fechaSolicitud = Utiles.SumaDiasAFechas(ddlMonedaPago.Text, fechaSolicitud, dias, 0)
+
                 txtFechaSuscripcion.Text = fechaSolicitud
                 Calendar10.SelectedDate = fechaSolicitud
             End If
@@ -3408,10 +3442,10 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
 
 
             txtFactorSaliente.Text = Utiles.SetToCapitalizedNumber(Factor)
-                txtModalFactor.Text = Utiles.SetToCapitalizedNumber(Factor)
-                ConversionMoneda()
-                ConversionMonedaEntrante()
-                CalcularCuotaEntrante()
+            txtModalFactor.Text = Utiles.SetToCapitalizedNumber(Factor)
+            ConversionMoneda()
+            ConversionMonedaEntrante()
+            CalcularCuotaEntrante()
 
         End If
         CalcularMontoSaliente()
@@ -3687,6 +3721,43 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         End If
     End Sub
     Private Sub Presentacion_Mantenedores_frmFijacion_Maestro_AbortTransaction(sender As Object, e As EventArgs) Handles Me.AbortTransaction
+
+    End Sub
+
+
+    Private Sub btnImprimir_click(sender As Object, e As EventArgs) Handles btnImprimir.Click
+        Dim fijaciones As List(Of FijacionDTO) = New List(Of FijacionDTO)
+        Dim fijacion As FijacionDTO = New FijacionDTO
+
+
+        For Each row As GridViewRow In GrvTabla.Rows
+            Dim chk As CheckBox = row.Cells(0).Controls(1)
+            If chk IsNot Nothing And chk.Checked Then
+                fijacion = New FijacionDTO
+
+                fijacion.ID = row.Cells(CONST_COL_ID).Text().Trim()
+                fijacion.TipoTransaccion = row.Cells(CONST_COL_TIPOTRANSACCION).Text().Trim()
+                fijacion.TipoTransaccion = row.Cells(CONST_COL_TIPOTRANSACCION).Text().Trim()
+                fijacion.FechaNav = row.Cells(CONST_COL_FECHANAV).Text().Trim()
+                fijacion.Nemotecnico = row.Cells(CONST_COL_NEMOTECNICO).Text().Trim()
+                fijacion.Rut = row.Cells(CONST_COL_RUT).Text().Trim()
+                fijacion.FijacionNAV = row.Cells(CONST_COL_FIJACIONNAV).Text().Trim()
+                fijacion.FijacionTCObservado = row.Cells(CONST_COL_FIJACIONNAV).Text().Trim()
+
+                fijaciones.Add(fijacion)
+
+            End If
+        Next
+
+        If (fijaciones.Count() < 1) Then
+            ShowAlert(CONST_NO_HAY_TRANSACCIONES_SELECCIONADAS)
+            Exit Sub
+        End If
+
+
+
+
+
 
     End Sub
 

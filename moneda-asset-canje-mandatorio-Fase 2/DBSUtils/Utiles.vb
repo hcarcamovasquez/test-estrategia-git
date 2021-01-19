@@ -2,9 +2,14 @@
 Imports DTO
 Imports Negocio
 Imports System.Web
+Imports System.Reflection
 
 Public Class Utiles
 
+    Public Shared Function Version() As String
+        Const CONST_VERSION As String = "1.0.0"
+        Return Assembly.GetExecutingAssembly().GetName().Version.ToString()
+    End Function
 
     Public Shared Sub CargarMonedas(ddl As DropDownList, Optional sTexto As String = "Seleccione una opción")
         Dim lista As List(Of MonedasDTO) = New List(Of MonedasDTO)
@@ -39,12 +44,22 @@ Public Class Utiles
 
     End Function
 
-    Public Shared Function splitCharByComma(texto As String) As String()
+    Public Shared Function splitCharByComma(texto As String) As EstructuraFechasDto
+        Dim desNavC As String()
+        Dim retorno As EstructuraFechasDto = New EstructuraFechasDto
         If InStr(texto, ",") = 0 Then
             texto += ","
         End If
+        desNavC = texto.Split(New Char() {","c})
 
-        Return texto.Split(New Char() {","c})
+        retorno.DesdeQueFecha = desNavC(0)
+        If desNavC(1) = "" Then
+            retorno.DiasASumar = 0
+        Else
+            retorno.DiasASumar = Integer.Parse(desNavC(1))
+        End If
+
+        Return retorno
     End Function
 
     Public Shared Function SetNumberPointToDouble(text As String) As Double
@@ -118,6 +133,7 @@ Public Class Utiles
         End If
         ' Math.Round(tcObservado * nav, MidpointRounding.ToEven))
     End Function
+
     Public Shared Function formatearMonto(valor As Object, moneda As String) As String
         Dim strFormat As String
         If moneda <> "CLP" Then
@@ -127,6 +143,7 @@ Public Class Utiles
         End If
         Return String.Format(strFormat, valor)
     End Function
+
     Public Shared Function formatearNAVCLP(valorNavClp As String) As String
         Return String.Format("{0:N4}", Math.Round(Double.Parse(valorNavClp), 4))
     End Function
@@ -147,11 +164,10 @@ Public Class Utiles
         Return formatearNAV(valor)
     End Function
 
-
     Public Shared Function fncSoloDiasHabiles(serie As FondoSerieDTO) As Integer
         Dim SoloDiasHabiles As Integer
 
-        If serie.esFechaNavSuscripcionesDiasHabiles Then
+        If serie.SoloDiasHabilesFechaNavSuscripciones Then
             SoloDiasHabiles = 1
         Else
             SoloDiasHabiles = 0
@@ -160,4 +176,50 @@ Public Class Utiles
         Return SoloDiasHabiles
     End Function
 
+    Public Shared Function getDiaHabilSiguiente(fechaSolicitud As Date, monedaPago As String) As Date
+        Dim negocioFechas As FechasNegocio = New FechasNegocio
+        Dim fecha As FechasDTO = New FechasDTO
+        Dim negocioRelacion As RelacionMonedaPaisNegocio = New RelacionMonedaPaisNegocio
+        Dim calendarioPais As String
+
+        calendarioPais = negocioRelacion.SelectOne(monedaPago)
+
+        fecha.Anno = Year(fechaSolicitud)
+        fecha.Mes = Month(fechaSolicitud)
+        fecha.Dia = Day(fechaSolicitud)
+
+        fecha.DF_PAIS = calendarioPais
+
+        fechaSolicitud = negocioFechas.getHabilSiguiente(fecha)
+
+        negocioFechas = Nothing
+        fecha = Nothing
+
+        Return fechaSolicitud
+    End Function
+
+    Public Shared Function SumaDiasAFechas(monedaPago As String, fechaSolicitud As Date, CantidadDias As Integer, DiasCorridos As Integer) As Date
+        Dim negocioFechas As FechasNegocio = New FechasNegocio
+        Dim fecha As FechasDTO = New FechasDTO
+        Dim negocioRelacion As RelacionMonedaPaisNegocio = New RelacionMonedaPaisNegocio
+        Dim calendarioPais As String
+
+        calendarioPais = negocioRelacion.SelectOne(monedaPago)
+
+        fecha.Anno = Year(fechaSolicitud)
+        fecha.Mes = Month(fechaSolicitud)
+        fecha.Dia = Day(fechaSolicitud)
+        fecha.DF_PAIS = calendarioPais
+
+        fecha.DiasASumar = CantidadDias
+        fecha.DiasCorridos = DiasCorridos
+
+        fechaSolicitud = negocioFechas.SumaDiasAFecha(fecha)
+
+        negocioFechas = Nothing
+        fecha = Nothing
+
+        Return fechaSolicitud
+
+    End Function
 End Class

@@ -445,6 +445,7 @@ Public Class WSFondos
         sp.AgregarParametro("FechaEmision", fondo.FechaEmision, System.Data.SqlDbType.Date)
         sp.AgregarParametro("FechaVencimiento", fondo.FechaVencimiento, System.Data.SqlDbType.Date)
         sp.AgregarParametro("Acumulado", fondo.Acumulado, System.Data.SqlDbType.Decimal)
+        sp.AgregarParametro("fnControlCuotas", fondo.ControlCuotas, System.Data.SqlDbType.Int)
 
     End Sub
 
@@ -465,6 +466,8 @@ Public Class WSFondos
             .FechaEmision = dataRow("FN_Fecha_Emision")
             .FechaVencimiento = If(IsDBNull(dataRow("FN_Fecha_Vencimiento")), Nothing, dataRow("FN_Fecha_Vencimiento"))
             .Acumulado = If(IsDBNull(dataRow("FN_Acumulado")), Nothing, dataRow("FN_Acumulado"))
+
+            .ControlCuotas = If(IsDBNull(dataRow("FN_CONTROL_CUOTAS")), Nothing, dataRow("FN_CONTROL_CUOTAS"))
 
         End With
         Return fondo

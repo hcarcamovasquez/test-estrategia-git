@@ -535,55 +535,68 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
     ' TODO: Averiguar por que se cae cuando la fecha viene nula 
 
     Private Sub FormateoFormDatos(fondoSerie As FondoSerieDTO)
+        Dim estructuraFechas As EstructuraFechasDto
+
         Dim fechaNavDes As String
         Dim diasDes As String
 
-        Dim words As String() = Utiles.splitCharByComma(fondoSerie.FechaNav)    '.Split(New Char() {","c})
+        estructuraFechas = New EstructuraFechasDto
+        estructuraFechas = Utiles.splitCharByComma(fondoSerie.FechaNav)    '.Split(New Char() {","c})
 
-        fechaNavDes = words(0)
-        diasDes = words(1)
+        fechaNavDes = estructuraFechas.DesdeQueFecha
+        diasDes = estructuraFechas.DiasASumar
 
         Dim fechaRes As String
         Dim diasRes As String
-        Dim desRes As String() = Utiles.splitCharByComma(fondoSerie.FechaRescate) ' .Split(New Char() {","c})
-        fechaRes = desRes(0)
-        diasRes = desRes(1)
+        estructuraFechas = New EstructuraFechasDto
+        estructuraFechas = Utiles.splitCharByComma(fondoSerie.FechaRescate) ' .Split(New Char() {","c})
+        fechaRes = estructuraFechas.DesdeQueFecha
+        diasRes = estructuraFechas.DiasASumar
 
         Dim fechaTC As String
         Dim diasTC As String
-        Dim desTC As String() = Utiles.splitCharByComma(fondoSerie.FechaTCObservado) ' .Split(New Char() {","c})
-        fechaTC = desTC(0)
-        diasTC = desTC(1)
+        estructuraFechas = New EstructuraFechasDto
+        estructuraFechas = Utiles.splitCharByComma(fondoSerie.FechaTCObservado) ' .Split(New Char() {","c})
+        fechaTC = estructuraFechas.DesdeQueFecha
+        diasTC = estructuraFechas.DiasASumar
 
         Dim fechaNavSus As String
         Dim diasNavSus As String
-        Dim desNavSus As String() = Utiles.splitCharByComma(fondoSerie.FechaNavSuscripcion) '.Split(New Char() {","c})
-        fechaNavSus = desNavSus(0)
-        diasNavSus = desNavSus(1)
+        estructuraFechas = New EstructuraFechasDto
+        estructuraFechas = Utiles.splitCharByComma(fondoSerie.FechaNavSuscripcion) '.Split(New Char() {","c})
+        fechaNavSus = estructuraFechas.DesdeQueFecha
+        diasNavSus = estructuraFechas.DiasASumar
 
         Dim fechaSus As String
         Dim diaSus As String
-        Dim deSus As String() = Utiles.splitCharByComma(fondoSerie.FechaSuscripcion) '.Split(New Char() {","c})
-        fechaSus = deSus(0)
-        diaSus = deSus(1)
+        estructuraFechas = New EstructuraFechasDto
+        estructuraFechas = Utiles.splitCharByComma(fondoSerie.FechaSuscripcion) '.Split(New Char() {","c})
+        fechaSus = estructuraFechas.DesdeQueFecha
+        diaSus = estructuraFechas.DiasASumar
 
         Dim fechaTcS As String
         Dim diasTcS As String
-        Dim desTcS As String() = Utiles.splitCharByComma(fondoSerie.FechaTCSuscripcion) '.Split(New Char() {","c})
-        fechaTcS = desTcS(0)
-        diasTcS = desTcS(1)
+        estructuraFechas = New EstructuraFechasDto
+        estructuraFechas = Utiles.splitCharByComma(fondoSerie.FechaTCSuscripcion) '.Split(New Char() {","c})
+        fechaTcS = estructuraFechas.DesdeQueFecha
+        diasTcS = estructuraFechas.DiasASumar
 
         Dim fechaNavC As String
         Dim diasNavC As String
-        Dim desNavC As String() = Utiles.splitCharByComma(fondoSerie.FechaNavCanje) '.Split(New Char() {","c})
-        fechaNavC = desNavC(0)
-        diasNavC = desNavC(1)
+        estructuraFechas = New EstructuraFechasDto
+        estructuraFechas = Utiles.splitCharByComma(fondoSerie.FechaNavCanje) '.Split(New Char() {","c})
+        fechaNavC = estructuraFechas.DesdeQueFecha
+        diasNavC = estructuraFechas.DiasASumar
 
         Dim fechaTCanje As String
         Dim diasTCanje As String
-        Dim desTCanje As String() = Utiles.splitCharByComma(fondoSerie.FechaTCCanje) '.Split(New Char() {","c})
-        fechaTCanje = desTCanje(0)
-        diasTCanje = desTCanje(1)
+        estructuraFechas = New EstructuraFechasDto
+        estructuraFechas = Utiles.splitCharByComma(fondoSerie.FechaTCCanje) '.Split(New Char() {","c})
+        fechaTCanje = estructuraFechas.DesdeQueFecha
+        diasTCanje = estructuraFechas.DiasASumar
+
+        Dim estructuraFechaCanje As EstructuraFechasDto = New EstructuraFechasDto
+        estructuraFechaCanje = Utiles.splitCharByComma(fondoSerie.FechaCanjeCanje) '.Split(New Char() {","c})
 
         Dim fondo As FondoDTO = New FondoDTO
         Dim NegocioFondo As FondosNegocio = New FondosNegocio
@@ -628,6 +641,15 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
         ddNumeroFechaNavCanje.Text = diasNavC
         ddlFijacionNavCanje.SelectedValue = fondoSerie.FijacionCanje
         txtEstadoCambio.Value = fondoSerie.Estado
+
+        ddlFechaCanje.SelectedValue = estructuraFechaCanje.DesdeQueFecha
+        txtNumeroFechaCanje.Text = estructuraFechaCanje.DiasASumar
+
+        chkDiasHabilesCanje.Checked = fondoSerie.SoloDiasHabilesFechaNavCanje
+        chkDiasHabilesFechaCanje.Checked = fondoSerie.SoloDiasHabilesFechaCanje
+        chkDiasHabilesRescate.Checked = fondoSerie.SoloDiasHabilesFechaNavRescate
+        chkDiasHabilesSuscipciones.Checked = fondoSerie.SoloDiasHabilesFechaNavSuscripciones
+
     End Sub
 
     Private Sub FormateoEstiloFormCrear()
@@ -674,6 +696,11 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
         ddNumeroFechaNavCanje.Enabled = True
         ddlFijacionNavCanje.Enabled = True
         lblTitleModalCrud.Text = CONST_TITULO_MODAL_CREAR
+
+        chkDiasHabilesCanje.Checked = False
+        chkDiasHabilesFechaCanje.Checked = False
+        chkDiasHabilesRescate.Checked = False
+        chkDiasHabilesSuscipciones.Checked = False
     End Sub
 
     Private Sub FormateoEstiloFormEliminar()
@@ -719,6 +746,10 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
         ddNumeroFechaNavCanje.Enabled = False
         ddlFijacionNavCanje.Enabled = False
 
+        chkDiasHabilesCanje.Enabled = False
+        chkDiasHabilesFechaCanje.Enabled = False
+        chkDiasHabilesRescate.Enabled = False
+        chkDiasHabilesSuscipciones.Enabled = False
 
         lblTitleModalCrud.Text = CONST_TITULO_MODAL_ELIMINAR
     End Sub
@@ -774,12 +805,12 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
         fondoSerie.FijacionCanje = IIf(ddlFijacionNavCanje.SelectedValue.ToString() = "", Nothing, ddlFijacionNavCanje.SelectedValue.ToString())
         fondoSerie.FechaNavCanje = IIf(ddFechaNavCanje.SelectedIndex > 0 And ddNumeroFechaNavCanje.Text >= "", ddFechaNavCanje.SelectedValue.ToString() + "," + ddNumeroFechaNavCanje.Text.ToString(), " , ")
 
-        fondoSerie.DiasHabilesCanje = IIf(chkDiasHabilesCanje.Checked, 1, 0)
-        fondoSerie.DiasHabilesRescate = IIf(chkDiasHabilesRescate.Checked, 1, 0)
-        fondoSerie.DiasHabilesSuscripciones = IIf(chkDiasHabilesSuscipciones.Checked, 1, 0)
+        fondoSerie.DiasHabilesCanje = chkDiasHabilesCanje.Checked
+        fondoSerie.DiasHabilesRescate = chkDiasHabilesRescate.Checked
+        fondoSerie.DiasHabilesSuscripciones = chkDiasHabilesSuscipciones.Checked
 
-        fondoSerie.FsFechaCanjeCanje = IIf(ddlFechaCanje.SelectedIndex > 0 And txtNumeroFechaCanje.Text >= "", ddlFechaCanje.SelectedValue.ToString() + "," + txtNumeroFechaCanje.Text.ToString(), " , ")
-        fondoSerie.DiasHabilesFechaCanje = IIf(chkDiasHabilesFechaCanje.Checked, 1, 0)
+        fondoSerie.FechaCanjeCanje = IIf(ddlFechaCanje.SelectedIndex > 0 And txtNumeroFechaCanje.Text >= "", ddlFechaCanje.SelectedValue.ToString() + "," + txtNumeroFechaCanje.Text.ToString(), " , ")
+        fondoSerie.DiasHabilesFechaCanje = chkDiasHabilesFechaCanje.Checked
 
         Return fondoSerie
     End Function

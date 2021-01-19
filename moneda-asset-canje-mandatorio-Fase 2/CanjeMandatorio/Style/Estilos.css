@@ -513,10 +513,13 @@ table.dataTable {
     color: rgb(51,88,125);
     background-color: #fff;
 }
+
 .modal-content {
     background-color: #f7f5f2;
 }
-.modal-body {;
+
+.modal-body {
+    ;
     padding: 0 1rem 0 1rem;
 }
 
@@ -526,7 +529,7 @@ table.dataTable {
     background-color: #fff;
     /*border-radius: 0 0 0.4rem 0.3rem;
     border: 1px solid rgba(227,223,212,0.4);*/
-    box-shadow: rgba(100,112,125,0.4)0px 2px 8px; 
+    box-shadow: rgba(100,112,125,0.4)0px 2px 8px;
 }
 
 .card {
@@ -567,7 +570,7 @@ footer {
 
 .container-fluid {
     width: 97%;
-     }
+}
 
 .input-group {
     /*background-color:#fff;*/
@@ -579,26 +582,31 @@ footer {
         max-width: 350px;
     }
 }
+
 @media screen and (max-width: 768px) {
     .input-group {
         max-width: 350px;
     }
 }
+
 .form-control:disabled, .form-control[readonly] {
     border: 1px solid #aaa;
 }
+
 .calendarios {
     border: 2px solid #aaa !important;
     background-color: #fff !important;
-    max-width:100%;
+    max-width: 100%;
 }
+
     .calendarios .cabecera {
         border-width: 2px !important;
         background-color: #eee !important;
     }
-    .calendarios .cabecera .texto-cabecera {
-        font-size: 10pt!important;
-    }
+
+        .calendarios .cabecera .texto-cabecera {
+            font-size: 10pt !important;
+        }
 
 .btn-danger {
     background-color: #931a21;

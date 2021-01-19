@@ -82,7 +82,8 @@
                         </asp:ContentPlaceHolder>
                         <hr />
                         <footer>
-                            <p>&copy; <%= DateTime.Now.Year %> Moneda Asset - Canje Mandatorio Version : <%=System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() %></p>
+                            <p>&copy; <%= DateTime.Now.Year %> Moneda Asset - Canje Mandatorio Version : <%=DBSUtils.Utiles.Version() %></p>
+
                         </footer>
                     </div>
                 </div>

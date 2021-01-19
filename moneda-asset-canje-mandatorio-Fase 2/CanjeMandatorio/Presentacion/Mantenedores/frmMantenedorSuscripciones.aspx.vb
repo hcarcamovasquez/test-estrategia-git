@@ -752,76 +752,22 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
 
 #End Region
 
-#Region "Calendar Selection Change"
-    'Protected Sub Calendar1_SelectionChanged(sender As Object, e As EventArgs) Handles Calendar1.SelectionChanged
-    '    Request.Form(txtIntencionDesde.UniqueID) = Calendar1.SelectedDate.ToShortDateString()
-    '    If (Not Request.Form(txtIntencionHasta.UniqueID) = "") Then
-    '        If Calendar1.SelectedDate > DateTime.Parse(Request.Form(txtIntencionHasta.UniqueID)) Then
-    '            Request.Form(txtIntencionHasta.UniqueID) = Calendar1.SelectedDate.ToShortDateString()
-    '        End If
-    '    End If
-    '    Calendar1.SelectedDate = Nothing
-    '    Calendar1.Visible = False
-    'End Sub
-    'Protected Sub Calendar2_SelectionChanged(sender As Object, e As EventArgs) Handles Calendar2.SelectionChanged
-    '    Request.Form(txtIntencionHasta.UniqueID) = Calendar2.SelectedDate.ToShortDateString()
-    '    If (Not Request.Form(txtIntencionDesde.UniqueID) = "") Then
-    '        If Calendar2.SelectedDate < DateTime.Parse(Request.Form(txtIntencionDesde.UniqueID)) Then
-    '            Request.Form(txtIntencionDesde.UniqueID) = Calendar2.SelectedDate.ToShortDateString()
-    '        End If
-    '    End If
-    '    Calendar2.SelectedDate = Nothing
-    '    Calendar2.Visible = False
-    'End Sub
-
-    'Protected Sub Calendar3_SelectionChanged(sender As Object, e As EventArgs) Handles Calendar3.SelectionChanged
-    '    Request.Form(txtNAVDesde.UniqueID) = Calendar3.SelectedDate.ToShortDateString()
-    '    If (Not Request.Form(txtNAVHasta.UniqueID) = "") Then
-    '        If Calendar3.SelectedDate > DateTime.Parse(Request.Form(txtNAVHasta.UniqueID)) Then
-    '            Request.Form(txtNAVHasta.UniqueID) = Calendar3.SelectedDate.ToShortDateString()
-    '        End If
-    '    End If
-    '    Calendar3.SelectedDate = Nothing
-    '    Calendar3.Visible = False
-    'End Sub
-    'Protected Sub Calendar4_SelectionChanged(sender As Object, e As EventArgs) Handles Calendar4.SelectionChanged
-    '    Request.Form(txtNAVHasta.UniqueID) = Calendar4.SelectedDate.ToShortDateString()
-    '    If (Not Request.Form(txtNAVDesde.UniqueID) = "") Then
-    '        If Calendar4.SelectedDate < DateTime.Parse(Request.Form(txtNAVDesde.UniqueID)) Then
-    '            Request.Form(txtNAVDesde.UniqueID) = Calendar4.SelectedDate.ToShortDateString()
-    '        End If
-    '    End If
-    '    Calendar4.SelectedDate = Nothing
-    '    Calendar4.Visible = False
-    'End Sub
-
-    'Protected Sub Calendar5_SelectionChanged(sender As Object, e As EventArgs) Handles Calendar5.SelectionChanged
-    '    Request.Form(txtSuscripcionDesde.UniqueID) = Calendar5.SelectedDate.ToShortDateString()
-    '    If (Not Request.Form(txtSuscripcionHasta.UniqueID) = "") Then
-    '        If Calendar5.SelectedDate > DateTime.Parse(Request.Form(txtSuscripcionHasta.UniqueID)) Then
-    '            Request.Form(txtSuscripcionHasta.UniqueID) = Calendar5.SelectedDate.ToShortDateString()
-    '        End If
-    '    End If
-    '    Calendar5.SelectedDate = Nothing
-    '    Calendar5.Visible = False
-    'End Sub
-    'Protected Sub Calendar6_SelectionChanged(sender As Object, e As EventArgs) Handles Calendar6.SelectionChanged
-    '    Request.Form(txtSuscripcionHasta.UniqueID) = Calendar6.SelectedDate.ToShortDateString()
-    '    If (Not Request.Form(txtSuscripcionDesde.UniqueID) = "") Then
-    '        If Calendar6.SelectedDate < DateTime.Parse(Request.Form(txtSuscripcionDesde.UniqueID)) Then
-    '            Request.Form(txtSuscripcionDesde.UniqueID) = Calendar6.SelectedDate.ToShortDateString()
-    '        End If
-    '    End If
-    '    Calendar6.SelectedDate = Nothing
-    '    Calendar6.Visible = False
-    'End Sub
-
     Protected Sub FechaTc()
-        Dim Negocio As VentanasRescateNegocio = New VentanasRescateNegocio
+        'Dim Negocio As VentanasRescateNegocio = New VentanasRescateNegocio
+        Dim negocio As FechasNegocio = New FechasNegocio
+
         Dim FechaValidar As String
+        Dim fecha As FechasDTO = New FechasDTO()
 
         txtFechaTC.Text = Request.Form(txtFechaTC.UniqueID)
-        FechaValidar = Negocio.ValidaDiaHabil(txtFechaTC.Text)
+
+        fecha.Dia = Day(txtFechaTC.Text)
+        fecha.Mes = Month(txtFechaTC.Text)
+        fecha.Anno = Year(txtFechaTC.Text)
+        fecha.DF_PAIS = ddlMonedaPago.Text
+
+        'FechaValidar = Negocio.ValidaDiaHabil(txtFechaTC.Text)
+        FechaValidar = Negocio.ValidaDiaHabil(fecha)
 
         If FechaValidar = "Festivo" Then
             txtFechaTC.Text = ""
@@ -838,65 +784,35 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
         End If
     End Sub
 
-#End Region
-
-#Region "Calendar day render"
-    'Protected Sub Calendar2_DayRender(sender As Object, e As DayRenderEventArgs) Handles Calendar2.DayRender
-    '    If Not Request.Form(txtIntencionDesde.UniqueID).Equals("") Then
-    '        If e.Day.Date < DateTime.Parse(Request.Form(txtIntencionDesde.UniqueID)) Then
-    '            e.Day.IsSelectable = False
-    '            e.Cell.ForeColor = System.Drawing.Color.Gray
-    '        End If
-    '    End If
-    'End Sub
-    'Protected Sub Calendar4_DayRender(sender As Object, e As DayRenderEventArgs) Handles Calendar4.DayRender
-    '    If Not Request.Form(txtNAVDesde.UniqueID).Equals("") Then
-    '        If e.Day.Date < DateTime.Parse(Request.Form(txtNAVDesde.UniqueID)) Then
-    '            e.Day.IsSelectable = False
-    '            e.Cell.ForeColor = System.Drawing.Color.Gray
-    '        End If
-    '    End If
-    'End Sub
-    'Protected Sub Calendar6_DayRender(sender As Object, e As DayRenderEventArgs) Handles Calendar6.DayRender
-    '    If Not Request.Form(txtSuscripcionDesde.UniqueID).Equals("") Then
-    '        If e.Day.Date < DateTime.Parse(Request.Form(txtSuscripcionDesde.UniqueID)) Then
-    '            e.Day.IsSelectable = False
-    '            e.Cell.ForeColor = System.Drawing.Color.Gray
-    '        End If
-    '    End If
-    'End Sub
-#End Region
-
 #Region "Formateo Datos"
     Private Sub FormateoFormDatos(Suscripcion As SuscripcionDTO)
 
         txtIdSuscripcion.Text = Suscripcion.IdSuscripcion
         ddlModalNombreAportante.Text = Suscripcion.RazonSocial
         ddlModalRutAportante.Text = Suscripcion.RutAportante
+
         Try
             ddlModalMultifondo.Text = Suscripcion.Multifondo
         Catch ex As Exception
             ddlModalMultifondo.SelectedIndex = 0
         End Try
+
         ddlFondo.Text = Suscripcion.RutFondo
         ddlNemotecnico.Text = Suscripcion.Nemotecnico
         txtCuotas.Text = String.Format("{0:N0}", Suscripcion.CuotasASuscribir)
         txtNAV.Text = Suscripcion.NavFormat
         ddlMonedaPago.Text = Suscripcion.Moneda_Pago
-        txtNAVCLP.Text = Utiles.formatearNAVCLP(Suscripcion.NAVCLP) ' String.Format("{0:N4}", Suscripcion.NAVCLP)
-
-
+        txtNAVCLP.Text = Utiles.formatearNAVCLP(Suscripcion.NAVCLP)
 
         txtTCObservado.Text = Utiles.formatearTC(Suscripcion.TcObservado)
-        'String.Format("{0:N6}", Suscripcion.TcObservado)
         ddlPoderes.Text = Suscripcion.RevisionPoderes
         txtFechaIntencion.Text = Suscripcion.FechaIntencion
         txtFechaNAV.Text = Suscripcion.FechaNAV
         txtFechaSuscripcion.Text = Suscripcion.FechaSuscripcion
         txtFechaTC.Text = Suscripcion.FechaTC
 
-        txtMonto.Text = Utiles.formatearMonto(Suscripcion.Monto, Suscripcion.MonedaSerie.Trim())  ' String.Format("{0:N0}", Suscripcion.Monto)
-        txtMontoCLP.Text = Utiles.formatearMontoCLP(Suscripcion.MontoCLP)  ' String.Format("{0:N0}", Suscripcion.MontoCLP)
+        txtMonto.Text = Utiles.formatearMonto(Suscripcion.Monto, Suscripcion.MonedaSerie.Trim())
+        txtMontoCLP.Text = Utiles.formatearMontoCLP(Suscripcion.MontoCLP)
 
         ddlContrato.Text = Suscripcion.ContratoFondo
         txtFechaDCV.Text = IIf(Suscripcion.FechaDCV = Nothing, "", Suscripcion.FechaDCV)
@@ -1071,12 +987,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
         txtSuscripcionHasta.Text = ""
         txtNAVDesde.Text = ""
         txtNAVHasta.Text = ""
-        'Calendar1.Visible = False
-        'Calendar2.Visible = False
-        'Calendar3.Visible = False
-        'Calendar4.Visible = False
-        'Calendar5.Visible = False
-        'Calendar6.Visible = False
         GrvTabla.DataSource = New List(Of SuscripcionDTO)
         GrvTabla.DataBind()
         BtnExportar.Enabled = False
@@ -1649,65 +1559,60 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
 
 #Region "Consultar según nemotécnico"
     Private Sub ConsultarFechaNav()
-        Dim serie As FondoSerieDTO = New FondoSerieDTO
+        Dim serieParam As FondoSerieDTO = New FondoSerieDTO
         Dim negocioSerie As FondoSeriesNegocio = New FondoSeriesNegocio
         Dim NegocioRescate As RescateNegocio = New RescateNegocio()
 
-        serie.Nemotecnico = ddlNemotecnico.SelectedValue
-        Dim listaSerie As List(Of FondoSerieDTO) = negocioSerie.GrupoSeriesPorNemotecnico(serie)
-        Dim FechaNavSuscripcion As String
+        serieParam.Nemotecnico = ddlNemotecnico.SelectedValue
 
-        For Each series As FondoSerieDTO In listaSerie
-            Dim desNavC As String() = Utiles.splitCharByComma(series.FechaNavSuscripcion)
-            FechaNavSuscripcion = series.FechaNavSuscripcion
-            Dim fechaNavC As String
-            Dim diasNavC As String
-            fechaNavC = desNavC(0)
-            diasNavC = desNavC(1)
-            Dim Suscripcion As SuscripcionDTO = New SuscripcionDTO
-
-            If diasNavC = "" Then
-                If (fechaNavC = "FechaSuscripcion") Then
-                    Suscripcion.FechaSuscripcion = txtFechaSuscripcion.Text
-                Else
-                    Suscripcion.FechaSuscripcion = txtFechaIntencion.Text
-                End If
-
-                Dim FechaSolicitud As Date
-                Dim testString As String = FormatDateTime(FechaSolicitud, DateFormat.LongDate)
-                FechaSolicitud = Suscripcion.FechaSuscripcion
-                txtFechaNAV.Text = FechaSolicitud
-            Else
-                Dim dias As Integer = Integer.Parse(diasNavC)
-
-                If (fechaNavC = "FechaSuscripcion") Then
-                    Suscripcion.FechaSuscripcion = txtFechaSuscripcion.Text
-                Else
-                    Suscripcion.FechaSuscripcion = txtFechaIntencion.Text
-                End If
-                Dim fechaSolicitud As Date
-                Dim testString As String = FormatDateTime(fechaSolicitud, DateFormat.LongDate)
-
-                fechaSolicitud = Suscripcion.FechaSuscripcion
-
-                fechaSolicitud = NegocioRescate.SelectFechaPagoSIRescatable(dias, fechaSolicitud, fncSoloDiasHabiles(series))  ' fechaSolicitud.AddDays(dias)
-                txtFechaNAV.Text = fechaSolicitud
-
-                'Request.Form(txtFechaNAV.UniqueID) = fechaSolicitud
-            End If
-        Next
-    End Sub
-    Private Function fncSoloDiasHabiles(serie As FondoSerieDTO) As Integer
         Dim SoloDiasHabiles As Integer
 
-        If serie.esFechaNavSuscripcionesDiasHabiles Then
-            SoloDiasHabiles = 1
-        Else
-            SoloDiasHabiles = 0
+        Dim series As FondoSerieDTO
+        series = negocioSerie.GetFondoSeriesNemotecnico(serieParam)
+
+        Dim estructuraFechas = New EstructuraFechasDto
+        estructuraFechas = Utiles.splitCharByComma(series.FechaNavSuscripcion)
+
+        'FechaNavSuscripcion = series.FechaNavSuscripcion
+        'Dim fechaNavC As String = estructuraFechas.DesdeQueFecha
+        ' Dim diasNavC As String = estructuraFechas.DiasASumar
+
+        'Dim Suscripcion As SuscripcionDTO = New SuscripcionDTO
+
+        'If diasNavC = "" Then
+        '    If (estructuraFechas.DesdeQueFecha = "FechaSuscripcion") Then
+        '        Suscripcion.FechaSuscripcion = txtFechaSuscripcion.Text
+        '    Else
+        '        Suscripcion.FechaSuscripcion = txtFechaIntencion.Text
+        '    End If
+
+
+        '    Dim testString As String = FormatDateTime(FechaSolicitud, DateFormat.LongDate)
+        '    FechaSolicitud = Suscripcion.FechaSuscripcion
+        '    txtFechaNAV.Text = FechaSolicitud
+        'Else
+        'Dim dias As Integer = Integer.Parse(diasNavC)
+
+        Dim FechaSolicitud As Date
+
+        Select Case estructuraFechas.DesdeQueFecha
+            Case "FechaSuscripcion"
+                FechaSolicitud = txtFechaSuscripcion.Text
+            Case Else
+                FechaSolicitud = txtFechaIntencion.Text
+        End Select
+
+        'fechaSolicitud = Suscripcion.FechaSuscripcion
+
+        If FechaSolicitud <> Nothing Then
+            SoloDiasHabiles = IIf(series.SoloDiasHabilesFechaNavSuscripciones, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
+            FechaSolicitud = Utiles.SumaDiasAFechas(ddlMonedaPago.Text, FechaSolicitud, estructuraFechas.DiasASumar, SoloDiasHabiles)
         End If
 
-        Return SoloDiasHabiles
-    End Function
+        txtFechaNAV.Text = FechaSolicitud
+        'End If
+        'Next
+    End Sub
 
     Public Sub ConsultarFechaObservado()
         Dim serie As FondoSerieDTO = New FondoSerieDTO
@@ -1715,64 +1620,81 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
         Dim negocioSerie As FondoSeriesNegocio = New FondoSeriesNegocio
 
         Dim listaSerie As List(Of FondoSerieDTO)
-        Dim FechaNavSuscripcion As String
+        ' Dim FechaNavSuscripcion As String
 
         serie.Nemotecnico = ddlNemotecnico.SelectedValue
         listaSerie = negocioSerie.GrupoSeriesPorNemotecnico(serie)
 
         For Each series As FondoSerieDTO In listaSerie
-            Dim desNavC As String() = Utiles.splitCharByComma(series.FechaTCSuscripcion)
-            FechaNavSuscripcion = series.FechaTCSuscripcion
+            Dim estructuraFechas As EstructuraFechasDto = Utiles.splitCharByComma(series.FechaTCSuscripcion)
 
-            Dim fechaNavC As String
-            Dim diasNavC As String
+            'FechaNavSuscripcion = series.FechaTCSuscripcion
+            'Dim fechaNavC As String = estructuraFechas.DesdeQueFecha
+            'Dim diasNavC As String = estructuraFechas.DiasASumar
+            'Dim Suscripcion As SuscripcionDTO = New SuscripcionDTO
 
-            fechaNavC = desNavC(0)
-            diasNavC = desNavC(1)
+            Dim fechaSolicitud As Date
 
-            Dim Suscripcion As SuscripcionDTO = New SuscripcionDTO
+            Select Case estructuraFechas.DesdeQueFecha
+                Case "FechaSuscripcion"
+                    fechaSolicitud = txtFechaSuscripcion.Text
+                Case "FechaNav"
+                    fechaSolicitud = txtFechaNAV.Text
+            End Select
 
-            If (FechaNavSuscripcion = ",") Then
-                txtFechaTC.Text = txtFechaSuscripcion.Text
-            Else
-                If diasNavC = "" Then
-                    If (fechaNavC = "FechaSuscripcion") Then
-                        Suscripcion.FechaSuscripcion = txtFechaSuscripcion.Text
-                    Else
-                        Suscripcion.FechaSuscripcion = txtFechaNAV.Text
-                    End If
-
-                    txtFechaTC.Text = Suscripcion.FechaSuscripcion
-                Else
-                    Dim dias As Integer = Integer.Parse(diasNavC)
-
-                    If (fechaNavC = "FechaSuscripcion") Then
-                        Suscripcion.FechaSuscripcion = txtFechaSuscripcion.Text
-                    Else
-                        Suscripcion.FechaSuscripcion = txtFechaNAV.Text
-                    End If
-
-                    Dim fechaSolicitud As Date
-                    Dim testString As String = FormatDateTime(fechaSolicitud, DateFormat.LongDate)
-
-                    fechaSolicitud = Suscripcion.FechaSuscripcion
-
-                    'FechaPagoFondoRescatableINT es días que hay que sumar o restar, FechaCalculo es a la fecha a la que hay que sumar o restar
-                    'FECHA DIAS HABILES
-
-                    fechaSolicitud = NegocioRescate.SelectFechaPagoSIRescatable(dias, fechaSolicitud, 0)
-                    txtFechaTC.Text = fechaSolicitud
-
-                End If
+            If fechaSolicitud <> Nothing Then
+                fechaSolicitud = Utiles.SumaDiasAFechas(ddlMonedaPago.Text, fechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_CORRIDOS)
             End If
-        Next
 
+            'Cambia la fecha al habil siguiente 
+            fechaSolicitud = Utiles.getDiaHabilSiguiente(fechaSolicitud, ddlMonedaPago.Text)
+            txtFechaTC.Text = fechaSolicitud
+
+
+            'If (FechaNavSuscripcion = ",") Then
+            '    txtFechaTC.Text = txtFechaSuscripcion.Text
+            'Else
+            '    If diasNavC = "" Then
+            '        If (estructuraFechas.DesdeQueFecha = "FechaSuscripcion") Then
+            '            Suscripcion.FechaSuscripcion = txtFechaSuscripcion.Text
+            '        Else
+            '            Suscripcion.FechaSuscripcion = txtFechaNAV.Text
+            '        End If
+
+            '        txtFechaTC.Text = Suscripcion.FechaSuscripcion
+            '    Else
+            '        Dim dias As Integer = Integer.Parse(diasNavC)
+
+            '        If (estructuraFechas.DesdeQueFecha = "FechaSuscripcion") Then
+            '            Suscripcion.FechaSuscripcion = txtFechaSuscripcion.Text
+            '        Else
+            '            Suscripcion.FechaSuscripcion = txtFechaNAV.Text
+            '        End If
+
+
+            '        Dim testString As String = FormatDateTime(fechaSolicitud, DateFormat.LongDate)
+
+            '        fechaSolicitud = Suscripcion.FechaSuscripcion
+
+            '        'FechaPagoFondoRescatableINT es días que hay que sumar o restar, FechaCalculo es a la fecha a la que hay que sumar o restar
+            '        'FECHA DIAS HABILES
+            '        If ddlMonedaPago.Text <> "" Then
+            '            fechaSolicitud = Utiles.SumaDiasAFechas(ddlMonedaPago.Text, fechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_CORRIDOS)
+            '        End If
+
+            '        'Cambia la fecha al habil siguiente 
+            '        fechaSolicitud = Utiles.getDiaHabilSiguiente(fechaSolicitud, ddlMonedaPago.Text)
+            '        'fechaSolicitud = NegocioRescate.SelectFechaPagoSIRescatable(dias, fechaSolicitud, 0)
+            '        txtFechaTC.Text = fechaSolicitud
+            '    End If
+            'End If
+        Next
     End Sub
 
     Public Sub ConsultarFechaSuscripcion()
         Dim serie As FondoSerieDTO = New FondoSerieDTO
-        Dim NegocioRescate As RescateNegocio = New RescateNegocio
         Dim negocioSerie As FondoSeriesNegocio = New FondoSeriesNegocio
+
         Dim listaSerie As List(Of FondoSerieDTO)
         Dim FechaNavSuscripcion As String
 
@@ -1782,33 +1704,37 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
         For Each series As FondoSerieDTO In listaSerie
             Dim fechaNavC As String
             Dim diasNavC As String
-            Dim desNavC As String() = Utiles.splitCharByComma(series.FechaSuscripcion)
+            Dim estructuraFechas = New EstructuraFechasDto
+            estructuraFechas = Utiles.splitCharByComma(series.FechaSuscripcion)
             Dim Suscripcion As SuscripcionDTO = New SuscripcionDTO
 
             FechaNavSuscripcion = series.FechaSuscripcion
 
-            fechaNavC = desNavC(0)
-            diasNavC = desNavC(1)
+            fechaNavC = estructuraFechas.DesdeQueFecha
+            diasNavC = estructuraFechas.DiasASumar
+
+            Dim FechaSolicitud As Date
+            Dim testString As String = FormatDateTime(FechaSolicitud, DateFormat.LongDate)
 
             If diasNavC = "" Then
                 Suscripcion.FechaIntencion = txtFechaIntencion.Text
-                Dim FechaSolicitud As Date
-                Dim testString As String = FormatDateTime(FechaSolicitud, DateFormat.LongDate)
+
                 FechaSolicitud = Suscripcion.FechaIntencion
                 txtFechaSuscripcion.Text = FechaSolicitud
             Else
-                Dim dias As Integer
-                dias = Integer.Parse(diasNavC)
-                Suscripcion.FechaIntencion = txtFechaIntencion.Text
+                Dim dias As Integer = Integer.Parse(diasNavC)
 
-                Dim fechaSolicitud As Date
-                Dim testString As String = FormatDateTime(fechaSolicitud, DateFormat.LongDate)
+                Suscripcion.FechaIntencion = txtFechaIntencion.Text
                 fechaSolicitud = Suscripcion.FechaIntencion
 
                 'FechaPagoFondoRescatableINT es días que hay que sumar o restar, FechaCalculo es a la fecha a la que hay que sumar o restar
                 'FECHA DIAS HABILES
 
-                fechaSolicitud = NegocioRescate.SelectFechaPagoSIRescatable(dias, fechaSolicitud, 0)
+                If ddlMonedaPago.Text <> "" Then
+                    FechaSolicitud = Utiles.SumaDiasAFechas(ddlMonedaPago.Text, FechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_CORRIDOS)
+                End If
+
+                'fechaSolicitud = NegocioRescate.SelectFechaPagoSIRescatable(dias, fechaSolicitud, 0)
                 txtFechaSuscripcion.Text = fechaSolicitud
 
             End If
@@ -1816,6 +1742,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
     End Sub
 
     Public Sub MonedaSelectedChanged()
+        ConsultarFechaSuscripcion()
+        ConsultarFechaNav()
+        ConsultarFechaObservado()
     End Sub
 #End Region
 
@@ -1912,13 +1841,16 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
     Protected Sub MontoTextChanged()
         Dim NegocioTipoCalculoNav As TipoCalculoNav = New TipoCalculoNav
         Dim TipoCalculoNav As TipoCalculoNavDTO = New TipoCalculoNavDTO()
+
         If (txtMonto.Text = "") Then
             txtMonto.Text = 0
         End If
+
         If (IsNumeric(txtMonto.Text)) Then
             If (IsNumeric(txtNAV.Text)) Then
                 If (Double.Parse(txtNAV.Text) > 0) Then
                     Dim cuota As Integer = (Double.Parse(txtMonto.Text) / Double.Parse(txtNAV.Text))
+
                     txtCuotas.Text = String.Format("{0:N0}", Math.Floor(cuota))
                     Cuotaschanged()
 
@@ -1926,10 +1858,13 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
                     TipoCalculoNav.TipoTransaccion = "Suscripcion"
                     TipoCalculoNav.TipoCalculo = "M"
                     Dim updateCNJ_Tipo_CalculoNAV = NegocioTipoCalculoNav.UpdateTipoCalculoNav(TipoCalculoNav)
+
                 Else
                     txtCuotas.Text = 0
                     txtMonto.Text = 0
+
                 End If
+
                 llenarCLP()
             End If
         End If
@@ -1937,6 +1872,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
         If (txtMonto.Text = 0) Then
             txtCuotas.Text = 0
         End If
+
     End Sub
 
     Protected Sub CuotasTextChanged()

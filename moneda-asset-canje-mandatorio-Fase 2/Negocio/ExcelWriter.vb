@@ -1099,9 +1099,11 @@ Public Class ExcelWriter
             sheet.Cells(fila, 7).Value = "Fecha NAV"
             sheet.Cells(fila, 8).Value = "Fecha TC Observado"
             sheet.Cells(fila, 9).Value = "Fecha de Pago"
-            sheet.Cells(fila, 10).Value = "Fijación NAV"
-            sheet.Cells(fila, 11).Value = "Fijación TC Observado"
-            sheet.Cells(fila, 12).Value = "Nemotécnico"
+            sheet.Cells(fila, 10).Value = "Nav Fijado"
+            sheet.Cells(fila, 11).Value = "Tc Observado"
+            sheet.Cells(fila, 12).Value = "Fijación NAV"
+            sheet.Cells(fila, 13).Value = "Fijación TC Observado"
+            sheet.Cells(fila, 14).Value = "Nemotécnico"
             fila = fila + 1
 
             For Each Fijacion As FijacionDTO In ListaFijacion
@@ -1115,9 +1117,11 @@ Public Class ExcelWriter
                 sheet.Cells(fila, 7).Value = Fijacion.FechaNav.ToShortDateString()
                 sheet.Cells(fila, 8).Value = Fijacion.FechaTCObs.ToShortDateString()
                 sheet.Cells(fila, 9).Value = Fijacion.fechaPago.ToShortDateString()
-                sheet.Cells(fila, 10).Value = Fijacion.FijacionNAV.ToString()
-                sheet.Cells(fila, 11).Value = Fijacion.FijacionTCObservado.ToString()
-                sheet.Cells(fila, 12).Value = Fijacion.Nemotecnico.ToString()
+                sheet.Cells(fila, 10).Value = Fijacion.NAV_FIJADO.ToString()
+                sheet.Cells(fila, 11).Value = Fijacion.TC_OBSERVADO.ToString()
+                sheet.Cells(fila, 12).Value = Fijacion.FijacionNAV.ToString()
+                sheet.Cells(fila, 13).Value = Fijacion.FijacionTCObservado.ToString()
+                sheet.Cells(fila, 14).Value = Fijacion.Nemotecnico.ToString()
 
                 fila = fila + 1
             Next
@@ -1126,6 +1130,7 @@ Public Class ExcelWriter
             Dim ruta As String = DirectCast(configurationAppSettings.GetValue("RutaGeneracionExcel", GetType(System.String)), String)
             Dim carpetaGeneracionExcel As String = DirectCast(configurationAppSettings.GetValue("CarpetaGeneracionExcel", GetType(System.String)), String)
             Dim fi As FileInfo
+
             fi = New FileInfo(ruta + fileName)
             If fi.Exists Then
                 fi.Delete()

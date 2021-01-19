@@ -1,9 +1,8 @@
 ﻿<%@ Page Title="Fondos" Language="VB" MasterPageFile="~/Site.master" AutoEventWireup="false" CodeFile="frmMantenedorFondos.aspx.vb" Inherits="Presentacion_Mantenedores_frmMantenedorFondos" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server"></asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
-
-
     <h2 class="TdRedondeado titleMant">Maestro de <strong>Fondos</strong></h2>
 
     <div class="card p-4 jumbotron">
@@ -20,20 +19,8 @@
                 <asp:Label runat="server" ID="Label2">Fecha Creación desde</asp:Label>
                 <div class="input-group">
                     <asp:TextBox ID="txtFeCreacionDesde" runat="server" CssClass="form-control datepicker" ReadOnly="True"></asp:TextBox>
-
                     <asp:LinkButton ID="LinkButton1" class="btn btn-moneda" runat="server" OnClientClick="return clickCalendar('txtFeCreacionDesde')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
-
                     <asp:LinkButton ID="BtnLimpiarFechaDesde" Text="Limpiar" class="btn btn-secondary ml-1" runat="server" OnClientClick="return limpiarCalendar('txtFeCreacionDesde')"><i class="far fa-trash-alt"></i></asp:LinkButton>
-
-                    <%--<asp:Calendar ID="Calendar1" runat="server" Visible="False" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" class="calendarios">
-                        <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-
-                        <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                        <OtherMonthDayStyle ForeColor="#999999" />
-                        <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                        <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="1px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" CssClass="cabecera texto-cabecera" />
-                        <TodayDayStyle BackColor="#CCCCCC" />
-                    </asp:Calendar>--%>
                 </div>
             </div>
 
@@ -44,14 +31,6 @@
                     <asp:TextBox ID="txtFeCreacionHasta" runat="server" CssClass="form-control  datepicker" ReadOnly="True"></asp:TextBox>
                     <asp:LinkButton ID="LinkButton2" class="btn btn-moneda" runat="server" OnClientClick="return clickCalendar('txtFeCreacionHasta')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
                     <asp:LinkButton ID="BtnLimpiarFechaHasta" Text="Limpiar Fecha" class="btn btn-secondary ml-1" runat="server" OnClientClick="return limpiarCalendar('txtFeCreacionHasta')"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                    <%--<asp:Calendar ID="Calendar2" runat="server" Visible="False" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" CssClass="calendarios">
-                        <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                        <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                        <OtherMonthDayStyle ForeColor="#999999" />
-                        <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                        <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="1px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" CssClass="cabecera texto-cabecera" />
-                        <TodayDayStyle BackColor="#CCCCCC" />
-                    </asp:Calendar>--%>
                 </div>
             </div>
 
@@ -101,6 +80,8 @@
                     <asp:BoundField DataField="FechaVencimiento" HeaderText="Fecha Vencimiento" DataFormatString="{0:dd-MM-yyyy}" />
                     <asp:BoundField DataField="Acumulado" HeaderText="Acumulado" DataFormatString="{0:N6}" ItemStyle-HorizontalAlign="Right"/>
 
+                    <asp:BoundField DataField="ControlDeCuotas" HeaderText="Control de cuotas"  ItemStyle-HorizontalAlign="Center"/>
+
                     <asp:BoundField DataField="FechaIngreso" HeaderText="Fecha Ingreso" DataFormatString="{0:dd-MM-yyyy}" />
                     <asp:BoundField DataField="UsuarioIngreso" HeaderText="Usuario Ingreso" />
                     <asp:BoundField DataField="FechaModificacion" HeaderText="Fecha modificación" DataFormatString="{0:dd-MM-yyyy}" />
@@ -113,7 +94,7 @@
 
         <div class="row mt-4">
             <div class="col-md-12 text-center">
-                <asp:Button ID="BtnModificar" runat="server" class="btn btn-info" Text="Modificar" OnClick="BtnModificar_Click" Enabled="false"></asp:Button>
+                <asp:Button ID="BtnModificar" runat="server" class="btn btn-info btn-primary" Text="Modificar" OnClick="BtnModificar_Click" Enabled="false"></asp:Button>
                 <asp:Button ID="BtnEliminar" runat="server" class="btn btn-danger" Text="Eliminar" OnClientClick="if (!confirm('¿Seguro que desea Eliminar los elementos seleccionados?')) return false;" Enabled="false"></asp:Button>
                 <asp:Button ID="BtnExportar" class="btn btn-success" Text="Exportar" runat="server" Enabled="false" />
             </div>
@@ -127,7 +108,6 @@
 
     <asp:HiddenField ID="txtHiddenAccion" runat="server" />
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-
 
     <!-- Bootstrap Modal Dialog Crear/Modificar -->
     <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
@@ -175,9 +155,19 @@
                                     <h5 class="text-secondary">Control de cuotas emitidas</h5>
                                     <!-- CUOTAS EMITIDAS -->
                                     <div class="col-md-12 mt-3">
-                                        <asp:Label runat="server" ID="Label1">Cuotas Emitidas: </asp:Label>
-                                        <div class="input-group">
-                                            <asp:TextBox ID="Textbox1" runat="server" CssClass="form-control dbs-entero-decimal" ></asp:TextBox>
+                                        <div class="row">
+                                            <div class="col-md-8 mt-3">
+                                                <asp:Label runat="server" ID="Label1">Cuotas Emitidas: </asp:Label>
+                                                <div class="input-group">
+                                                    <asp:TextBox ID="txtCuotasEmitidas" runat="server" CssClass="form-control dbs-entero-decimal" ></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mt-3">
+                                                <div class="form-check">
+                                                        <asp:CheckBox ID="chkControlCuotas" runat="server" Text="" cssclass="form-check-input" />
+                                                        <label class="form-check-label" for="chkControlCuotas">No Aplica</label>
+                                                    </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- FECHA DE EMISIÓN -->
@@ -193,14 +183,7 @@
                                                     <asp:TextBox ID="Textbox2" runat="server" CssClass="form-control  datepicker" ReadOnly="True"></asp:TextBox>
                                                     <asp:LinkButton ID="LinkButton3" class="btn btn-moneda" Height="38px" runat="server" OnClientClick="return clickCalendar('Textbox2')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
                                                     <asp:LinkButton ID="Linkbutton4" Text="Limpiar Fecha" class="btn btn-secondary ml-1" Height="38px" runat="server" OnClientClick="return limpiarCalendar('Textbox2')"><i class="far fa-trash-alt" ></i></asp:LinkButton>
-                                                    <%--<asp:Calendar ID="Calendar3" runat="server" Visible="False" onblur="onblurCalendar(this)" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" CssClass="calendarios">
-                                                        <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                                                        <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                                                        <OtherMonthDayStyle ForeColor="#999999" />
-                                                        <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                                                        <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="1px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" CssClass="cabecera texto-cabecera" />
-                                                        <TodayDayStyle BackColor="#CCCCCC" />
-                                                    </asp:Calendar>--%>
+                                                  
                                                 </div>
 
                                                 <!-- FECHA DE VENCIMIENTO -->
@@ -209,14 +192,7 @@
                                                     <asp:TextBox ID="Textbox3" runat="server" CssClass="form-control datepicker" ReadOnly="True"></asp:TextBox>
                                                     <asp:LinkButton ID="LinkButton5" class="btn btn-moneda" Height="38px" runat="server" OnClientClick="return clickCalendar('Textbox3')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
                                                     <asp:LinkButton ID="Linkbutton6" Text="Limpiar Fecha" class="btn btn-secondary ml-1" Height="38px" runat="server" OnClientClick="return limpiarCalendar('Textbox3')"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                                                    <%--<asp:Calendar ID="Calendar4" runat="server" Visible="False" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" CssClass="calendarios">
-                                                        <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                                                        <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                                                        <OtherMonthDayStyle ForeColor="#999999" />
-                                                        <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                                                        <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="1px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" CssClass="cabecera texto-cabecera" />
-                                                        <TodayDayStyle BackColor="#CCCCCC" />
-                                                    </asp:Calendar>--%>
+                                                   
                                                 </div>
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
@@ -469,7 +445,7 @@
                         msgAlert('El nombre corto es un campo obligatorio')
                         return false;
                     } else {
-                        if ($('#<%=Textbox1.ClientID %>').val() != "") {
+                        if ($('#<%=txtCuotasEmitidas.ClientID %>').val() != "") {
                             if (!validarValorEmitidas()) {
                                 return false;
                             }
@@ -490,7 +466,7 @@
         function validarValorEmitidas() {
             return true;
 
-            var valor1 = document.getElementById('<%=Textbox1.ClientID%>').value.replace(/\./g, '').replace(/\,/g, '.');         
+            var valor1 = document.getElementById('<%=txtCuotasEmitidas.ClientID%>').value.replace(/\./g, '').replace(/\,/g, '.');         
 
             console.log("valor:" + valor1);
            

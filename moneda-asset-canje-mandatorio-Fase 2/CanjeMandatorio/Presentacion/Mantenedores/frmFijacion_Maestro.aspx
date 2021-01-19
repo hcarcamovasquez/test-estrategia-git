@@ -144,6 +144,7 @@
                 <!-- BOTÓN BUSCAR -->
                 <asp:Button ID="BtnBuscar" Text="Buscar" class="btn btn-moneda" runat="server" />
                 <asp:Button ID="btnLimpiarFrm" Text="Borrar" class="btn btn-secondary" runat="server" OnClick="btnLimpiarFrm_Click" />
+                
             </div>
         </div>
 
@@ -157,7 +158,15 @@
         <asp:HiddenField ID="txtAccionHidden" runat="server" />
 
         <!-- TABLA DE RESULTADOS -->
-        <h5 class="mt-3 text-secondary"><i class="fas fa-file-invoice fa-sm"></i> Resultado de la búsqueda</h5>
+        <div class="row mt-3">
+            <div class="col-md-8">
+                <h5 class="mt-3 text-secondary"><i class="fas fa-file-invoice fa-sm"></i> Resultado de la búsqueda</h5>
+            </div>
+            <div class="col-md-4">
+                <asp:Button ID="btnImprimir" Text="Imprimir" class="btn btn-moneda btnImprimir" runat="server" Enabled="false" />
+            </div>
+        </div>
+        
         <div class="table-responsive card p-3">
             <asp:GridView
                 ID="GrvTabla"
@@ -186,9 +195,11 @@
                     <asp:BoundField DataField="RazonSocial" HeaderText="Nombre/Razón Social" />
                     <asp:BoundField DataField="RUT" HeaderText="RUT del Fondo" />
                     <asp:BoundField DataField="FNNombreCorto" HeaderText="Nombre del Fondo" />
-                    <asp:BoundField DataField="FechaNav" HeaderText="Fecha NAV" DataFormatString="{0:dd-MM-yyyy}" />
-                    <asp:BoundField DataField="FechaTCObs" HeaderText="Fecha TC Observado" DataFormatString="{0:dd-MM-yyyy}" />
-                    <asp:BoundField DataField="fechaPago" HeaderText="Fecha de Pago"  DataFormatString="{0:dd-MM-yyyy}"/>
+                    <asp:BoundField DataField="FechaNav" HeaderText="Fecha NAV" DataFormatString="{0:dd-MM-yyyy}" ItemStyle-HorizontalAlign="center"/>
+                    <asp:BoundField DataField="FechaTCObs" HeaderText="Fecha TC Observado" DataFormatString="{0:dd-MM-yyyy}" ItemStyle-HorizontalAlign="center"/>
+                    <asp:BoundField DataField="fechaPago" HeaderText="Fecha de Pago"  DataFormatString="{0:dd-MM-yyyy}" ItemStyle-HorizontalAlign="center"/>
+                    <asp:BoundField DataField="NAV_FIJADO" HeaderText="NAV Fijado"  DataFormatString="{0:N6}" ItemStyle-HorizontalAlign="Right"/>
+                    <asp:BoundField DataField="TC_OBSERVADO" HeaderText="TC Observado" DataFormatString="{0:N6}" ItemStyle-HorizontalAlign="Right"/>
                     <asp:BoundField DataField="FijacionNAV" HeaderText="Fijación NAV" />
                     <asp:BoundField DataField="FijacionTCObservado" HeaderText="Fijación TC Observado" />                    
                     <asp:BoundField DataField="Nemotecnico" HeaderText="Nemotécnico" />
@@ -197,13 +208,13 @@
         </div>
         <div class="row mt-3">
             <div class="col-md-12 text-center">
-                <asp:Button ID="BtnModificar" runat="server" class="btn btn-info btnmodificar" Text="Modificar" Enabled="false"></asp:Button>
+                <asp:Button ID="BtnModificar" runat="server" class="btn btn-info btnmodificar" Text="Fijación Manual" Enabled="false"></asp:Button>
                 <asp:Button ID="BtnExportar" class="btn btn-success" Text="Exportar" runat="server" Enabled="false" />
             </div>
         </div>
 
     </div>
-
+   
     <!-- Bootstrap Modal Dialog Suscripcione Crear/Modificar -->
     <div class="modal fade" id="myModalSuscripcion" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog" style="max-width: 90%;">
@@ -217,16 +228,9 @@
                 </div>
                 <div class="modal-body">
                     <div class="jumbotron p-3">
-
-
                         <!-- FORMULARIO-->
-
                         <asp:HiddenField ID="txtEstadoCambio" runat="server"></asp:HiddenField>
-
                         <div class="col-md-12 mx-auto mt-10 " style="margin-top: 30px" visible="false">
-
-
-
                             <div class="col-md-12 mx-auto d-flex p-0 mb-10 justify-content-between" style="margin-top: 30px">
                                 <!-- TARJETA 1 -->
 
@@ -2415,17 +2419,20 @@
                         $(".btnmodificar").prop('disabled', true);
                         $(".BtnFijarNav").prop('disabled', false);
                         $(".BtnTCObs").prop('disabled', false);
+                        $(".btnImprimir").prop('disabled', false);
                     }
                     else {
                         if (contador == 1) {
                             $(".btnmodificar").prop('disabled', false);
                             $(".BtnFijarNav").prop('disabled', false);
                             $(".BtnTCObs").prop('disabled', false);
+                             $(".btnImprimir").prop('disabled', false);
                         }
                         else {
                             $(".btnmodificar").prop('disabled', true);
                             $(".BtnFijarNav").prop('disabled', true);
                             $(".BtnTCObs").prop('disabled', true);
+                             $(".btnImprimir").prop('disabled', true);
 
                         }
                     }
@@ -2435,11 +2442,13 @@
                         $('.checkFijacion input').prop('checked', true);
                         $(".BtnFijarNav").prop('disabled', false);
                         $(".BtnTCObs").prop('disabled', false);
+                        $(".btnImprimir").prop('disabled', false);
                     }
                     else {
                         $('.checkFijacion input').prop('checked', false);
                         $(".BtnFijarNav").prop('disabled', true);
                         $(".BtnTCObs").prop('disabled', true);
+                        $(".btnImprimir").prop('disabled', true);
                     }
 
                 });
@@ -2582,10 +2591,14 @@
             var btnModificar = document.getElementById('<%=BtnModificar.ClientID%>');
             var BtnFijarNav = document.getElementById('<%=BtnFijarNav.ClientID%>');
             var BtnTCObs = document.getElementById('<%=BtnTCObs.ClientID%>');
+            var btnImprimir = document.getElementById('<%=btnImprimir.ClientID%>');
+
             btnModificar.disabled = newValue;
             BtnFijarNav.disabled = newValue;
             BtnTCObs.disabled = newValue;
+            btnImprimir.disabled = newValue; 
         }
+
         function checkRadioBtn(id) {
             var gv = document.getElementById('<%=GrvTabla.ClientID %>');
             if (gv != null) {

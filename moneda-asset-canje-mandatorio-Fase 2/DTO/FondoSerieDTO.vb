@@ -36,7 +36,7 @@ Public Class FondoSerieDTO
     Public Property DiasHabilesRescate As Integer
     Public Property DiasHabilesSuscripciones As Integer
     Public Property DiasHabilesCanje As Integer
-    Public Property FsFechaCanjeCanje As String
+    Public Property FechaCanjeCanje As String
     Public Property DiasHabilesFechaCanje As Integer
 
 
@@ -250,27 +250,27 @@ Public Class FondoSerieDTO
     End Property
 
 
-    Public ReadOnly Property esFechaNavRescateDiasHabiles As Boolean
+    Public ReadOnly Property SoloDiasHabilesFechaNavRescate As Boolean
         Get
-            Return (DiasHabilesRescate = 1)
+            Return (DiasHabilesRescate = -1)
         End Get
     End Property
 
-    Public ReadOnly Property esFechaNavSuscripcionesDiasHabiles As Boolean
+    Public ReadOnly Property SoloDiasHabilesFechaNavSuscripciones As Boolean
         Get
-            Return (DiasHabilesSuscripciones = 1)
+            Return (DiasHabilesSuscripciones = -1)
         End Get
     End Property
 
-    Public ReadOnly Property esFechaNavCanjeDiasHabiles As Boolean
+    Public ReadOnly Property SoloDiasHabilesFechaNavCanje As Boolean
         Get
-            Return (DiasHabilesCanje = 1)
+            Return (DiasHabilesCanje = -1)
         End Get
     End Property
 
-    Public ReadOnly Property esFechaCanjeDiasHabiles As Boolean
+    Public ReadOnly Property SoloDiasHabilesFechaCanje As Boolean
         Get
-            Return (DiasHabilesFechaCanje = 1)
+            Return (DiasHabilesFechaCanje = -1)
         End Get
     End Property
 

@@ -26,6 +26,9 @@
     Public Property Estados As String
     Public Property fechaPago As Date
 
+    Public Property TC_OBSERVADO As Decimal
+    Public Property NAV_FIJADO As Decimal
+
 
     Public Sub New(id As Int32, fechaNav As Date, fechaTCObs As Date, apRut As String, apMultifondo As String, nemotecnico As String,
                    tipoTransaccion As String, razonSocial As String, cuotas As Int32, rut As String, fnNombreCorto As String, fsNombreCorto As String, contrato As String, poderes As String,

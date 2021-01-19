@@ -104,8 +104,8 @@ Public Class WSFijacion
             sp.AgregarParametro("FechaTCDesde", FechaTCDesde, System.Data.SqlDbType.Date)
             sp.AgregarParametro("FechaTCHasta", FechaTCHasta, System.Data.SqlDbType.Date)
 
-            'sp.AgregarParametro("FechaPagoDesde", FechaPagoDesde, System.Data.SqlDbType.Date)
-            'sp.AgregarParametro("FechaPagoHasta", FechaPagoHasta, System.Data.SqlDbType.Date)
+            sp.AgregarParametro("FechaPagoDesde", FechaPagoDesde, System.Data.SqlDbType.Date)
+            sp.AgregarParametro("FechaPagoHasta", FechaPagoHasta, System.Data.SqlDbType.Date)
 
             ds = sp.ReturnDataSet()
 
@@ -412,6 +412,8 @@ Public Class WSFijacion
             .Observaciones = dataRow("Observaciones").ToString().Trim()
             .Estados = dataRow("Estados").ToString().Trim()
             .fechaPago = dataRow("fecha_pago").ToString().Trim()
+            .TC_OBSERVADO = dataRow("tc_observado").ToString().Trim()
+            .NAV_FIJADO = dataRow("NAV_FIJADO").ToString().Trim()
         End With
         Return Fijacion
     End Function

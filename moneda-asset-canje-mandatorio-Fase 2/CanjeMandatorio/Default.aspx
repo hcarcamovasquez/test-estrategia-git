@@ -11,6 +11,8 @@
     <link href="<%=ResolveUrl("~/Style/bootstrap.min.css")%>" rel="stylesheet" />
     <link href="<%=ResolveUrl("~/Style/LoginStyle.css")%>" rel="stylesheet" />
     <link href="<%=ResolveUrl("~/Style/estilos.css")%>" rel="stylesheet" />
+    <!-- En el area del HEAD -->
+    <%--<link href='http://fonts.googleapis.com/css?family=Snowburst+One' rel='stylesheet' type='text/css'>--%>
 
 </head>
 <body>
@@ -37,12 +39,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="sr-only">Contraseña</label>
-                                    <asp:TextBox ID="txtPassword" TextMode="Password" runat="server" CssClass="form-control TextCaja" placeholder="Contraseña..."></asp:TextBox>
+                                    <asp:TextBox ID="txtPassword" TextMode="Password" runat="server" CssClass="form-control TextCaja" placeholder="Contraseña..."  autocomplete="new-password"></asp:TextBox>
                                 </div>
-                                <asp:Button ID="btnInciarSesion" runat="server" CssClass=" btn btn-primary btn-block btnNormal" Text="Iniciar Sesión" OnClick="btnInciarSesion_Click"/>
+                                <asp:Button ID="btnInciarSesion" runat="server" CssClass="btn btn-primary btn-block btnNormal" Text="Iniciar Sesión" OnClick="btnInciarSesion_Click"/>
                                 <div class="text-center">
                                     <asp:Label ID="lblMensaje" CssClass="" runat="server" ForeColor="Red"></asp:Label>
                                 </div>
+                                <asp:HiddenField ID="counter" runat="server" />
                             </div>
                         </form>
                     </div>

@@ -12,6 +12,7 @@
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +22,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>Datos.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,6 +32,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>Datos.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -69,6 +72,7 @@
     <Compile Include="ADCVDatos.vb" />
     <Compile Include="ApGpDatos.vb" />
     <Compile Include="CanjeDatos.vb" />
+    <Compile Include="FechasDatos.vb" />
     <Compile Include="FijacionDatos.vb" />
     <Compile Include="MonedasDatos.vb" />
     <Compile Include="PatrimonioDatos.vb" />
@@ -196,20 +200,6 @@
     <None Include="Web References\WSUsuarios\WSUsuarios.wsdl" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DBSqlServer\DBSqlServer.vbproj">
-      <Project>{f0528be4-7c96-425d-9e88-e6abf36296fa}</Project>
-      <Name>DBSqlServer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DTO\DTO.vbproj">
-      <Project>{40089e0a-740d-44d6-b9b4-1b2c940bb494}</Project>
-      <Name>DTO</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WSCanjeMandatorio\WSCanjeMandatorio.vbproj">
-      <Project>{961f5ad3-b3d9-4fe7-8b40-68616156e015}</Project>
-      <Name>WSCanjeMandatorio</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
@@ -314,6 +304,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Web References\WSSeries\WSSeries.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DBSqlServer\DBSqlServer.vbproj">
+      <Project>{f0528be4-7c96-425d-9e88-e6abf36296fa}</Project>
+      <Name>DBSqlServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DTO\DTO.vbproj">
+      <Project>{40089e0a-740d-44d6-b9b4-1b2c940bb494}</Project>
+      <Name>DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WSCanjeMandatorio\WSCanjeMandatorio.vbproj">
+      <Project>{961f5ad3-b3d9-4fe7-8b40-68616156e015}</Project>
+      <Name>WSCanjeMandatorio</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
