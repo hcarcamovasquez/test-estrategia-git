@@ -1,7 +1,6 @@
 ﻿Imports DTO
 Imports Negocio
 Imports DBSUtils
-Imports DBSOffice
 
 Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
     Inherits System.Web.UI.Page
@@ -44,6 +43,10 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
     Public Const CONST_COL_FIJACIONNAV As Integer = 12
     Public Const CONST_COL_FIJACIONTCOBSERVADO As Integer = 13
     Public Const CONST_COL_NEMOTECNICO As Integer = 14
+
+    Public Const CONST_COL_MONEDA_PAGO As Integer = 15
+    Public Const CONST_COL_CUOTAS As Integer = 16
+    Public Const CONST_COL_MONTO As Integer = 17
 
     Private Const CONST_LLENAR_CAMPOS As String = "Debe llenar todos los campos"
     Private Const CONST_NO_HAY_TRANSACCIONES_SELECCIONADAS As String = "No hay trascacciones seleccionadas"
@@ -3735,14 +3738,45 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             If chk IsNot Nothing And chk.Checked Then
                 fijacion = New FijacionDTO
 
+
+                '<asp:BoundField DataField = "ID" HeaderText="ID" />
+                '<asp:BoundField DataField = "TipoTransaccion" HeaderText="Tipo de Transacción" />
+                '<asp:BoundField DataField = "APRUT" HeaderText="RUT Aportante" />
+                '<asp:BoundField DataField = "RazonSocial" HeaderText="Nombre/Razón Social" />
+                '<asp:BoundField DataField = "RUT" HeaderText="RUT del Fondo" />
+                '<asp:BoundField DataField = "FNNombreCorto" HeaderText="Nombre del Fondo" />
+                '<asp:BoundField DataField = "FechaNav" HeaderText="Fecha NAV" DataFormatString="{0:dd-MM-yyyy}" ItemStyle-HorizontalAlign="center"/>
+                '<asp:BoundField DataField = "FechaTCObs" HeaderText="Fecha TC Observado" DataFormatString="{0:dd-MM-yyyy}" ItemStyle-HorizontalAlign="center"/>
+                '<asp:BoundField DataField = "fechaPago" HeaderText="Fecha de Pago"  DataFormatString="{0:dd-MM-yyyy}" ItemStyle-HorizontalAlign="center"/>
+                '<asp:BoundField DataField = "NAV_FIJADO" HeaderText="NAV Fijado"  DataFormatString="{0:N6}" ItemStyle-HorizontalAlign="Right"/>
+                '<asp:BoundField DataField = "TC_OBSERVADO" HeaderText="TC Observado" DataFormatString="{0:N6}" ItemStyle-HorizontalAlign="Right"/>
+                '<asp:BoundField DataField = "FijacionNAV" HeaderText="Fijación NAV" />
+                '<asp:BoundField DataField = "FijacionTCObservado" HeaderText="Fijación TC Observado" />                    
+                '<asp:BoundField DataField = "Nemotecnico" HeaderText="Nemotécnico" />
+
+
                 fijacion.ID = row.Cells(CONST_COL_ID).Text().Trim()
                 fijacion.TipoTransaccion = row.Cells(CONST_COL_TIPOTRANSACCION).Text().Trim()
-                fijacion.TipoTransaccion = row.Cells(CONST_COL_TIPOTRANSACCION).Text().Trim()
+                fijacion.ApRut = row.Cells(CONST_COL_APRUT).Text().Trim()
+                fijacion.RazonSocial = row.Cells(CONST_COL_RAZONSOCIAL).Text().Trim()
+                fijacion.Rut = row.Cells(CONST_COL_RUT).Text().Trim()
+                fijacion.FnNombreCorto = row.Cells(CONST_COL_FNNOMBRECORTO).Text().Trim()
                 fijacion.FechaNav = row.Cells(CONST_COL_FECHANAV).Text().Trim()
                 fijacion.Nemotecnico = row.Cells(CONST_COL_NEMOTECNICO).Text().Trim()
-                fijacion.Rut = row.Cells(CONST_COL_RUT).Text().Trim()
                 fijacion.FijacionNAV = row.Cells(CONST_COL_FIJACIONNAV).Text().Trim()
                 fijacion.FijacionTCObservado = row.Cells(CONST_COL_FIJACIONNAV).Text().Trim()
+                fijacion.FechaNav = row.Cells(CONST_COL_FECHANAV).Text().Trim()
+                fijacion.FechaTCObs = row.Cells(CONST_COL_FECHATCOBS).Text().Trim()
+                fijacion.NAV_FIJADO = row.Cells(CONST_COL_NAV_FIJADO).Text().Trim()
+                fijacion.TC_OBSERVADO = row.Cells(CONST_COL_TC_OBSERVADO).Text().Trim()
+                fijacion.FijacionNAV = row.Cells(CONST_COL_FIJACIONNAV).Text().Trim()
+                fijacion.FijacionTCObservado = row.Cells(CONST_COL_FIJACIONTCOBSERVADO).Text().Trim()
+                fijacion.Nemotecnico = row.Cells(CONST_COL_NEMOTECNICO).Text().Trim()
+
+                fijacion.MonedaPago = row.Cells(CONST_COL_MONEDA_PAGO).Text().Trim()
+                fijacion.Cuotas = row.Cells(CONST_COL_CUOTAS).Text().Trim()
+                fijacion.Monto = row.Cells(CONST_COL_MONTO).Text().Trim()
+
 
                 fijaciones.Add(fijacion)
 
@@ -3754,6 +3788,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             Exit Sub
         End If
 
+        Utiles.GenerarCartas(fijaciones)
 
 
 

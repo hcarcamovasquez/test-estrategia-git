@@ -66,6 +66,8 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="exportarWord.vb" />
+    <Compile Include="TMarcadores.vb" />
     <Compile Include="Utiles.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -110,6 +112,14 @@
     <ProjectReference Include="..\Negocio\Negocio.vbproj">
       <Project>{e506668f-cad2-443b-a67e-a075bc0c713f}</Project>
       <Name>Negocio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xceed.Document.NET\Xceed.Document.NET.csproj">
+      <Project>{e863d072-aa8b-4108-b5f1-785241b37f67}</Project>
+      <Name>Xceed.Document.NET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Xceed.Words.NET\Xceed.Words.NET.csproj">
+      <Project>{6a9b96d0-a011-4f33-8ee2-ac31c948cca9}</Project>
+      <Name>Xceed.Words.NET</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

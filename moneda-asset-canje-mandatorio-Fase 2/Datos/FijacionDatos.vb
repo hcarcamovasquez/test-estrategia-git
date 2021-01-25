@@ -63,10 +63,10 @@ Public Class FijacionDatos
 
     End Function
 
-    Public Function GetListaFijacion(Fijacion As DTO.FijacionDTO)
-        Dim Ws = New WSCanjeMandatorio.WSFijacion()
-        Return Ws.GetListaFijacion(Fijacion)
-    End Function
+    'Public Function GetListaFijacion(Fijacion As DTO.FijacionDTO)
+    '    Dim Ws = New WSCanjeMandatorio.WSFijacion()
+    '    Return Ws.GetListaFijacion(Fijacion)
+    'End Function
 
     Public Function ConsultarFijacionTC() As List(Of DTO.FijacionDTO)
         Dim Ws = New WSCanjeMandatorio.WSFijacion()

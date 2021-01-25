@@ -77,6 +77,7 @@ Partial Class Presentacion_Administracion_frmMantenedorUsuarios
         img_modal.ImageUrl = urlIconTitle
         img_body_modal.ImageUrl = urlIconMesagge
         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModalmg", "$('#myModalmg').modal();", True)
+
     End Sub
 
     Private Sub ShowAlertPerfilError(mesagge As String)

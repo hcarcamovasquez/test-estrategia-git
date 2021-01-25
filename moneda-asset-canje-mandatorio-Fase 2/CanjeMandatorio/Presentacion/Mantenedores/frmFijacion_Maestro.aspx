@@ -203,6 +203,9 @@
                     <asp:BoundField DataField="FijacionNAV" HeaderText="Fijación NAV" />
                     <asp:BoundField DataField="FijacionTCObservado" HeaderText="Fijación TC Observado" />                    
                     <asp:BoundField DataField="Nemotecnico" HeaderText="Nemotécnico" />
+                    <asp:BoundField DataField="MonedaPago" HeaderText="Moneda Pago" />
+                    <asp:BoundField DataField="Cuotas" HeaderText="Cuotas" />
+                    <asp:BoundField DataField="Monto" HeaderText="Monto" />
                 </Columns>
             </asp:GridView>
         </div>

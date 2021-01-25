@@ -107,6 +107,8 @@
         End Get
     End Property
 
+    Public Property MonedaPago As String
+
     Public Sub New()
     End Sub
 End Class

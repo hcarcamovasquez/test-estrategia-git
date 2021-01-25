@@ -6,7 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "CanjeMandatorio", "CanjeMandatorio\", "{DDEC175F-7286-40C0-9A27-D11A3F8C9862}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv3.5"
-		ProjectReferences = "{750ea437-4d5d-49d6-93da-ee5eace08f15}|ActiveDirectoryWrapper.dll;{bf776e61-dc27-46d3-b232-0b6f3b22de10}|Datos.dll;{f0528be4-7c96-425d-9e88-e6abf36296fa}|DBSqlServer.dll;{b483034b-5000-4d72-8f72-69959bb90e5d}|DBSUtils.dll;{40089e0a-740d-44d6-b9b4-1b2c940bb494}|DTO.dll;{e506668f-cad2-443b-a67e-a075bc0c713f}|Negocio.dll;{961f5ad3-b3d9-4fe7-8b40-68616156e015}|WSCanjeMandatorio.dll;{310d3f99-f3a9-4d54-9cc7-55ec19ff8c61}|Office.dll;"
+		ProjectReferences = "{750ea437-4d5d-49d6-93da-ee5eace08f15}|ActiveDirectoryWrapper.dll;{bf776e61-dc27-46d3-b232-0b6f3b22de10}|Datos.dll;{f0528be4-7c96-425d-9e88-e6abf36296fa}|DBSqlServer.dll;{b483034b-5000-4d72-8f72-69959bb90e5d}|DBSUtils.dll;{40089e0a-740d-44d6-b9b4-1b2c940bb494}|DTO.dll;{e506668f-cad2-443b-a67e-a075bc0c713f}|Negocio.dll;{961f5ad3-b3d9-4fe7-8b40-68616156e015}|WSCanjeMandatorio.dll;{E863D072-AA8B-4108-B5F1-785241B37F67}|Xceed.Document.NET.dll;{6A9B96D0-A011-4F33-8EE2-AC31C948CCA9}|Xceed.Words.NET.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_50373"
 		Debug.AspNetCompiler.PhysicalPath = "CanjeMandatorio\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50373\"
@@ -42,7 +42,9 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WinFormTest", "WebSiteT\Win
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DBSUtils", "DBSUtils\DBSUtils.vbproj", "{B483034B-5000-4D72-8F72-69959BB90E5D}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DBSOffice", "Office\DBSOffice.vbproj", "{310D3F99-F3A9-4D54-9CC7-55EC19FF8C61}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xceed.Document.NET", "Xceed.Document.NET\Xceed.Document.NET.csproj", "{E863D072-AA8B-4108-B5F1-785241B37F67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xceed.Words.NET", "Xceed.Words.NET\Xceed.Words.NET.csproj", "{6A9B96D0-A011-4F33-8EE2-AC31C948CCA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,12 +107,18 @@ Global
 		{B483034B-5000-4D72-8F72-69959BB90E5D}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{B483034B-5000-4D72-8F72-69959BB90E5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B483034B-5000-4D72-8F72-69959BB90E5D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{310D3F99-F3A9-4D54-9CC7-55EC19FF8C61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{310D3F99-F3A9-4D54-9CC7-55EC19FF8C61}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{310D3F99-F3A9-4D54-9CC7-55EC19FF8C61}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
-		{310D3F99-F3A9-4D54-9CC7-55EC19FF8C61}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
-		{310D3F99-F3A9-4D54-9CC7-55EC19FF8C61}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{310D3F99-F3A9-4D54-9CC7-55EC19FF8C61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E863D072-AA8B-4108-B5F1-785241B37F67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E863D072-AA8B-4108-B5F1-785241B37F67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E863D072-AA8B-4108-B5F1-785241B37F67}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{E863D072-AA8B-4108-B5F1-785241B37F67}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{E863D072-AA8B-4108-B5F1-785241B37F67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E863D072-AA8B-4108-B5F1-785241B37F67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A9B96D0-A011-4F33-8EE2-AC31C948CCA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A9B96D0-A011-4F33-8EE2-AC31C948CCA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A9B96D0-A011-4F33-8EE2-AC31C948CCA9}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A9B96D0-A011-4F33-8EE2-AC31C948CCA9}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{6A9B96D0-A011-4F33-8EE2-AC31C948CCA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A9B96D0-A011-4F33-8EE2-AC31C948CCA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

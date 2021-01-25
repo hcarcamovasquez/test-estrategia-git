@@ -259,7 +259,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
     Public Sub validarTipoCambio()
         Dim contador As Integer = 0
         If (txtModalTipoCambio.Text <> "") Then
-            For s = 0 To txtModalTipoCambio.Text.Length - 1
+            For s As Integer = 0 To txtModalTipoCambio.Text.Length - 1
                 If (txtModalTipoCambio.Text.Chars(s) = ",") Then
                     contador = contador + 1
                 End If

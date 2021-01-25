@@ -61,12 +61,12 @@ Public Class FijacionNegocio
         Return FijacionDatos.ConsultarFijacionTC()
     End Function
 
-    Public Function GetFijacion(Fijacion As FijacionDTO) As FijacionDTO
-        Dim FijacionRetorno As FijacionDTO
-        Dim FijacionDatos As New Datos.FijacionDatos
-        FijacionRetorno = FijacionDatos.GetListaFijacion(Fijacion)
-        Return FijacionRetorno
-    End Function
+    'Public Function GetFijacion(Fijacion As FijacionDTO) As FijacionDTO
+    '    Dim FijacionRetorno As FijacionDTO
+    '    Dim FijacionDatos As New Datos.FijacionDatos
+    '    FijacionRetorno = FijacionDatos.GetListaFijacion(Fijacion)
+    '    Return FijacionRetorno
+    'End Function
 
 
     Public Function ExportarAExcelTodos(Fijacion As FijacionDTO) As String

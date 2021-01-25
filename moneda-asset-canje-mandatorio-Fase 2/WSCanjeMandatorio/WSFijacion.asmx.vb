@@ -261,30 +261,30 @@ Public Class WSFijacion
 
     End Function
 
-    <WebMethod()>
-    <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
-    Public Function GetListaFijacion(Fijacion As DTO.FijacionDTO) As List(Of DTO.FijacionDTO)
-        Dim TCRetorno As FijacionDTO = New FijacionDTO
-        Dim sp As New DBSqlServer.SqlServer.StoredProcedure(SP_CRUD)
-        Dim ds As DataSet
+    '<WebMethod()>
+    '<ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
+    'Public Function GetListaFijacion(Fijacion As DTO.FijacionDTO) As List(Of DTO.FijacionDTO)
+    '    Dim TCRetorno As FijacionDTO = New FijacionDTO
+    '    Dim sp As New DBSqlServer.SqlServer.StoredProcedure(SP_CRUD)
+    '    Dim ds As DataSet
 
-        Try
-            sp.AgregarParametro("Accion", CONST_SELECT_ONE, System.Data.SqlDbType.VarChar)
+    '    Try
+    '        sp.AgregarParametro("Accion", CONST_SELECT_ONE, System.Data.SqlDbType.VarChar)
 
-            FillParameters(Fijacion, sp)
+    '        FillParameters(Fijacion, sp)
 
-            ds = sp.ReturnDataSet()
-            If ds.Tables.Count > 0 AndAlso ds.Tables(0).Rows.Count > 0 Then
-                TCRetorno = fillFijacion(ds.Tables(0).Rows(0))
-            Else
-                TCRetorno = Nothing
-            End If
+    '        ds = sp.ReturnDataSet()
+    '        If ds.Tables.Count > 0 AndAlso ds.Tables(0).Rows.Count > 0 Then
+    '            TCRetorno = fillFijacion(ds.Tables(0).Rows(0))
+    '        Else
+    '            TCRetorno = Nothing
+    '        End If
 
-        Catch ex As Exception
-            Throw
-        End Try
+    '    Catch ex As Exception
+    '        Throw
+    '    End Try
 
-    End Function
+    'End Function
 
     <WebMethod()>
     <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
@@ -348,31 +348,31 @@ Public Class WSFijacion
         Return listaFijacion
     End Function
 
-    <WebMethod()>
-    <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
-    Public Function GetRescateOne(Fijacion As FijacionDTO) As FijacionDTO
-        Dim FijacionRetorno As FijacionDTO = New FijacionDTO
-        Dim sp As New DBSqlServer.SqlServer.StoredProcedure(SP_CRUD)
-        Dim ds As DataSet
+    '<WebMethod()>
+    '<ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
+    'Public Function GetRescateOne(Fijacion As FijacionDTO) As FijacionDTO
+    '    Dim FijacionRetorno As FijacionDTO = New FijacionDTO
+    '    Dim sp As New DBSqlServer.SqlServer.StoredProcedure(SP_CRUD)
+    '    Dim ds As DataSet
 
-        Try
-            sp.AgregarParametro("Accion", CONST_SELECT_ONE, System.Data.SqlDbType.VarChar)
-            sp.AgregarParametro("RES_ID", Fijacion.ID, System.Data.SqlDbType.Decimal)
+    '    Try
+    '        sp.AgregarParametro("Accion", CONST_SELECT_ONE, System.Data.SqlDbType.VarChar)
+    '        sp.AgregarParametro("RES_ID", Fijacion.ID, System.Data.SqlDbType.Decimal)
 
 
-            ds = sp.ReturnDataSet()
-            If ds.Tables.Count > 0 AndAlso ds.Tables(0).Rows.Count > 0 Then
-                FijacionRetorno = fillFijacion(ds.Tables(0).Rows(0))
-            Else
-                FijacionRetorno = Nothing
-            End If
+    '        ds = sp.ReturnDataSet()
+    '        If ds.Tables.Count > 0 AndAlso ds.Tables(0).Rows.Count > 0 Then
+    '            FijacionRetorno = fillFijacion(ds.Tables(0).Rows(0))
+    '        Else
+    '            FijacionRetorno = Nothing
+    '        End If
 
-        Catch ex As Exception
-            Throw
-        End Try
+    '    Catch ex As Exception
+    '        Throw
+    '    End Try
 
-        Return FijacionRetorno
-    End Function
+    '    Return FijacionRetorno
+    'End Function
 
     Private Shared Sub FillParameters(Fijacion As FijacionDTO, sp As DBSqlServer.SqlServer.StoredProcedure)
         sp.AgregarParametro(“Id”, Fijacion.ID, System.Data.SqlDbType.Int)
@@ -414,6 +414,7 @@ Public Class WSFijacion
             .fechaPago = dataRow("fecha_pago").ToString().Trim()
             .TC_OBSERVADO = dataRow("tc_observado").ToString().Trim()
             .NAV_FIJADO = dataRow("NAV_FIJADO").ToString().Trim()
+            .MonedaPago = dataRow("Moneda_Pago").ToString().Trim()
         End With
         Return Fijacion
     End Function
