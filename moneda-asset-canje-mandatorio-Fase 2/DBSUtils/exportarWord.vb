@@ -1,382 +1,292 @@
 ﻿Imports System.IO
 Imports System.Text
+Imports System.Text.RegularExpressions
+Imports Xceed.Words.NET
+Imports Xceed.Document.NET
+Imports DTO
 
 Public Class exportarWord
+    Private Shared Property dirOutputDoc As String
+    Private Shared Property dirPlantillasWord As String
 
-    Public Property ArchivoTemplateWORD As String
-    Public Property sFileDestinoWord As String
+    Public Shared Sub GenerarCartas(fijaciones As List(Of FijacionDTO))
+        Dim configurationAppSettings As New System.Configuration.AppSettingsReader()
+        Dim DocumentName As String = ""
+        Dim fijacionesCanje = fijaciones.Where(Function(f) f.TipoTransaccion.ToLower().Trim().Equals("canje")).ToList()
+        Dim FijacionesAportes = fijaciones.Where(Function(f) f.TipoTransaccion.ToLower().Trim().Equals("rescate") Or f.TipoTransaccion.ToLower().Trim().Equals("suscripcion")).ToList()
 
-    Public Property sFileMarcadores As String
+        dirPlantillasWord = DirectCast(configurationAppSettings.GetValue("PlantillasWord", GetType(System.String)), String)
+        dirOutputDoc = DirectCast(configurationAppSettings.GetValue("OutputDoc", GetType(System.String)), String)
 
-    Public Property SepDerecha As String
-    Public Property SepIzquierda As String
+        CartaComprobanteDePagoAportes(FijacionesAportes)
+        CartaComprobanteDePagoCanje(fijacionesCanje)
 
-    Public Property nTotalMarcadores As Integer
-    Public Property nTotalDetalleTabla As Integer
+        InstrucionAlDCVdeAportes(FijacionesAportes)
+        InstrucionAlDCVdeCanjes(fijacionesCanje)
+    End Sub
 
-    Public Property oLineas As List(Of TMarcadores)
-    Public Property oLineasTabla() As List(Of TMarcadores)
+    Private Shared Sub InstrucionAlDCVdeCanjes(fijacionesCanje As List(Of FijacionDTO))
+        HacerInstrucionAlDCVdeAportes("canje", fijacionesCanje)
+    End Sub
 
-    Public Property oTablas As Collection
+    Private Shared Sub InstrucionAlDCVdeAportes(fijacionesAportes As List(Of FijacionDTO))
+        HacerInstrucionAlDCVdeAportes("aporte", fijacionesAportes)
+    End Sub
 
-    Public Property m_StrMensajeNoHayRegistros As String
-    Public Property m_bEsConAnexo As Boolean
-    Public Property m_bEsConMarcadores As Boolean
-    Public Property m_StrArchivoAnexo As String
+    Private Shared Sub CartaComprobanteDePagoAportes(fijaciones As List(Of FijacionDTO))
+        HacerCartaComprobanteDePago("aporte", fijaciones)
+    End Sub
 
-    Public Property ArchivoAnexo() As String
-    Public Property EsConAnexo() As Boolean
-    Public Property MensajeNoHayRegistros() As String
-    Public Property EsConMarcadoresWord() As Boolean
+    Private Shared Sub CartaComprobanteDePagoCanje(fijaciones As List(Of FijacionDTO))
+        HacerCartaComprobanteDePago("canje", fijaciones)
+    End Sub
 
-    Public Property ExtensionArchivoMarcadores As String
+    Private Shared Sub HacerInstrucionAlDCVdeAportes(ByVal tipoDeComprobante As String, listaDeTransacciones As List(Of FijacionDTO))
+        Dim fijacionesOrdenadas = listaDeTransacciones.OrderBy(Function(f As FijacionDTO) f.TipoTransaccion).ThenBy(Function(f As FijacionDTO) f.Nemotecnico).ThenBy(Function(f As FijacionDTO) f.Rut).ToList
+        Dim nombreOutput As String
+        Dim TemplatePath As String
 
-    Public Property TieneError As Boolean
-    Public Property MensajeError As String
+        Dim PlantillaWord As DocX
+        Dim document As DocX
+
+        Dim tipoTransaccion As String = ""
+        Dim nemotecnico As String = ""
+        Dim rutFondo As String = ""
+        Dim indice As Integer = -1
+
+        Dim listaFijacion As List(Of FijacionDTO) = New List(Of FijacionDTO)
+        Dim listaDOcDVC As Dictionary(Of Integer, List(Of FijacionDTO)) = New Dictionary(Of Integer, List(Of FijacionDTO))
+        Dim bPrimero As Boolean = True
+        Dim numeroTabla As Integer = 0
 
 
+        tipoDeComprobante = tipoDeComprobante.Trim().ToLower()
 
-    Public Sub New(ByVal templateFile As String)
-        Dim posicionPunto As Integer
-
-        templateFile = templateFile.Trim()
-
-        If templateFile.Equals("") Then
-            TieneError = True
-            MensajeError = "No hay archivo template de Word"
-            Exit Sub
-        End If
-
-        ArchivoTemplateWORD = templateFile
-
-        posicionPunto = ArchivoTemplateWORD.IndexOf(".")
-
-        If posicionPunto > 0 Then
-            sFileMarcadores = ArchivoTemplateWORD + ExtensionArchivoMarcadores
+        If tipoDeComprobante.Equals("aporte") Then
+            nombreOutput = dirOutputDoc & "CARTA PARA APORTE DE FONDOS"
+            TemplatePath = dirPlantillasWord & "Formato carta aporte fondos.docx"
+            PlantillaWord = Xceed.Words.NET.DocX.Load(TemplatePath)
         Else
-            sFileMarcadores = ArchivoTemplateWORD.Substring(0, posicionPunto) + ExtensionArchivoMarcadores
+            nombreOutput = dirOutputDoc & "CARTA PARA APORTE DE FONDOS CANJE"
+            TemplatePath = dirPlantillasWord & "Formato Carta Canje.docx"
+            PlantillaWord = Xceed.Words.NET.DocX.Load(TemplatePath)
         End If
 
-        oLineas = New List(Of TMarcadores)
-        oLineasTabla = New List(Of TMarcadores)
+        document = DocX.Create(nombreOutput)
 
+        '*******************************************************************************
+        'agrupacion de transacciones
+        '*******************************************************************************
+        For Each fijacion As FijacionDTO In fijacionesOrdenadas
+            If fijacion.TipoTransaccion <> tipoTransaccion OrElse fijacion.Nemotecnico <> nemotecnico OrElse fijacion.Rut <> rutFondo Then
+                tipoTransaccion = fijacion.TipoTransaccion
+                nemotecnico = fijacion.Nemotecnico
+                rutFondo = fijacion.Rut
 
-        sFileDestinoWord = ""
+                indice += 1
 
-        MensajeNoHayRegistros = ""
-
-        SepIzquierda = Chr(Asc("«"))
-        SepDerecha = Chr(Asc("»"))
-
-        nTotalMarcadores = 0
-        nTotalDetalleTabla = 0
-
-        CleanDetalle()
-
-        EsConAnexo = False
-        ArchivoAnexo = ""
-        EsConMarcadoresWord = False
-    End Sub
-
-    '---------------------------------------------------------------------------------------
-    ' Procedimiento : GeneraCarta
-    ' Fecha         : 22/09/2006 16:01
-    ' Autor         : Jorge Vidal Bastias
-    ' Proposito     : Generar la carta
-    ' Logica        : 1. Abre la Plantilla
-    '                 2. Reemplaza los TAG de la plantilla encerrados en {}
-    '                 3. Grabar el documento con otro nombre
-    '                 4. Salir sin Guardar (para conservar la plantilla ;))
-    '---------------------------------------------------------------------------------------
-    Public Function GeneraWord() As Boolean
-        '    Dim DocWord As Word.Application
-        '    Dim oTabla As Word.Table
-
-        '    Dim nX As Integer
-        '    Dim nFila As Integer
-        '    Dim Existe As Long
-        '    Dim sNombreMarcador As String
-        '    Dim sNombreMarcadorWord As String
-
-        '    Dim sValor As String
-        '    Dim m2 As Object
-
-        '    DocWord = CreateObject("word.application")
-
-        '    With DocWord
-        '        .Application.Visible = False
-        '        .Documents.Open(ArchivoTemplateWORD)
-
-        '        If EsConAnexo Then AddArchivoWordAnexo(DocWord)
-
-        '        For nX = 1 To nTotalMarcadores
-        '            sNombreMarcadorWord = Trim(oLineas(nX).sNombreMarcador)
-        '            sNombreMarcador = SepIzquierda & sNombreMarcadorWord & SepDerecha
-        '            sValor = oLineas(nX).sValor
-
-        '            If EsConMarcadoresWord Then
-        '                m2 = .ActiveDocument.Range
-        '                m2.ActiveDocument.Goto , , , sNombreMarcadorWord
-        '                m2.SetRange.ActiveDocument.Bookmarks(sNombreMarcadorWord).Range.start, .ActiveDocument.Bookmarks(sNombreMarcadorWord).Range.start
-        '                m2.InsertBefore sValor
-
-        '        Else
-
-        '                If sNombreMarcador = "«HEADER»" Then
-        '                    Call Me.AddHeaderInfo(DocWord, sNombreMarcador, sValor)
-        '                ElseIf sNombreMarcador = SepIzquierda & sValor & SepDerecha Then
-        '                    Call AddTablaInfo(DocWord, sValor)
-        '                Else
-        '                    .ActiveDocument.Content.Find.Execute findtext:=sNombreMarcador, replacewith:=sValor, Replace:=2
-        '            End If
-
-        '            End If
-
-        '        Next
-
-        '        If Not EsConMarcadoresWord Then
-        '            For Each oTabla In .ActiveDocument.Tables
-        '                If oTabla.Rows.Count = 2 And MensajeNoHayRegistros <> "" Then
-        '                    oTabla.Rows(2).Cells.Merge
-        '                    oTabla.Rows(2).Cells.VerticalAlignment = wdCellAlignVerticalCenter
-        '                    oTabla.Cell(2, 1).Range.Text = MensajeNoHayRegistros
-        '                End If
-        '            Next
-        '        End If
-
-        '        .ActiveDocument.SaveAs sFileDestinoWord
-        '    .Quit wdDoNotSaveChanges
-
-        'End With
-
-        'Set DocWord = Nothing
-        'Set oTabla = Nothing
-        'Set m2 = Nothing
-        Return True
-    End Function
-
-    Public Sub AddMarcador(sNombreMarcador As String, Optional sValor As String = "--")
-        Dim marcador As TMarcadores = New TMarcadores()
-
-        marcador.sNombreMarcador = sNombreMarcador.Trim().ToUpper()
-        marcador.sValor = sValor
-
-        oLineas.Add(marcador)
-
-        nTotalMarcadores = oLineas.Count()
-
-    End Sub
-
-    Private Sub Class_Initialize()
-        ArchivoTemplateWORD = ""
-        sFileDestinoWord = ""
-        sFileMarcadores = ""
-
-        MensajeNoHayRegistros = ""
-
-        SepIzquierda = Chr(Asc("«"))
-        SepDerecha = Chr(Asc("»"))
-
-        nTotalMarcadores = 0
-        nTotalDetalleTabla = 0
-
-        CleanDetalle()
-        EsConAnexo = False
-        ArchivoAnexo = ""
-        EsConMarcadoresWord = False
-    End Sub
-
-    Public Sub CleanDetalle()
-        nTotalMarcadores = 0
-        nTotalDetalleTabla = 0
-        oLineas = New List(Of TMarcadores)
-        oLineas = New List(Of TMarcadores)
-    End Sub
-
-    Private Sub Class_Terminate()
-        CleanDetalle()
-    End Sub
-
-
-    Public Function LeeTemplateTemplate() As StringBuilder
-        Dim objReader As System.IO.StreamReader
-        Dim texto As StringBuilder = New StringBuilder
-        If ArchivoTemplateWORD <> "" Then
-            If File.Exists(ArchivoTemplateWORD) Then
-                objReader = File.OpenText(ArchivoTemplateWORD)
-                texto.Append(objReader.ReadToEnd)
+                listaDOcDVC.Add(indice, listaFijacion)
+                listaFijacion = New List(Of FijacionDTO)
             End If
+            listaFijacion.Add(fijacion)
+        Next
+        indice += 1
+        listaDOcDVC.Add(indice, listaFijacion)
+
+        '*******************************************************************************
+        ' Proceso de Generacion de Cartas diferenciadas por "Aporte" o "Canjes" 
+        '*******************************************************************************
+        Dim cantidadDeTablasASaltar As Integer
+        If tipoDeComprobante.Equals("aporte") Then
+            cantidadDeTablasASaltar = 2
+        Else
+            cantidadDeTablasASaltar = 1
         End If
-        objReader = Nothing
-        Return texto
-
-    End Function
 
 
-    Function initMarcadores() As Boolean
-        'Dim s As String
-        'Dim nFile As Integer
+        For Each pair As KeyValuePair(Of Integer, List(Of FijacionDTO)) In listaDOcDVC
+            If pair.Value.Count() > 0 Then
+                document.InsertDocument(PlantillaWord, True)
+                Dim t As Table = document.Tables(numeroTabla)
 
-        'nFile = FreeFile()
+                bPrimero = True
+                Dim PatronDeFila = t.Rows(t.Rows.Count() - 1)
+                Dim NewRow As Row
 
-        'CleanDetalle()
+                For Each transaccion As FijacionDTO In pair.Value
 
-        'Open sFileMarcadores For Input As #nFile
+                    PatronDeFila = t.Rows(t.Rows.Count() - 1)
+                    NewRow = t.InsertRow(PatronDeFila, t.RowCount - 1)
 
-        'While Not EOF(nFile)
-        '    Line Input #nFile, s
-        '    AddMarcador(s, SepIzquierda & s & SepDerecha)
-        'Wend
+                    If tipoDeComprobante.Equals("aporte") Then
+                        bPrimero = setColumnasDCVAporte(bPrimero, document, NewRow, transaccion)
+                    Else
+                        bPrimero = setColumnasDCVCanje(bPrimero, document, NewRow, transaccion)
+                    End If
 
-        'Close #nFile
+                Next
 
+                PatronDeFila.Remove()
+                numeroTabla += cantidadDeTablasASaltar
 
-        'Return True
-    End Function
-
-    Function AddValorMarcador(sNombreMarcador As String, sValor As String, Optional sFormato As String = "") As Boolean
-        Dim nX As Integer
-
-        For nX = 1 To nTotalMarcadores
-            'Debug.Print oLineas(nX).sNombreMarcador
-            If UCase(oLineas(nX).sNombreMarcador) = UCase(sNombreMarcador) Then
-                If sFormato = "" Then
-                    oLineas(nX).sValor = sValor
-                Else
-                    oLineas(nX).sValor = Format(sValor, sFormato)
-                End If
-
-                Exit For
             End If
         Next
 
-        If nX > nTotalMarcadores Then
-            AddValorMarcador = False
-        Else
-            AddValorMarcador = True
+        If File.Exists(nombreOutput) Then
+            File.Delete(nombreOutput)
         End If
-    End Function
-    '---------------------------------------------------------------------------------------------------
-    Public Sub AddHeaderInfo(ByRef p_msw As String, p_sNombreMarcador As String, p_svalor As String)
-        '        On Error GoTo ControlError
 
-        '        'Move focus to the Header pane...
-        '        p_msw.ActiveWindow.ActivePane.View.Type = wdPageView
-        '        p_msw.ActiveWindow.ActivePane.View.SeekView = wdSeekCurrentPageHeader
-
-        '        With p_msw.Selection
-        '            .Find.Execute findtext:=p_sNombreMarcador, replacewith:=p_svalor, Replace:=1
-        '    End With
-
-        '        'Finally, move focus back to the main document...
-        '        p_msw.ActiveWindow.ActivePane.View.SeekView = wdSeekMainDocument
-
-        'ControlError:
-        '        Dim Sub_MsgError
-        '        If Err() Then
-        '            Sub_MsgError = MsgBox("Error " + CStr(Err.Description))
-        '            If Sub_MsgError = vbRetry Then
-        '                Resume
-        '            End If
-        '        End If
+        document.SaveAs(nombreOutput)
 
     End Sub
 
-    '------------------------------------------------------------------------------
-    Public Sub AddTablaInfo(ByRef oWord As String, ByVal sNombreMarcadorTabla As String)
-        'Dim Tabla As Word.Table
-        'Dim iFila As Integer
-        'Dim iCol As Integer
-        'Dim nIndex As Integer
-        'Dim nFilas As Integer
+    Private Shared Function setColumnasDCVCanje(bPrimero As Boolean, document As DocX, newRow As Row, transaccion As FijacionDTO) As Boolean
+        If bPrimero Then
+            bPrimero = False
+            document.ReplaceText("[COLUMNA C]", transaccion.TipoTransaccion)
+            document.ReplaceText("[COLUMNA E]", transaccion.FnNombreCorto)       ' Nombre del Fondo.
+            document.ReplaceText("[COLUMNA B]", Date.Now().ToString("dd \de mmmm \de yyyy")) ' Fecha generacion del documento 
+            document.ReplaceText("[COLUMNA D]", transaccion.Nemotecnico)        ' Nombre de la serie
+            document.ReplaceText("[COLUMNA G]", transaccion.Rut)        ' Rut del fondo
+            document.ReplaceText("[COLUMNA N]", Date.Now().ToString("dd \de mmmm \de yyyy")) ' Fecha generacion del documento 
+            document.ReplaceText("[COLUMNA M]", transaccion.NAV_FIJADO)    ' Valor Cuota Nav 
+        End If
 
-        'Dim iTabla As Integer
+        newRow.ReplaceText("[COLUMNA I]", transaccion.RazonSocial)   ' nombreAportante 
+        newRow.ReplaceText("[COLUMNA J]", transaccion.ApRut)         ' rut del aportante
+        newRow.ReplaceText("[COLUMNA K]", transaccion.Cuotas)            ' cantidad de cuotas
 
-        'iTabla = buscarTabla(oWord, sNombreMarcadorTabla)
+        'document.ReplaceText("[COLUMNA I]", fijacion.fechaPago.ToString("dd-mm-yyyy"))  ' Fecha de Solicitud
+        'document.ReplaceText("[COLUMNA Y]", fijacion.fechaPago.ToString("HH:mm"))   ' Hora Solicitud
+        'document.ReplaceText("[COLUMNA N]", fijacion.MonedaPago)    'Moneda pago
+        'document.ReplaceText("[COLUMNA O]", fijacion.TipoTransaccion)   ' 
+        'document.ReplaceText("[COLUMNA P]", fijacion.Monto)             ' monto en la moneda de la transaccion 
 
-        'If iTabla > 0 Then
-        'Set Tabla = oWord.ActiveDocument.Tables(iTabla)
+        Return bPrimero
 
-        '' tabla.Rows.Add
-        'iFila = 1
-
-        '    For nIndex = 0 To nTotalDetalleTabla
-        '        If oLineasTabla(nIndex).sNombreMarcador = sNombreMarcadorTabla Then
-        '            nFilas = oLineasTabla(nIndex).sValor2(1).Count
-
-        '            For iFila = 1 To nFilas
-        '                Tabla.Rows.Add
-        '                For iCol = 2 To oLineasTabla(nIndex).sValor2(1).Item(iFila).Count
-        '                    Tabla.Cell(Tabla.Rows.Count - 1, iCol - 1).Range.Text = oLineasTabla(nIndex).sValor2(1).Item(iFila).Item(iCol)
-        '                Next
-        '            Next
-        '        End If
-        '    Next
-        'End If
-    End Sub
-    Private Function buscarTabla(ByRef oWord As String, ByVal sNombreTabla As String) As Integer
-        'Dim iTabla As Integer
-        'Dim oTabla As Word.Table
-        'Dim strTabla As String
-        'Dim strTablaText As String
-
-        'strTabla = SepIzquierda & sNombreTabla & SepDerecha
-
-        'iTabla = 1
-        'For Each oTabla In oWord.ActiveDocument.Tables
-        '    oTabla.Select
-        '    strTablaText = oTabla.Cell(2, 1).Range.Text
-
-        '    If Left(strTablaText, Len(strTabla)) = strTabla Then Exit For
-        '    iTabla = iTabla + 1
-        'Next
-
-        'If iTabla > oWord.ActiveDocument.Tables.Count Then iTabla = -1
-
-        'buscarTabla = iTabla
     End Function
 
-    Public Sub AddMarcadorTabla(sNombreMarcadorTabla As String, ByVal sNombreMarcadorColumna As String, ByVal sDato As Collection)
-        '    If sDato.Count > 0 Then
-        '        nTotalDetalleTabla = nTotalDetalleTabla + 1
+    Private Shared Function setColumnasDCVAporte(bPrimero As Boolean, document As DocX, newRow As Row, fijacion As FijacionDTO) As Boolean
+        If bPrimero Then
+            bPrimero = False
+            document.ReplaceText("[COLUMNA C]", fijacion.TipoTransaccion)
+            document.ReplaceText("[COLUMNA E]", fijacion.FnNombreCorto)       ' Nombre del Fondo.
+            document.ReplaceText("[COLUMNA B]", Date.Now().ToString("dd \de mmmm \de yyyy")) ' Fecha generacion del documento 
+            document.ReplaceText("[COLUMNA D]", fijacion.Nemotecnico)        ' Nombre de la serie
+            document.ReplaceText("[COLUMNA G]", fijacion.Rut)        ' Rut del fondo
+            document.ReplaceText("[COLUMNA N]", Date.Now().ToString("dd \de mmmm \de yyyy")) ' Fecha generacion del documento 
+            document.ReplaceText("[COLUMNA M]", Utiles.formatearMonto(fijacion.NAV_FIJADO, fijacion.MonedaPago))    ' Valor Cuota Nav 
+        End If
 
-        '        ReDim Preserve oLineasTabla(nTotalDetalleTabla)
+        newRow.ReplaceText("[COLUMNA I]", fijacion.RazonSocial)   ' nombreAportante 
+        newRow.ReplaceText("[COLUMNA J]", fijacion.ApRut)         ' rut del aportante
+        newRow.ReplaceText("[COLUMNA K]", Utiles.formateConSeparadorDeMiles(fijacion.Cuotas, 0))            ' cantidad de cuotas
 
-        '        oLineasTabla(nTotalDetalleTabla).sNombreMarcador = UCase(sNombreMarcadorTabla)
-        '        oLineasTabla(nTotalDetalleTabla).sValor2.Add sDato
-        '    oLineasTabla(nTotalDetalleTabla).sValor = oLineasTabla(nTotalDetalleTabla).sValor2.Count
+        'document.ReplaceText("[COLUMNA I]", fijacion.fechaPago.ToString("dd-mm-yyyy"))  ' Fecha de Solicitud
+        'document.ReplaceText("[COLUMNA Y]", fijacion.fechaPago.ToString("HH:mm"))   ' Hora Solicitud
+        'document.ReplaceText("[COLUMNA N]", fijacion.MonedaPago)    'Moneda pago
+        'document.ReplaceText("[COLUMNA O]", fijacion.TipoTransaccion)   ' 
+        'document.ReplaceText("[COLUMNA P]", fijacion.Monto)             ' monto en la moneda de la transaccion 
 
-        '        AddValorMarcador sNombreMarcadorTabla, sNombreMarcadorTabla
-        'End If
-    End Sub
-    '----------------------------------------------------------------------------
-
-    Public Function AddArchivoAnexo(ByVal strFileName As String) As Boolean
-        '    Dim strExisteArchivo As String
-
-        '    strExisteArchivo = Dir(strFileName)
-
-        '    If strExisteArchivo = "" Then
-        '        AddArchivoAnexo = False
-        '        MsgBox "No se encontró plantilla " & strFileName, vbInformation
-        'Else
-        '        EsConAnexo = True
-        '        ArchivoAnexo = strFileName
-        '        AddArchivoAnexo = True
-        '    End If
-        Return True
+        Return bPrimero
     End Function
 
-    Private Sub AddArchivoWordAnexo(ByRef oWord As String)
-        '    With oWord
-        '        .ActiveDocument.Select
-        '        .Selection.Collapse Direction:=wdCollapseEnd
-        '    .Selection.InsertBreak Type:=wdPageBreak
-        '    .Selection.InsertFile filename:=ArchivoAnexo,
-        '                           Range:="",
-        '                           ConfirmConversions:=False,
-        '                           link:=False,
-        '                           attachment:=False
-        'End With
+    Private Shared Sub HacerCartaComprobanteDePago(ByVal tipoDeCarta As String, fijaciones As List(Of FijacionDTO))
+        Dim nombreOutput As String
+        ''
+        'Algoritmo 
+        '0. Para cada registro en Fijaciones 
+        '1. Crear documento nuevo con nombre "COMPROBANTE DE PAGO.DOCX"
+        '2. abrir template "2Comprobante de pago aporte.dotx"
+        '3. Insertar template en documento word nuevo 
+        '4. Reesplazar colummnas 
+        '5. Guardar documento word nuevo con el nombre "COMPROBANTE DE PAGO.DOCX"
+        '6. siguiente registro
+        '
+
+        tipoDeCarta = tipoDeCarta.ToLower().Trim()
+        Dim TemplatePath As String
+
+        If (tipoDeCarta.Equals("aporte")) Then
+            TemplatePath = dirPlantillasWord & "2Comprobante de pago aporte.dotx"
+            nombreOutput = dirOutputDoc & "COMPROBANTE DE PAGO"
+        Else  ' "canje"
+            TemplatePath = dirPlantillasWord & "2Comprobante de pago aporte.docx"
+            nombreOutput = dirOutputDoc & "COMPROBANTE DE PAGO CANJE"
+        End If
+
+        Dim PlantillaWord = DocX.Load(TemplatePath)
+        Dim document = DocX.Create(nombreOutput)
+
+        For Each fijacion As FijacionDTO In fijaciones
+
+            document.InsertDocument(PlantillaWord, True)
+
+            If (tipoDeCarta.Equals("aporte")) Then
+                setColumnasAporte(document, fijacion)
+            Else
+                setColumnasCanje(document, fijacion)
+            End If
+        Next
+
+        If File.Exists(nombreOutput) Then
+            File.Delete(nombreOutput)
+        End If
+
+        document.SaveAs(nombreOutput)
+
     End Sub
+
+    Private Shared Sub setColumnasCanje(document As DocX, fijacion As FijacionDTO)
+
+        document.ReplaceText("[COLUMNA D]", fijacion.TipoTransaccion)
+        document.ReplaceText("[COLUMNA C]", Date.Now().ToString("dd \de mmmm \de yyyy")) ' Fecha generacion del documento 
+        document.ReplaceText("[COLUMNA X]", fijacion.fechaPago.ToString("dd-mm-yyyy"))  ' Fecha de Solicitud
+        document.ReplaceText("[COLUMNA Y]", fijacion.fechaPago.ToString("HH:mm"))   ' Hora Solicitud
+        document.ReplaceText("[COLUMNA F]", fijacion.FnNombreCorto)       ' Nombre del Fondo.
+        document.ReplaceText("[COLUMNA G]", fijacion.Nemotecnico)        ' Nombre de la serie
+        document.ReplaceText("[COLUMNA J]", fijacion.RazonSocial)   ' nombreAportante 
+        document.ReplaceText("[COLUMNA K]", fijacion.ApRut)         ' rut del aportante
+        document.ReplaceText("[COLUMNA N]", fijacion.MonedaPago)    'Moneda pago
+        document.ReplaceText("[COLUMNA M]", fijacion.NAV_FIJADO)    ' Valor Cuota Nav  
+        document.ReplaceText("[COLUMNA O]", fijacion.TipoTransaccion)   ' 
+        document.ReplaceText("[COLUMNA L]", fijacion.Cuotas)            ' cantidad de cuotas
+        document.ReplaceText("[COLUMNA P]", fijacion.Monto)             ' monto en la moneda de la transaccion 
+
+    End Sub
+
+    Private Shared Sub setColumnasAporte(document As DocX, fijacion As FijacionDTO)
+        document.ReplaceText("[COLUMNA D]", fijacion.TipoTransaccion)
+        document.ReplaceText("[COLUMNA C]", Date.Now().ToString("dd \de mmmm \de yyyy")) ' Fecha generacion del documento 
+        document.ReplaceText("[COLUMNA X]", fijacion.fechaPago.ToString("dd-mm-yyyy"))  ' Fecha de Solicitud
+        document.ReplaceText("[COLUMNA Y]", fijacion.fechaPago.ToString("HH:mm"))   ' Hora Solicitud
+        document.ReplaceText("[COLUMNA F]", fijacion.FnNombreCorto)       ' Nombre del Fondo.
+        document.ReplaceText("[COLUMNA G]", fijacion.Nemotecnico)        ' Nombre de la serie
+        document.ReplaceText("[COLUMNA J]", fijacion.RazonSocial)   ' nombreAportante 
+        document.ReplaceText("[COLUMNA K]", fijacion.ApRut)         ' rut del aportante
+        document.ReplaceText("[COLUMNA N]", fijacion.MonedaPago)    'Moneda pago
+        document.ReplaceText("[COLUMNA M]", Utiles.formatearMonto(fijacion.NAV_FIJADO, fijacion.MonedaPago))    ' Valor Cuota Nav  
+        document.ReplaceText("[COLUMNA O]", fijacion.TipoTransaccion)   ' 
+        document.ReplaceText("[COLUMNA L]", Utiles.formateConSeparadorDeMiles(fijacion.Cuotas, 0))             ' cantidad de cuotas
+        document.ReplaceText("[COLUMNA P]", Utiles.formatearMonto(fijacion.Monto, fijacion.MonedaPago))             ' monto en la moneda de la transaccion 
+    End Sub
+
+    Private Shared Function getNombreArchivoOutput(fijacion As FijacionDTO) As String
+        Dim nombreNuevo As String
+
+        nombreNuevo = fijacion.RazonSocial & Date.Now().ToString("ddMMyyyy") & ".docx"
+
+        Return nombreNuevo
+    End Function
+End Class
+
+Public Class EstructuraDCV
+    Public Property index As Integer
+    Public Property listaFijaciones As List(Of FijacionDTO)
+
+    Public Sub New()
+        listaFijaciones = New List(Of FijacionDTO)
+    End Sub
+
+
 End Class
