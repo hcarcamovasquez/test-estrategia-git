@@ -3788,11 +3788,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             Exit Sub
         End If
 
-        Utiles.GenerarCartas(fijaciones)
-
-
-
-
+        exportarWord.GenerarCartas(fijaciones)
 
     End Sub
 
