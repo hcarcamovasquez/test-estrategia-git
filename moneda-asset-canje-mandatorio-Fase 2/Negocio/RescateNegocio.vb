@@ -53,7 +53,7 @@ Public Class RescateNegocio
         Return RescateRetorno
     End Function
 
-    Public Function InsertRescates(Rescate As RescatesDTO) As Integer
+    Public Function InsertRescates(Rescate As RescatesDTO)
         Dim RescateDatos As New Datos.RescateDatos
 
         Return RescateDatos.InsertRescate(Rescate)

@@ -13,7 +13,7 @@
             <!-- APORTANTE -->
             <div class="col-md-3">
                 <asp:Label runat="server" ID="rutfondo">Aportante</asp:Label>
-                <asp:DropDownList ID="ddlAportanteBuscar" CssClass="form-control js-select2-rut" runat="server"  AutoPostBack="True"/>
+                <asp:DropDownList ID="ddlAportanteBuscar" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="True" />
             </div>
 
             <!-- LISTA NOMBRE FONDOS -->
@@ -46,9 +46,8 @@
                 <asp:Label runat="server" ID="Label2">Fecha Solicitud Desde</asp:Label>
                 <div class="input-group">
                     <asp:TextBox ID="txtFechaSolicitudDesde" runat="server" CssClass="form-control datepicker" ReadOnly="True"></asp:TextBox>
-                    <asp:LinkButton ID="lnkBtnFechaSolicitudDesde" class="btn btn-moneda" runat="server" 
-                        OnClientClick="return clickCalendar('txtFechaSolicitudDesde')" 
-                        ><i class="far fa-calendar-alt"></i></asp:LinkButton>
+                    <asp:LinkButton ID="lnkBtnFechaSolicitudDesde" class="btn btn-moneda" runat="server"
+                        OnClientClick="return clickCalendar('txtFechaSolicitudDesde')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
 
                     <asp:LinkButton ID="lnkBtnFechaBorrarSolicitudDesde" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtFechaSolicitudDesde')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
 
@@ -60,10 +59,9 @@
                 <asp:Label runat="server" ID="lblFechaHasta">Fecha Solicitud Hasta</asp:Label>
                 <div class="input-group">
                     <asp:TextBox ID="txtFechaSolicitudHasta" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
-                    <asp:LinkButton ID="lnkBtnFechaSolicitudHasta" class="btn btn-moneda" runat="server" 
-                        OnClientClick="return clickCalendar('txtFechaSolicitudHasta')" 
-                        ><i class="far fa-calendar-alt"></i></asp:LinkButton>
-                    <asp:LinkButton ID="BtnLimpiarFechaDesde" Text="" class="btn btn-secondary ml-1" 
+                    <asp:LinkButton ID="lnkBtnFechaSolicitudHasta" class="btn btn-moneda" runat="server"
+                        OnClientClick="return clickCalendar('txtFechaSolicitudHasta')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
+                    <asp:LinkButton ID="BtnLimpiarFechaDesde" Text="" class="btn btn-secondary ml-1"
                         OnClientClick="return limpiarCalendar('txtFechaSolicitudHasta')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
 
                 </div>
@@ -74,9 +72,8 @@
                 <asp:Label runat="server" ID="Label3">Fecha NAV Desde</asp:Label>
                 <div class="input-group">
                     <asp:TextBox ID="txtFechaNAVDesde" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
-                    <asp:LinkButton ID="lnkBtnFechaNAVDesde" class="btn btn-moneda" runat="server" 
-                        OnClientClick="return clickCalendar('txtFechaNAVDesde')" 
-                        ><i class="far fa-calendar-alt"></i></asp:LinkButton>
+                    <asp:LinkButton ID="lnkBtnFechaNAVDesde" class="btn btn-moneda" runat="server"
+                        OnClientClick="return clickCalendar('txtFechaNAVDesde')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
                     <asp:LinkButton ID="lnkBtnFechaBorrarNAVDesde" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtFechaNAVDesde')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
 
                 </div>
@@ -87,9 +84,8 @@
                 <asp:Label runat="server" ID="Label5">Fecha NAV Hasta</asp:Label>
                 <div class="input-group">
                     <asp:TextBox ID="txtFechaNAVHasta" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
-                    <asp:LinkButton ID="lnkBtnFechaNAVHasta" class="btn btn-moneda" runat="server" 
-                        OnClientClick="return clickCalendar('txtFechaNAVHasta')" 
-                        ><i class="far fa-calendar-alt"></i></asp:LinkButton>
+                    <asp:LinkButton ID="lnkBtnFechaNAVHasta" class="btn btn-moneda" runat="server"
+                        OnClientClick="return clickCalendar('txtFechaNAVHasta')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
                     <asp:LinkButton ID="lnkBtnFechaBorrarNAVHasta" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtFechaNAVHasta')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
 
                 </div>
@@ -102,9 +98,8 @@
                 <asp:Label runat="server" ID="Label6">Fecha Pago Desde</asp:Label>
                 <div class="input-group">
                     <asp:TextBox ID="txtFechaPagoDesde" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
-                    <asp:LinkButton ID="lnkBtnFechaPagoDesde" class="btn btn-moneda" runat="server" 
-                        OnClientClick="return clickCalendar('txtFechaPagoDesde')" 
-                        ><i class="far fa-calendar-alt"></i></asp:LinkButton>
+                    <asp:LinkButton ID="lnkBtnFechaPagoDesde" class="btn btn-moneda" runat="server"
+                        OnClientClick="return clickCalendar('txtFechaPagoDesde')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
                     <asp:LinkButton ID="lnkBtnFechaBorrarPagoDesde" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtFechaPagoDesde')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
 
                 </div>
@@ -115,9 +110,8 @@
                 <asp:Label runat="server" ID="Label7">Fecha Pago Hasta</asp:Label>
                 <div class="input-group">
                     <asp:TextBox ID="txtFechaPagoHasta" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
-                    <asp:LinkButton ID="lnlBtnFechaPagoHasta" class="btn btn-moneda" runat="server" 
-                        OnClientClick="return clickCalendar('txtFechaPagoHasta')" 
-                        ><i class="far fa-calendar-alt"></i></asp:LinkButton>
+                    <asp:LinkButton ID="lnlBtnFechaPagoHasta" class="btn btn-moneda" runat="server"
+                        OnClientClick="return clickCalendar('txtFechaPagoHasta')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
                     <asp:LinkButton ID="lnlBtnFechaBorrarPagoHasta" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtFechaPagoHasta')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
 
                 </div>
@@ -140,7 +134,7 @@
         <asp:HiddenField ID="txtAccionHidden" runat="server" />
 
         <!-- TABLA DE RESULTADOS -->
-        <h5 class="mt-3 text-secondary"><i class="fas fa-file-invoice fa-sm"></i> Resultado de la búsqueda</h5>
+        <h5 class="mt-3 text-secondary"><i class="fas fa-file-invoice fa-sm"></i>Resultado de la búsqueda</h5>
         <div class="table-responsive card mt-4 p-3">
             <asp:GridView
                 ID="GrvTabla"
@@ -168,32 +162,32 @@
                     <asp:BoundField DataField="FS_Nemotecnico" HeaderText="Nemotécnico" />
                     <asp:BoundField DataField="FS_Nombre_Corto" HeaderText="Serie" />
                     <asp:BoundField DataField="FS_Moneda" HeaderText="Moneda Serie" />
-                    <asp:BoundField DataField="RES_Cuotas" HeaderText="Cuotas a Rescatar" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right"/>
+                    <asp:BoundField DataField="RES_Cuotas" HeaderText="Cuotas a Rescatar" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right" />
                     <asp:BoundField DataField="RES_Moneda_Pago" HeaderText="Moneda Pago" />
-                    <asp:BoundField DataField="ADCV_Cantidad" HeaderText="Cuotas DCV" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right"/>
+                    <asp:BoundField DataField="ADCV_Cantidad" HeaderText="Cuotas DCV" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right" />
                     <asp:BoundField DataField="RES_Fecha_Nav" HeaderText="Fecha Nav" DataFormatString="{0:dd-MM-yyyy}" />
                     <asp:BoundField DataField="RES_Fecha_Pago" HeaderText="Fecha Rescate" DataFormatString="{0:dd-MM-yyyy}" />
                     <asp:BoundField DataField="RES_FechaTCObs" HeaderText="Fecha TC" DataFormatString="{0:dd-MM-yyyy}" />
-                    <asp:BoundField DataField="RES_NavFormat" HeaderText="NAV" ItemStyle-HorizontalAlign="Right"/>
+                    <asp:BoundField DataField="RES_NavFormat" HeaderText="NAV" ItemStyle-HorizontalAlign="Right" />
                     <asp:BoundField DataField="RES_MontoFormat" HeaderText="Monto" DataFormatString="{0:N2}" ItemStyle-HorizontalAlign="Right" />
-                    <asp:BoundField DataField="RES_Nav_CLPFormat" HeaderText="NAV CLP" ItemStyle-HorizontalAlign="Right"/>
+                    <asp:BoundField DataField="RES_Nav_CLPFormat" HeaderText="NAV CLP" ItemStyle-HorizontalAlign="Right" />
                     <asp:BoundField DataField="RES_Monto_CLPFormat" HeaderText="Monto CLP" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right" />
                     <asp:BoundField DataField="TC_Valor" HeaderText="Tipo Cambio" DataFormatString="{0:N12}" ItemStyle-HorizontalAlign="Right" />
                     <asp:BoundField DataField="RES_Contrato" HeaderText="Contrato" />
                     <asp:BoundField DataField="RES_Poderes" HeaderText="Poderes" />
                     <asp:BoundField DataField="RES_Estado" HeaderText="Estado" />
                     <asp:BoundField DataField="RES_Observaciones" HeaderText="Observaciones" />
-                    <asp:BoundField DataField="RES_Patrimonio" HeaderText="Patrimonio" DataFormatString="{0:N4}" ItemStyle-HorizontalAlign="Right"/>
-                    <asp:BoundField DataField="FS_Patrimonio" HeaderText="% Patrimonio" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right"/>
-                    <asp:BoundField DataField="RES_Maximo" HeaderText="Rescates Máximo" DataFormatString="{0:N4}" ItemStyle-HorizontalAlign="Right"/>
-                    <asp:BoundField DataField="RES_Utilizado" HeaderText="Patrimonio Utilizado" DataFormatString="{0:N4}" ItemStyle-HorizontalAlign="Right"/>
-                    <asp:BoundField DataField="RES_Disponible_Patrimonio" HeaderText="Disponible Patrimonio" DataFormatString="{0:N4}" ItemStyle-HorizontalAlign="Right"/>
+                    <asp:BoundField DataField="RES_Patrimonio" HeaderText="Patrimonio" DataFormatString="{0:N4}" ItemStyle-HorizontalAlign="Right" />
+                    <asp:BoundField DataField="FS_Patrimonio" HeaderText="% Patrimonio" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right" />
+                    <asp:BoundField DataField="RES_Maximo" HeaderText="Rescates Máximo" DataFormatString="{0:N4}" ItemStyle-HorizontalAlign="Right" />
+                    <asp:BoundField DataField="RES_Utilizado" HeaderText="Patrimonio Utilizado" DataFormatString="{0:N4}" ItemStyle-HorizontalAlign="Right" />
+                    <asp:BoundField DataField="RES_Disponible_Patrimonio" HeaderText="Disponible Patrimonio" DataFormatString="{0:N4}" ItemStyle-HorizontalAlign="Right" />
                     <asp:BoundField DataField="ADCV_Fecha" HeaderText="Fecha DCV" DataFormatString="{0:dd-MM-yyyy}" />
-                    <asp:BoundField DataField="RES_Transito" HeaderText="Rescates en Tránsito" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right"/>
-                    <asp:BoundField DataField="SC_Cuotas_a_Suscribir" HeaderText="Suscripciones en Tránsito" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right"/>
-                    <asp:BoundField DataField="CN_Cuotas_Disponibles" HeaderText="Canjes en Tránsito" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right"/>
-                    <asp:BoundField DataField="RES_Cuotas_Disponibles" HeaderText="Cuotas Disponibles" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right"/>
-                    <asp:BoundField DataField="RES_Fijacion_NAV" HeaderText="Fijación NAV"/>
+                    <asp:BoundField DataField="RES_Transito" HeaderText="Rescates en Tránsito" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right" />
+                    <asp:BoundField DataField="SC_Cuotas_a_Suscribir" HeaderText="Suscripciones en Tránsito" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right" />
+                    <asp:BoundField DataField="CN_Cuotas_Disponibles" HeaderText="Canjes en Tránsito" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right" />
+                    <asp:BoundField DataField="RES_Cuotas_Disponibles" HeaderText="Cuotas Disponibles" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right" />
+                    <asp:BoundField DataField="RES_Fijacion_NAV" HeaderText="Fijación NAV" />
                     <asp:BoundField DataField="RES_Fijacion_TCObservado" HeaderText="Fijación TC Observado" />
                     <asp:BoundField DataField="RES_Fecha_Ingreso" HeaderText="Fecha Ingreso" DataFormatString="{0:dd-MM-yyyy}" />
                     <asp:BoundField DataField="RES_Usuario_Ingreso" HeaderText="Usuario Ingreso" />
@@ -379,14 +373,14 @@
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnico" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalFechaSolicitud" EventName="TextChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalMonedaPago" EventName="SelectedIndexChanged" />
-                                                            
+
                                                         </Triggers>
                                                         <ContentTemplate>
                                                             <div class="input-group">
                                                                 <asp:TextBox ID="txtModalFechaSolicitud" runat="server" CssClass="form-control datepicker" AutoPostBack="true" Enabled="false"></asp:TextBox>
                                                                 <asp:LinkButton ID="lnkModalFechaSolicitud" class="btn btn-moneda" runat="server" Visible="false" OnClientClick="return clickCalendar('txtModalFechaSolicitud')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
                                                                 <asp:LinkButton ID="lnkModalBorrarFechaSolicitud" Text="" OnClientClick="return limpiarCalendar('txtModalFechaSolicitud')" class="btn btn-secondary ml-1" runat="server" Visible="false"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                                                                
+
                                                             </div>
                                                         </ContentTemplate>
                                                     </asp:UpdatePanel>
@@ -408,9 +402,9 @@
                                                         <ContentTemplate>
                                                             <div class="input-group">
                                                                 <asp:TextBox ID="txtModalFechaNAV" runat="server" CssClass="form-control datepicker" AutoPostBack="true" Enabled="false"></asp:TextBox>
-                                                                <asp:LinkButton ID="lnkBtnModalFechaNAV" class="btn btn-moneda" runat="server" Visible="false" OnClientClick="return clickCalendar('txtModalFechaNAV')" ><i class="far fa-calendar-alt"></i></asp:LinkButton>
+                                                                <asp:LinkButton ID="lnkBtnModalFechaNAV" class="btn btn-moneda" runat="server" Visible="false" OnClientClick="return clickCalendar('txtModalFechaNAV')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
                                                                 <asp:LinkButton ID="lnkBtnModalBorrarFechaNAV" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtModalFechaNAV')" runat="server" Visible="false"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                                                                
+
                                                             </div>
                                                         </ContentTemplate>
                                                     </asp:UpdatePanel>
@@ -432,9 +426,9 @@
                                                         <ContentTemplate>
                                                             <div class="input-group">
                                                                 <asp:TextBox ID="txtModalFechaPago" runat="server" CssClass="form-control datepicker" Enabled="false" AutoPostBack="true"></asp:TextBox>
-                                                                <asp:LinkButton ID="lnkBtnModalFechaPago" class="btn btn-moneda" runat="server" Visible="false" OnClientClick="return clickCalendar('txtModalFechaPago')" ><i class="far fa-calendar-alt"></i></asp:LinkButton>
+                                                                <asp:LinkButton ID="lnkBtnModalFechaPago" class="btn btn-moneda" runat="server" Visible="false" OnClientClick="return clickCalendar('txtModalFechaPago')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
                                                                 <asp:LinkButton ID="lnkBtnModalBorrarFechaPago" Text="" class="btn btn-secondary ml-1" runat="server" OnClientClick="return limpiarCalendar('txtModalFechaPago')" Visible="false"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                                                                
+
                                                             </div>
                                                         </ContentTemplate>
                                                     </asp:UpdatePanel>
@@ -456,9 +450,9 @@
                                                         <ContentTemplate>
                                                             <div class="input-group">
                                                                 <asp:TextBox ID="txtModalFechaTCObs" runat="server" CssClass="form-control datepicker" Enabled="false" AutoPostBack="true"></asp:TextBox>
-                                                                <asp:LinkButton ID="lnkBtnModalFechaTCObs" class="btn btn-moneda" runat="server" Visible="true" OnClientClick="return clickCalendar('txtModalFechaTCObs')" ><i class="far fa-calendar-alt"></i></asp:LinkButton>
+                                                                <asp:LinkButton ID="lnkBtnModalFechaTCObs" class="btn btn-moneda" runat="server" Visible="true" OnClientClick="return clickCalendar('txtModalFechaTCObs')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
                                                                 <asp:LinkButton ID="lnkBtnModalBorrarFechaTCObs" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtModalFechaTCObs')" runat="server" Visible="false"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                                                                
+
                                                             </div>
                                                         </ContentTemplate>
                                                     </asp:UpdatePanel>
@@ -818,7 +812,7 @@
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalFechaSolicitud" EventName="TextChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalFechaNAV" EventName="TextChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalFechaPago" EventName="TextChanged" />
-                                                        
+
                                                         </Triggers>
                                                         <ContentTemplate>
                                                             <asp:TextBox ID="txtModalFijacionNAV" runat="server" CssClass="form-control form-control-sm" ReadOnly="True"></asp:TextBox>
@@ -984,8 +978,6 @@
     </div>
     <!-- End Bootstrap Modal Dialog Crear/Modificar -->
 
-
-
     <!-- Bootstrap Modal Dialog Mensajes-->
     <div class="modal fade" id="myModalmg" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -1035,6 +1027,216 @@
     </div>
     <!-- End Bootstrap Modal Dialog Mensajes-->
 
+    <!--PopUp Rescates-->
+    <div class="modal fade" id="PopUpRescate" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog" style="max-width: 90%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <asp:Label ID="Label8" runat="server" Text="CONFIRMACION SOLICITUD DE RESCATE"
+                            Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                    </h4>
+                    <button id="Button1" type="button" class="close" data-dismiss="modal" aria-label="Close" runat="server"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="jumbotron">
+                        <div class="card p-4">
+                            <div class="row">
+                                <!-- FECHA SOLICITUD-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">FECHA SOLICITUD</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpFechaSolicitud" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Hora Solicitud-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Hora Solicitud</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpHoraSolicitud" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Tipo-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Tipo</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpTipo" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Nemo Fondo-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Nemo Fondo</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpNemoFondo" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Nombre Fondo-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Nombre Fondo</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpNombreFondo" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Serie-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Serie</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpSerie" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Administradora-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Administradora</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpAdministradora" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- RUT Administradora-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">RUT Administradora</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpRutAdministradora" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Nombre Aportante-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Nombre Aportante</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpNombreAportante" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Rut Aportante-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Rut Aportante</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpRutAportante" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- CUOTAS -->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">CUOTAS</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpCuotas" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- CUOTAS EN DCV-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">CUOTAS EN DCV</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpCuotasEnDCV" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- CTTO GRAL DE FONDOS-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">CTTO GRAL DE FONDOS</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpCttoGralDeFondos" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- PODERES/REG FIR-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">PODERES/REG FIR</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpPoderRegFir" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- MONEDA DE PAGO-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">MONEDA DE PAGO</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpMonedaDePago" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- VALOR NAV -->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">VALOR NAV</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpValorNav" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- USD OBS-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">USD OBS</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpUsdObs" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- VALOR RESCATE-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">VALOR RESCATE</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpValorRescate" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- FECHA NAV -->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">FECHA NAV</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpFechaNav" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- FECHA PAGO RESCATE-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">FECHA PAGO RESCATE</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpFechaPagoRescate" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- EJECUTADO-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">EJECUTADO</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:Label ID="lblPopUpEjecutado" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <asp:HiddenField ID="HiddenPerfil" runat="server" />
     <asp:HiddenField ID="HiddenConstante" runat="server" />
 
@@ -1073,9 +1275,9 @@
                 , showOn: "none"
             });
 
-            
+
             $("[id*=txtModalFechaPago]").datepicker();
-             $("[id*=txtModalFechaPago]").datepicker({
+            $("[id*=txtModalFechaPago]").datepicker({
                 container: '#myModal modal-body'
                 , showOn: "none"
             });
@@ -1124,6 +1326,11 @@
             if ((txtAccionHidden == "MODIFICAR") || (txtAccionHidden == "ELIMINAR") || (txtAccionHidden == "CREAR")) {
                 $('#myModal').modal('show');
             }
+            else {
+                if (txtAccionHidden == "POPUPRESCATE") {
+                    $('#PopUpRescate').modal('show');
+                }
+            }
 
 
             $("body").on("click", "#btnXCerrar", function () {
@@ -1134,30 +1341,30 @@
             seteaBotonModificar();
             Sys.WebForms.PageRequestManager.getInstance().add_endRequest(bindDataTable);
 
-            calendarInitial();            
-           
+            calendarInitial();
+
             $(".ConDecimales").val(function (index, value) {
 
                 var arrayDeCadenas = value.split(",")
-                console.log("lkasdlkja"); 
+                console.log("lkasdlkja");
                 valEnetero = arrayDeCadenas[0].replace(/\D/g, "")
-                                                .replace(/([0-9])([0-9]{3})$/g, '$1.$2')
-                                                .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+                    .replace(/([0-9])([0-9]{3})$/g, '$1.$2')
+                    .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
                 valDecimal = arrayDeCadenas[1]
 
-                if(valDecimal == null  || valDecimal == "" ) {
+                if (valDecimal == null || valDecimal == "") {
                     return valEnetero;
                 }
                 //valDecimal = valDecimal + '00000'; 
                 return valEnetero + "," + valDecimal;
-             });
+            });
 
 
 
 
         });
 
-       
+
 
         function bindDataTable() {
             $(".js-select2-rut").select2({
@@ -1165,10 +1372,10 @@
                 placeholder: 'Selecciona una opción'
             });
             calendarInitial();
-            confNumeros();            
+            confNumeros();
         };
 
-        function confNumeros() {            
+        function confNumeros() {
             $('.dbs-entero18-decimal0').mask2(getMask(18, 0));
             $('.dbs-entero26-decimal0').mask2(getMask(26, 0));
             $('.dbs-entero14-decimal4').mask2(getMask(14, 4));
@@ -1177,7 +1384,7 @@
             $('.dbs-entero-decimal').mask2(getMask(16, 0));
             $('.dbs-entero14-decimal6').mask2(getMask(14, 6));
 
-        } 
+        }
 
         function seteaBotonGuardar() {
             $("#<%=btnModalGuardar.ClientID %>").unbind("click");
@@ -1197,13 +1404,13 @@
 
                 if ((fSol != "") && (fdcv != "")) {
                     var fechaSolicitud = new Date(fSol.split('-')[2], fSol.split('-')[1], fSol.split('-')[0]);
-                    var fechaDcv = new Date(fdcv.split('-')[2], fdcv.split('-')[1], fdcv.split('-')[0]+diasDesplazar);
+                    var fechaDcv = new Date(fdcv.split('-')[2], fdcv.split('-')[1], fdcv.split('-')[0] + diasDesplazar);
 
 
                     if (Date.parse(fechaSolicitud) > Date.parse(fechaDcv)) {
                         mensaje = 'ADVERTENCIA: La información DCV es menor a la Fecha de Solicitud.'
                     }
-                }  
+                }
 
 
                 if (!confirm(mensaje)) {
@@ -1226,7 +1433,7 @@
                 }
 
                 if (!confirm('¿Confirma que desea Modificar?')) {
-                    return false; 
+                    return false;
                 }
                 else {
                     return true;
@@ -1318,7 +1525,7 @@
             return false;
         }
 
-        function validateBtn() {  
+        function validateBtn() {
             var cuotasDCV = $('#<%=txtModalCuotasDVC.ClientID%>').val();
 
             if (CheckTxtCuotasDCVEmpty(rutTxt)) {
@@ -1326,7 +1533,7 @@
             }
             else {
                 return false;
-            }           
+            }
         }
 
         function CheckTxtCuotasDCVEmpty(cuotasDCV) {

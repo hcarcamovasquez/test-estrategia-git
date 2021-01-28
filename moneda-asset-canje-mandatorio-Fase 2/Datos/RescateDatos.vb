@@ -38,14 +38,9 @@ Public Class RescateDatos
         Dim Ws = New WSCanjeMandatorio.WSRescates()
         Return Ws.SelectRescatesTransito2(Rescate)
     End Function
-    Public Function InsertRescate(Rescate As RescatesDTO) As Integer
+    Public Function InsertRescate(Rescate As RescatesDTO) As RescatesDTO
         Dim Ws = New WSCanjeMandatorio.WSRescates
-
-        If Ws.FNAIngresar(Rescate) Then
-            Return Constantes.CONST_OPERACION_EXITOSA
-        Else
-            Return Constantes.CONST_ERROR_BBDD
-        End If
+        Return Ws.FNAIngresar(Rescate)
     End Function
 
     Public Function CargarFiltroNombreAportante(Rescate As DTO.RescatesDTO) As List(Of DTO.RescatesDTO)

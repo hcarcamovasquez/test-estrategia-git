@@ -176,13 +176,15 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
 
             If solicitudMod = Constantes.CONST_OPERACION_EXITOSA Then
                 ShowAlert(CONST_MODIFICAR_EXITO)
+                'TODO: DESCOMENTAR
+                '   GenerarPopUp()
             Else
                 ShowAlert(CONST_MODIFICAR_ERROR)
             End If
             findsuscripcion()
             FormateoLimpiarDatosModal()
             FormateoLimpiarForm()
-            txtAccionHidden.Value = ""
+
         End If
     End Sub
     Private Sub btnModalEliminar_Click(sender As Object, e As EventArgs) Handles btnModalEliminar.Click
@@ -2151,5 +2153,39 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
     End Function
 #End Region
 
+    Private Sub btnPrueba_Click(sender As Object, e As EventArgs) Handles btnPrueba.Click
+        GenerarPopUp()
+    End Sub
 
+    Private Sub GenerarPopUp()
+        Dim Suscripcion As SuscripcionDTO = New SuscripcionDTO()
+        Suscripcion.IdSuscripcion = txtIdSuscripcion.Text
+
+        Dim negocioMod As SuscripcionNegocio = New SuscripcionNegocio()
+
+        FillPopUp(negocioMod.GetSuscripcion(Suscripcion))
+        txtAccionHidden.Value = "POPUPSUSCRIPCIONES"
+    End Sub
+
+    Private Sub FillPopUp(Suscripcion As SuscripcionDTO)
+        lblPopUpFechaSolicitud.Text = "En Validacion con Moneda" '"SC_Fecha_Suscripcion" 'VALIDAR MONEDA
+        lblPopUpHoraSolicitud.Text = "En Validacion con Moneda" 'VALIDAR MONEDA, sacar hora
+        lblPopUpTipo.Text = Suscripcion.TipoTransaccion
+        lblPopUpFondo.Text = Suscripcion.NemotecnicoRead
+        lblPopUpNombreFondo.Text = Suscripcion.FondoNombreCorto
+        lblPopUpSerie.Text = "En Validacion con Moneda" '"AP_Multifondo" 'VALIDAR MONEDA
+        lblPopUpAdministradora.Text = "En Validacion con Moneda" '"FN_Razon_Social" 'SALE DE FONDO?
+        lblPopUpRutAdministradora.Text = "En Validacion con Moneda" 'SALE DE FONDO?
+        lblPopUpNombreAportante.Text = Suscripcion.RazonSocial
+        lblPopUpRutAportante.Text = Suscripcion.RutAportanteRead
+        lblPopUpMonedaDePago.Text = Suscripcion.Moneda_Pago
+        lblPopUpCuotasMonto.Text = "En Validacion con Moneda" 'CONFIRMAR MONEDA
+        lblPopUpNav.Text = "Por Confirmar" 'EN DURO
+        lblPopUpFechaNav.Text = Suscripcion.FechaNAV
+        lblPopUpMontoDelAporte.Text = "Por Confirmar" 'EN DURO
+        lblPopUpCuotasDeAporte.Text = "Por Confirmar" 'EN DURO
+        lblPopUpContratoGralFondos.Text = Suscripcion.ContratoFondo
+        lblPopUpPoderes.Text = Suscripcion.RevisionPoderes
+
+    End Sub
 End Class

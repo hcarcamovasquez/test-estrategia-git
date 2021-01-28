@@ -1975,11 +1975,12 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
         Dim negocioIns As RescateNegocio = New RescateNegocio
         Dim Rescate As RescatesDTO = GetRescateModal()
-        Dim solicitudInsertar As Integer = negocioIns.InsertRescates(Rescate)
+        Rescate = negocioIns.InsertRescates(Rescate)
+        txtIDRescate.Text = Rescate.RES_ID
 
         txtAccionHidden.Value = "MOSTRAR_DIALOGO"
 
-        If solicitudInsertar = Constantes.CONST_OPERACION_EXITOSA Then
+        If txtIDRescate.Text > 0 Then
             'Ingresado con Exito
             CargaNombreAportanteBuscar()
             CargaNombreFondoBuscar()
@@ -1990,18 +1991,14 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             '    ShowAlert("ADVERTENCIA: La información DCV es menor a la Fecha de Solicitud.")
             'End If
             ShowAlert(CONST_INSERTAR_EXITO)
-
-        ElseIf solicitudInsertar = Constantes.CONST_ERROR_NO_SE_PUEDE_BORRAR Then
-            'Rut ya existe
-            ShowAlert(CONST_VALIDA_RUT_EXISTE)
-            'ShowMesagges(CONST_TITULO_VALORESCUOTA, CONST_VALIDA_RUT_EXISTE, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_LOGO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_INFO)
+            GenerarPopUp()
         Else
             'Error en la BBDD
             'ShowMesagges(CONST_TITULO_VALORESCUOTA, CONST_INSERTAR_ERROR, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_LOGO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_ERROR)
             ShowAlert(CONST_INSERTAR_ERROR)
         End If
 
-        txtAccionHidden.Value = ""
+        'txtAccionHidden.Value = ""
         DataInitial()
         Me.GrvTabla.DataSource = Nothing
         GrvTabla.DataBind()
@@ -2528,13 +2525,14 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
         If solicitudMod = Constantes.CONST_OPERACION_EXITOSA Then
             'ShowMesagges(CONST_TITULO_VALORESCUOTA, CONST_MODIFICAR_EXITO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_LOGO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_CORRECTO)
+            GenerarPopUp()
             ShowAlert(CONST_MODIFICAR_EXITO)
         Else
             ' ShowMesagges(CONST_TITULO_VALORESCUOTA, CONST_MODIFICAR_ERROR, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_LOGO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_ERROR)
             ShowAlert(CONST_MODIFICAR_ERROR)
         End If
 
-        txtAccionHidden.Value = ""
+        'txtAccionHidden.Value = ""
         DataInitial()
         Me.GrvTabla.DataSource = Nothing
         GrvTabla.DataBind()
@@ -3854,5 +3852,46 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
         Return rescate
     End Function
+
+
 #End Region
+
+    Private Sub GenerarPopUp()
+        Dim Rescate As RescatesDTO = New RescatesDTO()
+        Rescate.RES_ID = txtIDRescate.Text
+
+        Dim negocioMod As RescateNegocio = New RescateNegocio
+        FillPopUp(negocioMod.GetRescateOne(Rescate))
+
+        txtAccionHidden.Value = "POPUPRESCATE"
+    End Sub
+
+    Private Sub FillPopUp(Rescate As RescatesDTO)
+        lblPopUpFechaSolicitud.Text = Rescate.RES_Fecha_Solicitud.ToShortDateString
+        lblPopUpHoraSolicitud.Text = Rescate.RES_Fecha_Solicitud.ToShortTimeString
+        lblPopUpTipo.Text = Rescate.RES_Tipo_Transaccion
+        lblPopUpNemoFondo.Text = Rescate.FS_Nemotecnico
+        lblPopUpNombreFondo.Text = "En Validacion con Moneda" 'Rescate.FN_Nombre_Corto 'VALIDAR MONEDA
+        lblPopUpSerie.Text = Rescate.AP_Multifondo
+        lblPopUpAdministradora.Text = "En Validacion con Moneda" 'FN_Razon_Social" 'VALIDAR MONEDA
+        lblPopUpRutAdministradora.Text = "En Validacion con Moneda" 'FN_RUT" 'VALIDAR MONEDA
+        lblPopUpNombreAportante.Text = Rescate.AP_Razon_Social
+        lblPopUpRutAportante.Text = Rescate.AP_RUT
+        lblPopUpCuotas.Text = Rescate.RES_Cuotas
+        lblPopUpCuotasEnDCV.Text = Rescate.ADCV_Cantidad
+        lblPopUpCttoGralDeFondos.Text = Rescate.RES_Contrato
+        lblPopUpPoderRegFir.Text = Rescate.RES_Poderes
+        lblPopUpMonedaDePago.Text = Rescate.RES_Moneda_Pago
+        lblPopUpValorNav.Text = "Por Confirmar"
+        If Rescate.RES_Moneda_Pago <> "CLP" Then
+            lblPopUpUsdObs.Text = "Por Confirmar"
+        Else
+            lblPopUpUsdObs.Text = "No Aplica"
+        End If
+        lblPopUpValorRescate.Text = "Por Confirmar"
+        lblPopUpFechaNav.Text = Rescate.RES_Fecha_Nav
+        lblPopUpFechaPagoRescate.Text = Rescate.RES_Fecha_Pago
+        lblPopUpEjecutado.Text = "En Validacion con Moneda" '"RES_Fijacion_NAV" + "RES_Fijacion_TCObservado" 'Confimar MONEDA
+    End Sub
+
 End Class

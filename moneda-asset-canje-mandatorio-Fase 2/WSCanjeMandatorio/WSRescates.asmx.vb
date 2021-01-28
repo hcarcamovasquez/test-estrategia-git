@@ -414,15 +414,27 @@ Public Class WSRescates
 
     <WebMethod()>
     <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
-    Public Function FNAIngresar(Rescate As RescatesDTO) As Boolean
+    Public Function FNAIngresar(Rescate As RescatesDTO)
         Dim sp As New DBSqlServer.SqlServer.StoredProcedure(SP_CRUD)
+        Dim ds As DataSet
+        Dim RescateRetorno As RescatesDTO = New RescatesDTO
         Try
             sp.AgregarParametro("Accion", CONST_INSERT, System.Data.SqlDbType.VarChar)
 
             FillParameters(Rescate, sp)
             sp.ReturnDataSet()
 
-            Return True
+            ds = sp.ReturnDataSet()
+            If ds.Tables.Count > 0 AndAlso ds.Tables(0).Rows.Count > 0 Then
+                Dim dataRow As DataRow = ds.Tables(0).Rows(0)
+                Try
+                    RescateRetorno.RES_ID = dataRow("RES_ID")
+                Catch ex As Exception
+                    RescateRetorno.RES_ID = 0
+                End Try
+            End If
+
+            Return RescateRetorno
         Catch ex As Exception
             Return False
         End Try
