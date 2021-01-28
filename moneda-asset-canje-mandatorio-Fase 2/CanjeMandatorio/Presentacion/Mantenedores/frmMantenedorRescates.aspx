@@ -674,7 +674,8 @@
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondo" EventName="SelectedIndexChanged" />
                                                         </Triggers>
                                                         <ContentTemplate>
-                                                            <asp:DropDownList ID="ddlModalNemotecnico" CssClass="form-control js-select2-rut" runat="server" OnSelectedIndexChanged="CargarNombreFondoRutFondoPorModalNemotecnico" AutoPostBack="true" />
+                                                            <asp:DropDownList ID="ddlModalNemotecnico" CssClass="form-control js-select2-rut" runat="server" 
+                                                                OnSelectedIndexChanged="CargarNombreFondoRutFondoPorModalNemotecnico" AutoPostBack="true" />
                                                         </ContentTemplate>
                                                     </asp:UpdatePanel>
                                                 </div>
