@@ -1014,6 +1014,7 @@
                         <!-- GRUPO DE BOTONES 2 -->
                         <div class="form-group mt-5 text-center">
                             <div class="col-md-offset-1">
+                                <asp:button id="btnPrueba" text="Mostrar PopUp" cssclass="btn btn-info" runat="server"></asp:button>
                                 <asp:Button ID="btnModalGuardar" Text="Guardar" CssClass="btn btn-info" runat="server" OnClientClick="return validateBtn();"></asp:Button>
                                 <asp:Button ID="btnModalModificar" Text="Modificar" CssClass="btn btn-info" runat="server" OnClientClick="return validateBtn();"></asp:Button>
                                 <asp:Button ID="btnModalCancelar" Text="Cancelar" CssClass="btn btn-secondary" runat="server" OnClientClick="if (!confirm('¿Seguro que desea Cancelar?')) return false;"></asp:Button>
@@ -1025,15 +1026,9 @@
                 </div>
             </div>
         </div>
-
-
         <!-- End Bootstrap Modal Dialog Crear/Modificar -->
 
-
-
         <!-- Bootstrap Modal Dialog Mensajes-->
-
-
         <div class="modal fade" id="modalAlert" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -1053,11 +1048,7 @@
             </div>
         </div>
         <!-- End Bootstrap Modal Dialog Mensajes-->
-
-
-
     </div>
-
 
     <div class="modal fade" id="myModalmg" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -1087,6 +1078,190 @@
             </div>
         </div>
     </div>
+
+    <!--PopUp Suscripciones-->
+    <div class="modal fade" id="PopUpSuscripciones" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog" style="max-width: 90%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <asp:label id="Label35" runat="server" text="CONFIRMACION SOLICITUD DE APORTE"
+                            font-bold="true" font-size="X-Large"> </asp:label>
+                    </h4>
+                    <button id="Button1" type="button" class="close" data-dismiss="modal" aria-label="Close" runat="server"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="jumbotron">
+                        <div class="card p-4">
+                            <div class="row">
+                                <!-- FECHA SOLICITUD-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">FECHA SOLICITUD</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpFechaSolicitud" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Hora Solicitud-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Hora Solicitud</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpHoraSolicitud" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Tipo-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Tipo</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpTipo" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Fondo-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Fondo</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpFondo" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Nombre Fondo-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Nombre Fondo</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpNombreFondo" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Serie-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Serie</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpSerie" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Administradora-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Administradora</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpAdministradora" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- RUT Administradora-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">RUT Administradora</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpRutAdministradora" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Nombre Aportante-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Nombre Aportante</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpNombreAportante" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Rut Aportante-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Rut Aportante</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpRutAportante" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Moneda de Pago -->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Moneda de Pago</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpMonedaDePago" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Cuotas / Monto  -->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Cuotas / Monto</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpCuotasMonto" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- NAV -->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">NAV </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpNav" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Fecha NAV -->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Fecha NAV</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpFechaNav" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Monto del Aporte-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Monto del Aporte</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpMontoDelAporte" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Cuotas de Aporte -->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Cuotas de Aporte</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpCuotasDeAporte" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Contrato Gral Fondos-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Contrato Gral Fondos</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpContratoGralFondos" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Poderes-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Poderes</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpPoderes" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="FooterScript" runat="Server">
     <script src="<%=ResolveUrl("~/Scripts/jquery.dataTables.min.js")%>"></script>
@@ -1165,7 +1340,9 @@
 
             if ((txtHiddenAccion == "MODIFICAR") || (txtHiddenAccion == "CREAR") || (txtHiddenAccion == "ELIMINAR")) {
                 $('#myModal').modal('show');
-            } else if (txtHiddenAccion == "MOSTRAR_DIALOGO") {
+            } else if (txtHiddenAccion == "POPUPSUSCRIPCIONES") {
+                $('#PopUpSuscripciones').modal('show');
+            }else if (txtHiddenAccion == "MOSTRAR_DIALOGO") {
                 $('#myModalmg').modal();
             } else {
                 checkRadioBtn("");

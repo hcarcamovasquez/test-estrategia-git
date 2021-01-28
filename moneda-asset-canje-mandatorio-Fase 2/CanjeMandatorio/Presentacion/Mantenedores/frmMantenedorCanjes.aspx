@@ -7,29 +7,29 @@
     <asp:scriptmanager id="ScriptManager1" runat="server" />
 
     <h2 class="TdRedondeado titleMant">Maestro de <strong>Canjes</strong></h2>
-    
+
     <div class="card p-4 jumbotron">
 
         <div class="row">
             <!-- LISTA RUT APORTANTE-->
             <div class="col-md-3">
                 <asp:label runat="server" id="rutaportante">Aportante</asp:label>
-                <asp:dropdownlist id="ddlListaRutAportante" cssclass="form-control js-select2-rut" runat="server" AutoPostBack="true" />
+                <asp:dropdownlist id="ddlListaRutAportante" cssclass="form-control js-select2-rut" runat="server" autopostback="true" />
             </div>
             <!-- LISTA RUT FONDO-->
             <div class="col-md-3">
                 <asp:label runat="server" id="rutfondo">Fondo</asp:label>
-                <asp:dropdownlist id="ddlListaRutFondo" cssclass="form-control js-select2-rut" runat="server" AutoPostBack="true" />
+                <asp:dropdownlist id="ddlListaRutFondo" cssclass="form-control js-select2-rut" runat="server" autopostback="true" />
             </div>
             <!-- NEMOTÉCNICO -->
             <div class="col-md-3">
                 <asp:label runat="server" id="nemotecnico">Nemotécnico</asp:label>
-                <asp:dropdownlist id="ddlListaNemotecnico" cssclass="form-control js-select2-rut" runat="server" AutoPostBack="true" />
+                <asp:dropdownlist id="ddlListaNemotecnico" cssclass="form-control js-select2-rut" runat="server" autopostback="true" />
             </div>
             <!-- ESTADO -->
             <div class="col-md-3">
                 <asp:label runat="server" id="Label6">Estado</asp:label>
-                <asp:dropdownlist id="ddlEstado" cssclass="form-control js-select2-rut" runat="server"/>
+                <asp:dropdownlist id="ddlEstado" cssclass="form-control js-select2-rut" runat="server" />
             </div>
         </div>
 
@@ -39,10 +39,10 @@
                 <asp:label runat="server" id="Label2">Fecha Solicitud Desde</asp:label>
                 <div class="input-group">
                     <asp:textbox id="txtFechaSolicitudDesde" runat="server" cssclass="form-control datepicker" readonly="True"></asp:textbox>
-                    <asp:linkbutton id="lnkbtnFechaSolicitudDesde" class="btn btn-moneda" runat="server" 
+                    <asp:linkbutton id="lnkbtnFechaSolicitudDesde" class="btn btn-moneda" runat="server"
                         onclientclick="return clickCalendar('txtFechaSolicitudDesde')"><i class="far fa-calendar-alt"></i></asp:linkbutton>
 
-                    <asp:linkbutton id="BtnLimpiarFechaHasta" text="" class="btn btn-secondary ml-1" runat="server" 
+                    <asp:linkbutton id="BtnLimpiarFechaHasta" text="" class="btn btn-secondary ml-1" runat="server"
                         onclientclick="return limpiarCalendar('txtFechaSolicitudDesde')"><i class="far fa-trash-alt"></i></asp:linkbutton>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                 <div class="input-group">
                     <asp:textbox id="txtFechaNavDesde" runat="server" cssclass="form-control datepicker" readonly="True"></asp:textbox>
                     <asp:linkbutton id="lkbtnFechaNavDesde" class="btn btn-moneda" runat="server" onclientclick="return clickCalendar('txtFechaNavDesde')"><i class="far fa-calendar-alt"></i></asp:linkbutton>
-                    <asp:linkbutton id="LinkButton2" text="" class="btn btn-secondary ml-1" runat="server" 
+                    <asp:linkbutton id="LinkButton2" text="" class="btn btn-secondary ml-1" runat="server"
                         onclientclick="return limpiarCalendar('txtFechaNavDesde')"><i class="far fa-trash-alt"></i></asp:linkbutton>
                 </div>
             </div>
@@ -84,7 +84,7 @@
                     <asp:textbox id="txtFechaCanjeDesde" runat="server" cssclass="form-control datepicker" readonly="True"></asp:textbox>
                     <asp:linkbutton id="lnkFechaCanjeDesde" class="btn btn-moneda" runat="server" onclientclick="return clickCalendar('txtFechaCanjeDesde')"><i class="far fa-calendar-alt"></i></asp:linkbutton>
                     <asp:linkbutton id="Linkbutton5" text="" class="btn btn-secondary ml-1" runat="server" onclientclick="return limpiarCalendar('txtFechaCanjeDesde')"><i class="far fa-trash-alt"></i></asp:linkbutton>
-                    
+
                 </div>
             </div>
             <!-- FECHA HASTA -->
@@ -935,7 +935,7 @@
                                             </div>
                                         </div>
                                         <div class="row mt-2">
-                                             <div class="col-md-2">
+                                            <div class="col-md-2">
                                                 <label class="form-control-label">Fecha TC Observado</label>
                                             </div>
                                             <div class="col-md-3">
@@ -1168,6 +1168,7 @@
                             <!-- GRUPO DE BOTONES 2 -->
                             <div class="form-group mt-5 text-center">
                                 <div class="col-md-offset-1">
+                                    <asp:button id="btnPrueba" text="Mostrar PopUp" cssclass="btn btn-info" runat="server"></asp:button>
                                     <asp:button id="btnModalGuardar" text="Guardar" cssclass="btn btn-info" runat="server" onclientclick="return validateBtn();"></asp:button>
                                     <asp:button id="btnModalModificar" text="Modificar" cssclass="btn btn-info" runat="server" onclientclick="return validateBtn();"></asp:button>
                                     <asp:button id="btnModalCancelar" text="Cancelar" cssclass="btn btn-secondary" runat="server" onclientclick="if (!confirm('¿Seguro que desea Cancelar?')) return false;"></asp:button>
@@ -1235,10 +1236,248 @@
             </div>
         </div>
     </div>
+    <!-- End Bootstrap Modal Dialog Mensajes-->
+
+    <!--PopUp Canjes-->
+    <div class="modal fade" id="PopUpCanjes" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog" style="max-width: 90%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <asp:label id="Label8" runat="server" text="CONFIRMACION SOLICITUD DE CANJE"
+                            font-bold="true" font-size="X-Large"> </asp:label>
+                    </h4>
+                    <button id="Button1" type="button" class="close" data-dismiss="modal" aria-label="Close" runat="server"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="jumbotron">
+                        <div class="card p-4">
+                            <div class="row">
+                                <!-- FECHA SOLICITUD-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">FECHA SOLICITUD</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpFechaSolicitud" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Hora Solicitud-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Hora Solicitud</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpHoraSolicitud" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Tipo-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Tipo</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpTipo" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Nemo Fondo-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Nemo Fondo</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpNemoFondo" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Nombre Fondo-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Nombre Fondo</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpNombreFondo" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Moneda del Fondo-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Moneda del Fondo</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpMonedaDelFondo" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Administradora-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Administradora</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpAdministradora" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- RUT Administradora-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">RUT Administradora</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpRutAdministradora" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Nombre Aportante-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Nombre Aportante</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpNombreAportante" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Rut Aportante-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Rut Aportante</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpRutAportante" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Fecha de Canje -->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Fecha de Canje</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpFechaDeCanje" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Fecha de NAV-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Fecha de NAV</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpFechaDeNav" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Serie Saliente-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Serie Saliente</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpSerieSaliente" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Cuotas Salientes-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Cuotas Salientes</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpCuotasSalientes" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- NAV Saliente-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">NAV Saliente</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpNavSaliente" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Monto Saliente -->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Monto Saliente</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpMontoSaliente" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Serie Entrate-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Serie Entrate</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpSerieEntrante" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Cuotas Entrantes-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Cuotas Entrantes</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpCuotasEntrantes" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- NAV Entrante -->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">NAV Entrante</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpNavEntrante" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Monto Entrante-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Monto Entrante</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpMontoEntrante" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Factor-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Factor</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpFactor" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Remanente a devolver-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Remanente a devolver</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpRemanenteADevolver" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Contrato Gral de Fondos-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Contrato Gral de Fondos</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpContratoGralDeFondos" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Poderes-->
+                                <div class="col-md-4">
+                                    <label class="form-control-label">Poderes</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <asp:label id="lblPopUpPoderes" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <asp:hiddenfield id="HiddenPerfil" runat="server" />
     <asp:hiddenfield id="HiddenConstante" runat="server" />
-    <!-- End Bootstrap Modal Dialog Mensajes-->
+
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="FooterScript" runat="Server">
@@ -1309,6 +1548,7 @@
                 return true;
             }
         }
+
         function validarValorSaliente() {
             var valor = document.getElementById('<%=txtModalNavSaliente.ClientID%>').value;
             if (valor.match(/^\d{1,20}(\,\d{1,6})?$/)) {
@@ -1338,12 +1578,14 @@
                 $('#myModal').modal('show');
             } else if (txtAccionHidden == "MOSTRAR_DIALOGO") {
                 $('#myModalmg').modal();
-            } else {
+            } else if (txtAccionHidden == "POPUPCANJES") {
+                $('#PopUpCanjes').modal('show');
+            }else {
                 checkRadioBtn("");
             }
 
             Sys.WebForms.PageRequestManager.getInstance().add_endRequest(bindDataTable);
-            
+
         });
 
         function bindDataTable() {
@@ -1355,16 +1597,16 @@
             confNumeros();
         };
 
-        function confNumeros() {    
-            
-            $('.dbs-entero20-decimal2').mask2(getMask(20, 2)); 
+        function confNumeros() {
+
+            $('.dbs-entero20-decimal2').mask2(getMask(20, 2));
             $('.dbs-entero20-decimal4').mask2(getMask(20, 4));
             $('.dbs-entero20-decimal6').mask2(getMask(20, 6));
-            $('.dbs-entero17-decimal9').mask2(getMask(17, 9));            
+            $('.dbs-entero17-decimal9').mask2(getMask(17, 9));
             $('.dbs-entero18-decimal0').mask2(getMask(18, 0));
-            $('.dbs-entero13-decimal0').mask2(getMask(13, 0)); 
-            $('.dbs-entero10-decimal0').mask2(getMask(10, 0)); 
-            $('.dbs-entero20-decimal14').mask2(getMask(20, 14));            
+            $('.dbs-entero13-decimal0').mask2(getMask(13, 0));
+            $('.dbs-entero10-decimal0').mask2(getMask(10, 0));
+            $('.dbs-entero20-decimal14').mask2(getMask(20, 14));
 
             $("[id*=txtFechaSolicitudDesde]").datepicker();
             $("[id*=txtFechaSolicitudHasta]").datepicker();
@@ -1385,7 +1627,7 @@
             $('#<%=txtModalFechaCanje.ClientID%>').datepicker();
             $('#<%=txtModalFechaNavEntrante.ClientID%>').datepicker();
             $('#<%=txtModalFechaObservado.ClientID%>').datepicker();
-            
+
 
             $("[id*=txtFechaSolicitudDesde]").change(function () {
                 changeFechas($("[id*=txtFechaSolicitudDesde]"), $("[id*=txtFechaSolicitudHasta]"), 1)
@@ -1406,8 +1648,8 @@
             });
             $("[id*=txtFechaCanjeHasta]").change(function () {
                 changeFechas($("[id*=txtFechaCanjeDesde]"), $("[id*=txtFechaCanjeHasta]"), 2)
-            });            
-        }   
+            });
+        }
 
         function cerrarAlert() {
             $('#<%=txtAccionHidden.ClientID %>').val("");

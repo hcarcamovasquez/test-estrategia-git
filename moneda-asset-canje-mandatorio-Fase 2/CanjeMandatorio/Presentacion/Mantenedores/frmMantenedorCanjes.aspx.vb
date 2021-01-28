@@ -239,6 +239,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
 
             If solicitud = Constantes.CONST_OPERACION_EXITOSA Then
                 ShowAlert(CONST_EXITO_AL_MODIFICAR)
+                'TODO: DESCOMENTAR
+                '   GenerarPopUp()
             Else
                 ShowAlert(CONST_ERROR_AL_MODIFICAR)
             End If
@@ -2671,7 +2673,49 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         ShowMessages(CONST_TITULO_CANJE, mensaje, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_LOGO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_INFO, False)
     End Sub
 
+    Private Sub btnPrueba_Click(sender As Object, e As EventArgs) Handles btnPrueba.Click
+        GenerarPopUp()
+    End Sub
 
+    Private Sub GenerarPopUp()
+        Dim Canje As CanjeDTO = New CanjeDTO()
+        Canje.IdCanje = txtIdCanje.Text
+
+        Dim negocioMod As CanjeNegocio = New CanjeNegocio()
+
+        FillPopUp(negocioMod.GetCanje(Canje))
+        txtAccionHidden.Value = "POPUPCANJES"
+
+    End Sub
+
+    Private Sub FillPopUp(Canje As CanjeDTO)
+        lblPopUpFechaSolicitud.Text = Canje.FechaSolicitud.ToShortDateString
+        lblPopUpHoraSolicitud.Text = Canje.FechaSolicitud.ToShortTimeString
+        lblPopUpTipo.Text = Canje.TipoTransaccion
+        lblPopUpNemoFondo.Text = "En Validacion con Moneda" '"FS_Nemotecnico_Saliente" + "FS_Nemotecnico_Entrate" 'VALIDAR MONEDA
+        lblPopUpNombreFondo.Text = Canje.NombreFondo
+        lblPopUpMonedaDelFondo.Text = Canje.MonedaEntrante
+        lblPopUpAdministradora.Text = "En Validacion con Moneda" 'VALIDAR MONEDA
+        lblPopUpRutAdministradora.Text = "En Validacion con Moneda" 'VALIDAR MONEDA
+        lblPopUpNombreAportante.Text = Canje.NombreAportante
+        lblPopUpRutAportante.Text = Canje.RutAportante
+        lblPopUpFechaDeCanje.Text = Canje.FechaCanje
+        lblPopUpFechaDeNav.Text = Canje.FechaNavSaliente
+        lblPopUpSerieSaliente.Text = "En Validacion con Moneda" '"FS_Nombre_Corto_Saliente" 'VALIDAR MONEDA
+        lblPopUpCuotasSalientes.Text = Canje.CuotaSaliente
+        lblPopUpNavSaliente.Text = "Por Confirmar" 'EN DURO
+        lblPopUpMontoSaliente.Text = "Por Confirmar" 'EN DURO
+
+        lblPopUpSerieEntrante.Text = "En Validacion con Moneda" '"FS_Nombre_Corto_Saliente" 'VALIDAR MONEDA
+        lblPopUpCuotasEntrantes.Text = "CN_Cuotas_Saliente"
+        lblPopUpNavEntrante.Text = "Por Confirmar" 'EN DURO
+        lblPopUpMontoEntrante.Text = "Por Confirmar" 'EN DURO
+        lblPopUpFactor.Text = "Por Confirmar" 'EN DURO
+        lblPopUpRemanenteADevolver.Text = "Por Confirmar" 'EN DURO
+        lblPopUpContratoGralDeFondos.Text = Canje.ContratoGeneral
+        lblPopUpPoderes.Text = Canje.RevisionPoderes
+
+    End Sub
 #Region "Listas de Busqueda"
     Protected Sub ddlListaRutAportante_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlListaRutAportante.SelectedIndexChanged
         Dim canje As New CanjeDTO
