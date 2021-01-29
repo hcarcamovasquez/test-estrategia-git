@@ -1645,11 +1645,13 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
                 If bDiaInhabil Then
                     ShowAlert(CONST_INHABIL_PARA_TC)
                 End If
+
+                fechaSolicitud = Utiles.getDiaHabilSiguiente(fechaSolicitud, ddlMonedaPago.Text)
+                txtFechaTC.Text = fechaSolicitud
+            Else
+                txtFechaTC.Text = txtFechaIntencion.Text
             End If
 
-            'Cambia la fecha al habil siguiente 
-            fechaSolicitud = Utiles.getDiaHabilSiguiente(fechaSolicitud, ddlMonedaPago.Text)
-            txtFechaTC.Text = fechaSolicitud
         Next
     End Sub
 
