@@ -15,7 +15,7 @@ Public Class RelacionMonedaPaisNegocio
         objRetorno = listaRetorno.Find(Function(p) p.Moneda = moneda)
 
         If objRetorno Is Nothing Then
-            Return ""
+            Return "CHILE"
         Else
             Return objRetorno.Pais
         End If

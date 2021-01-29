@@ -1014,7 +1014,7 @@
                         <!-- GRUPO DE BOTONES 2 -->
                         <div class="form-group mt-5 text-center">
                             <div class="col-md-offset-1">
-                                <asp:button id="btnPrueba" text="Mostrar PopUp" cssclass="btn btn-info" runat="server"></asp:button>
+                                <asp:button id="btnPrueba" text="Mostrar PopUp" cssclass="btn btn-info" runat="server" Visible="false"></asp:button>
                                 <asp:Button ID="btnModalGuardar" Text="Guardar" CssClass="btn btn-info" runat="server" OnClientClick="return validateBtn();"></asp:Button>
                                 <asp:Button ID="btnModalModificar" Text="Modificar" CssClass="btn btn-info" runat="server" OnClientClick="return validateBtn();"></asp:Button>
                                 <asp:Button ID="btnModalCancelar" Text="Cancelar" CssClass="btn btn-secondary" runat="server" OnClientClick="if (!confirm('¿Seguro que desea Cancelar?')) return false;"></asp:Button>

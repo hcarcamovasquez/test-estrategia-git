@@ -327,7 +327,7 @@
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnico" EventName="SelectedIndexChanged" />
                                                         </Triggers>
                                                         <ContentTemplate>
-                                                            <asp:DropDownList ID="ddlModalMonedaPago" CssClass="form-control js-select2-rut" runat="server">
+                                                            <asp:DropDownList ID="ddlModalMonedaPago" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="true">
                                                                 <asp:ListItem Value="USD">USD</asp:ListItem>
                                                                 <asp:ListItem Value="CLP">CLP</asp:ListItem>
                                                             </asp:DropDownList>

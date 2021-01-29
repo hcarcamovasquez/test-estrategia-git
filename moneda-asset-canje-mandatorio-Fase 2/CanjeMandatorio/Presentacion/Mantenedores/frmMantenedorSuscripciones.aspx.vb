@@ -7,6 +7,7 @@ Imports DBSUtils
 
 Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
     Inherits System.Web.UI.Page
+    Public Const CONST_INHABIL_PARA_TC As String = "La fecha TC es inhábil en la moneda. Se moverá al hábil siguiente"
 
 #Region "DATA INICIAL"
     Private Sub Mantenedores_Aportantes_Maestro_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -1622,19 +1623,12 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
         Dim negocioSerie As FondoSeriesNegocio = New FondoSeriesNegocio
 
         Dim listaSerie As List(Of FondoSerieDTO)
-        ' Dim FechaNavSuscripcion As String
 
         serie.Nemotecnico = ddlNemotecnico.SelectedValue
         listaSerie = negocioSerie.GrupoSeriesPorNemotecnico(serie)
 
         For Each series As FondoSerieDTO In listaSerie
             Dim estructuraFechas As EstructuraFechasDto = Utiles.splitCharByComma(series.FechaTCSuscripcion)
-
-            'FechaNavSuscripcion = series.FechaTCSuscripcion
-            'Dim fechaNavC As String = estructuraFechas.DesdeQueFecha
-            'Dim diasNavC As String = estructuraFechas.DiasASumar
-            'Dim Suscripcion As SuscripcionDTO = New SuscripcionDTO
-
             Dim fechaSolicitud As Date
 
             Select Case estructuraFechas.DesdeQueFecha
@@ -1646,50 +1640,16 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
 
             If fechaSolicitud <> Nothing Then
                 fechaSolicitud = Utiles.SumaDiasAFechas(ddlMonedaPago.Text, fechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_CORRIDOS)
+                Dim bDiaInhabil As Boolean = (Not Utiles.esFechaHabil(ddlMonedaPago.Text, fechaSolicitud) And ddlMonedaPago.Text = "USD")
+
+                If bDiaInhabil Then
+                    ShowAlert(CONST_INHABIL_PARA_TC)
+                End If
             End If
 
             'Cambia la fecha al habil siguiente 
             fechaSolicitud = Utiles.getDiaHabilSiguiente(fechaSolicitud, ddlMonedaPago.Text)
             txtFechaTC.Text = fechaSolicitud
-
-
-            'If (FechaNavSuscripcion = ",") Then
-            '    txtFechaTC.Text = txtFechaSuscripcion.Text
-            'Else
-            '    If diasNavC = "" Then
-            '        If (estructuraFechas.DesdeQueFecha = "FechaSuscripcion") Then
-            '            Suscripcion.FechaSuscripcion = txtFechaSuscripcion.Text
-            '        Else
-            '            Suscripcion.FechaSuscripcion = txtFechaNAV.Text
-            '        End If
-
-            '        txtFechaTC.Text = Suscripcion.FechaSuscripcion
-            '    Else
-            '        Dim dias As Integer = Integer.Parse(diasNavC)
-
-            '        If (estructuraFechas.DesdeQueFecha = "FechaSuscripcion") Then
-            '            Suscripcion.FechaSuscripcion = txtFechaSuscripcion.Text
-            '        Else
-            '            Suscripcion.FechaSuscripcion = txtFechaNAV.Text
-            '        End If
-
-
-            '        Dim testString As String = FormatDateTime(fechaSolicitud, DateFormat.LongDate)
-
-            '        fechaSolicitud = Suscripcion.FechaSuscripcion
-
-            '        'FechaPagoFondoRescatableINT es días que hay que sumar o restar, FechaCalculo es a la fecha a la que hay que sumar o restar
-            '        'FECHA DIAS HABILES
-            '        If ddlMonedaPago.Text <> "" Then
-            '            fechaSolicitud = Utiles.SumaDiasAFechas(ddlMonedaPago.Text, fechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_CORRIDOS)
-            '        End If
-
-            '        'Cambia la fecha al habil siguiente 
-            '        fechaSolicitud = Utiles.getDiaHabilSiguiente(fechaSolicitud, ddlMonedaPago.Text)
-            '        'fechaSolicitud = NegocioRescate.SelectFechaPagoSIRescatable(dias, fechaSolicitud, 0)
-            '        txtFechaTC.Text = fechaSolicitud
-            '    End If
-            'End If
         Next
     End Sub
 

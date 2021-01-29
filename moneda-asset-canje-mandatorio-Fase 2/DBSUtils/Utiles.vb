@@ -230,4 +230,33 @@ Public Class Utiles
 
     End Function
 
+    Public Shared Function esFechaHabil(monedaPago As String, fechaSolicitud As Date) As Boolean
+        Dim negocioFechas As FechasNegocio = New FechasNegocio
+        Dim fecha As FechasDTO = New FechasDTO
+        Dim negocioRelacion As RelacionMonedaPaisNegocio = New RelacionMonedaPaisNegocio
+        Dim calendarioPais As String
+        Dim strFechaHabil As String = ""
+
+        calendarioPais = negocioRelacion.SelectOne(monedaPago)
+
+        fecha.Anno = Year(fechaSolicitud)
+        fecha.Mes = Month(fechaSolicitud)
+        fecha.Dia = Day(fechaSolicitud)
+        fecha.DF_PAIS = calendarioPais
+        fecha.DiasASumar = 0
+        fecha.DiasCorridos = 0
+
+        strFechaHabil = negocioFechas.ValidaDiaHabil(fecha)
+
+        negocioFechas = Nothing
+        fecha = Nothing
+
+        If strFechaHabil = "Festivo" Or strFechaHabil = "No_Habil" Or strFechaHabil = "error" Then
+            Return False
+        Else
+            Return True
+        End If
+
+    End Function
+
 End Class
