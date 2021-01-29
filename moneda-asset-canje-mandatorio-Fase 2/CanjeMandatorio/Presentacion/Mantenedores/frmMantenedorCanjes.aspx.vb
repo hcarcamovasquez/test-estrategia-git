@@ -1402,7 +1402,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
                     FechaParaCalculo = txtModalFechaNavEntrante.Text
                 End If
             Case Else
-
+                FechaParaCalculo = txtModalFSolicitud.Text
         End Select
 
         If FechaParaCalculo <> Nothing Then
@@ -1511,44 +1511,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
                 CalcularValorEntrante()
             End If
 
-            'If estructuraFechas.DiasASumar = "" And estructuraFechas.DesdeQueFecha = "FechaSolicitud" Then
-            '        Dim canje As CanjeDTO = New CanjeDTO
-            '        canje.FechaSolicitud = txtModalFSolicitud.Text
-            '        Dim fechaSolicitud As Date
-            '        fechaSolicitud = canje.FechaSolicitud
-            '        txtModalFechaNavEntrante.Text = fechaSolicitud
-
-            '        CalcularValorEntrante()
-
-            '    ElseIf estructuraFechas.DiasASumar = "" And estructuraFechas.DesdeQueFecha = "" Then
-            '        txtModalFechaNavEntrante.Text = ""
-
-            '    Else
-            '        Dim dias As Integer
-            '        dias = Integer.Parse(estructuraFechas.DiasASumar)
-            '        Dim canje As CanjeDTO = New CanjeDTO
-            '        canje.FechaSolicitud = txtModalFSolicitud.Text
-            '        Dim fechaSolicitud As Date
-            '        Dim testString As String = FormatDateTime(fechaSolicitud, DateFormat.LongDate)
-            '        fechaSolicitud = canje.FechaSolicitud
-
-            '        Dim dia As Integer = Day(fechaSolicitud)
-            '        Dim mes As Integer = Month(fechaSolicitud)
-            '        Dim año As Integer = Year(fechaSolicitud)
-
-            '        Dim suma = dia + dias
-
-            '        If suma < 0 Then
-            '            fechaSolicitud = fechaSolicitud.AddDays(dias)
-            '            txtModalFechaNavEntrante.Text = fechaSolicitud
-            '        Else
-            '            fechaSolicitud = fechaSolicitud.AddDays(dias)
-            '            txtModalFechaNavEntrante.Text = fechaSolicitud
-            '        End If
-
-            '        CalcularValorEntrante()
-            '    End If
-
         End If
     End Sub
 
@@ -1602,6 +1564,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
                 txtModalFechaObservado.Text = fechaNavSaliente
 
             Case "FechaCanje"
+                If txtModalFechaCanje.Text = "" Then
+                    ConsultarFechaCanje()
+                End If
                 canje.FechaNavSaliente = txtModalFechaCanje.Text
                 Dim FechaTCObservado = canje.FechaNavSaliente
 
