@@ -1332,7 +1332,6 @@
                 }
             }
 
-
             $("body").on("click", "#btnXCerrar", function () {
                 $("#btnXCerrar").val("");
             });

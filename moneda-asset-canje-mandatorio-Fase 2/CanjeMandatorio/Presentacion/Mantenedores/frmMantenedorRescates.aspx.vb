@@ -2002,14 +2002,14 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             '    ShowAlert("ADVERTENCIA: La información DCV es menor a la Fecha de Solicitud.")
             'End If
             ShowAlert(CONST_INSERTAR_EXITO)
-            GenerarPopUp()
+            'GenerarPopUp()
         Else
             'Error en la BBDD
             'ShowMesagges(CONST_TITULO_VALORESCUOTA, CONST_INSERTAR_ERROR, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_LOGO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_ERROR)
             ShowAlert(CONST_INSERTAR_ERROR)
         End If
 
-        'txtAccionHidden.Value = ""
+        txtAccionHidden.Value = ""
         DataInitial()
         Me.GrvTabla.DataSource = Nothing
         GrvTabla.DataBind()

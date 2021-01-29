@@ -422,8 +422,6 @@ Public Class WSRescates
             sp.AgregarParametro("Accion", CONST_INSERT, System.Data.SqlDbType.VarChar)
 
             FillParameters(Rescate, sp)
-            sp.ReturnDataSet()
-
             ds = sp.ReturnDataSet()
             If ds.Tables.Count > 0 AndAlso ds.Tables(0).Rows.Count > 0 Then
                 Dim dataRow As DataRow = ds.Tables(0).Rows(0)
