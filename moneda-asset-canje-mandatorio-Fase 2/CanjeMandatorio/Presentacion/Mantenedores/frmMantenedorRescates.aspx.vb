@@ -814,7 +814,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                 ' FechaCalculo = txtModalFechaPago.Text
                 FechaCalculo = FechaPago
                 FechaNAVFondoRescatableINT = getDiasParaDesplazar(FechaNAVFondoRescatable)
-
             Else
                 FechaCalculo = FechaTC
                 FechaNAVFondoRescatableINT = getDiasParaDesplazar(FechaNAVFondoRescatable)
@@ -825,13 +824,13 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             If FechaCalculo = Nothing Then
                 txtModalFechaNAV.Text = ""
                 FechaNAV = Nothing
-
             Else
                 ' txtModalFechaNAV.Text = CDate(FechaCalculo.AddDays(FechaNAVFondoRescatableINT).ToString("dd/MM/yyyy"))
                 ' txtModalFechaNAV.Text = NegocioRescate.SelectFechaPagoSIRescatable(FechaPagoFondoRescatableINT, FechaCalculo, EsSoloDiasHabiles)
                 txtModalFechaNAV.Text = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaNAVFondoRescatableINT, EsSoloDiasHabiles)
                 FechaNAV = txtModalFechaNAV.Text
             End If
+
         End If
 
         'FECHA PAGO

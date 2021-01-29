@@ -953,17 +953,7 @@
                                                                 <asp:LinkButton ID="lnkbtnModalFechaObservado" Class="btn btn-moneda" runat="server" 
                                                                     OnClientClick="return clickCalendar('txtModalFechaObservado')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
                                                                  
-                                                                <%--<asp:Calendar ID="CalendarModalFechaObservado" runat="server" Visible="False" 
-                                                                    onblur ="onblurCalendar(this)" 
-                                                                    OnSelectionChanged="CalcularTipo" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" class="calendarios">
-                                                                    <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                                                                    <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                                                                    <OtherMonthDayStyle ForeColor="#999999" />
-                                                                    <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                                                                    <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="1px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" CssClass="cabecera texto-cabecera" />
-                                                                    <TodayDayStyle BackColor="#CCCCCC" />
-                                                                </asp:Calendar>--%>
-                                                                
+                                                                       
                                                                 <span id="reqtxtModalFechaObservado" class="reqError"></span>
                                                                     </div>
                                                             </ContentTemplate>
@@ -1168,7 +1158,7 @@
                             <!-- GRUPO DE BOTONES 2 -->
                             <div class="form-group mt-5 text-center">
                                 <div class="col-md-offset-1">
-                                    <asp:button id="btnPrueba" text="Mostrar PopUp" cssclass="btn btn-info" runat="server"></asp:button>
+                                    <asp:button id="btnPrueba" text="Mostrar PopUp" cssclass="btn btn-info" runat="server" Visible="false"></asp:button>
                                     <asp:button id="btnModalGuardar" text="Guardar" cssclass="btn btn-info" runat="server" onclientclick="return validateBtn();"></asp:button>
                                     <asp:button id="btnModalModificar" text="Modificar" cssclass="btn btn-info" runat="server" onclientclick="return validateBtn();"></asp:button>
                                     <asp:button id="btnModalCancelar" text="Cancelar" cssclass="btn btn-secondary" runat="server" onclientclick="if (!confirm('¿Seguro que desea Cancelar?')) return false;"></asp:button>

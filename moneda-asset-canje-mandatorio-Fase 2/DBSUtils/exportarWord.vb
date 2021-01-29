@@ -4,44 +4,86 @@ Imports System.Text.RegularExpressions
 Imports Xceed.Words.NET
 Imports Xceed.Document.NET
 Imports DTO
+Imports Ionic.Zip
 
 Public Class exportarWord
     Private Shared Property dirOutputDoc As String
     Private Shared Property dirPlantillasWord As String
 
     Public Shared Sub GenerarCartas(fijaciones As List(Of FijacionDTO))
+        Dim listaDeArchivos As List(Of String) = New List(Of String)
+
         Dim configurationAppSettings As New System.Configuration.AppSettingsReader()
         Dim DocumentName As String = ""
         Dim fijacionesCanje = fijaciones.Where(Function(f) f.TipoTransaccion.ToLower().Trim().Equals("canje")).ToList()
         Dim FijacionesAportes = fijaciones.Where(Function(f) f.TipoTransaccion.ToLower().Trim().Equals("rescate") Or f.TipoTransaccion.ToLower().Trim().Equals("suscripcion")).ToList()
 
+        Dim dirOutputExcel As String
+        Dim nombreZip As String
+
+
         dirPlantillasWord = DirectCast(configurationAppSettings.GetValue("PlantillasWord", GetType(System.String)), String)
         dirOutputDoc = DirectCast(configurationAppSettings.GetValue("OutputDoc", GetType(System.String)), String)
 
-        CartaComprobanteDePagoAportes(FijacionesAportes)
-        CartaComprobanteDePagoCanje(fijacionesCanje)
+        dirOutputExcel = DirectCast(configurationAppSettings.GetValue("CarpetaGeneracionExcel", GetType(System.String)), String)
 
-        InstrucionAlDCVdeAportes(FijacionesAportes)
-        InstrucionAlDCVdeCanjes(fijacionesCanje)
+        listaDeArchivos.Add(CartaComprobanteDePagoAportes(FijacionesAportes))
+        listaDeArchivos.Add(CartaComprobanteDePagoCanje(fijacionesCanje))
+
+        listaDeArchivos.Add(InstrucionAlDCVdeAportes(FijacionesAportes))
+        listaDeArchivos.Add(InstrucionAlDCVdeCanjes(fijacionesCanje))
+
+        nombreZip = HacerZip(listaDeArchivos)
+
+
     End Sub
 
-    Private Shared Sub InstrucionAlDCVdeCanjes(fijacionesCanje As List(Of FijacionDTO))
-        HacerInstrucionAlDCVdeAportes("canje", fijacionesCanje)
-    End Sub
+    Private Shared Function HacerZip(listadearchivos As List(Of String)) As String
+        Const CONST_EXTENSION As String = ".zip"
+        Const CONST_NOMBRE_ARCHIVO As String = "Cartas_"
 
-    Private Shared Sub InstrucionAlDCVdeAportes(fijacionesAportes As List(Of FijacionDTO))
-        HacerInstrucionAlDCVdeAportes("aporte", fijacionesAportes)
-    End Sub
+        Dim nombreZip As String
+        Dim fechahoraGeneracion As String
 
-    Private Shared Sub CartaComprobanteDePagoAportes(fijaciones As List(Of FijacionDTO))
-        HacerCartaComprobanteDePago("aporte", fijaciones)
-    End Sub
+        fechahoraGeneracion = Date.Now().ToString("ddMMyyyy")
 
-    Private Shared Sub CartaComprobanteDePagoCanje(fijaciones As List(Of FijacionDTO))
-        HacerCartaComprobanteDePago("canje", fijaciones)
-    End Sub
+        nombreZip = String.Format("{0}{1}{2}{3}", dirOutputDoc, CONST_NOMBRE_ARCHIVO, fechahoraGeneracion, CONST_EXTENSION)
 
-    Private Shared Sub HacerInstrucionAlDCVdeAportes(ByVal tipoDeComprobante As String, listaDeTransacciones As List(Of FijacionDTO))
+        Using zip As New ZipFile()
+            For Each miFile As String In listadearchivos
+                If File.Exists(miFile) Then
+                    zip.AddFile(miFile, "cartas")
+                End If
+            Next
+            If File.Exists(nombreZip) Then
+                File.Delete(nombreZip)
+            End If
+
+            zip.Save(nombreZip)
+
+        End Using
+
+        Return nombreZip
+
+    End Function
+
+    Private Shared Function InstrucionAlDCVdeCanjes(fijacionesCanje As List(Of FijacionDTO)) As String
+        Return HacerInstrucionAlDCVdeAportes("canje", fijacionesCanje)
+    End Function
+
+    Private Shared Function InstrucionAlDCVdeAportes(fijacionesAportes As List(Of FijacionDTO)) As String
+        Return HacerInstrucionAlDCVdeAportes("aporte", fijacionesAportes)
+    End Function
+
+    Private Shared Function CartaComprobanteDePagoAportes(fijaciones As List(Of FijacionDTO)) As String
+        Return HacerCartaComprobanteDePago("aporte", fijaciones)
+    End Function
+
+    Private Shared Function CartaComprobanteDePagoCanje(fijaciones As List(Of FijacionDTO)) As String
+        Return HacerCartaComprobanteDePago("canje", fijaciones)
+    End Function
+
+    Private Shared Function HacerInstrucionAlDCVdeAportes(ByVal tipoDeComprobante As String, listaDeTransacciones As List(Of FijacionDTO)) As String
         Dim fijacionesOrdenadas = listaDeTransacciones.OrderBy(Function(f As FijacionDTO) f.TipoTransaccion).ThenBy(Function(f As FijacionDTO) f.Nemotecnico).ThenBy(Function(f As FijacionDTO) f.Rut).ToList
         Dim nombreOutput As String
         Dim TemplatePath As String
@@ -138,9 +180,12 @@ Public Class exportarWord
 
         document.SaveAs(nombreOutput)
 
-    End Sub
+        Return nombreOutput + ".docx"
+
+    End Function
 
     Private Shared Function setColumnasDCVCanje(bPrimero As Boolean, document As DocX, newRow As Row, transaccion As FijacionDTO) As Boolean
+
         If bPrimero Then
             bPrimero = False
             document.ReplaceText("[COLUMNA C]", transaccion.TipoTransaccion)
@@ -191,7 +236,7 @@ Public Class exportarWord
         Return bPrimero
     End Function
 
-    Private Shared Sub HacerCartaComprobanteDePago(ByVal tipoDeCarta As String, fijaciones As List(Of FijacionDTO))
+    Private Shared Function HacerCartaComprobanteDePago(ByVal tipoDeCarta As String, fijaciones As List(Of FijacionDTO)) As String
         Dim nombreOutput As String
         ''
         'Algoritmo 
@@ -235,7 +280,9 @@ Public Class exportarWord
 
         document.SaveAs(nombreOutput)
 
-    End Sub
+        Return nombreOutput + ".docx"
+
+    End Function
 
     Private Shared Sub setColumnasCanje(document As DocX, fijacion As FijacionDTO)
 
