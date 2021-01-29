@@ -73,11 +73,14 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
     Public Const CONST_COL_FIJACION_TC As Integer = 43
     Public Const CONST_COL_TIPO_CAMBIO As Integer = 44
 
+    Public Const CONST_INHABIL_PARA_TC As String = "La fecha TC es inhábil en la moneda. Se moverá al hábil siguiente"
+
     Private Sub Presentacion_Mantenedores_frmMantenedorFondoSerie_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Not IsPostBack Then
             DataInitial()
         End If
     End Sub
+
     Private Sub ValidaPermisosPerfil()
         HiddenPerfil.Value = Session("PERFIL")
         HiddenConstante.Value = Constantes.CONST_PERFIL_CONSULTA
@@ -123,15 +126,13 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
 
         txtModalFSolicitud.Text = Date.Now().ToShortDateString()
         txtModalFechaCuotaDCV.Text = Date.Now().ToShortDateString()
+
         ddlModalEstado.SelectedValue = "Pendiente"
         txtFechaNavDesde.Text = ""
         txtFechaNavHasta.Text = ""
         txtFechaSolicitudDesde.Text = ""
         txtFechaSolicitudHasta.Text = ""
         ddlEstado.SelectedValue = ""
-
-
-
     End Sub
 
     Private Sub FormateoLimpiarDatosModal()
@@ -184,10 +185,10 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         txtModalFSolicitud.Text = Date.Now().ToShortDateString()
         txtModalFechaCanje.Text = ""
     End Sub
+
     Protected Sub btnLimpiarFrm_Click(sender As Object, e As EventArgs)
         DataInitial()
     End Sub
-
 
     Protected Sub BtnBuscar_Click(sender As Object, e As EventArgs) Handles BtnBuscar.Click
         FindCanje()
@@ -454,49 +455,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
             Dim chk As RadioButton = row.Cells(0).Controls(1)
             If chk IsNot Nothing And chk.Checked Then
                 canjeParam.IdCanje = row.Cells(CONST_COL_ID_CANJE).Text.Trim()
-                'canjeParam.TipoTransaccion = row.Cells(CONST_COL_TIPO_TRANSACCION).Text.Trim()
-                'canjeParam.RutAportante = row.Cells(CONST_COL_RUT_APORTANTE).Text.Trim()
-                'canjeParam.NombreAportante = HttpUtility.HtmlDecode(row.Cells(CONST_COL_NOMBRE_APORTANTE).Text.Trim())
-                'canjeParam.Multifondo = row.Cells(CONST_COL_MULTIFONDO).Text.Trim()
-                'canjeParam.RutFondo = row.Cells(CONST_COL_RUT_FONDO).Text.Trim()
-                'canjeParam.NombreFondo = HttpUtility.HtmlDecode(row.Cells(CONST_COL_NOMBRE_FONDO).Text.Trim())
-                'canjeParam.FechaSolicitud = row.Cells(CONST_COL_FECHA_SOLICITUD).Text.Trim()
-                'canjeParam.FechaObservado = row.Cells(CONST_COL_FECHA_OBSERVADO).Text.Trim()
-                ''canje.FechaCanjeDate = row.Cells(CONST_COL_FECHA_CANJE).Text.Trim()
-                'canjeParam.FechaNavSaliente = row.Cells(CONST_COL_FECHA_NAV_SALIENTE).Text.Trim()
-                'canjeParam.NemotecnicoSaliente = row.Cells(CONST_COL_NEMOTECNICO_SALIENTE).Text.Trim()
-                'canjeParam.NombreSerieSaliente = row.Cells(CONST_COL_SERIE_SALIENTE).Text.Trim()
-                'canjeParam.MonedaSaliente = row.Cells(CONST_COL_MONEDA_SALIENTE).Text.Trim()
-                'canjeParam.CuotaSaliente = row.Cells(CONST_COL_CUOTAS_SALIENTE).Text.Trim()
-                'canjeParam.NavSaliente = row.Cells(CONST_COL_NAV_SALIENTE).Text.Trim()
-                'canjeParam.MontoSaliente = row.Cells(CONST_COL_MONTO_SALIENTE).Text.Trim()
-                'canjeParam.NavCLPSaliente = row.Cells(CONST_COL_NAVCLP_SALIENTE).Text.Trim()
-                'canjeParam.MontoCLPSaliente = row.Cells(CONST_COL_MONTOCLP_SALIENTE).Text.Trim()
-                'canjeParam.Factor = row.Cells(CONST_COL_FACTOR).Text.Trim()
-                'canjeParam.Diferencia = row.Cells(CONST_COL_DIFERENCIA).Text.Trim()
-                'canjeParam.DiferenciaCLP = row.Cells(CONST_COL_DIFERENCIA_CLP).Text.Trim()
-                'canjeParam.FechaNavEntrante = row.Cells(CONST_COL_FECHA_NAV_ENTRANTE).Text.Trim()
-                'canjeParam.NemotecnicoEntrante = row.Cells(CONST_COL_NEMOTECNICO_ENTRANTE).Text.Trim()
-                'canjeParam.NombreSerieEntrante = row.Cells(CONST_COL_SERIE_ENTRANTE).Text.Trim()
-                'canjeParam.MonedaEntrante = row.Cells(CONST_COL_MONEDA_ENTRANTE).Text.Trim()
-                'canjeParam.CuotaEntrante = row.Cells(CONST_COL_CUOTA_ENTRANTE).Text.Trim()
-                'canjeParam.NavEntrante = row.Cells(CONST_COL_NAV_ENTRANTE).Text.Trim()
-                'canjeParam.MontoEntrante = row.Cells(CONST_COL_MONTO_ENTRANTE).Text.Trim()
-                'canjeParam.NavCLPEntrante = row.Cells(CONST_COL_NAVCLP_ENTRANTE).Text.Trim()
-                'canjeParam.MontoCLPEntrante = row.Cells(CONST_COL_MONTOCLP_ENTRANTE).Text.Trim()
-                'canjeParam.ContratoGeneral = row.Cells(CONST_COL_CONTRATO).Text.Trim()
-                'canjeParam.RevisionPoderes = row.Cells(CONST_COL_PODERES).Text.Trim()
-                'canjeParam.EstadoCanje = row.Cells(CONST_COL_ESTADO_CANJE).Text.Trim()
-                'canjeParam.Observaciones = HttpUtility.HtmlDecode(row.Cells(CONST_COL_OBSERVACIONES).Text.Trim())
-                'canjeParam.FechaActual = row.Cells(CONST_COL_FECHA_DCV).Text.Trim()
-                'canjeParam.Cuotas = row.Cells(CONST_COL_CUOTA_DCV).Text.Trim()
-                'canjeParam.RescateTransito = row.Cells(CONST_COL_RESCATE_TRANSITO).Text.Trim()
-                'canjeParam.SuscripcionTransito = row.Cells(CONST_COL_SUSCRIPCION_TRANSITO).Text.Trim()
-                'canjeParam.CanjeTransito = row.Cells(CONST_COL_CANJE_TRANSITO).Text.Trim()
-                'canjeParam.CuotasDisponibles = row.Cells(CONST_COL_CUOTAS_DISPONIBLES).Text.Trim()
-                'canjeParam.FijacionNav = row.Cells(CONST_COL_FIJACION_NAV).Text.Trim()
-                'canjeParam.FijacionTC = row.Cells(CONST_COL_FIJACION_TC).Text.Trim()
-                'canjeParam.TipoCambio = row.Cells(CONST_COL_TIPO_CAMBIO).Text.Trim()
                 Exit For
             End If
         Next
@@ -1295,7 +1253,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
             navSaliente = 0
         End If
 
-
         If navEntrante = 0 Then
             Factor = 0
         Else
@@ -1368,6 +1325,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         ddlModalNemotecnicoSaliente.Items.Insert(0, New ListItem("", ""))
 
         ConsultarFechaCanje()
+
         ConsultarFechaNavEntrante()
 
         Dim serieEntrante As FondoSerieDTO = New FondoSerieDTO
@@ -1419,8 +1377,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         ConsultarFechaObservado()
         ConsultarFechaCanje()
         CalcularCuotaDCV()
-
-
     End Sub
 
     Public Sub ConsultarFechaCanje()
@@ -1430,7 +1386,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         Dim estructuraFechas As EstructuraFechasDto = New EstructuraFechasDto
         Dim FechaParaCalculo As Date
         Dim SoloDiasHabiles As Integer
-        Dim diasASumar As Integer
 
         paramSerie.Nemotecnico = ddlModalNemotecnicoEntrante.SelectedValue
         serie = negocioSerie.GetFondoSeriesNemotecnico(paramSerie)
@@ -1451,9 +1406,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         End Select
 
         If FechaParaCalculo <> Nothing Then
-            diasASumar = Integer.TryParse(estructuraFechas.DiasASumar, 0)
+
             SoloDiasHabiles = IIf(serie.SoloDiasHabilesFechaCanje, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
-            txtModalFechaCanje.Text = Utiles.SumaDiasAFechas(ddlModalMonedaEntrante.Text, FechaParaCalculo, diasASumar, SoloDiasHabiles)
+            txtModalFechaCanje.Text = Utiles.SumaDiasAFechas(ddlModalMonedaEntrante.Text, FechaParaCalculo, estructuraFechas.DiasASumar, SoloDiasHabiles)
         End If
     End Sub
 
@@ -1622,12 +1577,17 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
 
         FechaObservado = serieActual.FechaTCCanje
 
+        Dim bDiaInhabil As Boolean = False
+
         Select Case estructuraFechas.DesdeQueFecha
             Case "FechaSolicitud"
                 fechaSolicitud = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, fechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_CORRIDOS)
-                fechaSolicitud = Utiles.getDiaHabilSiguiente(fechaSolicitud, ddlModalMonedaSaliente.Text)
-                txtModalFechaObservado.Text = fechaSolicitud
 
+                bDiaInhabil = (Not Utiles.esFechaHabil(ddlModalMonedaSaliente.Text, fechaSolicitud) And ddlModalMonedaSaliente.Text = "USD")
+
+                fechaSolicitud = Utiles.getDiaHabilSiguiente(fechaSolicitud, ddlModalMonedaSaliente.Text)
+
+                txtModalFechaObservado.Text = fechaSolicitud
             Case "FechaNav"
                 canje.FechaNavSaliente = txtModalFechaNavSaliente.Text
                 Dim fechaNavSaliente = canje.FechaNavSaliente
@@ -1635,30 +1595,49 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
                 SoloDiasHabiles = IIf(serieActual.SoloDiasHabilesFechaNavCanje, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
 
                 fechaNavSaliente = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, fechaNavSaliente, estructuraFechas.DiasASumar, SoloDiasHabiles)
+                bDiaInhabil = (Not Utiles.esFechaHabil(ddlModalMonedaSaliente.Text, fechaNavSaliente) And ddlModalMonedaSaliente.Text = "USD")
+
                 fechaNavSaliente = Utiles.getDiaHabilSiguiente(fechaNavSaliente, ddlModalMonedaSaliente.Text)
+
                 txtModalFechaObservado.Text = fechaNavSaliente
 
             Case "FechaCanje"
                 canje.FechaNavSaliente = txtModalFechaCanje.Text
-                Dim fechaNavSaliente = canje.FechaNavSaliente
+                Dim FechaTCObservado = canje.FechaNavSaliente
 
                 SoloDiasHabiles = IIf(serieActual.SoloDiasHabilesFechaNavCanje, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
 
-                fechaNavSaliente = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, txtModalFechaCanje.Text, estructuraFechas.DiasASumar, SoloDiasHabiles)
+                FechaTCObservado = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, txtModalFechaCanje.Text, estructuraFechas.DiasASumar, SoloDiasHabiles)
+                ' Si fecha en cuestión cae en un día inhábil US, sistema mostrará mensaje de advertencia
+                bDiaInhabil = (Not Utiles.esFechaHabil(ddlModalMonedaSaliente.Text, FechaTCObservado) And ddlModalMonedaSaliente.Text = "USD")
 
-                fechaNavSaliente = Utiles.getDiaHabilSiguiente(txtModalFechaCanje.Text, ddlModalMonedaSaliente.Text)
-                txtModalFechaObservado.Text = fechaNavSaliente
+                FechaTCObservado = Utiles.getDiaHabilSiguiente(txtModalFechaCanje.Text, ddlModalMonedaSaliente.Text)
+
+                txtModalFechaObservado.Text = FechaTCObservado
 
             Case Else
                 txtModalFechaObservado.Text = fechaSolicitud
 
         End Select
 
+        If bDiaInhabil Then
+            ShowAlertTC(CONST_INHABIL_PARA_TC)
+        End If
+
         CalcularTipo()
     End Sub
     'Private Function fncSoloDiasHabiles(serie As FondoSerieDTO) As Integer
     '    Return (IIf(serie.SoloDiasHabilesFechaNavCanje, 1, 0))
     'End Function
+    Private Sub ShowAlertTC(mesagge As String, Optional mostrarEnPage As Boolean = False)
+        Dim myScript As String = "alert('" + mesagge + "');"
+
+        If Not mostrarEnPage Then
+            ScriptManager.RegisterStartupScript(UpdatePanel20, UpdatePanel20.GetType(), "alert", myScript, True)
+        Else
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "alert", myScript, True)
+        End If
+    End Sub
 
     Private Sub ShowAlertCuotasDisponibles(mesagge As String, Optional mostrarEnPage As Boolean = False)
         Dim myScript As String = "alert('" + mesagge + "');"
@@ -2563,6 +2542,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
             txtModalMontoCLPSaliente.Text = Utiles.formatearMontoCLP(canje.MontoCLPSaliente)
             ' String.Format("{0:N2}", canje.MontoCLPSaliente)
         End If
+
 
         If canje.ContratoGeneral = "&nbsp;" Then
             ddlModalContrato.SelectedValue = ""

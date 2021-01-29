@@ -3729,6 +3729,8 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
 
 
     Private Sub btnImprimir_click(sender As Object, e As EventArgs) Handles btnImprimir.Click
+        Return
+
         Dim fijaciones As List(Of FijacionDTO) = New List(Of FijacionDTO)
         Dim fijacion As FijacionDTO = New FijacionDTO
 
