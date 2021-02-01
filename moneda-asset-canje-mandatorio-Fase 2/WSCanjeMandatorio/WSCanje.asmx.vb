@@ -720,7 +720,7 @@ Public Class WSCanje
             .FechaNavEntrante = datarow("CN_Fecha_Nav_Entrante").ToString().Trim()
             .TipoCambio = datarow("CN_Tipo_Cambio").ToString().Trim()
 
-            If datarow("CN_Fecha_Canje").Equals("01-01-1900") Then
+            If datarow("CN_Fecha_Canje").Equals("01-01-1900") Or IsDBNull(datarow("CN_Fecha_Canje")) Then
                 .FechaCanjeDate = Nothing
             Else
                 .FechaCanjeDate = datarow("CN_Fecha_Canje").ToString().Trim()

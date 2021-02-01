@@ -29,6 +29,10 @@
     Public Property TC_OBSERVADO As Decimal
     Public Property NAV_FIJADO As Decimal
 
+    Public Property ObjCanje As CanjeDTO
+    Public Property ObjSuscripcion As SuscripcionDTO
+    Public Property ObjRescate As RescatesDTO
+
 
     Public Sub New(id As Int32, fechaNav As Date, fechaTCObs As Date, apRut As String, apMultifondo As String, nemotecnico As String,
                    tipoTransaccion As String, razonSocial As String, cuotas As Int32, rut As String, fnNombreCorto As String, fsNombreCorto As String, contrato As String, poderes As String,
@@ -61,6 +65,10 @@
         Me.FijacionTCObservado = fijacionTCObservado
         Me.Observaciones = observaciones
         Me.Estados = estados
+
+        ObjCanje = New CanjeDTO()
+        ObjSuscripcion = New SuscripcionDTO
+        ObjRescate = New RescatesDTO()
     End Sub
 
     Public ReadOnly Property TipoTransaccionBusqueda As String
@@ -110,5 +118,8 @@
     Public Property MonedaPago As String
 
     Public Sub New()
+        objCanje = New CanjeDTO()
+        ObjSuscripcion = New SuscripcionDTO
+        ObjRescate = New RescatesDTO()
     End Sub
 End Class

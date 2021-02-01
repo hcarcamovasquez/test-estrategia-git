@@ -3761,7 +3761,17 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                 fijacion.Monto = row.Cells(CONST_COL_MONTO).Text().Trim()
 
 
+                Select Case fijacion.TipoTransaccion.ToLower()
+                    Case "canje"
+                        SetCamposAdicionalesCanje(fijacion)
+                    Case "suscripcion"
+                        SetCamposAdicionalesSuscripcion(fijacion)
+                    Case "rescate"
+                        SetCamposAdicionalesRescate(fijacion)
+                End Select
+
                 fijaciones.Add(fijacion)
+
 
             End If
         Next
@@ -3783,6 +3793,22 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
 
         ShowMessages(CONST_TITULO_FIJACION, "Archivo Generado correctamente ", Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_LOGO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_INFO, False)
 
+    End Sub
+
+    Private Shared Sub SetCamposAdicionalesRescate(fijacion As FijacionDTO)
+        Dim negocio As RescateNegocio = New RescateNegocio()
+        fijacion.ObjRescate = negocio.GetFijacionId(fijacion.ID)
+
+    End Sub
+
+    Private Shared Sub SetCamposAdicionalesSuscripcion(fijacion As FijacionDTO)
+        Dim negocio As SuscripcionNegocio = New SuscripcionNegocio()
+        fijacion.ObjSuscripcion = negocio.GetFijacionId(fijacion.ID)
+    End Sub
+
+    Private Sub SetCamposAdicionalesCanje(ByRef fijacion As FijacionDTO)
+        Dim negocio As CanjeNegocio = New CanjeNegocio()
+        fijacion.ObjCanje = negocio.GetFijacionId(fijacion.ID)
     End Sub
 
 End Class

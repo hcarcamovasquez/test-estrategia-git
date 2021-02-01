@@ -21,17 +21,32 @@ Public Class exportarWord
         Dim dirOutputExcel As String
         Dim nombreZip As String
 
+        Dim nombreArchivoDestino As String
+
 
         dirPlantillasWord = DirectCast(configurationAppSettings.GetValue("PlantillasWord", GetType(System.String)), String)
         dirOutputDoc = DirectCast(configurationAppSettings.GetValue("RutaGeneracionExcel", GetType(System.String)), String)
 
         dirOutputExcel = DirectCast(configurationAppSettings.GetValue("CarpetaGeneracionExcel", GetType(System.String)), String)
 
-        listaDeArchivos.Add(CartaComprobanteDePagoAportes(FijacionesAportes))
-        listaDeArchivos.Add(CartaComprobanteDePagoCanje(fijacionesCanje))
+        nombreArchivoDestino = CartaComprobanteDePagoAportes(FijacionesAportes)
+        If FijacionesAportes.Count > 0 Then
+            listaDeArchivos.Add(nombreArchivoDestino)
+        End If
 
-        listaDeArchivos.Add(InstrucionAlDCVdeAportes(FijacionesAportes))
-        listaDeArchivos.Add(InstrucionAlDCVdeCanjes(fijacionesCanje))
+        nombreArchivoDestino = CartaComprobanteDePagoCanje(fijacionesCanje)
+        If fijacionesCanje.Count() > 0 Then
+            listaDeArchivos.Add(nombreArchivoDestino)
+        End If
+        nombreArchivoDestino = InstrucionAlDCVdeAportes(FijacionesAportes)
+        If FijacionesAportes.Count > 0 Then
+            listaDeArchivos.Add(nombreArchivoDestino)
+        End If
+
+        nombreArchivoDestino = InstrucionAlDCVdeCanjes(fijacionesCanje)
+        If fijacionesCanje.Count() > 0 Then
+            listaDeArchivos.Add(nombreArchivoDestino)
+        End If
 
         nombreZip = HacerZip(listaDeArchivos)
 
@@ -111,79 +126,84 @@ Public Class exportarWord
         If tipoDeComprobante.Equals("aporte") Then
             nombreOutput = dirOutputDoc & "CARTA PARA APORTE DE FONDOS"
             TemplatePath = dirPlantillasWord & "Formato carta aporte fondos.docx"
-            PlantillaWord = Xceed.Words.NET.DocX.Load(TemplatePath)
         Else
             nombreOutput = dirOutputDoc & "CARTA PARA APORTE DE FONDOS CANJE"
             TemplatePath = dirPlantillasWord & "Formato Carta Canje.docx"
-            PlantillaWord = Xceed.Words.NET.DocX.Load(TemplatePath)
         End If
-
-        document = DocX.Create(nombreOutput)
-
-        '*******************************************************************************
-        'agrupacion de transacciones
-        '*******************************************************************************
-        For Each fijacion As FijacionDTO In fijacionesOrdenadas
-            If fijacion.TipoTransaccion <> tipoTransaccion OrElse fijacion.Nemotecnico <> nemotecnico OrElse fijacion.Rut <> rutFondo Then
-                tipoTransaccion = fijacion.TipoTransaccion
-                nemotecnico = fijacion.Nemotecnico
-                rutFondo = fijacion.Rut
-
-                indice += 1
-
-                listaDOcDVC.Add(indice, listaFijacion)
-                listaFijacion = New List(Of FijacionDTO)
-            End If
-            listaFijacion.Add(fijacion)
-        Next
-        indice += 1
-        listaDOcDVC.Add(indice, listaFijacion)
-
-        '*******************************************************************************
-        ' Proceso de Generacion de Cartas diferenciadas por "Aporte" o "Canjes" 
-        '*******************************************************************************
-        Dim cantidadDeTablasASaltar As Integer
-        If tipoDeComprobante.Equals("aporte") Then
-            cantidadDeTablasASaltar = 2
-        Else
-            cantidadDeTablasASaltar = 1
-        End If
-
-
-        For Each pair As KeyValuePair(Of Integer, List(Of FijacionDTO)) In listaDOcDVC
-            If pair.Value.Count() > 0 Then
-                document.InsertDocument(PlantillaWord, True)
-                Dim t As Table = document.Tables(numeroTabla)
-
-                bPrimero = True
-                Dim PatronDeFila = t.Rows(t.Rows.Count() - 1)
-                Dim NewRow As Row
-
-                For Each transaccion As FijacionDTO In pair.Value
-
-                    PatronDeFila = t.Rows(t.Rows.Count() - 1)
-                    NewRow = t.InsertRow(PatronDeFila, t.RowCount - 1)
-
-                    If tipoDeComprobante.Equals("aporte") Then
-                        bPrimero = setColumnasDCVAporte(bPrimero, document, NewRow, transaccion)
-                    Else
-                        bPrimero = setColumnasDCVCanje(bPrimero, document, NewRow, transaccion)
-                    End If
-
-                Next
-
-                PatronDeFila.Remove()
-                numeroTabla += cantidadDeTablasASaltar
-
-            End If
-        Next
 
         If File.Exists(nombreOutput) Then
             File.Delete(nombreOutput)
         End If
 
-        document.SaveAs(nombreOutput)
+        If fijacionesOrdenadas.Count > 0 Then
+            PlantillaWord = DocX.Load(TemplatePath)
+            document = DocX.Create(nombreOutput)
 
+            '*******************************************************************************
+            'agrupacion de transacciones
+            '*******************************************************************************
+            For Each fijacion As FijacionDTO In fijacionesOrdenadas
+                If fijacion.TipoTransaccion <> tipoTransaccion OrElse fijacion.Nemotecnico <> nemotecnico OrElse fijacion.Rut <> rutFondo Then
+                    tipoTransaccion = fijacion.TipoTransaccion
+                    nemotecnico = fijacion.Nemotecnico
+                    rutFondo = fijacion.Rut
+
+                    indice += 1
+
+                    listaDOcDVC.Add(indice, listaFijacion)
+                    listaFijacion = New List(Of FijacionDTO)
+                End If
+                listaFijacion.Add(fijacion)
+            Next
+
+            indice += 1
+            listaDOcDVC.Add(indice, listaFijacion)
+
+            '*******************************************************************************
+            ' Proceso de Generacion de Cartas diferenciadas por "Aporte" o "Canjes" 
+            '*******************************************************************************
+            Dim cantidadDeTablasASaltar As Integer
+            If tipoDeComprobante.Equals("aporte") Then
+                cantidadDeTablasASaltar = 2
+            Else
+                cantidadDeTablasASaltar = 1
+            End If
+
+
+            For Each pair As KeyValuePair(Of Integer, List(Of FijacionDTO)) In listaDOcDVC
+                If pair.Value.Count() > 0 Then
+                    document.InsertDocument(PlantillaWord, True)
+                    Dim t As Table = document.Tables(numeroTabla)
+
+                    bPrimero = True
+                    Dim PatronDeFila = t.Rows(t.Rows.Count() - 1)
+                    Dim NewRow As Row
+
+                    For Each transaccion As FijacionDTO In pair.Value
+
+                        PatronDeFila = t.Rows(t.Rows.Count() - 1)
+                        NewRow = t.InsertRow(PatronDeFila, t.RowCount - 1)
+
+                        If tipoDeComprobante.Equals("aporte") Then
+                            bPrimero = setColumnasDCVAporte(bPrimero, document, NewRow, transaccion)
+                        Else
+                            bPrimero = setColumnasDCVCanje(bPrimero, document, NewRow, transaccion)
+                        End If
+
+                    Next
+
+                    PatronDeFila.Remove()
+                    numeroTabla += cantidadDeTablasASaltar
+
+                End If
+            Next
+
+            If File.Exists(nombreOutput) Then
+                File.Delete(nombreOutput)
+            End If
+
+            document.SaveAs(nombreOutput)
+        End If
         Return nombreOutput + ".docx"
 
     End Function
@@ -192,35 +212,32 @@ Public Class exportarWord
 
         If bPrimero Then
             bPrimero = False
-            document.ReplaceText("[COLUMNA C]", transaccion.TipoTransaccion)
-            document.ReplaceText("[COLUMNA E]", transaccion.FnNombreCorto)       ' Nombre del Fondo.
             document.ReplaceText("[COLUMNA B]", Date.Now().ToString("dd \de mmmm \de yyyy")) ' Fecha generacion del documento 
-            document.ReplaceText("[COLUMNA D]", transaccion.Nemotecnico)        ' Nombre de la serie
-            document.ReplaceText("[COLUMNA G]", transaccion.Rut)        ' Rut del fondo
-            document.ReplaceText("[COLUMNA N]", Date.Now().ToString("dd \de mmmm \de yyyy")) ' Fecha generacion del documento 
-            document.ReplaceText("[COLUMNA M]", transaccion.NAV_FIJADO)    ' Valor Cuota Nav 
+            document.ReplaceText("[COLUMNA I]", transaccion.FnNombreCorto)
+            document.ReplaceText("[COLUMNA J]", transaccion.ObjCanje.NombreSerieEntrante)       ' Nombre del Fondo.
+            document.ReplaceText("[COLUMNA P]", transaccion.ObjCanje.NombreSerieSaliente)        ' Nombre de la serie
+            document.ReplaceText("[COLUMNA H]", transaccion.ObjCanje.NombreFondo)        ' Rut del fondo
         End If
 
-        newRow.ReplaceText("[COLUMNA I]", transaccion.RazonSocial)   ' nombreAportante 
-        newRow.ReplaceText("[COLUMNA J]", transaccion.ApRut)         ' rut del aportante
-        newRow.ReplaceText("[COLUMNA K]", transaccion.Cuotas)            ' cantidad de cuotas
-
-        'document.ReplaceText("[COLUMNA I]", fijacion.fechaPago.ToString("dd-mm-yyyy"))  ' Fecha de Solicitud
-        'document.ReplaceText("[COLUMNA Y]", fijacion.fechaPago.ToString("HH:mm"))   ' Hora Solicitud
-        'document.ReplaceText("[COLUMNA N]", fijacion.MonedaPago)    'Moneda pago
-        'document.ReplaceText("[COLUMNA O]", fijacion.TipoTransaccion)   ' 
-        'document.ReplaceText("[COLUMNA P]", fijacion.Monto)             ' monto en la moneda de la transaccion 
+        newRow.ReplaceText("[COLUMNA J]", transaccion.ObjCanje.NombreSerieEntrante)       ' Nombre del Fondo.
+        newRow.ReplaceText("[COLUMNA P]", transaccion.ObjCanje.NombreSerieSaliente)        ' Nombre de la ser
+        newRow.ReplaceText("[COLUMNA E]", transaccion.RazonSocial)   ' nombreAportante 
+        newRow.ReplaceText("[COLUMNA F]", transaccion.ApRut)         ' rut del aportante
+        newRow.ReplaceText("[COLUMNA K]", transaccion.ObjCanje.CuotaEntrante)            ' cantidad de cuotas
+        newRow.ReplaceText("[COLUMNA M]", transaccion.ObjCanje.NavCLPEntrante)            ' cantidad de cuotas
+        newRow.ReplaceText("[COLUMNA T]", transaccion.ObjCanje.CuotaEntrante)            ' cantidad de cuotas
+        newRow.ReplaceText("[COLUMNA R]", transaccion.ObjCanje.NavEntrante)            ' cantidad de cuotas
+        newRow.ReplaceText("[COLUMNA S]", transaccion.ObjCanje.Factor)            ' cantidad de cuotas
 
         Return bPrimero
-
     End Function
 
     Private Shared Function setColumnasDCVAporte(bPrimero As Boolean, document As DocX, newRow As Row, fijacion As FijacionDTO) As Boolean
         If bPrimero Then
             bPrimero = False
-            document.ReplaceText("[COLUMNA C]", fijacion.TipoTransaccion)
-            document.ReplaceText("[COLUMNA E]", fijacion.FnNombreCorto)       ' Nombre del Fondo.
+            document.ReplaceText("[COLUMNA C]", "Aporte")
             document.ReplaceText("[COLUMNA B]", Date.Now().ToString("dd \de mmmm \de yyyy")) ' Fecha generacion del documento 
+            document.ReplaceText("[COLUMNA E]", fijacion.FnNombreCorto)
             document.ReplaceText("[COLUMNA D]", fijacion.Nemotecnico)        ' Nombre de la serie
             document.ReplaceText("[COLUMNA G]", fijacion.Rut)        ' Rut del fondo
             document.ReplaceText("[COLUMNA N]", Date.Now().ToString("dd \de mmmm \de yyyy")) ' Fecha generacion del documento 
@@ -230,6 +247,7 @@ Public Class exportarWord
         newRow.ReplaceText("[COLUMNA I]", fijacion.RazonSocial)   ' nombreAportante 
         newRow.ReplaceText("[COLUMNA J]", fijacion.ApRut)         ' rut del aportante
         newRow.ReplaceText("[COLUMNA K]", Utiles.formateConSeparadorDeMiles(fijacion.Cuotas, 0))            ' cantidad de cuotas
+        newRow.ReplaceText("[COLUMNA N]", Date.Now().ToString("dd \de mmmm \de yyyy"))             ' monto en la moneda de la transaccion 
 
         'document.ReplaceText("[COLUMNA I]", fijacion.fechaPago.ToString("dd-mm-yyyy"))  ' Fecha de Solicitud
         'document.ReplaceText("[COLUMNA Y]", fijacion.fechaPago.ToString("HH:mm"))   ' Hora Solicitud
@@ -264,25 +282,33 @@ Public Class exportarWord
             nombreOutput = dirOutputDoc & "COMPROBANTE DE PAGO CANJE"
         End If
 
-        Dim PlantillaWord = DocX.Load(TemplatePath)
-        Dim document = DocX.Create(nombreOutput)
-
-        For Each fijacion As FijacionDTO In fijaciones
-
-            document.InsertDocument(PlantillaWord, True)
-
-            If (tipoDeCarta.Equals("aporte")) Then
-                setColumnasAporte(document, fijacion)
-            Else
-                setColumnasCanje(document, fijacion)
-            End If
-        Next
-
         If File.Exists(nombreOutput) Then
             File.Delete(nombreOutput)
         End If
 
-        document.SaveAs(nombreOutput)
+
+        If fijaciones.Count > 0 Then
+            Dim PlantillaWord = DocX.Load(TemplatePath)
+            Dim document = DocX.Create(nombreOutput)
+
+            For Each fijacion As FijacionDTO In fijaciones
+
+                document.InsertDocument(PlantillaWord, True)
+
+                If (tipoDeCarta.Equals("aporte")) Then
+                    setColumnasAporte(document, fijacion)
+                Else
+                    setColumnasCanje(document, fijacion)
+                End If
+            Next
+
+            If File.Exists(nombreOutput) Then
+                File.Delete(nombreOutput)
+            End If
+
+            document.SaveAs(nombreOutput)
+
+        End If
 
         Return nombreOutput + ".docx"
 
@@ -290,24 +316,29 @@ Public Class exportarWord
 
     Private Shared Sub setColumnasCanje(document As DocX, fijacion As FijacionDTO)
 
-        document.ReplaceText("[COLUMNA D]", fijacion.TipoTransaccion)
-        document.ReplaceText("[COLUMNA C]", Date.Now().ToString("dd \de mmmm \de yyyy")) ' Fecha generacion del documento 
-        document.ReplaceText("[COLUMNA X]", fijacion.fechaPago.ToString("dd-mm-yyyy"))  ' Fecha de Solicitud
-        document.ReplaceText("[COLUMNA Y]", fijacion.fechaPago.ToString("HH:mm"))   ' Hora Solicitud
-        document.ReplaceText("[COLUMNA F]", fijacion.FnNombreCorto)       ' Nombre del Fondo.
-        document.ReplaceText("[COLUMNA G]", fijacion.Nemotecnico)        ' Nombre de la serie
-        document.ReplaceText("[COLUMNA J]", fijacion.RazonSocial)   ' nombreAportante 
-        document.ReplaceText("[COLUMNA K]", fijacion.ApRut)         ' rut del aportante
-        document.ReplaceText("[COLUMNA N]", fijacion.MonedaPago)    'Moneda pago
-        document.ReplaceText("[COLUMNA M]", fijacion.NAV_FIJADO)    ' Valor Cuota Nav  
-        document.ReplaceText("[COLUMNA O]", fijacion.TipoTransaccion)   ' 
-        document.ReplaceText("[COLUMNA L]", fijacion.Cuotas)            ' cantidad de cuotas
-        document.ReplaceText("[COLUMNA P]", fijacion.Monto)             ' monto en la moneda de la transaccion 
+        document.ReplaceText("[COLUMNA B]", Date.Now().ToString("dd \de mmm \de yyyy")) ' Fecha generacion del documento 
+        document.ReplaceText("[COLUMNA I]", fijacion.ObjCanje.NombreFondo)   ' Nombre del fondo
+        document.ReplaceText("[COLUMNA J]", fijacion.ObjCanje.NombreSerieEntrante) ' Serie entrante
+        document.ReplaceText("[COLUMNA P]", fijacion.ObjCanje.NombreSerieSaliente)             ' serie saliente 
+        document.ReplaceText("[COLUMNA E]", fijacion.RazonSocial)   ' nombreAportante 
+        document.ReplaceText("[COLUMNA F]", fijacion.ApRut)         ' rut del aportante
+
+        document.ReplaceText("[COLUMNA Z]", fijacion.ObjCanje.Cuotas)         ' Cuotas Entrante
+        document.ReplaceText("[COLUMNA L]", fijacion.ObjCanje.MontoCLPEntrante) ' Monto Clp Entrante 
+        document.ReplaceText("[COLUMNA Y]", fijacion.ObjCanje.CuotaEntrante)         ' Cuotas Entrante
+        document.ReplaceText("[COLUMNA Q]", fijacion.ObjCanje.MontoCLPSaliente)         ' Monto CLP SALiente
+        document.ReplaceText("[COLUMNA S]", fijacion.ObjCanje.Factor)         ' Factor
+
+        document.ReplaceText("[COLUMNA K]", fijacion.ObjCanje.Cuotas)     ' 
+        document.ReplaceText("[COLUMNA T]", fijacion.ObjCanje.CuotaSaliente)     ' 
+
+        document.ReplaceText("[COLUMNA O]", fijacion.ObjCanje.MontoEntrante)     ' 
+        document.ReplaceText("[COLUMNA N]", fijacion.ObjCanje.MontoSaliente)     ' 
 
     End Sub
 
     Private Shared Sub setColumnasAporte(document As DocX, fijacion As FijacionDTO)
-        document.ReplaceText("[COLUMNA D]", fijacion.TipoTransaccion)
+        document.ReplaceText("[COLUMNA D]", "Aporte")
         document.ReplaceText("[COLUMNA C]", Date.Now().ToString("dd \de mmmm \de yyyy")) ' Fecha generacion del documento 
         document.ReplaceText("[COLUMNA X]", fijacion.fechaPago.ToString("dd-mm-yyyy"))  ' Fecha de Solicitud
         document.ReplaceText("[COLUMNA Y]", fijacion.fechaPago.ToString("HH:mm"))   ' Hora Solicitud
