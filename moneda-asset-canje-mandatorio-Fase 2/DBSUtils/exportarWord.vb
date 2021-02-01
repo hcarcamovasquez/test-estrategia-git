@@ -10,7 +10,7 @@ Public Class exportarWord
     Private Shared Property dirOutputDoc As String
     Private Shared Property dirPlantillasWord As String
 
-    Public Shared Sub GenerarCartas(fijaciones As List(Of FijacionDTO))
+    Public Shared Function GenerarCartas(fijaciones As List(Of FijacionDTO)) As String
         Dim listaDeArchivos As List(Of String) = New List(Of String)
 
         Dim configurationAppSettings As New System.Configuration.AppSettingsReader()
@@ -23,7 +23,7 @@ Public Class exportarWord
 
 
         dirPlantillasWord = DirectCast(configurationAppSettings.GetValue("PlantillasWord", GetType(System.String)), String)
-        dirOutputDoc = DirectCast(configurationAppSettings.GetValue("OutputDoc", GetType(System.String)), String)
+        dirOutputDoc = DirectCast(configurationAppSettings.GetValue("RutaGeneracionExcel", GetType(System.String)), String)
 
         dirOutputExcel = DirectCast(configurationAppSettings.GetValue("CarpetaGeneracionExcel", GetType(System.String)), String)
 
@@ -35,31 +35,35 @@ Public Class exportarWord
 
         nombreZip = HacerZip(listaDeArchivos)
 
+        Return dirOutputExcel + nombreZip
 
-    End Sub
+    End Function
 
     Private Shared Function HacerZip(listadearchivos As List(Of String)) As String
         Const CONST_EXTENSION As String = ".zip"
         Const CONST_NOMBRE_ARCHIVO As String = "Cartas_"
 
         Dim nombreZip As String
+        Dim carpetaNombre As String
+
         Dim fechahoraGeneracion As String
 
         fechahoraGeneracion = Date.Now().ToString("ddMMyyyy")
 
-        nombreZip = String.Format("{0}{1}{2}{3}", dirOutputDoc, CONST_NOMBRE_ARCHIVO, fechahoraGeneracion, CONST_EXTENSION)
+        nombreZip = String.Format("{0}{1}{2}", CONST_NOMBRE_ARCHIVO, fechahoraGeneracion, CONST_EXTENSION)
+        carpetaNombre = String.Format("{0}{1}", dirOutputDoc, nombreZip)
 
         Using zip As New ZipFile()
-            For Each miFile As String In listadearchivos
+        For Each miFile As String In listadearchivos
                 If File.Exists(miFile) Then
                     zip.AddFile(miFile, "cartas")
                 End If
             Next
-            If File.Exists(nombreZip) Then
-                File.Delete(nombreZip)
+            If File.Exists(carpetaNombre) Then
+                File.Delete(carpetaNombre)
             End If
 
-            zip.Save(nombreZip)
+            zip.Save(carpetaNombre)
 
         End Using
 

@@ -3729,8 +3729,6 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
 
 
     Private Sub btnImprimir_click(sender As Object, e As EventArgs) Handles btnImprimir.Click
-        Return
-
         Dim fijaciones As List(Of FijacionDTO) = New List(Of FijacionDTO)
         Dim fijacion As FijacionDTO = New FijacionDTO
 
@@ -3739,23 +3737,6 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             Dim chk As CheckBox = row.Cells(0).Controls(1)
             If chk IsNot Nothing And chk.Checked Then
                 fijacion = New FijacionDTO
-
-
-                '<asp:BoundField DataField = "ID" HeaderText="ID" />
-                '<asp:BoundField DataField = "TipoTransaccion" HeaderText="Tipo de Transacción" />
-                '<asp:BoundField DataField = "APRUT" HeaderText="RUT Aportante" />
-                '<asp:BoundField DataField = "RazonSocial" HeaderText="Nombre/Razón Social" />
-                '<asp:BoundField DataField = "RUT" HeaderText="RUT del Fondo" />
-                '<asp:BoundField DataField = "FNNombreCorto" HeaderText="Nombre del Fondo" />
-                '<asp:BoundField DataField = "FechaNav" HeaderText="Fecha NAV" DataFormatString="{0:dd-MM-yyyy}" ItemStyle-HorizontalAlign="center"/>
-                '<asp:BoundField DataField = "FechaTCObs" HeaderText="Fecha TC Observado" DataFormatString="{0:dd-MM-yyyy}" ItemStyle-HorizontalAlign="center"/>
-                '<asp:BoundField DataField = "fechaPago" HeaderText="Fecha de Pago"  DataFormatString="{0:dd-MM-yyyy}" ItemStyle-HorizontalAlign="center"/>
-                '<asp:BoundField DataField = "NAV_FIJADO" HeaderText="NAV Fijado"  DataFormatString="{0:N6}" ItemStyle-HorizontalAlign="Right"/>
-                '<asp:BoundField DataField = "TC_OBSERVADO" HeaderText="TC Observado" DataFormatString="{0:N6}" ItemStyle-HorizontalAlign="Right"/>
-                '<asp:BoundField DataField = "FijacionNAV" HeaderText="Fijación NAV" />
-                '<asp:BoundField DataField = "FijacionTCObservado" HeaderText="Fijación TC Observado" />                    
-                '<asp:BoundField DataField = "Nemotecnico" HeaderText="Nemotécnico" />
-
 
                 fijacion.ID = row.Cells(CONST_COL_ID).Text().Trim()
                 fijacion.TipoTransaccion = row.Cells(CONST_COL_TIPOTRANSACCION).Text().Trim()
@@ -3790,7 +3771,17 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             Exit Sub
         End If
 
-        exportarWord.GenerarCartas(fijaciones)
+        Dim nombrearchivo As String = exportarWord.GenerarCartas(fijaciones)
+        If nombrearchivo IsNot Nothing Then
+            Archivo.NavigateUrl = nombrearchivo
+            Archivo.Text = "Bajar Archivo"
+        Else
+            Archivo.Visible = False
+        End If
+
+        txtAccionHidden.Value = "MOSTRAR_DIALOGO"
+
+        ShowMessages(CONST_TITULO_FIJACION, "Archivo Generado correctamente ", Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_LOGO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_INFO, False)
 
     End Sub
 
