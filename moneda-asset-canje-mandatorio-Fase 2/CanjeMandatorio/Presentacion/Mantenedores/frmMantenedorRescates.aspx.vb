@@ -2002,14 +2002,14 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             '    ShowAlert("ADVERTENCIA: La información DCV es menor a la Fecha de Solicitud.")
             'End If
             ShowAlert(CONST_INSERTAR_EXITO)
-            'GenerarPopUp()
+            GenerarPopUp()
         Else
             'Error en la BBDD
             'ShowMesagges(CONST_TITULO_VALORESCUOTA, CONST_INSERTAR_ERROR, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_LOGO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_ERROR)
             ShowAlert(CONST_INSERTAR_ERROR)
         End If
 
-        txtAccionHidden.Value = ""
+        'txtAccionHidden.Value = ""
         DataInitial()
         Me.GrvTabla.DataSource = Nothing
         GrvTabla.DataBind()
@@ -2536,8 +2536,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
         If solicitudMod = Constantes.CONST_OPERACION_EXITOSA Then
             'ShowMesagges(CONST_TITULO_VALORESCUOTA, CONST_MODIFICAR_EXITO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_LOGO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_CORRECTO)
-            GenerarPopUp()
             ShowAlert(CONST_MODIFICAR_EXITO)
+            GenerarPopUp()
         Else
             ' ShowMesagges(CONST_TITULO_VALORESCUOTA, CONST_MODIFICAR_ERROR, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_LOGO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_ERROR)
             ShowAlert(CONST_MODIFICAR_ERROR)
@@ -3913,8 +3913,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         lblPopUpHoraSolicitud.Text = Rescate.RES_Fecha_Solicitud.ToShortTimeString
         lblPopUpTipo.Text = Rescate.RES_Tipo_Transaccion
         lblPopUpNemoFondo.Text = Rescate.FS_Nemotecnico
-        lblPopUpNombreFondo.Text = "En Validacion con Moneda" 'Rescate.FN_Nombre_Corto 'VALIDAR MONEDA
-        lblPopUpSerie.Text = Rescate.AP_Multifondo
+        lblPopUpNombreFondo.Text = Rescate.FN_Nombre_Corto
+        lblPopUpSerie.Text = Rescate.FS_Nombre_Corto
         lblPopUpAdministradora.Text = "En Validacion con Moneda" 'FN_Razon_Social" 'VALIDAR MONEDA
         lblPopUpRutAdministradora.Text = "En Validacion con Moneda" 'FN_RUT" 'VALIDAR MONEDA
         lblPopUpNombreAportante.Text = Rescate.AP_Razon_Social
@@ -3933,7 +3933,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         lblPopUpValorRescate.Text = "Por Confirmar"
         lblPopUpFechaNav.Text = Rescate.RES_Fecha_Nav
         lblPopUpFechaPagoRescate.Text = Rescate.RES_Fecha_Pago
-        lblPopUpEjecutado.Text = "En Validacion con Moneda" '"RES_Fijacion_NAV" + "RES_Fijacion_TCObservado" 'Confimar MONEDA
+        lblPopUpEjecutado.Text = "PENDIENTE"
     End Sub
 
 End Class

@@ -121,7 +121,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         GrvTabla.DataBind()
         cargarIdCanje()
         BtnExportar.Enabled = (GrvTabla.Rows.Count <> 0)
-        txtAccionHidden.Value = ""
+        'txtAccionHidden.Value = ""
         ValidaPermisosPerfil()
 
         txtModalFSolicitud.Text = Date.Now().ToShortDateString()
@@ -188,6 +188,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
 
     Protected Sub btnLimpiarFrm_Click(sender As Object, e As EventArgs)
         DataInitial()
+        txtAccionHidden.Value = ""
     End Sub
 
     Protected Sub BtnBuscar_Click(sender As Object, e As EventArgs) Handles BtnBuscar.Click
@@ -241,7 +242,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
             If solicitud = Constantes.CONST_OPERACION_EXITOSA Then
                 ShowAlert(CONST_EXITO_AL_MODIFICAR)
                 'TODO: DESCOMENTAR
-                '   GenerarPopUp()
+                GenerarPopUp()
             Else
                 ShowAlert(CONST_ERROR_AL_MODIFICAR)
             End If
@@ -437,7 +438,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
             cargaFiltroNemotecnicoBusqueda()
             ShowAlert(CONST_ELIMINAR_EXITO)
             DataInitial()
-
+            txtAccionHidden.Value = ""
         Else
             ShowAlert(CONST_ELIMINAR_ERROR)
             Exit Sub
@@ -493,10 +494,12 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
     Private Sub btnModalGuardar_Click(sender As Object, e As EventArgs) Handles btnModalGuardar.Click
         If (verificarcampos()) Then
             Dim canje As CanjeDTO = GetCanje()
-            Dim solicitud As Integer = NegocioCanje.InsertarCanje(canje)
+            canje = NegocioCanje.InsertarCanje(canje)
+            txtIdCanje.Text = canje.IdCanje
 
-            If solicitud = Constantes.CONST_OPERACION_EXITOSA Then
+            If txtIdCanje.Text > 0 Then
                 ShowAlert(CONST_EXITO_AL_GUARDAR)
+                GenerarPopUp()
                 DataInitial()
             Else
                 ShowAlert(CONST_ERROR_AL_GUARDAR)
@@ -2637,7 +2640,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         lblPopUpFechaSolicitud.Text = Canje.FechaSolicitud.ToShortDateString
         lblPopUpHoraSolicitud.Text = Canje.FechaSolicitud.ToShortTimeString
         lblPopUpTipo.Text = Canje.TipoTransaccion
-        lblPopUpNemoFondo.Text = "En Validacion con Moneda" '"FS_Nemotecnico_Saliente" + "FS_Nemotecnico_Entrate" 'VALIDAR MONEDA
+        lblPopUpNemoFondo.Text = Canje.NemotecnicoEntrante
         lblPopUpNombreFondo.Text = Canje.NombreFondo
         lblPopUpMonedaDelFondo.Text = Canje.MonedaEntrante
         lblPopUpAdministradora.Text = "En Validacion con Moneda" 'VALIDAR MONEDA
@@ -2646,17 +2649,17 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         lblPopUpRutAportante.Text = Canje.RutAportante
         lblPopUpFechaDeCanje.Text = Canje.FechaCanje
         lblPopUpFechaDeNav.Text = Canje.FechaNavSaliente
-        lblPopUpSerieSaliente.Text = "En Validacion con Moneda" '"FS_Nombre_Corto_Saliente" 'VALIDAR MONEDA
+        lblPopUpSerieSaliente.Text = Canje.NombreSerieSaliente
         lblPopUpCuotasSalientes.Text = Canje.CuotaSaliente
-        lblPopUpNavSaliente.Text = "Por Confirmar" 'EN DURO
-        lblPopUpMontoSaliente.Text = "Por Confirmar" 'EN DURO
+        lblPopUpNavSaliente.Text = "Por Confirmar"
+        lblPopUpMontoSaliente.Text = "Por Confirmar"
 
-        lblPopUpSerieEntrante.Text = "En Validacion con Moneda" '"FS_Nombre_Corto_Saliente" 'VALIDAR MONEDA
-        lblPopUpCuotasEntrantes.Text = "CN_Cuotas_Saliente"
-        lblPopUpNavEntrante.Text = "Por Confirmar" 'EN DURO
-        lblPopUpMontoEntrante.Text = "Por Confirmar" 'EN DURO
-        lblPopUpFactor.Text = "Por Confirmar" 'EN DURO
-        lblPopUpRemanenteADevolver.Text = "Por Confirmar" 'EN DURO
+        lblPopUpSerieEntrante.Text = Canje.NombreSerieEntrante
+        lblPopUpCuotasEntrantes.Text = "Por Confirmar"
+        lblPopUpNavEntrante.Text = "Por Confirmar"
+        lblPopUpMontoEntrante.Text = "Por Confirmar"
+        lblPopUpFactor.Text = "Por Confirmar"
+        lblPopUpRemanenteADevolver.Text = "Por Confirmar"
         lblPopUpContratoGralDeFondos.Text = Canje.ContratoGeneral
         lblPopUpPoderes.Text = Canje.RevisionPoderes
 
