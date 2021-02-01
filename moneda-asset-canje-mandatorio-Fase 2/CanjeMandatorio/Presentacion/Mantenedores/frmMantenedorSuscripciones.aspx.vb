@@ -136,21 +136,19 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
             ShowAlert("Debe ingresar un valor mayor a 0 en cuotas")
         Else
             Dim Suscripcion As SuscripcionDTO = GetSuscripcionModal()
-            Dim solicitud As Integer = Negocio.InsertSuscripcion(Suscripcion)
+            Suscripcion = Negocio.InsertSuscripcion(Suscripcion)
+            txtIdSuscripcion.Text = Suscripcion.IdSuscripcion
 
-            If solicitud = Constantes.CONST_OPERACION_EXITOSA Then
+            If txtIdSuscripcion.Text > 0 Then
                 'Ingresado con éxito
                 ShowAlert(CONST_EXITO_AL_GUARDAR)
-
-            ElseIf solicitud = Constantes.CONST_ERROR_NO_SE_PUEDE_BORRAR Then
-                'Código ya existe
-                ShowAlert(CONST_SUSCRIPCION_EXISTE)
+                GenerarPopUp()
             Else
                 'Error en la BBDD
                 ShowAlert(CONST_ERROR_AL_GUARDAR)
             End If
             FormateoLimpiarDatosModal()
-            txtAccionHidden.Value = ""
+            'txtAccionHidden.Value = ""
             FormateoLimpiarForm()
         End If
 
@@ -174,11 +172,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
             Dim Suscripcion As SuscripcionDTO = GetSuscripcionModal()
             Dim solicitudMod As Integer = negocioMod.updatesuscripcion(Suscripcion)
 
-
             If solicitudMod = Constantes.CONST_OPERACION_EXITOSA Then
                 ShowAlert(CONST_MODIFICAR_EXITO)
-                'TODO: DESCOMENTAR
-                '   GenerarPopUp()
+                GenerarPopUp()
             Else
                 ShowAlert(CONST_MODIFICAR_ERROR)
             End If
@@ -2130,22 +2126,22 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
     End Sub
 
     Private Sub FillPopUp(Suscripcion As SuscripcionDTO)
-        lblPopUpFechaSolicitud.Text = "En Validacion con Moneda" '"SC_Fecha_Suscripcion" 'VALIDAR MONEDA
-        lblPopUpHoraSolicitud.Text = "En Validacion con Moneda" 'VALIDAR MONEDA, sacar hora
+        lblPopUpFechaSolicitud.Text = Suscripcion.FechaSuscripcion.ToShortDateString
+        lblPopUpHoraSolicitud.Text = Suscripcion.FechaSuscripcion.ToShortTimeString
         lblPopUpTipo.Text = Suscripcion.TipoTransaccion
-        lblPopUpFondo.Text = Suscripcion.NemotecnicoRead
+        lblPopUpFondo.Text = Suscripcion.Nemotecnico
         lblPopUpNombreFondo.Text = Suscripcion.FondoNombreCorto
-        lblPopUpSerie.Text = "En Validacion con Moneda" '"AP_Multifondo" 'VALIDAR MONEDA
-        lblPopUpAdministradora.Text = "En Validacion con Moneda" '"FN_Razon_Social" 'SALE DE FONDO?
-        lblPopUpRutAdministradora.Text = "En Validacion con Moneda" 'SALE DE FONDO?
+        lblPopUpSerie.Text = Suscripcion.SerieNombreCorto
+        lblPopUpAdministradora.Text = "En Validacion con Moneda"
+        lblPopUpRutAdministradora.Text = "En Validacion con Moneda"
         lblPopUpNombreAportante.Text = Suscripcion.RazonSocial
         lblPopUpRutAportante.Text = Suscripcion.RutAportanteRead
         lblPopUpMonedaDePago.Text = Suscripcion.Moneda_Pago
-        lblPopUpCuotasMonto.Text = "En Validacion con Moneda" 'CONFIRMAR MONEDA
-        lblPopUpNav.Text = "Por Confirmar" 'EN DURO
+        lblPopUpCuotasMonto.Text = Suscripcion.CuotasASuscribir.ToString() + "/" + Suscripcion.Monto.ToString()
+        lblPopUpNav.Text = "Por Confirmar"
         lblPopUpFechaNav.Text = Suscripcion.FechaNAV
-        lblPopUpMontoDelAporte.Text = "Por Confirmar" 'EN DURO
-        lblPopUpCuotasDeAporte.Text = "Por Confirmar" 'EN DURO
+        lblPopUpMontoDelAporte.Text = "Por Confirmar"
+        lblPopUpCuotasDeAporte.Text = "Por Confirmar"
         lblPopUpContratoGralFondos.Text = Suscripcion.ContratoFondo
         lblPopUpPoderes.Text = Suscripcion.RevisionPoderes
 

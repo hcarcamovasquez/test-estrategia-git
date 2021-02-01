@@ -103,7 +103,7 @@ Public Class CanjeNegocio
         Return CanjeRetorno
     End Function
 
-    Public Function InsertarCanje(canje As CanjeDTO) As Integer
+    Public Function InsertarCanje(canje As CanjeDTO) As CanjeDTO
         Dim canjeDatos As New Datos.CanjeDatos
         Return canjeDatos.InsertCanje(canje)
     End Function

@@ -114,13 +114,11 @@ Public Class SuscripcionNegocio
         Return (SuscripcionoDatos.DeleteSuscripcion(Suscripcion))
     End Function
 
-    Public Function InsertSuscripcion(Suscripcion As SuscripcionDTO) As Integer
+    Public Function InsertSuscripcion(Suscripcion As SuscripcionDTO) As SuscripcionDTO
         Dim SuscripcionDatos As New Datos.SuscripcionDatos
         Dim SuscripcionConsultado As SuscripcionDTO = SuscripcionDatos.GetSuscripcion(Suscripcion)
         If SuscripcionConsultado Is Nothing Then
             Return SuscripcionDatos.InsertSuscripcion(Suscripcion)
-        Else
-            Return Constantes.CONST_ERROR_BBDD
         End If
     End Function
     Public Function updatesuscripcion(suscripcion As SuscripcionDTO) As Integer

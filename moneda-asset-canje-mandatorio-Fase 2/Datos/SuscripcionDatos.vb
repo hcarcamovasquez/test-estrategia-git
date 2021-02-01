@@ -83,14 +83,10 @@ Public Class SuscripcionDatos
         End If
     End Function
 
-    Public Function InsertSuscripcion(Suscripcion As SuscripcionDTO) As Integer
+    Public Function InsertSuscripcion(Suscripcion As SuscripcionDTO) As SuscripcionDTO
         Dim Ws = New WSCanjeMandatorio.WSSuscripcion()
 
-        If Ws.SuscripcionIngresar(Suscripcion) Then
-            Return Constantes.CONST_OPERACION_EXITOSA
-        Else
-            Return Constantes.CONST_ERROR_BBDD
-        End If
+        Return Ws.SuscripcionIngresar(Suscripcion)
     End Function
 
     Public Function UpdateSuscripcion(Suscripcion As SuscripcionDTO) As Integer

@@ -536,16 +536,25 @@ Public Class WSCanje
 
     <WebMethod()>
     <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
-    Public Function CanjeIngresar(canje As CanjeDTO) As Boolean
+    Public Function CanjeIngresar(canje As CanjeDTO)
         Dim sp As New DBSqlServer.SqlServer.StoredProcedure(SP_CRUD)
+        Dim ds As DataSet
+        Dim CanjeRetorno As CanjeDTO = New CanjeDTO
         Try
             sp.AgregarParametro("Accion", CONST_INSERT, System.Data.SqlDbType.VarChar)
             canje.Estado = DTO.Estados.CONST_ACTIVO
 
             FillParameters(canje, sp)
-            sp.ReturnDataSet()
-
-            Return (sp.FilasAfectas > 0)
+            ds = sp.ReturnDataSet()
+            If ds.Tables.Count > 0 AndAlso ds.Tables(0).Rows.Count > 0 Then
+                Dim dataRow As DataRow = ds.Tables(0).Rows(0)
+                Try
+                    CanjeRetorno.IdCanje = dataRow("CN_ID")
+                Catch ex As Exception
+                    CanjeRetorno.IdCanje = 0
+                End Try
+            End If
+            Return CanjeRetorno
         Catch ex As Exception
             Throw
         End Try

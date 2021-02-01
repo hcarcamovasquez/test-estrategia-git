@@ -412,8 +412,10 @@ Public Class WSSuscripcion
 
     <WebMethod()>
     <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
-    Public Function SuscripcionIngresar(Suscripcion As SuscripcionDTO) As Integer
+    Public Function SuscripcionIngresar(Suscripcion As SuscripcionDTO)
         Dim sp As New DBSqlServer.SqlServer.StoredProcedure(SP_CRUD)
+        Dim ds As DataSet
+        Dim SuscripcionRetorno As SuscripcionDTO = New SuscripcionDTO
         Try
             sp.AgregarParametro("Accion", CONST_INSERT, System.Data.SqlDbType.VarChar)
 
@@ -421,12 +423,20 @@ Public Class WSSuscripcion
 
             FillParameters(Suscripcion, sp)
 
-            sp.ReturnDataSet()
+            ds = sp.ReturnDataSet()
+            If ds.Tables.Count > 0 AndAlso ds.Tables(0).Rows.Count > 0 Then
+                Dim dataRow As DataRow = ds.Tables(0).Rows(0)
+                Try
+                    SuscripcionRetorno.IdSuscripcion = dataRow("SC_ID")
+                Catch ex As Exception
+                    SuscripcionRetorno.IdSuscripcion = 0
+                End Try
+            End If
 
-            Return sp.FilasAfectas()
+            Return SuscripcionRetorno
 
         Catch ex As Exception
-            Return Constantes.CONST_ERROR_BBDD
+            Return False
         End Try
     End Function
 

@@ -89,14 +89,9 @@ Public Class CanjeDatos
         Dim ws = New WSCanjeMandatorio.WSCanje
         Return ws.CanjeFiltros(canje, fechaHastaSolicitud, fechaHastaNav, fechaHastaCanje)
     End Function
-    Public Function InsertCanje(canje As CanjeDTO) As Integer
+    Public Function InsertCanje(canje As CanjeDTO) As CanjeDTO
         Dim Ws = New WSCanjeMandatorio.WSCanje
-
-        If Ws.CanjeIngresar(canje) Then
-            Return Constantes.CONST_OPERACION_EXITOSA
-        Else
-            Return Constantes.CONST_ERROR_BBDD
-        End If
+        Return Ws.CanjeIngresar(canje)
     End Function
 
     Public Function UpdateCanje(canje As CanjeDTO) As Integer
