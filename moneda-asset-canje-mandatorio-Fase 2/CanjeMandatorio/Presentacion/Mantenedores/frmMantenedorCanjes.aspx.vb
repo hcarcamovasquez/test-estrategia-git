@@ -1019,6 +1019,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         CalcularCuotaDCV()
         ConversionMonedaEntrante()
         calcularFactor()
+        ConsultarFechaCanje()
     End Sub
 
     ''' <summary>
@@ -1327,7 +1328,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         ddlModalNemotecnicoSaliente.DataBind()
         ddlModalNemotecnicoSaliente.Items.Insert(0, New ListItem("", ""))
 
-        ConsultarFechaCanje()
+        'ConsultarFechaCanje()
 
         ConsultarFechaNavEntrante()
 
@@ -1378,7 +1379,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         ConsultarFechaNavSaliente()
         ConsultarFechaNavEntrante()
         ConsultarFechaObservado()
-        ConsultarFechaCanje()
+        'ConsultarFechaCanje()
         CalcularCuotaDCV()
     End Sub
 
@@ -1401,8 +1402,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
             Case "FechaSolicitud"
                 FechaParaCalculo = txtModalFSolicitud.Text
             Case "FechaNav"
-                If txtModalFechaNavEntrante.Text <> "" Then
-                    FechaParaCalculo = txtModalFechaNavEntrante.Text
+                If txtModalFechaNavSaliente.Text <> "" Then
+                    FechaParaCalculo = txtModalFechaNavSaliente.Text
                 End If
             Case Else
                 FechaParaCalculo = txtModalFSolicitud.Text
@@ -2314,7 +2315,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         txtModalCuotasDisponibles.Enabled = False
         ddlModalFijacionNav.Enabled = False
         ddlModalFijacionTC.Enabled = False
-        txtModalFechaNavEntrante.Enabled = True
+        txtModalFechaNavEntrante.Enabled = False
         txtModalTipoCambio.Enabled = True
         lnkbtnModalFechaObservado.Visible = True
         lnkbtnModalFechaNavSaliente.Visible = True
@@ -2372,7 +2373,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         txtModalCuotasDisponibles.Enabled = False
         ddlModalFijacionNav.Enabled = False
         ddlModalFijacionTC.Enabled = False
-        txtModalFechaNavEntrante.Enabled = True
+        txtModalFechaNavEntrante.Enabled = False
         txtModalTipoCambio.Enabled = True
         lnkbtnModalFechaObservado.Visible = True
         lnkbtnModalFechaNavSaliente.Visible = True
