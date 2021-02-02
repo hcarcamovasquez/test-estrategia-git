@@ -13,7 +13,6 @@ Public Class WSFondos
     Inherits System.Web.Services.WebService
 
     Private Const SP_CRUD As String = "PRC_FondosCRUD"
-    Private Const SP_FONDO_FILTRO As String = "PRC_FondosBuscarFiltro"
 
     Private Const CONST_INSERT As String = "INSERT"
     Private Const CONST_UPDATE As String = "UPDATE"
@@ -22,6 +21,7 @@ Public Class WSFondos
     Private Const CONST_SELECT_FILTRO As String = "SELECT_FILTRO"
     Private Const CONST_SELECT_ONE As String = "SELECT_ONE"
     Private Const CONST_SELECT_RELACIONES As String = "SELECT_RELACIONES"
+
     Private Const SP_CONSULTAS As String = "PRC_FondoSerieConsultas"
 
     <WebMethod()>
@@ -447,6 +447,12 @@ Public Class WSFondos
         sp.AgregarParametro("Acumulado", fondo.Acumulado, System.Data.SqlDbType.Decimal)
         sp.AgregarParametro("fnControlCuotas", fondo.ControlCuotas, System.Data.SqlDbType.Int)
 
+        sp.AgregarParametro("fnControlTipoControl", fondo.ControlTipoControl, System.Data.SqlDbType.VarChar)
+        sp.AgregarParametro("fnControlDiasAVerificar", fondo.ControlDiasAVerificar, System.Data.SqlDbType.Int)
+        sp.AgregarParametro("fnControlTipoDeConfiguracion", fondo.ControlTipoDeConfiguracion, System.Data.SqlDbType.VarChar)
+        sp.AgregarParametro("fnControlCantidadDias", fondo.ControlCantidadDias, System.Data.SqlDbType.Int)
+        sp.AgregarParametro("fnControlDiasHabiles", fondo.ControlDiasHabiles, System.Data.SqlDbType.Int)
+
     End Sub
 
     Private Function fillObject(dataRow As DataRow) As FondoDTO
@@ -468,6 +474,13 @@ Public Class WSFondos
             .Acumulado = If(IsDBNull(dataRow("FN_Acumulado")), Nothing, dataRow("FN_Acumulado"))
 
             .ControlCuotas = If(IsDBNull(dataRow("FN_CONTROL_CUOTAS")), Nothing, dataRow("FN_CONTROL_CUOTAS"))
+
+            .ControlTipoControl = dataRow("fn_Control_Tipo_Control")
+            .ControlDiasAVerificar = dataRow("fn_Control_Dias_AVerificar")
+            .ControlTipoDeConfiguracion = dataRow("fn_Control_TipoDe_Configuracion")
+            .ControlCantidadDias = dataRow("fn_Control_Cantidad_Dias")
+            .ControlDiasHabiles = dataRow("fn_Control_Dias_Habiles")
+
 
         End With
         Return fondo

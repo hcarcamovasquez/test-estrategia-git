@@ -127,6 +127,7 @@
                 <asp:Button ID="btnLimpiarFrm" Text="Borrar" class="btn btn-secondary" runat="server" OnClick="btnLimpiarFrm_Click" />
                 <!-- BOTÓN CREAR -->
                 <asp:Button ID="btnCrear" Text="Crear" class="btn btn-info" runat="server" />
+                <asp:Button ID="btnProrrotear" Text="Prorrotear" class="btn btn-info" runat="server" />
             </div>
         </div>
 

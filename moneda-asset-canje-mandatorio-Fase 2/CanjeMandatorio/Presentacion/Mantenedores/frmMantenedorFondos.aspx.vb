@@ -63,6 +63,15 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
 
         BtnExportar.Enabled = (GrvTabla.Rows.Count <> 0)
         ValidaPermisosPerfil()
+
+        ddlControlTipoControl.Items.Insert(0, New ListItem("", ""))
+        ddlControlTipoDeConfiguracion.Items.Insert(0, New ListItem("", ""))
+
+        txtControlCantidadDias.Text = ""
+        txtControlDiasAVerificar.Text = ""
+        chkControlDiasHabiles.Checked = False
+
+
     End Sub
 
     Private Sub CargaFiltroRut()
@@ -404,6 +413,23 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
 
         chkControlCuotas.Checked = fondo.ControlCuotas
 
+        If fondo.ControlTipoControl <> "" Then
+            ddlControlTipoControl.SelectedValue = fondo.ControlTipoControl
+        End If
+
+        txtControlDiasAVerificar.Text = fondo.ControlDiasAVerificar
+
+
+        If fondo.ControlTipoDeConfiguracion <> "" Then
+            ddlControlTipoDeConfiguracion.SelectedValue = fondo.ControlTipoDeConfiguracion
+        End If
+
+        txtControlCantidadDias.Text = fondo.ControlCantidadDias
+        chkControlDiasHabiles.Checked = fondo.ControlDiasHabiles
+
+        txtControlCantidadDias.Enabled = Not (fondo.ControlTipoDeConfiguracion.Equals("Pago"))
+        chkControlDiasHabiles.Enabled = Not (fondo.ControlTipoDeConfiguracion.Equals("Pago"))
+
     End Sub
 
     Private Sub FormateoEstiloFormModificar()
@@ -488,6 +514,13 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
         Textbox4.Text = ""
 
         chkControlCuotas.Checked = False
+
+        ddlControlTipoControl.SelectedValue = ""
+        txtControlDiasAVerificar.Text = ""
+        ddlControlTipoDeConfiguracion.SelectedValue = ""
+        txtControlCantidadDias.Text = ""
+        chkControlDiasHabiles.Checked = False
+
     End Sub
 
     Private Function GetFondoModal() As FondoDTO
@@ -522,6 +555,16 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
         End If
 
         fondo.ControlCuotas = chkControlCuotas.Checked
+
+
+        fondo.ControlTipoControl = ddlControlTipoControl.SelectedValue
+        fondo.ControlDiasAVerificar = IIf(txtControlDiasAVerificar.Text = "", 0, txtControlDiasAVerificar.Text)
+
+        fondo.ControlTipoDeConfiguracion = ddlControlTipoDeConfiguracion.SelectedValue
+
+        fondo.ControlCantidadDias = IIf(txtControlCantidadDias.Text = "", 0, txtControlCantidadDias.Text)
+        fondo.ControlDiasHabiles = chkControlDiasHabiles.Checked
+
 
         Return fondo
     End Function

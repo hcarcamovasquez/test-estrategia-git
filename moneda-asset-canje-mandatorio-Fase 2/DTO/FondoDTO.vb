@@ -17,6 +17,13 @@ Public class FondoDTO
 
     Public Property ControlCuotas As Integer
 
+    Public Property ControlTipoControl As String
+    Public Property ControlDiasAVerificar As Integer
+    Public Property ControlTipoDeConfiguracion As String
+    Public Property ControlCantidadDias As Integer
+    Public Property ControlDiasHabiles As Integer
+
+
     Public Sub New(rut As String, razonsocial As String, nombreCorto As String, estado As String, fechaIngreso As Date, usuarioIngreso As String, fechaModificacion As Date, usuarioModificacion As String, CuotasEmitidas As Decimal, FechaEmision As Date, FechaVencimiento As Date, Acumulado As Decimal)
         Me.Rut = rut
         Me.RazonSocial = razonsocial

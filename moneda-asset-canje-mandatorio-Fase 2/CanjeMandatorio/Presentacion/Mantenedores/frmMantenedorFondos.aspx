@@ -207,44 +207,44 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="Row">
-                                <div class="col-md-12 mt-3">
-                                    <div class="col-md-2">
-                                        <asp:Label runat="server" ID="Label6" Font-Size="Large">Control Rescate </asp:Label>
-                                    </div>
+                            <div class="w-100"></div>
+                            <div class="row form-group">
+                                <div class="col-xs-2 col-md-2">
+                                    <asp:Label runat="server" ID="Label6" Font-Size="Large">Control Rescate </asp:Label>
+                                </div>
 
-                                    <div class="col-md-2">
-                                        <asp:DropDownList ID="ddlControlTipoControl" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="true">
-                                            <asp:ListItem Value="Movil">Días Móviles</asp:ListItem>
-                                            <asp:ListItem Value="Ventana">Ventana</asp:ListItem>
-                                        </asp:DropDownList>
+                                <div class="col-xs-2 col-md-2">
+                                    <asp:DropDownList ID="ddlControlTipoControl" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="False">
+                                        <asp:ListItem Value="">&nbsp;</asp:ListItem>
+                                        <asp:ListItem Value="Movil">Días Móviles</asp:ListItem>
+                                        <asp:ListItem Value="Ventana">Ventana</asp:ListItem>
+                                    </asp:DropDownList>
 
+                                </div>
+                                <div class="col-xs-2 col-md-2">
+                                    <div class="input-group">
+                                        <asp:TextBox ID="txtControlDiasAVerificar" runat="server" MaxLength="2" CssClass="form-control dbs-entero"></asp:TextBox>
+                                        <asp:RangeValidator ID="rangeDiasAVerificar" runat="server" ControlToValidate="txtControlDiasAVerificar" ErrorMessage="El valor debe estar entre 0 y 30 días" MaximumValue="30" MinimumValue="0" Type="Integer"></asp:RangeValidator>
                                     </div>
-                                    <div class="col-md-2">
-                                        <div class="input-group">
-                                            <asp:TextBox ID="txtControlDiasAVerificar" runat="server" MaxLength="2" CssClass="form-control dbs-entero"></asp:TextBox>
-                                        </div>
-                                    </div>
+                                </div>
 
-                                    <div class="col-md-2">
-                                         <asp:DropDownList ID="ddlControlTipoDeConfiguracion" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="true">
-                                            <asp:ListItem Value="Pago">Pago</asp:ListItem>
-                                            <asp:ListItem Value="Prorrata">Prorrata</asp:ListItem>
-                                        </asp:DropDownList>
+                                <div class="col-xs-2 col-md-2">
+                                     <asp:DropDownList ID="ddlControlTipoDeConfiguracion" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="False" onchange="CambiaEstados(this)" >
+                                          <asp:ListItem Value="">&nbsp;</asp:ListItem>
+                                        <asp:ListItem Value="Pago">Pago</asp:ListItem>
+                                        <asp:ListItem Value="Prorrata">Prorrata</asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                                <div class="col-xs-2 col-md-2">
+                                        <asp:TextBox ID="txtControlCantidadDias" runat="server" MaxLength="2" CssClass="form-control dbs-entero"></asp:TextBox>
+                                        <asp:RangeValidator ID="rangeMessageCantDias" runat="server" ControlToValidate="txtControlCantidadDias" ErrorMessage="El valor debe estar entre 0 y 30 días" MaximumValue="30" MinimumValue="0" Type="Integer"></asp:RangeValidator>
+                                </div>
+                                <div class="col-xs-2 col-md-2">
+                                     <div class="form-check">
+                                        <asp:CheckBox ID="chkControlDiasHabiles" runat="server" Text="" cssclass="form-check-input" />
+                                        <label class="form-check-label" for="chkControlDiasHabiles">Dias Hábiles</label>
                                     </div>
-                                    <div class="col-md-2">
-                                        <div class="input-group">
-                                            <asp:TextBox ID="txtControlCantidadDias" runat="server" MaxLength="2" CssClass="form-control dbs-entero"></asp:TextBox>
-                                        </div>
-
-                                    </div>
-                                    <div class="col-md-2">
-                                         <div class="form-check">
-                                            <asp:CheckBox ID="CheckBox1" runat="server" Text="" cssclass="form-check-input" />
-                                            <label class="form-check-label" for="chkControlCuotas">No Aplica</label>
-                                        </div>
-                                    </div>
-                                 </div>
+                                </div>
                             </div>
                             <asp:HiddenField ID="txtHidenEstado" runat="server" />
                             <!-- GRUPO DE BOTONES 2 -->
@@ -383,6 +383,24 @@
 
         });        
 
+
+        function CambiaEstados(ddl) {
+            var txtCantidadDias = document.getElementById('<%=txtControlCantidadDias.ClientID%>'); 
+            var ckkDiasHabiles = document.getElementById('<%=chkControlDiasHabiles.ClientID%>'); 
+
+            if (ddl.value == "Pago") {
+                txtCantidadDias.disabled= true;
+                ckkDiasHabiles.disabled = true;
+            } else {
+                txtCantidadDias.disabled = false;
+                ckkDiasHabiles.disabled = false;
+
+            }
+
+            return false;
+        }
+
+
         function confNumeros() {
             $('.dbs-entero-decimal').mask2(getMask(12, 6));            
             $('.dbs-entero').mask2(getMask(2, 0));            
@@ -475,32 +493,45 @@
             if ($('#<%=txtModalRutFondo.ClientID %>').val() == "-" || $('#<%=txtModalRutFondo.ClientID %>').val() == "") {
                 msgAlert('El Rut es un campo obligatorio.')
                 return false;
-            } else {
+            } 
                 if ($('#<%=txtModalNombreFondo.ClientID %>').val() == "") {
                     msgAlert('El nombre fondo es un campo obligatorio')
-
                     return false;
-                } else {
-                    if ($('#<%=txtModalNombreCorto.ClientID %>').val() == "") {
-                        msgAlert('El nombre corto es un campo obligatorio')
-                        return false;
-                    } else {
-                        if ($('#<%=txtCuotasEmitidas.ClientID %>').val() != "") {
-                            if (!validarValorEmitidas()) {
-                                return false;
-                            }
-                        }
-                        if ($('#<%=Textbox4.ClientID %>').val() != "") {
-                            if (validarValorAcumulado()) {
-                                return true;
-                            }
-                            else { return false; }
-                        }
+            } 
 
-                    }
-
-                }
+            if ($('#<%=txtModalNombreCorto.ClientID %>').val() == "") {
+                    msgAlert('El nombre corto es un campo obligatorio')
+                    return false;
             }
+
+            var cantDias = $('#<%=txtControlCantidadDias.ClientID%>').val(); 
+            if ((cantDias == "") || (cantDias > 30)) {
+                msgAlert('La cantidad de dias No debe exceder a 30');
+                return false;
+            } 
+
+            cantDias = $('#<%=txtControlDiasAVerificar.ClientID%>').val(); 
+            if ((cantDias == "") || (cantDias > 30)) {
+                msgAlert('La cantidad de dias No debe exceder a 30');
+                return false;
+            } 
+
+
+                if ($('#<%=txtCuotasEmitidas.ClientID %>').val() != "") {
+                    if (!validarValorEmitidas()) {
+                        return false;
+                    }
+                }
+
+                if ($('#<%=Textbox4.ClientID %>').val() != "") {
+                    if (validarValorAcumulado()) {
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+
         }
 
         function validarValorEmitidas() {
