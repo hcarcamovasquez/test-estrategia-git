@@ -388,7 +388,7 @@
             var txtCantidadDias = document.getElementById('<%=txtControlCantidadDias.ClientID%>'); 
             var ckkDiasHabiles = document.getElementById('<%=chkControlDiasHabiles.ClientID%>'); 
 
-            if (ddl.value == "Pago") {
+            if (ddl.value == "Prorrata") {
                 txtCantidadDias.disabled= true;
                 ckkDiasHabiles.disabled = true;
             } else {

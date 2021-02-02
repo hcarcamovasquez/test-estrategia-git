@@ -805,7 +805,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                         FechaPago = Nothing
                     Else
                         'txtModalFechaPago.Text = NegocioRescate.SelectFechaPagoSIRescatable(FechaPagoFondoRescatableINT, FechaCalculo, 0)
-                        txtModalFechaPago.Text = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaPagoFondoRescatableINT, 0)
+                        txtModalFechaPago.Text = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_HABILES)
                         txtModalFechaPago.Text = CDate(txtModalFechaPago.Text).ToString("dd/MM/yyyy")
                         FechaPago = txtModalFechaPago.Text
                     End If
@@ -848,7 +848,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                 FechaPago = Nothing
             Else
                 'txtModalFechaPago.Text = NegocioRescate.SelectFechaPagoSIRescatable(FechaPagoFondoRescatableINT, FechaCalculo, 0)
-                txtModalFechaPago.Text = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_CORRIDOS)
+                txtModalFechaPago.Text = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_HABILES)
 
                 'txtModalFechaPago.Text = Utiles.getDiaHabilSiguiente(txtModalFechaPago.Text, ddlModalMonedaPago.Text)
 
@@ -3137,15 +3137,15 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                         'FECHA PAGO DIAS HABILES
                         If FechaCalculo = Nothing Then
                             If TipoFechaAñadirPago = "Na" AndAlso FechaCalculo <> Nothing Then
-                                txtModalFechaPago.Text = FechaNAV
+                                txtModalFechaPago.Text = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaNAV, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_HABILES)
                             Else
-                                txtModalFechaPago.Text = FechaSolicitud
+                                txtModalFechaPago.Text = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaSolicitud, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_HABILES)
                             End If
 
                             'txtModalFechaPago.Text = ""
                             FechaPago = Nothing
                         Else
-                            txtModalFechaPago.Text = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_CORRIDOS)
+                            txtModalFechaPago.Text = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_HABILES)
                             'txtModalFechaPago.Text = NegocioRescate.SelectFechaPagoSIRescatable(FechaPagoFondoRescatableINT, FechaCalculo, 0)
                             txtModalFechaPago.Text = CDate(txtModalFechaPago.Text).ToString("dd/MM/yyyy")
                             FechaPago = txtModalFechaPago.Text
@@ -3181,7 +3181,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                     txtModalFechaPago.Text = ""
                     FechaPago = Nothing
                 Else
-                    txtModalFechaPago.Text = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_CORRIDOS)
+                    txtModalFechaPago.Text = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_HABILES)
                     ' txtModalFechaPago.Text = NegocioRescate.SelectFechaPagoSIRescatable(FechaPagoFondoRescatableINT, FechaCalculo, 0)
                     txtModalFechaPago.Text = CDate(txtModalFechaPago.Text).ToString("dd/MM/yyyy")
                     FechaPago = txtModalFechaPago.Text
