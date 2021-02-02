@@ -173,4 +173,11 @@ Public Class RescateNegocio
         Dim RescatesDatos As New Datos.RescateDatos
         Return RescatesDatos.GetRelaciones(Rescates)
     End Function
+
+    Public Function ValidacionDeFondo() As Boolean
+
+        Return True
+    End Function
+
+
 End Class

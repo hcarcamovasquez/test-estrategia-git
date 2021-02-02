@@ -4,8 +4,11 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
+
     <asp:HiddenField ID="txtAccionHidden" runat="server" />
+
     <asp:HiddenField ID="txtEstadoCargueCrear" runat="server" />
+
     <asp:TextBox ID="txtModalVariableEstado" runat="server" Visible="false"></asp:TextBox>
     <asp:TextBox ID="txtModalVariableUsuarioIngreso" runat="server" Visible="false"></asp:TextBox>
     <asp:TextBox ID="txtModalVariableFechaIngreso" runat="server" Visible="false"></asp:TextBox>
@@ -78,6 +81,7 @@
                     <asp:BoundField DataField="VTRES_Fecha_Ingreso" HeaderText="Fecha Ingreso" DataFormatString="{0:dd/MM/yyyy}"/>
                     <asp:BoundField DataField="VTRES_Usuario_Modificacion" HeaderText="Usuario Modificador" />
                     <asp:BoundField DataField="VTRES_Fecha_Modificacion" HeaderText="Fecha Modificación" DataFormatString="{0:dd/MM/yyyy}"/>
+
                     <%--<asp:BoundField DataField="VTRES_Estado" HeaderText="Estado" />--%>
                 </Columns>
             </asp:GridView>
@@ -90,8 +94,6 @@
                 <asp:Button ID="BtnExportar" class="btn btn-success" Text="Exportar" runat="server" Enabled="false" />
             </div>
         </div>
-
-
     </div>
 
     <!-- Bootstrap Modal Dialog Crear/Modificar -->

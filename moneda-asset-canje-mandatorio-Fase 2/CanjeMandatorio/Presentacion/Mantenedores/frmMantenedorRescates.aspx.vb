@@ -1986,6 +1986,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
         Dim negocioIns As RescateNegocio = New RescateNegocio
         Dim Rescate As RescatesDTO = GetRescateModal()
+
         Rescate = negocioIns.InsertRescates(Rescate)
         txtIDRescate.Text = Rescate.RES_ID
 
