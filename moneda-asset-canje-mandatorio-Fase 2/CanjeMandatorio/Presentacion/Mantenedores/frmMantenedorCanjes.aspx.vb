@@ -2314,7 +2314,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         txtModalCuotasDisponibles.Enabled = False
         ddlModalFijacionNav.Enabled = False
         ddlModalFijacionTC.Enabled = False
-        txtModalFechaNavEntrante.Enabled = True
+        txtModalFechaNavEntrante.Enabled = False
         txtModalTipoCambio.Enabled = True
         lnkbtnModalFechaObservado.Visible = True
         lnkbtnModalFechaNavSaliente.Visible = True
@@ -2372,7 +2372,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         txtModalCuotasDisponibles.Enabled = False
         ddlModalFijacionNav.Enabled = False
         ddlModalFijacionTC.Enabled = False
-        txtModalFechaNavEntrante.Enabled = True
+        txtModalFechaNavEntrante.Enabled = False
         txtModalTipoCambio.Enabled = True
         lnkbtnModalFechaObservado.Visible = True
         lnkbtnModalFechaNavSaliente.Visible = True

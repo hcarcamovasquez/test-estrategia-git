@@ -1982,8 +1982,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             Return
         End If
 
-
-
         Dim negocioIns As RescateNegocio = New RescateNegocio
         Dim Rescate As RescatesDTO = GetRescateModal()
 

@@ -407,7 +407,7 @@
                                                         <asp:AsyncPostBackTrigger ControlID="lnkbtnModalFechaNavSaliente" EventName="click" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSaliente" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalFSolicitud" EventName="TextChanged" />
-                                                        <asp:AsyncPostBackTrigger ControlID="txtModalFechaNavSaliente" EventName="TextChanged" />
+                                                        <asp:AsyncPostBackTrigger ControlID="txtModalFechaNavEntrante" EventName="TextChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <div class="input-group">
