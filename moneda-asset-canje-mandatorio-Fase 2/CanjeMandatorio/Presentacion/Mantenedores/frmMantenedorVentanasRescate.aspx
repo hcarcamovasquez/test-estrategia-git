@@ -1,5 +1,13 @@
 ﻿<%@ Page Title="Ventana Rescates" Language="VB" MasterPageFile="~/Site.master" AutoEventWireup="false" CodeFile="frmMantenedorVentanasRescate.aspx.vb" Inherits="Presentacion_Mantenedores_frmMantenedorVentanasRescate" %>
 
+<script runat="server">
+
+    Protected Sub RowSelector_CheckedChanged(sender As Object, e As EventArgs)
+
+    End Sub
+</script>
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
@@ -69,7 +77,7 @@
                 <Columns>
                     <asp:TemplateField HeaderText="Select">
                         <ItemTemplate>
-                            <asp:RadioButton ID="RadioButton1" runat="server" onclick="checkRadioBtn(this);" GroupName="a" />
+                            <asp:RadioButton ID="RadioButton1" runat="server" onclick="checkRadioBtn(this);" GroupName="a"  />
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:BoundField DataField="FN_Nombre_Corto" HeaderText="Fondo" />
@@ -81,6 +89,7 @@
                     <asp:BoundField DataField="VTRES_Fecha_Ingreso" HeaderText="Fecha Ingreso" DataFormatString="{0:dd/MM/yyyy}"/>
                     <asp:BoundField DataField="VTRES_Usuario_Modificacion" HeaderText="Usuario Modificador" />
                     <asp:BoundField DataField="VTRES_Fecha_Modificacion" HeaderText="Fecha Modificación" DataFormatString="{0:dd/MM/yyyy}"/>
+                    <asp:BoundField DataField="FN_RUT" HeaderText="Rut Fondo"/>
 
                     <%--<asp:BoundField DataField="VTRES_Estado" HeaderText="Estado" />--%>
                 </Columns>
@@ -90,7 +99,9 @@
         <div class="row mt-4">
             <div class="col-md-12 text-center">
                 <asp:Button ID="BtnModificar" runat="server" class="btn btn-info" Text="Modificar" Enabled="false" OnClick="BtnModificar_Click"></asp:Button>
-                <asp:Button ID="BtnEliminar" runat="server" class="btn btn-danger" Text="Eliminar" OnClientClick="if (!confirm('¿Seguro que desea Eliminar los elementos seleccionados?')) return false;" Enabled="false"></asp:Button>
+                <asp:Button ID="BtnEliminar" runat="server" class="btn btn-danger" Text="Eliminar" 
+                        OnClientClick="if (!confirm('¿Seguro que desea Eliminar los elementos seleccionados?')) return false;" 
+                    Enabled="false"></asp:Button>
                 <asp:Button ID="BtnExportar" class="btn btn-success" Text="Exportar" runat="server" Enabled="false" />
             </div>
         </div>
@@ -129,7 +140,8 @@
                                                     <asp:AsyncPostBackTrigger ControlID="btnModalAgregar" EventName="Click" />
                                                 </Triggers>
                                                 <ContentTemplate>
-                                                    <asp:DropDownList ID="ddlModalNombreFondo" CssClass="form-control js-select2-rut" runat="server" OnSelectedIndexChanged="CargarNemotecnicoPorNombreFondoModal" AutoPostBack="true" />
+                                                    <asp:DropDownList ID="ddlModalNombreFondo" CssClass="form-control js-select2-rut" runat="server" 
+                                                        OnSelectedIndexChanged="CargarNemotecnicoPorNombreFondoModal" AutoPostBack="true" />
                                                 </ContentTemplate>
                                             </asp:UpdatePanel>
                                         </div>
@@ -165,15 +177,7 @@
                                                     <asp:TextBox ID="txtModalFechaSolicitud" runat="server" CssClass="form-control datepicker" enabled="false"></asp:TextBox>
                                                     <asp:LinkButton ID="lnkBtnModalFechaSolicitud" Class="btn btn-moneda" runat="server" OnClientClick="return clickCalendar('txtModalFechaSolicitud')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
                                                     <asp:LinkButton ID="BtnLimpiarFechaDesde" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtModalFechaSolicitud')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                                                   <%-- <asp:Calendar ID="CalendarModalFechaSolicitud" runat="server" Visible="False" onblur="onblurCalendar(this)" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" class="calendarios">
-                                                        <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                                                        <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                                                        <OtherMonthDayStyle ForeColor="#999999" />
-                                                        <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                                                        <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="4px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" />
-                                                        <TodayDayStyle BackColor="#CCCCCC" />
-                                                        </asp:Calendar>--%>
-                                                    </div>
+                                                   </div>
                                                 </ContentTemplate>
                                             </asp:UpdatePanel>
                                         </div>
@@ -193,14 +197,6 @@
                                                     <asp:TextBox ID="txtModalFechaNAV" runat="server" CssClass="form-control datepicker" enabled="false"></asp:TextBox>
                                                     <asp:LinkButton ID="lnkBtnModalFechaNAV" Class="btn btn-moneda" runat="server" OnClientClick="return clickCalendar('txtModalFechaNAV')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
                                                     <asp:LinkButton ID="lnkBtnModalBorrarFechaNAV" Text="" OnClientClick="return limpiarCalendar('txtModalFechaNAV')" class="btn btn-secondary ml-1" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                                                  <%--  <asp:Calendar ID="CalendarModalFechaNAV" runat="server" Visible="False" onblur="onblurCalendar(this)" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" class="calendarios">
-                                                        <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                                                        <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                                                        <OtherMonthDayStyle ForeColor="#999999" />
-                                                        <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                                                        <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="4px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" />
-                                                        <TodayDayStyle BackColor="#CCCCCC" />
-                                                        </asp:Calendar>--%>
                                                     </div>
                                                 </ContentTemplate>
                                             </asp:UpdatePanel>
@@ -215,20 +211,14 @@
                                             <asp:UpdatePanel runat="server" ID="UpdatePanel4" UpdateMode="Conditional">
                                                 <Triggers>
                                                     <asp:AsyncPostBackTrigger ControlID="lnkBtnModalFechaPago" EventName="Click" />
+                                                    <%--<asp:AsyncPostBackTrigger ControlID="RowSelector" EventName="OnCheckedChanged" />--%>
                                                 </Triggers>
                                                 <ContentTemplate>
                                                     <div class="input-group">
                                                     <asp:TextBox ID="txtModalFechaPago" runat="server" CssClass="form-control datepicker" enabled="false"></asp:TextBox>
                                                     <asp:LinkButton ID="lnkBtnModalFechaPago" Class="btn btn-moneda" runat="server" OnClientClick="return clickCalendar('txtModalFechaPago')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
                                                     <asp:LinkButton ID="lnkBtnModalBorrarFechaPago" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtModalFechaPago')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                                                   <%-- <asp:Calendar ID="CalendarModalFechaPago" runat="server" Visible="False" onblur="onblurCalendar(this)" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" class="calendarios">
-                                                        <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                                                        <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                                                        <OtherMonthDayStyle ForeColor="#999999" />
-                                                        <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                                                        <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="4px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" />
-                                                        <TodayDayStyle BackColor="#CCCCCC" />
-                                                        </asp:Calendar>--%>
+                                                  
                                                 </div>
                                                 </ContentTemplate>
                                             </asp:UpdatePanel>
@@ -261,9 +251,6 @@
                                             <asp:AsyncPostBackTrigger ControlID="btnModalEliminarCertificado" EventName="Click" />
                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnico" EventName="SelectedIndexChanged" />
                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondo" EventName="SelectedIndexChanged" />
-                                          <%--  <asp:AsyncPostBackTrigger ControlID="CalendarModalFechaSolicitud" EventName="SelectionChanged" />
-                                            <asp:AsyncPostBackTrigger ControlID="CalendarModalFechaNAV" EventName="SelectionChanged" />
-                                            <asp:AsyncPostBackTrigger ControlID="CalendarModalFechaPago" EventName="SelectionChanged" />--%>
                                             <asp:AsyncPostBackTrigger ControlID="lnkBtnModalFechaSolicitud" EventName="Click" />
                                             <asp:AsyncPostBackTrigger ControlID="lnkBtnModalFechaNAV" EventName="Click" />
                                             <asp:AsyncPostBackTrigger ControlID="lnkBtnModalFechaPago" EventName="Click" />
@@ -284,7 +271,7 @@
                                                 <Columns>
                                                     <asp:TemplateField HeaderText="Sel.">
                                                         <ItemTemplate>
-                                                            <asp:RadioButton ID="RowSelector" runat="server" onclick="checkRadioBtn2(this);" />
+                                                            <asp:RadioButton ID="RowSelector" runat="server" onclick="checkRadioBtn2(this);"/>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:BoundField DataField="VTRES_ID" HeaderText="ID" ItemStyle-CssClass="hiddencol" HeaderStyle-CssClass="hiddencol"/>
@@ -402,7 +389,7 @@
                 $('#myModal').modal('show');
             }
 
-
+           
             //$("body").on("click", "#btnXCerrar", function () {
             //    $("#btnXCerrar").val("");
             //});
@@ -422,7 +409,17 @@
             Sys.WebForms.PageRequestManager.getInstance().add_endRequest(bindDataTable);
             calendarInitial();
 
+            //ocultarColumnas();
+            
+            
         });
+
+        function ocultarColumnas() {
+            var table = $('#<%=GrvTabla.ClientID%>').DataTable();
+            table.columns([10]).visible(false, false);   // Oculta las columnas Indeseadas
+            table.columns.adjust();
+            table.draw(false);    // redibuja la grilla
+        }
 
         function seteaBotonGuardar() {
             $("#<%=btnModalGuardar.ClientID %>").unbind("click");
@@ -495,7 +492,8 @@
 
 
         //On UpdatePanel Refresh
-        function bindDataTable() {
+        function bindDataTable() {          
+
             $(".gvv2").prepend($("<thead></thead>").append($(".gvv2").find("tr:first"))).DataTable({
                 "lengthMenu": [[10, 15, 25, 50, -1], [10, 15, 25, 50, "All"]],
                 "language": {
@@ -515,6 +513,7 @@
                 templateResult: formatState,
                 placeholder: 'Selecciona una opción'
             });
+
             llamarFuncion();
             calendarInitial();
         }
@@ -535,6 +534,7 @@
                     enableDisableButtons2((gv.rows.length > 0));
                 }
             }
+
         }
 
         function checkRadioBtn2(id) {
