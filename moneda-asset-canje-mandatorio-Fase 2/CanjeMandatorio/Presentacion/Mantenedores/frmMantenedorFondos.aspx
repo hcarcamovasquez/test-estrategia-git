@@ -214,7 +214,7 @@
                                 </div>
 
                                 <div class="col-xs-2 col-md-2">
-                                    <asp:DropDownList ID="ddlControlTipoControl" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="False">
+                                    <asp:DropDownList ID="ddlControlTipoControl" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="False" onchange="CambiaEstadosTipoControl(this)">
                                         <asp:ListItem Value="">&nbsp;</asp:ListItem>
                                         <asp:ListItem Value="Movil">Días Móviles</asp:ListItem>
                                         <asp:ListItem Value="Ventana">Ventana</asp:ListItem>
@@ -229,7 +229,7 @@
                                 </div>
 
                                 <div class="col-xs-2 col-md-2">
-                                     <asp:DropDownList ID="ddlControlTipoDeConfiguracion" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="False" onchange="CambiaEstados(this)" >
+                                     <asp:DropDownList ID="ddlControlTipoDeConfiguracion" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="False" onchange="CambiaEstadosConfiguracion(this)" >
                                           <asp:ListItem Value="">&nbsp;</asp:ListItem>
                                         <asp:ListItem Value="Pago">Pago</asp:ListItem>
                                         <asp:ListItem Value="Prorrata">Prorrata</asp:ListItem>
@@ -384,7 +384,7 @@
         });        
 
 
-        function CambiaEstados(ddl) {
+        function CambiaEstadosConfiguracion(ddl) {
             var txtCantidadDias = document.getElementById('<%=txtControlCantidadDias.ClientID%>'); 
             var ckkDiasHabiles = document.getElementById('<%=chkControlDiasHabiles.ClientID%>'); 
 
@@ -396,10 +396,19 @@
                 ckkDiasHabiles.disabled = false;
 
             }
-
             return false;
         }
 
+        function CambiaEstadosTipoControl(ddl) {
+            var txtControlDiasAVerificar = document.getElementById('<%=txtControlDiasAVerificar.ClientID%>'); 
+
+            if (ddl.value == "Ventana") {
+                txtControlDiasAVerificar.disabled= true;
+            } else {
+                txtControlDiasAVerificar.disabled = false;
+            }
+            return false;
+        }
 
         function confNumeros() {
             $('.dbs-entero-decimal').mask2(getMask(12, 6));            
