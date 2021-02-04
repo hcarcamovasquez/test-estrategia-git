@@ -1782,15 +1782,13 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         CalcularMontos()
 
         If (txtModalFechaSolicitud.Text >= CDate(Date.Today.ToString("dd/MM/yyyy"))) Then
-
-            If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalDisponibles.Text)) Then
+            If (ControlMontoRescateVsPatrimonio()) Then
                 ShowAlert("El Valor del Monto debe ser menor o igual al Patrimonio Disponible")
                 txtModalMonto.Text = "0"
                 txtModalMontoCLP.Text = "0"
                 txtModalCuota.Text = "0"
                 Return
             End If
-
         End If
 
         If txtIDRescate.Text() <> Nothing Then
@@ -1803,6 +1801,28 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         Dim updateCNJ_Tipo_CalculoNAV = NegocioTipoCalculoNav.UpdateTipoCalculoNav(TipoCalculoNav)
 
     End Sub
+
+    Private Function ControlMontoRescateVsPatrimonio() As Boolean
+        Dim rescate As RescatesDTO = New RescatesDTO()
+        Dim negocioRescate As RescateNegocio = New RescateNegocio
+        Dim resultado As Boolean
+
+
+        rescate.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
+        rescate.RES_Monto = txtModalMonto.Text
+
+        rescate.AP_RUT = ddlModalRutAportante.SelectedValue
+        rescate.AP_Multifondo = ddlModalMultifondo.SelectedValue
+        rescate.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
+        rescate.FN_RUT = ddlModalRutFondo.SelectedValue
+        rescate.RES_Moneda_Pago = ddlModalMonedaPago.SelectedValue
+
+        'resultado = negocioRescate.ControlMontoRescateVsPatrimonio(rescate)
+
+        resultado = (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalDisponibles.Text))
+
+        Return resultado
+    End Function
 #End Region
 
 #Region "CARGA CUOTAS TEXTCHANGED CAMPO MONTO"

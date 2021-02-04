@@ -179,5 +179,45 @@ Public Class RescateNegocio
         Return True
     End Function
 
+    Public Function ControlMontoRescateVsPatrimonio(rescate As RescatesDTO) As Boolean
+        Dim fondo As FondoDTO = New FondoDTO()
+        Dim NegocioFondo As Negocio.FondosNegocio = New FondosNegocio()
 
+        fondo.Rut = rescate.FN_RUT
+        fondo = NegocioFondo.GetFondo(fondo)
+
+        If (fondo.ControlTipoControl = "Movil") Then
+            'TODO: Se debe generar funcion que obtenga los dias habiles desde la fecha de ¿? y resta de la cantidad de dias de control
+            'TODO: Se debe generar la validacion si la suma de los rescates supera o no el % de lo rescatable
+            If ("" = "") Then
+                ControlMovil(rescate, fondo)
+            Else
+
+            End If
+        ElseIf (fondo.ControlTipoControl = "Ventana") Then
+            ControlVentana(rescate, fondo)
+        Else
+        End If
+
+    End Function
+
+    Private Sub ControlVentana(rescate As RescatesDTO, fondo As FondoDTO)
+        If (fondo.ControlTipoDeConfiguracion = "Pago") Then
+
+        ElseIf (fondo.ControlTipoDeConfiguracion = "Prorrata") Then
+            AlertaProrrata()
+        End If
+    End Sub
+
+    Private Sub ControlMovil(rescate As RescatesDTO, fondo As FondoDTO)
+        If (fondo.ControlTipoDeConfiguracion = "Pago") Then
+
+        ElseIf (fondo.ControlTipoDeConfiguracion = "Prorrata") Then
+            AlertaProrrata()
+        End If
+    End Sub
+
+    Private Sub AlertaProrrata()
+        Throw New NotImplementedException()
+    End Sub
 End Class
