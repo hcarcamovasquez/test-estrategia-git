@@ -14,14 +14,12 @@ Public Class WSVentanasRescate
     Private Const SP_CRUD As String = "PRC_VentanasRescateCRUD"
     Private Const SP_CONSULTAR As String = "PRC_CertificadoConsultar"
 
-
     Private Const SP_CERTIFICADOBUSCAR As String = "PRC_CertificadoBuscar"
     Private Const CONST_INSERT As String = "INSERT"
     Private Const CONST_UPDATE As String = "UPDATE"
     Private Const CONST_DELETE As String = "DELETE"
     Private Const SP_CERTIFICADO_RELACION As String = "PRC_CertificadoRelaciones"
     Private Const CONST_ACCION_RELACION As String = "PUEDE_BORRAR"
-
 
     Private Const CONST_SELECT_ALL As String = "SELECT_ALL"
     Private CONST_SELECT_FILTRO As String = "SELECT_FILTRO"
@@ -345,6 +343,7 @@ Public Class WSVentanasRescate
             sp.AgregarParametro("VTRES_Usuario_Modificacion", VentanasRescate.VTRES_Usuario_Modificacion, System.Data.SqlDbType.VarChar)
             sp.AgregarParametro("VTRES_Fecha_Modificacion", VTRES_Fecha_Modificacion, System.Data.SqlDbType.DateTime)
             sp.AgregarParametro("VTRES_Estado", VentanasRescate.VTRES_Estado, System.Data.SqlDbType.Int)
+            sp.AgregarParametro("FN_RUT", VentanasRescate.FN_RUT, System.Data.SqlDbType.VarChar)
 
             sp.ReturnDataSet()
 
@@ -497,6 +496,7 @@ Public Class WSVentanasRescate
             sp.AgregarParametro("VTRES_Usuario_Modificacion", VentanasRescate.VTRES_Usuario_Modificacion, System.Data.SqlDbType.VarChar)
             sp.AgregarParametro("VTRES_Fecha_Modificacion", VTRES_Fecha_Modificacion, System.Data.SqlDbType.DateTime)
             sp.AgregarParametro("VTRES_Estado", VentanasRescate.VTRES_Estado, System.Data.SqlDbType.Int)
+            sp.AgregarParametro("FN_RUT", VentanasRescate.FN_RUT, System.Data.SqlDbType.VarChar)
 
             sp.ReturnDataSet()
 
@@ -526,6 +526,7 @@ Public Class WSVentanasRescate
 
     Private Function fillVentanasRescate(dataRow As DataRow) As VentanasRescateDTO
         Dim VentanasRescate As New VentanasRescateDTO
+
         With VentanasRescate
             .VTRES_ID = dataRow("VTRES_ID")
             .FN_Nombre_Corto = dataRow("FN_Nombre_Corto").ToString().Trim()
@@ -538,7 +539,9 @@ Public Class WSVentanasRescate
             .VTRES_Usuario_Modificacion = dataRow("VTRES_Usuario_Modificacion").ToString().Trim()
             .VTRES_Fecha_Modificacion = dataRow("VTRES_Fecha_Modificacion")
             .VTRES_Estado = dataRow("VTRES_Estado")
+            .FN_RUT = dataRow("FN_RUT")
         End With
+
         Return VentanasRescate
     End Function
 
@@ -554,7 +557,6 @@ Public Class WSVentanasRescate
 
 
     Private Sub FillParameters(VentanasRescate As VentanasRescateDTO, sp As DBSqlServer.SqlServer.StoredProcedure)
-
         Dim RES_Fecha_Solicitud As Nullable(Of Date)
         Dim VTRES_Fecha_NAV As Nullable(Of Date)
         Dim VTRES_Fecha_Pago As Nullable(Of Date)
@@ -602,6 +604,7 @@ Public Class WSVentanasRescate
         sp.AgregarParametro("VTRES_Usuario_Modificacion", VentanasRescate.VTRES_Usuario_Modificacion, System.Data.SqlDbType.VarChar)
         sp.AgregarParametro("VTRES_Fecha_Modificacion", VTRES_Fecha_Modificacion, System.Data.SqlDbType.DateTime)
         sp.AgregarParametro("VTRES_Estado", VentanasRescate.VTRES_Estado, System.Data.SqlDbType.Int)
+        sp.AgregarParametro("FN_RUT", VentanasRescate.FN_RUT, System.Data.SqlDbType.VarChar)
 
     End Sub
 

@@ -94,6 +94,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
         Dim VentanasRescate As New VentanasRescateDTO()
         Dim NegocioVentanasRescate As VentanasRescateNegocio = New VentanasRescateNegocio
         Dim VentanasRescatevacia As New VentanasRescateDTO
+
         lista = NegocioVentanasRescate.ConsultarNombreFondo(VentanasRescate)
 
         If lista.Count = 0 Then
@@ -319,6 +320,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
         Dim NegocioFondoSerie As FondoSeriesNegocio = New FondoSeriesNegocio
         Dim fondoSeries As FondoSerieDTO = New FondoSerieDTO()
         Dim fondo As FondoDTO = New FondoDTO()
+
         fondo.RazonSocial = ddlModalNombreFondo.SelectedValue
         Dim listafondo As List(Of FondoDTO) = negocioFondo.RutByNombreFondo(fondo)
 
@@ -332,10 +334,17 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
                     ddlModalNemotecnico.Items.Insert(0, New ListItem("", ""))
                     ddlModalNemotecnico.SelectedIndex = 0
                 Else
+
+
+
                     ddlModalNemotecnico.DataSource = listafondoSeries
                     ddlModalNemotecnico.DataMember = "Nemotecnico"
                     ddlModalNemotecnico.DataValueField = "Nemotecnico"
                     ddlModalNemotecnico.DataBind()
+                    ddlModalNemotecnico.Items.Insert(0, New ListItem("     ", ""))
+                    ddlModalNemotecnico.SelectedIndex = 0
+
+
                 End If
             Next
         End If
@@ -369,7 +378,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
         Dim CantidadVentanasRescate As Integer
         Dim VentanasRescateCount As VentanasRescateDTO = New VentanasRescateDTO()
         VentanasRescateCount.FN_Nombre_Corto = ddlModalNombreFondo.SelectedValue
-        VentanasRescateCount.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
+
+        VentanasRescateCount.FS_Nemotecnico = ddlModalNemotecnico.Text
+
         CantidadVentanasRescate = negocio.GetCountVentanaRescate(VentanasRescateCount)
 
         Session("ContadorRegistrosTotales") = CantidadVentanasRescate + Session("ContadorRegistros")
@@ -389,22 +400,25 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
             lista = New List(Of VentanasRescateDTO)
         End If
 
-        If ddlModalNombreFondo.Text <> "" And ddlModalNemotecnico.Text <> "" Then
+        If ddlModalNombreFondo.Text <> "" Then ' And ddlModalNemotecnico.Text <> "" Then
             If txtModalFechaSolicitud.Text.Trim <> "" And txtModalFechaNAV.Text.Trim <> "" And txtModalFechaPago.Text.Trim <> "" Then
 
                 If txtAccionHidden.Value = "CREAR" Then
                     VentanasRescate.FN_Nombre_Corto = ddlModalNombreFondo.SelectedValue
-                    VentanasRescate.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
+                    'VentanasRescate.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
+                    VentanasRescate.FS_Nemotecnico = ddlModalNemotecnico.Text
                     VentanasRescate.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
                     VentanasRescate.VTRES_Fecha_NAV = txtModalFechaNAV.Text
                     VentanasRescate.VTRES_Fecha_Pago = txtModalFechaPago.Text
                     VentanasRescate.VTRES_Usuario_Ingreso = Session("NombreUsuario")
                     VentanasRescate.VTRES_Fecha_Ingreso = DateTime.Now
+                    'VentanasRescate.FN_RUT = 
 
                 ElseIf txtAccionHidden.Value = "MODIFICAR" Then
                     'codigo modificar
                     VentanasRescate.FN_Nombre_Corto = ddlModalNombreFondo.SelectedValue
-                    VentanasRescate.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
+                    'VentanasRescate.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
+                    VentanasRescate.FS_Nemotecnico = ddlModalNemotecnico.Text
                     VentanasRescate.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
                     VentanasRescate.VTRES_Fecha_NAV = txtModalFechaNAV.Text
                     VentanasRescate.VTRES_Fecha_Pago = txtModalFechaPago.Text
@@ -568,7 +582,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
                 ID = row.Cells(1).Text.Trim()
                 Fondo = HttpUtility.HtmlDecode(row.Cells(2).Text.Trim())
                 'Fondo = row.Cells(2).Text.Trim()
-                Nemotecnico = row.Cells(3).Text.Trim()
+                Nemotecnico = Trim(HttpUtility.HtmlDecode(row.Cells(3).Text.Replace("&nbsp;", ""))) 'row.Cells(3).Text.Trim()
                 FechaSolicitud = row.Cells(4).Text.Trim()
                 FechaNAV = row.Cells(5).Text.Trim()
                 FechaPago = row.Cells(6).Text.Trim()
@@ -671,7 +685,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
                 VentanasRescate.FN_Nombre_Corto = HttpUtility.HtmlDecode(row.Cells(1).Text)
 
                 'VentanasRescate.FN_Nombre_Corto = row.Cells(1).Text.Trim()
-                VentanasRescate.FS_Nemotecnico = row.Cells(2).Text.Trim()
+
+                VentanasRescate.FS_Nemotecnico = Trim(HttpUtility.HtmlDecode(row.Cells(2).Text.Replace("&nbsp;", "")))
                 VentanasRescate.RES_Fecha_Solicitud = row.Cells(3).Text.Trim()
                 VentanasRescate.VTRES_Fecha_NAV = row.Cells(4).Text.Trim()
                 VentanasRescate.VTRES_Fecha_Pago = row.Cells(5).Text.Trim()
@@ -709,7 +724,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
         CargaNemotecnicoModal()
 
         ddlModalNombreFondo.SelectedValue = VentanasRescate.FN_Nombre_Corto
-        ddlModalNemotecnico.Text = VentanasRescate.FS_Nemotecnico
+        If VentanasRescate.FS_Nemotecnico <> "" Then
+            ddlModalNemotecnico.Text = VentanasRescate.FS_Nemotecnico
+        End If
 
         txtModalFechaSolicitud.Text = VentanasRescate.RES_Fecha_Solicitud
         txtModalFechaNAV.Text = VentanasRescate.VTRES_Fecha_NAV
@@ -811,7 +828,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
                 VentanasRescate.VTRES_ID = row.Cells(1).Text.Trim()
                 VentanasRescate.FN_Nombre_Corto = HttpUtility.HtmlDecode(row.Cells(2).Text.Trim())
                 'VentanasRescate.FN_Nombre_Corto = row.Cells(2).Text.Trim()
-                VentanasRescate.FS_Nemotecnico = row.Cells(3).Text.Trim()
+                VentanasRescate.FS_Nemotecnico = Trim(HttpUtility.HtmlDecode(row.Cells(3).Text.Replace("&nbsp;", ""))) 'row.Cells(3).Text.Trim()
                 VentanasRescate.RES_Fecha_Solicitud = row.Cells(4).Text.Trim()
                 VentanasRescate.VTRES_Fecha_NAV = row.Cells(5).Text.Trim()
                 VentanasRescate.VTRES_Fecha_Pago = row.Cells(6).Text.Trim()
@@ -908,7 +925,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
 #Region "BOTON ELIMINAR "
     Protected Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
 
-
         lnkBtnModalFechaSolicitud.Visible = False
         BtnLimpiarFechaDesde.Visible = False
         lnkBtnModalFechaNAV.Visible = False
@@ -924,40 +940,40 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
         Dim lista As List(Of FondoDTO) = Negocio.CompararDatosFondos(fondo)
 
 
-        Dim serie As FondoSerieDTO = New FondoSerieDTO
-        serie.Nemotecnico = certificadoSelect.FS_Nemotecnico
-        Dim listaSerie As List(Of FondoSerieDTO) = Negocio.CompararDatosSeries(serie)
+        'Dim serie As FondoSerieDTO = New FondoSerieDTO
+        'serie.Nemotecnico = certificadoSelect.FS_Nemotecnico
+        'Dim listaSerie As List(Of FondoSerieDTO) = Negocio.CompararDatosSeries(serie)
 
-        If lista.Count > 0 Then
-            For Each fondos As FondoDTO In lista
-                Dim razonSocial = fondos.RazonSocial
-                Dim estadoFondo = fondos.Estado
-                If certificadoSelect.FN_Nombre_Corto <> razonSocial And estadoFondo = 1 Or estadoFondo = 0 Then
-                    ShowAlert("No se puede eliminar la ventana seleccionada, información del fondo modificada")
-                    DataInitial()
-                    Return
+        'If lista.Count > 0 Then
+        'For Each fondos As FondoDTO In lista
+        'Dim razonSocial = fondos.RazonSocial
+        'Dim estadoFondo = fondos.Estado
+        'If certificadoSelect.FN_Nombre_Corto <> razonSocial And estadoFondo = 1 Or estadoFondo = 0 Then
+        'ShowAlert("No se puede eliminar la ventana seleccionada, información del fondo modificada")
+        'DataInitial()
+        'Return
 
-                ElseIf listaSerie.Count > 0 Then
-                    For Each recorrer As FondoSerieDTO In listaSerie
-                        Dim estadoSerie = recorrer.Estado
-                        If estadoSerie = 0 Then
-                            ShowAlert("No se puede eliminar la ventana seleccionada, Serie deshabilitada")
-                            DataInitial()
-                            'Exit Sub
-                            Return
+        'ElseIf listaSerie.Count > 0 Then
+        'For Each recorrer As FondoSerieDTO In listaSerie
+        'Dim estadoSerie = recorrer.Estado
+        'If estadoSerie = 0 Then
+        'ShowAlert("No se puede eliminar la ventana seleccionada, Serie deshabilitada")
+        'DataInitial()
+        'Exit Sub
+        'Return
 
-                        ElseIf razonSocial = certificadoSelect.FN_Nombre_Corto And estadoFondo = 1 And estadoSerie = 1 Then
-                            txtAccionHidden.Value = "ELIMINAR"
-                            grvAsignacion.Columns(0).Visible = True
-                            FormateoEstiloFormEliminar()
-                            FormateoFormDatos(certificadoSelect)
-                        End If
-                    Next
-                End If
-            Next
-        Else
-            ShowAlert("No se puede ingresar a la ventana seleccionada, información del fondo modificada")
-        End If
+        'ElseIf razonSocial = certificadoSelect.FN_Nombre_Corto And estadoFondo = 1 And estadoSerie = 1 Then
+        txtAccionHidden.Value = "ELIMINAR"
+        grvAsignacion.Columns(0).Visible = True
+        FormateoEstiloFormEliminar()
+        FormateoFormDatos(certificadoSelect)
+        ' End If
+        'Next
+        '    End If
+        '   Next
+        'Else
+        'ShowAlert("No se puede ingresar a la ventana seleccionada, información del fondo modificada")
+        'End If
 
 
     End Sub
@@ -968,7 +984,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
             Dim chk As RadioButton = row.Cells(0).Controls(1)
             If chk IsNot Nothing And chk.Checked Then
                 VentanasRescate.FN_Nombre_Corto = HttpUtility.HtmlDecode(row.Cells(1).Text.Trim())
-                VentanasRescate.FS_Nemotecnico = row.Cells(2).Text.Trim()
+                VentanasRescate.FS_Nemotecnico = Trim(HttpUtility.HtmlDecode(row.Cells(2).Text.Replace("&nbsp;", ""))) ' row.Cells(2).Text.Trim()
                 VentanasRescate.RES_Fecha_Solicitud = row.Cells(3).Text.Trim()
                 VentanasRescate.VTRES_Fecha_NAV = row.Cells(4).Text.Trim()
                 VentanasRescate.VTRES_Fecha_Pago = row.Cells(5).Text.Trim()
@@ -1149,4 +1165,26 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
         Dim Negocio As VentanasRescateNegocio = New VentanasRescateNegocio
         txtModalFechaSolicitud.Text = Request.Form(txtModalFechaSolicitud.UniqueID)
     End Sub
+
+    Shared rdChecked As Integer = -1
+    Protected Sub rd_CheckedChanged(sender As Object, e As EventArgs)
+        'If rdChecked <> -1 Then
+        '    Dim rdSelection As RadioButton = TryCast(grvAsignacion.Rows(rdChecked).FindControl("RowSelector"), RadioButton)
+        '    rdSelection.Checked = False
+        'End If
+
+        'For i As Integer = 0 To grvAsignacion.Rows.Count - 1
+        '    Dim rdSelection As RadioButton = TryCast(grvAsignacion.Rows(i).FindControl("RowSelector"), RadioButton)
+
+        '    If rdSelection.Checked Then
+        '        rdChecked = i
+        '    End If
+        'Next
+
+        'txtModalFechaSolicitud.Text = grvAsignacion.Rows(rdChecked).Cells(4).Text
+        'txtModalFechaNAV.Text = grvAsignacion.Rows(rdChecked).Cells(5).Text
+        'txtModalFechaPago.Text = grvAsignacion.Rows(rdChecked).Cells(6).Text
+    End Sub
+
+
 End Class
