@@ -1441,8 +1441,6 @@
             });
         }
 
-
-
         function formatState(state) {
             if (!state.id) {
                 return state.text;
@@ -1461,7 +1459,10 @@
             btnModificar.disabled = newValue;
             var btnEliminar = document.getElementById('<%=BtnEliminar.ClientID%>');
             btnEliminar.disabled = newValue;
+            var btnProrrotear = document.getElementById('<%=btnProrrotear.ClientID%>');
+            btnProrrotear.disabled = newValue;
         }
+
         function checkRadioBtn(id) {
             var gv = document.getElementById('<%=GrvTabla.ClientID %>');
             if (gv != null) {

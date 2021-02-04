@@ -41,12 +41,14 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             BtnModificar.Enabled = False
             BtnEliminar.Enabled = False
             BtnExportar.Enabled = False
+            btnProrrotear.Enabled = False
 
         ElseIf Session("PERFIL") = (Constantes.CONST_PERFIL_FULL Or Constantes.CONST_PERFIL_ADMIN) Then
             btnCrear.Visible = True
             BtnModificar.Visible = True
             BtnEliminar.Visible = True
             BtnExportar.Visible = True
+            btnProrrotear.Visible = True
 
         End If
     End Sub
@@ -3935,4 +3937,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         lblPopUpEjecutado.Text = "PENDIENTE"
     End Sub
 
+    Protected Sub btnProrrotear_Click(sender As Object, e As EventArgs) Handles btnProrrotear.Click
+
+    End Sub
 End Class
