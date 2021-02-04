@@ -95,7 +95,10 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
         GrvTabla.DataSource = New List(Of RescatesDTO)
         GrvTabla.DataBind()
+
         BtnExportar.Enabled = (GrvTabla.Rows.Count <> 0)
+        btnProrrotear.Enabled = (GrvTabla.Rows.Count <> 0)
+
         ValidaPermisosPerfil()
     End Sub
 
@@ -3958,6 +3961,37 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
     End Sub
 
     Protected Sub btnProrrotear_Click(sender As Object, e As EventArgs) Handles btnProrrotear.Click
+        Dim listaRescates As List(Of RescatesDTO)
+        Dim stringID As String = ""
+
+        listaRescates = GetListaRescateSelecionados()
+
+        If listaRescates.Count() > 0 Then
+            stringID = ""
+            For Each rescate As RescatesDTO In listaRescates
+                stringID = stringID + rescate.RES_ID.ToString() + ","
+            Next
+            stringID = Left(stringID, Len(stringID) - 1)
+
+
+        End If
+
 
     End Sub
+
+    Private Function GetListaRescateSelecionados() As List(Of RescatesDTO)
+        Dim Rescate As RescatesDTO
+        Dim listaRescates As List(Of RescatesDTO) = New List(Of RescatesDTO)
+
+        For Each row As GridViewRow In GrvTabla.Rows
+            Dim chk As RadioButton = row.Cells(0).Controls(1)
+            If chk IsNot Nothing And chk.Checked Then
+                Rescate = New RescatesDTO()
+                Rescate.RES_ID = row.Cells(1).Text.Trim()
+                listaRescates.Add(Rescate)
+            End If
+        Next
+
+        Return listaRescates
+    End Function
 End Class
