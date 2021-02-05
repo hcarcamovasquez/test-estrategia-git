@@ -3949,11 +3949,13 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         lblPopUpPoderRegFir.Text = Rescate.RES_Poderes
         lblPopUpMonedaDePago.Text = Rescate.RES_Moneda_Pago
         lblPopUpValorNav.Text = "Por Confirmar"
+
         If Rescate.RES_Moneda_Pago <> "CLP" Then
             lblPopUpUsdObs.Text = "Por Confirmar"
         Else
             lblPopUpUsdObs.Text = "No Aplica"
         End If
+
         lblPopUpValorRescate.Text = "Por Confirmar"
         lblPopUpFechaNav.Text = Rescate.RES_Fecha_Nav
         lblPopUpFechaPagoRescate.Text = Rescate.RES_Fecha_Pago
