@@ -1810,7 +1810,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         Dim negocioRescate As RescateNegocio = New RescateNegocio
         Dim resultado As Boolean
 
-
         rescate.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
         rescate.RES_Monto = txtModalMonto.Text
 
