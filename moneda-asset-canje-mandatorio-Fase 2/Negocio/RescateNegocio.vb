@@ -179,45 +179,28 @@ Public Class RescateNegocio
         Return True
     End Function
 
-    Public Function ControlMontoRescateVsPatrimonio(rescate As RescatesDTO) As Boolean
-        Dim fondo As FondoDTO = New FondoDTO()
+    Public Function ControlMontoRescateVsPatrimonio(rescate As RescatesDTO, fondo As FondoDTO) As Boolean
         Dim NegocioFondo As Negocio.FondosNegocio = New FondosNegocio()
-
-        fondo.Rut = rescate.FN_RUT
-        fondo = NegocioFondo.GetFondo(fondo)
-
         If (fondo.ControlTipoControl = "Movil") Then
-            'TODO: Se debe generar funcion que obtenga los dias habiles desde la fecha de ¿? y resta de la cantidad de dias de control
-            'TODO: Se debe generar la validacion si la suma de los rescates supera o no el % de lo rescatable
-            If ("" = "") Then
-                ControlMovil(rescate, fondo)
-            Else
-
-            End If
+            Return ControlMovil(rescate, fondo)
         ElseIf (fondo.ControlTipoControl = "Ventana") Then
-            ControlVentana(rescate, fondo)
+            'TODO: FALTA AGREGAR LOGICA DE VENTANA A SP
+            Return ControlVentana(rescate, fondo)
         Else
+            Return False
         End If
 
+        Return False
     End Function
 
-    Private Sub ControlVentana(rescate As RescatesDTO, fondo As FondoDTO)
-        If (fondo.ControlTipoDeConfiguracion = "Pago") Then
+    Public Function ControlVentana(rescate As RescatesDTO, fondo As FondoDTO) As Boolean
+        Dim datosRescate As RescateDatos = New RescateDatos()
+        Return datosRescate.ControlVentana(rescate, fondo)
+    End Function
 
-        ElseIf (fondo.ControlTipoDeConfiguracion = "Prorrata") Then
-            AlertaProrrata()
-        End If
-    End Sub
+    Private Function ControlMovil(rescate As RescatesDTO, fondo As FondoDTO) As Boolean
+        Dim datosRescate As RescateDatos = New RescateDatos()
+        Return datosRescate.ControlMovil(rescate, fondo)
+    End Function
 
-    Private Sub ControlMovil(rescate As RescatesDTO, fondo As FondoDTO)
-        If (fondo.ControlTipoDeConfiguracion = "Pago") Then
-
-        ElseIf (fondo.ControlTipoDeConfiguracion = "Prorrata") Then
-            AlertaProrrata()
-        End If
-    End Sub
-
-    Private Sub AlertaProrrata()
-        Throw New NotImplementedException()
-    End Sub
 End Class

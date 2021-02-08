@@ -113,4 +113,14 @@ Public Class RescateDatos
         Dim Ws = New WSCanjeMandatorio.WSRescates()
         Return Ws.GetRelaciones(Rescate)
     End Function
+
+    Public Function ControlMovil(rescate As RescatesDTO, fondo As FondoDTO) As Boolean
+        Dim Ws = New WSCanjeMandatorio.WSRescates()
+        Return Ws.ControlMovil(rescate, fondo)
+    End Function
+
+    Public Function ControlVentana(rescate As RescatesDTO, fondo As FondoDTO) As Boolean
+        Dim Ws = New WSCanjeMandatorio.WSRescates()
+        Return Ws.ControlVentana(rescate, fondo)
+    End Function
 End Class

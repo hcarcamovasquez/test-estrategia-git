@@ -1755,7 +1755,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
 #Region "CARGA MONTO  TEXTCHANGED CAMPO CUOTAS"
     Public Sub CargarMontoModal()
-
         If txtModalCuota.ToolTip = "" Then
             txtModalCuota.ToolTip = "0"
         End If
@@ -1786,10 +1785,10 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
         If (txtModalFechaSolicitud.Text >= CDate(Date.Today.ToString("dd/MM/yyyy"))) Then
             If (ControlMontoRescateVsPatrimonio()) Then
-                ShowAlert("El Valor del Monto debe ser menor o igual al Patrimonio Disponible")
-                txtModalMonto.Text = "0"
-                txtModalMontoCLP.Text = "0"
-                txtModalCuota.Text = "0"
+                ShowAlert("Fecha De Solicitud Modificada, Monto Excede Disponible")
+
+                'TODO: MENSAJE FLUJO NORMAL SIN EL CONTROL DE RESCATE VS PATRIMONIO
+                ' ShowAlert("El Valor del Monto debe ser menor o igual al Patrimonio Disponible")
                 Return
             End If
         End If
@@ -1808,22 +1807,47 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
     Private Function ControlMontoRescateVsPatrimonio() As Boolean
         Dim rescate As RescatesDTO = New RescatesDTO()
         Dim negocioRescate As RescateNegocio = New RescateNegocio
-        Dim resultado As Boolean
+        Dim fondo As FondoDTO = New FondoDTO()
+        Dim negocioFondo As FondosNegocio = New FondosNegocio
 
         rescate.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
-        rescate.RES_Monto = txtModalMonto.Text
+
+        If (txtAccionHidden.Value.Equals("CREAR")) Then
+            rescate.RES_Monto = txtModalMonto.Text
+        ElseIf (txtAccionHidden.Value.Equals("MODIFICAR")) Then
+            rescate.RES_Monto = 0
+        End If
 
         rescate.AP_RUT = ddlModalRutAportante.SelectedValue
         rescate.AP_Multifondo = ddlModalMultifondo.SelectedValue
         rescate.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
         rescate.FN_RUT = ddlModalRutFondo.SelectedValue
-        rescate.RES_Moneda_Pago = ddlModalMonedaPago.SelectedValue
+        rescate.FS_Moneda = txtModalMonedaSerie.Text
+        rescate.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
 
-        'resultado = negocioRescate.ControlMontoRescateVsPatrimonio(rescate)
+        fondo.Rut = rescate.FN_RUT
+        fondo = negocioFondo.GetFondo(fondo)
 
-        resultado = (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalDisponibles.Text))
+        If (negocioRescate.ControlMontoRescateVsPatrimonio(rescate, fondo)) Then
+            If (fondo.ControlTipoDeConfiguracion = "Pago") Then
+                If (fondo.ControlTipoControl = "Movil") Then
+                    'TODO: OBTENER SIGUIENTE DIA (HABIL o CORRIDO DEPENDE EL CHECK DE DIASHABILES DEL FONDO) 
+                    'Y ESTABLECERLO COMO FECHA DE SOLICITUD EN TextBoxFechaSolicitud Y REALIZAR TODOS LOS CAMBIOS QUE IMPLICA EL CHANGE DE CAMBIO DE FECHA DE SOLICITUD
+                ElseIf (fondo.ControlTipoControl = "Ventana") Then
+                    'TODO: OBTENER FECHA SOLICITUD DE LA SIGUIETNE VENTANA
+                    'Y ESTABLECERLO COMO FECHA DE SOLICITUD EN TextBoxFechaSolicitud Y REALIZAR TODOS LOS CAMBIOS QUE IMPLICA EL CHANGE DE CAMBIO DE FECHA DE SOLICITUD
+                End If
 
-        Return resultado
+                Return True
+            ElseIf (fondo.ControlTipoDeConfiguracion = "Prorrata") Then
+                ShowAlert("DEBE REALIZAR PRORRATA")
+                Return False
+            End If
+        End If
+        Return False
+
+        'TODO: ESTO ES EL FLUJO NORMAL SIN EL CONTROL DE RESCATE VS PATRIMONIO
+        'resultado = (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalDisponibles.Text))
     End Function
 #End Region
 
@@ -2950,7 +2974,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
     Private Sub CalcularMontos()
         txtModalNAV_CLP.Text = Utiles.calcularNAVCLP(txtModalTCObservado.Text, txtModalNAV.Text)
-
         txtModalMontoCLP.Text = Utiles.calcularMontoCLP(txtModalCuota.Text, txtModalNAV.Text, txtModalTCObservado.Text)
         txtModalMonto.Text = Utiles.calcularMonto(txtModalCuota.Text, txtModalNAV.Text, txtModalMonedaSerie.Text)  ' String.Format("{0:N2}", txtModalCuota.Text * txtModalNAV.Text)
 
