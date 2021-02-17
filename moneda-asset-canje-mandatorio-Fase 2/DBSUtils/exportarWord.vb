@@ -7,8 +7,9 @@ Imports DTO
 Imports Ionic.Zip
 
 Public Class exportarWord
-    Private Shared Property dirOutputDoc As String
-    Private Shared Property dirPlantillasWord As String
+
+
+    Private Shared Property Documentos As DocumentosEstructura
 
     Public Shared Function GenerarCartas(fijaciones As List(Of FijacionDTO)) As String
         Dim listaDeArchivos As List(Of String) = New List(Of String)
@@ -23,9 +24,16 @@ Public Class exportarWord
 
         Dim nombreArchivoDestino As String
 
+        Documentos = New DocumentosEstructura
+        Documentos.documentoComprobanteCanje = DirectCast(configurationAppSettings.GetValue("WordComprobanteCanje", GetType(System.String)), String)
+        Documentos.documentoComprobanteAporte = DirectCast(configurationAppSettings.GetValue("WordComprobanteAporte", GetType(System.String)), String)
 
-        dirPlantillasWord = DirectCast(configurationAppSettings.GetValue("PlantillasWord", GetType(System.String)), String)
-        dirOutputDoc = DirectCast(configurationAppSettings.GetValue("RutaGeneracionExcel", GetType(System.String)), String)
+        Documentos.documentoCartaAporte = DirectCast(configurationAppSettings.GetValue("WordCartaAporte", GetType(System.String)), String)
+        Documentos.documentoCartaCanje = DirectCast(configurationAppSettings.GetValue("WordCartaCanje", GetType(System.String)), String)
+
+
+        Documentos.dirPlantillasWord = DirectCast(configurationAppSettings.GetValue("PlantillasWord", GetType(System.String)), String)
+        Documentos.dirOutputDoc = DirectCast(configurationAppSettings.GetValue("RutaGeneracionExcel", GetType(System.String)), String)
 
         dirOutputExcel = DirectCast(configurationAppSettings.GetValue("CarpetaGeneracionExcel", GetType(System.String)), String)
 
@@ -66,10 +74,10 @@ Public Class exportarWord
         fechahoraGeneracion = Date.Now().ToString("ddMMyyyy")
 
         nombreZip = String.Format("{0}{1}{2}", CONST_NOMBRE_ARCHIVO, fechahoraGeneracion, CONST_EXTENSION)
-        carpetaNombre = String.Format("{0}{1}", dirOutputDoc, nombreZip)
+        carpetaNombre = String.Format("{0}{1}", Documentos.dirOutputDoc, nombreZip)
 
         Using zip As New ZipFile()
-        For Each miFile As String In listadearchivos
+            For Each miFile As String In listadearchivos
                 If File.Exists(miFile) Then
                     zip.AddFile(miFile, "cartas")
                 End If
@@ -120,15 +128,14 @@ Public Class exportarWord
         Dim bPrimero As Boolean = True
         Dim numeroTabla As Integer = 0
 
-
         tipoDeComprobante = tipoDeComprobante.Trim().ToLower()
 
         If tipoDeComprobante.Equals("aporte") Then
-            nombreOutput = dirOutputDoc & "CARTA PARA APORTE DE FONDOS"
-            TemplatePath = dirPlantillasWord & "Formato carta aporte fondos.docx"
+            nombreOutput = Documentos.dirOutputDoc & "CARTA PARA APORTE DE FONDOS"
+            TemplatePath = Documentos.dirPlantillasWord & Documentos.documentoCartaAporte
         Else
-            nombreOutput = dirOutputDoc & "CARTA PARA APORTE DE FONDOS CANJE"
-            TemplatePath = dirPlantillasWord & "Formato Carta Canje.docx"
+            nombreOutput = Documentos.dirOutputDoc & "CARTA PARA APORTE DE FONDOS CANJE"
+            TemplatePath = Documentos.dirPlantillasWord & Documentos.documentoCartaCanje
         End If
 
         If File.Exists(nombreOutput) Then
@@ -275,12 +282,14 @@ Public Class exportarWord
         Dim TemplatePath As String
 
         If (tipoDeCarta.Equals("aporte")) Then
-            TemplatePath = dirPlantillasWord & "2Comprobante de pago aporte.dotx"
-            nombreOutput = dirOutputDoc & "COMPROBANTE DE PAGO"
+            TemplatePath = Documentos.dirPlantillasWord & Documentos.documentoComprobanteAporte
+            nombreOutput = Documentos.dirOutputDoc & "COMPROBANTE DE PAGO"
         Else  ' "canje"
-            TemplatePath = dirPlantillasWord & "2Comprobante de pago aporte.docx"
-            nombreOutput = dirOutputDoc & "COMPROBANTE DE PAGO CANJE"
+            TemplatePath = Documentos.dirPlantillasWord & Documentos.documentoComprobanteCanje
+            nombreOutput = Documentos.dirOutputDoc & "COMPROBANTE DE PAGO CANJE"
         End If
+
+
 
         If File.Exists(nombreOutput) Then
             File.Delete(nombreOutput)
@@ -369,6 +378,19 @@ Public Class EstructuraDCV
     Public Sub New()
         listaFijaciones = New List(Of FijacionDTO)
     End Sub
+End Class
 
+Public Class DocumentosEstructura
 
+    Public Property dirOutputDoc As String
+    Public Property dirPlantillasWord As String
+
+    Public Property documentoComprobanteCanje As String
+    Public Property documentoComprobanteAporte As String
+
+    Public Property documentoCartaCanje As String
+    Public Property documentoCartaAporte As String
+
+    Public Sub New()
+    End Sub
 End Class

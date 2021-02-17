@@ -23,5 +23,7 @@
     Public Const CONST_SOLO_DIAS_HABILES As Integer = 1
     Public Const CONST_SOLO_DIAS_CORRIDOS As Integer = 0
 
+    Public Const CONST_SIN_RESULTADOS As String = "No se obtuvieron resultados de la búsqueda"
+
 
 End Class

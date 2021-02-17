@@ -78,6 +78,8 @@
   <ItemGroup>
     <Compile Include="ADCVNegocio.vb" />
     <Compile Include="CanjeNegocio.vb" />
+    <Compile Include="ConfigPentahoNegocio.vb" />
+    <Compile Include="EjecucionRescateVsPatrimonioNegocio.vb" />
     <Compile Include="FechasNegocio.vb" />
     <Compile Include="FijacionNegocio.vb" />
     <Compile Include="PatrimonioNegocio.vb" />

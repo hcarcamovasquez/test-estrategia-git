@@ -1025,8 +1025,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
         Dim VentanasRescate As VentanasRescateDTO = New VentanasRescateDTO
         Dim mensaje As String
 
-
-
         VentanasRescate.FN_Nombre_Corto = ddlModalNombreFondo.SelectedValue
         VentanasRescate.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
 

@@ -93,6 +93,8 @@
     <Content Include="WSApGp.asmx" />
     <Content Include="WSCanje.asmx" />
     <Content Include="WSCanjeMandatorio.asmx" />
+    <Content Include="WSEjecucionRescateVsPatrimonio.asmx" />
+    <Content Include="WSConfigPentaho.asmx" />
     <Content Include="WSMonedas.asmx" />
     <Content Include="WSFijacion.asmx" />
     <Content Include="WSPatrimonio.asmx" />
@@ -153,6 +155,14 @@
     </Compile>
     <Compile Include="WSFijacion.asmx.vb">
       <DependentUpon>WSFijacion.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WSEjecucionRescateVsPatrimonio.asmx.vb">
+      <DependentUpon>WSEjecucionRescateVsPatrimonio.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WSConfigPentaho.asmx.vb">
+      <DependentUpon>WSConfigPentaho.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WSMonedas.asmx.vb">

@@ -1635,7 +1635,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
             End Select
 
             If fechaSolicitud <> Nothing Then
-                fechaSolicitud = Utiles.SumaDiasAFechas(ddlMonedaPago.Text, fechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_CORRIDOS)
+                fechaSolicitud = Utiles.SumaDiasAFechas(ddlMonedaPago.Text, fechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
                 Dim bDiaInhabil As Boolean = (Not Utiles.esFechaHabil(ddlMonedaPago.Text, fechaSolicitud) And ddlMonedaPago.Text = "USD")
 
                 If bDiaInhabil Then

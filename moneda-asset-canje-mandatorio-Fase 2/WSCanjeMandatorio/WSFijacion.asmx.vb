@@ -201,7 +201,7 @@ Public Class WSFijacion
 
     <WebMethod()>
     <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
-    Public Function UpdateFijacion(TipoTransaccion As String, IdCanje As String, NavSaliente As Int32, NavEntrante As String)
+    Public Function UpdateFijacion(TipoTransaccion As String, IdCanje As String, NavSaliente As Int32, NavEntrante As String) As Boolean
 
         Dim sp As New DBSqlServer.SqlServer.StoredProcedure(SP_UPDATE)
         Dim ds As DataSet
@@ -216,14 +216,18 @@ Public Class WSFijacion
 
             ds = sp.ReturnDataSet()
 
-        Catch ex As Exception
-            Throw
-        End Try
+            Return True
 
+        Catch ex As Exception
+            Return False
+
+        End Try
+        Return False
     End Function
+
     <WebMethod()>
     <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
-    Public Function UpdateFijacionNav(ID As Integer, TipoTransaccion As String)
+    Public Function UpdateFijacionNav(ID As Integer, TipoTransaccion As String) As Boolean
 
         Dim sp As New DBSqlServer.SqlServer.StoredProcedure(SP_UPDATE)
         Dim ds As DataSet
@@ -234,16 +238,16 @@ Public Class WSFijacion
             sp.AgregarParametro("Id", ID, System.Data.SqlDbType.Int)
 
             ds = sp.ReturnDataSet()
-
+            Return True
         Catch ex As Exception
-            Throw
+            Return False
         End Try
-
+        Return False
     End Function
 
     <WebMethod()>
     <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
-    Public Function UpdateFijacionTC(ID As Integer, TipoTransaccion As String)
+    Public Function UpdateFijacionTC(ID As Integer, TipoTransaccion As String) As Boolean
 
         Dim sp As New DBSqlServer.SqlServer.StoredProcedure(SP_UPDATE)
         Dim ds As DataSet
@@ -254,11 +258,12 @@ Public Class WSFijacion
             sp.AgregarParametro("Id", ID, System.Data.SqlDbType.Int)
 
             ds = sp.ReturnDataSet()
-
+            Return True
         Catch ex As Exception
-            Throw
-        End Try
+            Return False
 
+        End Try
+        Return False
     End Function
 
     '<WebMethod()>

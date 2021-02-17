@@ -1851,6 +1851,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
     End Function
 #End Region
 
+
 #Region "CARGA CUOTAS TEXTCHANGED CAMPO MONTO"
     Public Sub CargarCuotasModal()
         Dim NegocioTipoCalculoNav As TipoCalculoNav = New TipoCalculoNav
@@ -3523,7 +3524,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         End If
 
         Dim strFecha As DateTime
-        strFecha = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_CORRIDOS)
+        ' strFecha = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_CORRIDOS)
+        strFecha = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_HABILES)
         'strFecha = NegocioRescate.SelectFechaPagoSIRescatable(FechaPagoFondoRescatableINT, FechaCalculo, 0)
 
         If strFecha = Nothing Then
@@ -3987,6 +3989,10 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
     Protected Sub btnProrrotear_Click(sender As Object, e As EventArgs) Handles btnProrrotear.Click
         Dim listaRescates As List(Of RescatesDTO)
         Dim stringID As String = ""
+        Dim rescateNegocio As RescateNegocio = New RescateNegocio()
+        Dim resultadoProceso As String
+        Dim stringError As String = ""
+
 
         listaRescates = GetListaRescateSelecionados()
 
@@ -3997,7 +4003,12 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             Next
             stringID = Left(stringID, Len(stringID) - 1)
 
-
+            resultadoProceso = rescateNegocio.Prorrata(stringID, stringError)
+            If resultadoProceso = "OK" Then
+                ShowAlert("Prorroteo ejecutado exitosamente")
+            Else
+                ShowAlert(stringError)
+            End If
         End If
 
 
@@ -4008,7 +4019,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         Dim listaRescates As List(Of RescatesDTO) = New List(Of RescatesDTO)
 
         For Each row As GridViewRow In GrvTabla.Rows
-            Dim chk As RadioButton = row.Cells(0).Controls(1)
+            Dim chk As CheckBox = row.Cells(0).Controls(1)
             If chk IsNot Nothing And chk.Checked Then
                 Rescate = New RescatesDTO()
                 Rescate.RES_ID = row.Cells(1).Text.Trim()

@@ -326,7 +326,7 @@
                                                     <asp:label runat="server" id="Label1">Fondo Rescatable</asp:label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:dropdownlist runat="server" id="ddlFondoRescatable" cssclass="form-control js-select2-rut">
+                                                    <asp:dropdownlist runat="server" id="ddlFondoRescatable" cssclass="form-control js-select2-rut"  onchange="jsSelectedIndexChanged(this)">
                                                             <asp:ListItem Value="">Seleccione una opción</asp:ListItem>
                                                             <asp:ListItem Value="Si">Si</asp:ListItem>
                                                             <asp:ListItem Value="No">No</asp:ListItem>
@@ -394,6 +394,29 @@
                                                     <asp:textbox id="txtPorcentajePatrimonio" maxlength="3" max="100" min="0" runat="server" onpaste="return false" oncut="return false" oncopy="return false" cssclass="form-control form-control-sm porcentaje" onkeypress="return soloNumeros(event)"></asp:textbox>
                                                 </div>
                                             </div>
+                                            <!-- FECHA DE PATRIMONIO -->
+                                            <div class="row mt-3">
+                                                <div class="col-md-4">
+                                                    <label class="form-control-label">Fecha Patrimonio</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <asp:dropdownlist id="ddlFechaPatrimonio" cssclass="form-control js-select2-rut" runat="server">
+                                                            <asp:ListItem Value="">Seleccione una opción</asp:ListItem>
+                                                            <asp:ListItem Value="FechaSolicitud">Fecha Solicitud</asp:ListItem>
+                                                            <asp:ListItem Value="FechaRescate">Fecha Rescate</asp:ListItem>
+                                                        </asp:dropdownlist>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <asp:textbox id="txtFechaPatrimonio" maxlength="3" runat="server" cssclass="form-control form-control-sm" onpaste="return false" oncut="return false" oncopy="return false" onkeypress="return soloNumerosNP(event)" onchange="validarRango()"></asp:textbox>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-check">
+                                                        <asp:CheckBox ID="chkDiasHabilesFechaPatrimonio" runat="server" Text="" cssclass="form-check-input" />
+                                                        <label class="form-check-label" for="chkDiasHabilesFechaPatrimonio">Días hábiles</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="row mt-3">
                                                 <div class="col-md-4">
                                                     <label class="form-control-label">Fijación NAV</label>
@@ -1324,6 +1347,14 @@
                 }
             }
             return blnResult;
+        }
+
+        function jsSelectedIndexChanged(ddl) {
+            if (ddl.value == "Si") {   // SI 
+
+            } else {
+
+            }
         }
 
     </script>

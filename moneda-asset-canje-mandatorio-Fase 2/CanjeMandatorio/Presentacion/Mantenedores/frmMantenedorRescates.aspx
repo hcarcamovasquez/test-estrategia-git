@@ -148,8 +148,15 @@
                 AllowSorting="false">
                 <Columns>
                     <asp:TemplateField HeaderText="Sel.">
+                        <HeaderTemplate>
+                            Sel.
+                           <asp:CheckBox ID="checkFijacionAll" CssClass="checkFijacionAll" runat="server" />
+                        </HeaderTemplate>
+
                         <ItemTemplate>
-                            <asp:RadioButton ID="RowSelector" runat="server" onclick="checkRadioBtn(this);" GroupName="a" AutoPostBack="false" />
+                            <%--<asp:RadioButton ID="RowSelector" runat="server" onclick="checkRadioBtn(this);" GroupName="a" AutoPostBack="false" />--%>
+                            <asp:CheckBox ID="RowSelector" CssClass="checkFijacion" runat="server" onclick="checkRadioBtn(this);" />
+
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:BoundField DataField="RES_ID" HeaderText="ID" />
@@ -1339,6 +1346,7 @@
 
             seteaBotonGuardar();
             seteaBotonModificar();
+            //seteaBotonProrrotear();
             Sys.WebForms.PageRequestManager.getInstance().add_endRequest(bindDataTable);
 
             calendarInitial();
@@ -1385,6 +1393,18 @@
             $('.dbs-entero14-decimal6').mask2(getMask(14, 6));
 
         }
+
+        $('.checkFijacionAll').change(function () {
+                    if ($('.checkFijacionAll input').prop('checked') == true) {
+                        $('.checkFijacion input').prop('checked', true);
+                        enableDisableButtons(true);
+                    }
+                    else {
+                        $('.checkFijacion input').prop('checked', false);
+                        enableDisableButtons(false);
+                    }
+
+                });
 
         function seteaBotonGuardar() {
             $("#<%=btnModalGuardar.ClientID %>").unbind("click");
@@ -1450,6 +1470,7 @@
             );
             return $state;
         };
+
         $(".js-select2-rut").select2({
             templateResult: formatState,
             placeholder: 'Selecciona una opción'
@@ -1459,6 +1480,9 @@
             btnModificar.disabled = newValue;
             var btnEliminar = document.getElementById('<%=BtnEliminar.ClientID%>');
             btnEliminar.disabled = newValue;
+        }
+
+        function enableDisableButtonsProrrotear(newValue) {
             var btnProrrotear = document.getElementById('<%=btnProrrotear.ClientID%>');
             btnProrrotear.disabled = newValue;
         }
@@ -1471,11 +1495,12 @@
 
                     // Check if the id not same
                     if (radioBtn[0].id != id.id) {
-                        radioBtn[0].checked = false;
+                       // radioBtn[0].checked = false;
                     }
                     else {
                         if (!isPerfilConsulta()) {
-                            enableDisableButtons(false)
+                            enableDisableButtons(false);
+                            enableDisableButtonsProrrotear(false);
                         }
                     }
                 }

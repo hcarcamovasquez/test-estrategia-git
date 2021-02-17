@@ -203,4 +203,8 @@ Public Class RescateNegocio
         Return datosRescate.ControlMovil(rescate, fondo)
     End Function
 
+    Public Function Prorrata(stringID As String, ByRef stringError As String) As String
+        Dim datosRescate As RescateDatos = New RescateDatos()
+        Return datosRescate.Prorrata(stringID, stringError)
+    End Function
 End Class

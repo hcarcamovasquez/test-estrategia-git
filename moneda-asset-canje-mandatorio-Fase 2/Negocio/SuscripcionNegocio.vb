@@ -117,9 +117,10 @@ Public Class SuscripcionNegocio
     Public Function InsertSuscripcion(Suscripcion As SuscripcionDTO) As SuscripcionDTO
         Dim SuscripcionDatos As New Datos.SuscripcionDatos
         Dim SuscripcionConsultado As SuscripcionDTO = SuscripcionDatos.GetSuscripcion(Suscripcion)
-        If SuscripcionConsultado Is Nothing Then
-            Return SuscripcionDatos.InsertSuscripcion(Suscripcion)
-        End If
+
+        SuscripcionConsultado = SuscripcionDatos.InsertSuscripcion(Suscripcion)
+
+        Return SuscripcionConsultado
     End Function
     Public Function updatesuscripcion(suscripcion As SuscripcionDTO) As Integer
         Dim suscripciondatos As New Datos.SuscripcionDatos

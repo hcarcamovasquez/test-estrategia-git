@@ -67,6 +67,8 @@
   <ItemGroup>
     <Compile Include="ADCVDTO.vb" />
     <Compile Include="CanjeDTO.vb" />
+    <Compile Include="ConfigPentahoDTO.vb" />
+    <Compile Include="EjecucionRescateVsPatrimonioDTO.vb" />
     <Compile Include="EstructuraFechasDto.vb" />
     <Compile Include="FechasDTO.vb" />
     <Compile Include="FijacionDTO.vb" />

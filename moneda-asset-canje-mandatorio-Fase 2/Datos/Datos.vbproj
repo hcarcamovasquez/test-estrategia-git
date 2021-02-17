@@ -72,6 +72,8 @@
     <Compile Include="ADCVDatos.vb" />
     <Compile Include="ApGpDatos.vb" />
     <Compile Include="CanjeDatos.vb" />
+    <Compile Include="ConfigPentahoDatos.vb" />
+    <Compile Include="EjecucionRescateVsPatrimonioDatos.vb" />
     <Compile Include="FechasDatos.vb" />
     <Compile Include="FijacionDatos.vb" />
     <Compile Include="MonedasDatos.vb" />

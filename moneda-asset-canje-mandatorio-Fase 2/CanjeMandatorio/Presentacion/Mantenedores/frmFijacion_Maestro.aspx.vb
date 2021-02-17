@@ -1031,6 +1031,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         canje.NombreFondo = ddlModalNombreFondoCanje.SelectedValue
         canje.FechaNavSaliente = txtModalFechaNavSaliente.Text
         canje.FechaSolicitud = txtModalFechaSolicitud.Text
+        canje.FechaCanjeDate = txtModalFechaCanje.Text
         canje.FechaObservado = txtModalFechaObservado.Text
         canje.NemotecnicoSaliente = ddlModalNemotecnicoSalienteCanje.SelectedValue
         canje.NombreSerieSaliente = ddlModalSerieSalienteCanje.SelectedValue
@@ -1795,6 +1796,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             ddlModalNombreFondoCanje.SelectedValue = Canje.NombreFondo
             txtModalFechaNavSaliente.Text = Canje.FechaNavSaliente
             txtModalFechaSolicitud.Text = Canje.FechaSolicitud
+            txtModalFechaCanje.Text = Canje.FechaCanje
             txtModalFechaObservado.Text = Canje.FechaObservado
             ddlModalNemotecnicoSalienteCanje.SelectedValue = Canje.NemotecnicoSaliente
             ddlModalSerieSalienteCanje.SelectedValue = Canje.NombreSerieSaliente
@@ -2597,7 +2599,6 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
 
         txtModalMonto.Text = Utiles.calcularMonto(Cuotas, Nav, MonedaSerie) ' String.Format("{0:N0}", Monto)
         txtModalMontoCLP.Text = Utiles.calcularMontoCLP(Cuotas, Nav, TCObservado)  ' String.Format("{0:N0}", Double.Parse(MontoCLP))
-
 
 
         If txtModalCuota.Text = "" Then

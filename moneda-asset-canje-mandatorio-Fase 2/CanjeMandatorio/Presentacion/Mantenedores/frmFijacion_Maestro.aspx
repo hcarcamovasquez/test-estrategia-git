@@ -54,8 +54,9 @@
                 <asp:Label runat="server" ID="Label7">Fecha NAV Hasta</asp:Label>
                 <div class="input-group">
                     <asp:TextBox ID="txtNAVHasta" runat="server" CssClass="form-control datepicker" ReadOnly="True"></asp:TextBox>
-                    <asp:LinkButton ID="lnkBtnNAVHasta" Class="btn btn-moneda" runat="server" OnClientClick="return clickCalendar('txtNAVHasta')"  
-                        ><i class="far fa-calendar-alt"></i></asp:LinkButton>
+                    <asp:LinkButton ID="lnkBtnNAVHasta" Class="btn btn-moneda" runat="server" OnClientClick="return clickCalendar('txtNAVHasta')">
+                        <i class="far fa-calendar-alt"></i>
+                    </asp:LinkButton>
                     <asp:LinkButton ID="LinkButton5" Text="" OnClientClick="return limpiarCalendar('txtNAVHasta')" class="btn btn-secondary ml-1" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
                    
                 </div>
@@ -823,8 +824,6 @@
                     <div class="jumbotron p-3">
                         <asp:HiddenField ID="HiddenField1" runat="server"></asp:HiddenField>
                         <div class="col-md-12 mt-10"  visible="false">
-                                                                 
-                                    
                                     <div class="col-md-12 d-flex p-0 mb-10">
                                 <!-- TARJETA 1 -->
                                 <div class="card mt-0 col-md-12">
@@ -955,27 +954,29 @@
                                                 </asp:UpdatePanel>
 
                                             </div>
+
                                             <div class="col-md-1">
-                                                <label class="form-control-label">Fecha Observado</label>
+                                                <label class="form-control-label">Fecha de Canje</label>
                                             </div>
                                             <div class="col-md-3">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel34" UpdateMode="Conditional">
+                                                <asp:UpdatePanel runat="server" ID="UpdatePanelFC" UpdateMode="Conditional">
                                                     <Triggers>
-                                                        <asp:AsyncPostBackTrigger ControlID="lnkbtnModalFechaObservado" EventName="click" />
-                                                        <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSalienteCanje" EventName="SelectedIndexChanged" />
+                                                        <%--<asp:AsyncPostBackTrigger ControlID="lnkbtnModalFechaObservado" EventName="click" />
+                                                        <asp:AsyncPostBackTrigger ControlID="CalendarModalFechaNavSaliente" EventName="SelectionChanged" />
+                                                        <asp:AsyncPostBackTrigger ControlID="txtModalFechaNavSaliente" EventName="TextChanged" />
+                                                        <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSaliente" EventName="SelectedIndexChanged" />
+                                                        <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoEntrante" EventName="TextChanged" />
+                                                        <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoEntrante" EventName="SelectedIndexChanged" />
+                                                        <asp:AsyncPostBackTrigger ControlID="txtModalFSolicitud" EventName="TextChanged" />--%>
                                                     </Triggers>
                                                     <ContentTemplate>
-                                                        <asp:TextBox ID="txtModalFechaObservado" runat="server" CssClass="form-control datepicker" ReadOnly="True"></asp:TextBox>
-                                                        <asp:Calendar ID="CalendarModalFechaObservado" runat="server" Visible="False" onblur="onblurCalendar(this)" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" class="calendarios">
-                                                            <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                                                            <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                                                            <OtherMonthDayStyle ForeColor="#999999" />
-                                                            <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                                                            <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="4px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" />
-                                                            <TodayDayStyle BackColor="#CCCCCC" />
-                                                        </asp:Calendar>
-                                                        <asp:LinkButton ID="lnkbtnModalFechaObservado" Class="btn btn-secondary mt-1 btn-sm w-100" runat="server" Visible="false">Elegir Fecha</asp:LinkButton>
-                                                        <span id="reqtxtModalFechaObservado" class="reqError"></span>
+                                                        <div class="input-group">
+                                                            <asp:TextBox ID="txtModalFechaCanje" runat="server" CssClass="form-control datepicker" AutoPostBack="true" Enabled="false"></asp:TextBox>
+                                                            <asp:LinkButton ID="lnkbtnModalFechaCanje" Class="btn btn-moneda" runat="server" Visible="false"
+                                                                OnClientClick="return clickCalendar('txtModalFechaCanje')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
+
+                                                            <span id="reqtxtModalFechaCanje" class="reqError"></span>
+                                                        </div>
                                                     </ContentTemplate>
                                                 </asp:UpdatePanel>
                                             </div>
@@ -1435,8 +1436,40 @@
                                                 </asp:UpdatePanel>
 
                                             </div>
+                                         </div>   
+                                        <div class="row mt-2">
+                                            <div class="col-md-2">
+                                                <label class="form-control-label">Fecha Observado</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <asp:UpdatePanel runat="server" ID="UpdatePanel34" UpdateMode="Conditional">
+                                                    <Triggers>
+                                                        <asp:AsyncPostBackTrigger ControlID="lnkbtnModalFechaObservado" EventName="click" />
+                                                        <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSalienteCanje" EventName="SelectedIndexChanged" />
+                                                    </Triggers>
+                                                    <ContentTemplate>
+                                                        <asp:TextBox ID="txtModalFechaObservado" runat="server" CssClass="form-control datepicker" ReadOnly="True"></asp:TextBox>
+                                                        <asp:Calendar ID="CalendarModalFechaObservado" runat="server" Visible="False" onblur="onblurCalendar(this)" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" Font-Size="9pt" ForeColor="Black" Height="190px" NextPrevFormat="FullMonth" Width="350px" class="calendarios">
+                                                            <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
+                                                            <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
+                                                            <OtherMonthDayStyle ForeColor="#999999" />
+                                                            <SelectedDayStyle BackColor="#333399" ForeColor="White" />
+                                                            <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="4px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" />
+                                                            <TodayDayStyle BackColor="#CCCCCC" />
+                                                        </asp:Calendar>
+                                                        <asp:LinkButton ID="lnkbtnModalFechaObservado" Class="btn btn-secondary mt-1 btn-sm w-100" runat="server" Visible="false">Elegir Fecha</asp:LinkButton>
+                                                        <span id="reqtxtModalFechaObservado" class="reqError"></span>
+                                                    </ContentTemplate>
+                                                </asp:UpdatePanel>
+                                            </div>
+                                            <div class="col-md-2">
+                                                
+                                            </div>
+                                            <div class="col-md-4">
+                                            </div>
                                         </div>
-                                    </div>
+                                    
+                                </div>
                                 </div>
 
 

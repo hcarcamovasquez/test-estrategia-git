@@ -131,6 +131,30 @@ Public Class WSRescates
 
     <WebMethod()>
     <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
+    Public Function Prorrata(stringID As String, ByRef stringError As String) As String
+        Dim sp As New DBSqlServer.SqlServer.StoredProcedure("PRC_RescatesProrrata")
+        Dim ds As DataSet
+
+        Try
+            sp.AgregarParametro("ListaIDFondo", stringID, System.Data.SqlDbType.VarChar)
+            ds = sp.ReturnDataSet()
+
+            If ds.Tables.Count > 0 AndAlso ds.Tables(0).Rows.Count > 0 Then
+                Dim DataRow As DataRow = ds.Tables(0).Rows(0)
+                stringError = ""
+                Return DataRow("Resultado")
+            Else
+                stringError = "Error no se encontraron datos para el prorroteo"
+                Return "NOK"
+            End If
+        Catch ex As Exception
+            stringError = "ERROR: " & ex.Message
+            Return "NOK"
+        End Try
+    End Function
+
+    <WebMethod()>
+    <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
     Public Function ControlVentana(rescate As RescatesDTO, fondo As FondoDTO) As Boolean
         Dim sp As New DBSqlServer.SqlServer.StoredProcedure("PRC_RescateControl")
         Dim ds As DataSet

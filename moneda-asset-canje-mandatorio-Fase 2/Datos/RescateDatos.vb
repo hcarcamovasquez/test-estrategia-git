@@ -123,4 +123,10 @@ Public Class RescateDatos
         Dim Ws = New WSCanjeMandatorio.WSRescates()
         Return Ws.ControlVentana(rescate, fondo)
     End Function
+
+    Public Function Prorrata(stringID As String, ByRef stringError As String) As String
+        Dim Ws = New WSCanjeMandatorio.WSRescates()
+        Return Ws.Prorrata(stringID, stringError)
+
+    End Function
 End Class

@@ -1547,7 +1547,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
 
         Select Case estructuraFechas.DesdeQueFecha
             Case "FechaSolicitud"
-                fechaSolicitud = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, fechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_CORRIDOS)
+                fechaSolicitud = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, fechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
 
                 bDiaInhabil = (Not Utiles.esFechaHabil(ddlModalMonedaSaliente.Text, fechaSolicitud) And ddlModalMonedaSaliente.Text = "USD")
 
@@ -1558,7 +1558,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
                 canje.FechaNavSaliente = txtModalFechaNavSaliente.Text
                 Dim fechaNavSaliente = canje.FechaNavSaliente
 
-                SoloDiasHabiles = IIf(serieActual.SoloDiasHabilesFechaNavCanje, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
+                SoloDiasHabiles = IIf(serieActual.SoloDiasHabilesFechaNavCanje, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_HABILES)
 
                 fechaNavSaliente = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, fechaNavSaliente, estructuraFechas.DiasASumar, SoloDiasHabiles)
                 bDiaInhabil = (Not Utiles.esFechaHabil(ddlModalMonedaSaliente.Text, fechaNavSaliente) And ddlModalMonedaSaliente.Text = "USD")
@@ -1576,11 +1576,11 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
 
                 SoloDiasHabiles = IIf(serieActual.SoloDiasHabilesFechaNavCanje, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
 
-                FechaTCObservado = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, txtModalFechaCanje.Text, estructuraFechas.DiasASumar, SoloDiasHabiles)
+                FechaTCObservado = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, txtModalFechaCanje.Text, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
                 ' Si fecha en cuestión cae en un día inhábil US, sistema mostrará mensaje de advertencia
                 bDiaInhabil = (Not Utiles.esFechaHabil(ddlModalMonedaSaliente.Text, FechaTCObservado) And ddlModalMonedaSaliente.Text = "USD")
 
-                FechaTCObservado = Utiles.getDiaHabilSiguiente(txtModalFechaCanje.Text, ddlModalMonedaSaliente.Text)
+                FechaTCObservado = Utiles.getDiaHabilSiguiente(FechaTCObservado, ddlModalMonedaSaliente.Text)
 
                 txtModalFechaObservado.Text = FechaTCObservado
 
