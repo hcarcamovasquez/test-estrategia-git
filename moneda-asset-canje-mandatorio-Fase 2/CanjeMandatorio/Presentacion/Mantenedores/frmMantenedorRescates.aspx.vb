@@ -2152,7 +2152,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         Dim Rescate As New RescatesDTO
 
         For Each row As GridViewRow In GrvTabla.Rows
-            Dim chk As RadioButton = row.Cells(0).Controls(1)
+            Dim chk As CheckBox = row.Cells(0).Controls(1)
             If chk IsNot Nothing And chk.Checked Then
                 Rescate.RES_ID = row.Cells(1).Text.Trim()
             End If
@@ -2435,7 +2435,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         Dim Rescate As New RescatesDTO
 
         For Each row As GridViewRow In GrvTabla.Rows
-            Dim chk As RadioButton = row.Cells(0).Controls(1)
+            Dim chk As CheckBox = row.Cells(0).Controls(1)
             If chk IsNot Nothing And chk.Checked Then
                 Rescate.RES_ID = row.Cells(1).Text.Trim()
             End If
