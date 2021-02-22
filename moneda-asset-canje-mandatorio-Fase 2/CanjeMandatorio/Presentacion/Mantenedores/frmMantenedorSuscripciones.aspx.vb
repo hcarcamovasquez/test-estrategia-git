@@ -1683,16 +1683,14 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
                 txtFechaSuscripcion.Text = FechaSolicitud
             Else
                 Dim dias As Integer = Integer.Parse(diasNavC)
-
                 Suscripcion.FechaIntencion = txtFechaIntencion.Text
-                fechaSolicitud = Suscripcion.FechaIntencion
+                FechaSolicitud = Suscripcion.FechaIntencion
 
                 'FechaPagoFondoRescatableINT es días que hay que sumar o restar, FechaCalculo es a la fecha a la que hay que sumar o restar
                 'FECHA DIAS HABILES
 
-                If ddlMonedaPago.Text <> "" Then
-                    FechaSolicitud = Utiles.SumaDiasAFechas(ddlMonedaPago.Text, FechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_CORRIDOS)
-                End If
+                ' FechaSolicitud = Utiles.SumaDiasAFechas(ddlMonedaPago.Text, FechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_CORRIDOS)
+                FechaSolicitud = Utiles.SumaDiasAFechas(ddlMonedaPago.Text, FechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
 
                 'fechaSolicitud = NegocioRescate.SelectFechaPagoSIRescatable(dias, fechaSolicitud, 0)
                 txtFechaSuscripcion.Text = fechaSolicitud

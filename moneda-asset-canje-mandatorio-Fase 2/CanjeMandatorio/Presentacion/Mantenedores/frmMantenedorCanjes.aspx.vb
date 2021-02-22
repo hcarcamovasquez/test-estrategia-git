@@ -184,6 +184,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         txtModalObservaciones.Text = ""
         txtModalFSolicitud.Text = Date.Now().ToShortDateString()
         txtModalFechaCanje.Text = ""
+
     End Sub
 
     Protected Sub btnLimpiarFrm_Click(sender As Object, e As EventArgs)
@@ -1035,7 +1036,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         'Dim fechaNavC As String
         'Dim diasNavC As String
 
-        Dim canje As CanjeDTO = New CanjeDTO
+        'Dim canje As CanjeDTO = New CanjeDTO
         Dim fechaParaCalculo As Date
         Dim SoloDiasHabiles As Integer
 
@@ -1090,14 +1091,12 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
 
             Select Case estructuraFechas.DesdeQueFecha
                 Case "FechaSolicitud"
-                    canje.FechaSolicitud = txtModalFSolicitud.Text
+                    ' canje.FechaSolicitud = txtModalFSolicitud.Text
+                    fechaParaCalculo = txtModalFSolicitud.Text
+                    txtModalFechaNavSaliente.Text = txtModalFSolicitud.Text ' fechaParaCalculo
 
-                    fechaParaCalculo = canje.FechaSolicitud
-
-                    txtModalFechaNavSaliente.Text = fechaParaCalculo
-
-                    CalcularValorSaliente()
-                    ConsultarFechaObservado()
+                    'CalcularValorSaliente()
+                   ' ConsultarFechaObservado()
                 Case "FechaCanje"
                     fechaParaCalculo = txtModalFechaCanje.Text
                 Case Else
@@ -1391,7 +1390,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         Dim FechaParaCalculo As Date
         Dim SoloDiasHabiles As Integer
 
-        paramSerie.Nemotecnico = ddlModalNemotecnicoEntrante.SelectedValue
+        paramSerie.Nemotecnico = ddlModalNemotecnicoSaliente.SelectedValue
         serie = negocioSerie.GetFondoSeriesNemotecnico(paramSerie)
 
         If serie Is Nothing Then Return
@@ -1412,7 +1411,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         If FechaParaCalculo <> Nothing Then
 
             SoloDiasHabiles = IIf(serie.SoloDiasHabilesFechaCanje, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
-            txtModalFechaCanje.Text = Utiles.SumaDiasAFechas(ddlModalMonedaEntrante.Text, FechaParaCalculo, estructuraFechas.DiasASumar, SoloDiasHabiles)
+            txtModalFechaCanje.Text = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, FechaParaCalculo, estructuraFechas.DiasASumar, SoloDiasHabiles)
         End If
     End Sub
 
@@ -1547,13 +1546,15 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
 
         Select Case estructuraFechas.DesdeQueFecha
             Case "FechaSolicitud"
+
+                fechaSolicitud = txtModalFSolicitud.Text
                 fechaSolicitud = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, fechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
 
                 bDiaInhabil = (Not Utiles.esFechaHabil(ddlModalMonedaSaliente.Text, fechaSolicitud) And ddlModalMonedaSaliente.Text = "USD")
-
                 fechaSolicitud = Utiles.getDiaHabilSiguiente(fechaSolicitud, ddlModalMonedaSaliente.Text)
 
                 txtModalFechaObservado.Text = fechaSolicitud
+
             Case "FechaNav"
                 canje.FechaNavSaliente = txtModalFechaNavSaliente.Text
                 Dim fechaNavSaliente = canje.FechaNavSaliente
@@ -1571,12 +1572,13 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
                 If txtModalFechaCanje.Text = "" Then
                     ConsultarFechaCanje()
                 End If
+
                 canje.FechaNavSaliente = txtModalFechaCanje.Text
                 Dim FechaTCObservado = canje.FechaNavSaliente
 
                 SoloDiasHabiles = IIf(serieActual.SoloDiasHabilesFechaNavCanje, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
 
-                FechaTCObservado = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, txtModalFechaCanje.Text, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
+                FechaTCObservado = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, FechaTCObservado, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
                 ' Si fecha en cuestión cae en un día inhábil US, sistema mostrará mensaje de advertencia
                 bDiaInhabil = (Not Utiles.esFechaHabil(ddlModalMonedaSaliente.Text, FechaTCObservado) And ddlModalMonedaSaliente.Text = "USD")
 

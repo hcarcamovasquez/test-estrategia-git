@@ -832,7 +832,15 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             Else
                 ' txtModalFechaNAV.Text = CDate(FechaCalculo.AddDays(FechaNAVFondoRescatableINT).ToString("dd/MM/yyyy"))
                 ' txtModalFechaNAV.Text = NegocioRescate.SelectFechaPagoSIRescatable(FechaPagoFondoRescatableINT, FechaCalculo, EsSoloDiasHabiles)
-                txtModalFechaNAV.Text = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaNAVFondoRescatableINT, EsSoloDiasHabiles)
+
+                'txtModalFechaNAV.Text = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaNAVFondoRescatableINT, EsSoloDiasHabiles)
+
+                '=========================================================================================================================================================
+                ' JOVB: Cambio: Fecha nav no debe calcularse de acuerdo con el calendario de la moneda, solo debe calcularse a días hábiles chilenos.
+                ' Referencia : Revision Incidencias v2.0.docx (Jeffrey) 
+                txtModalFechaNAV.Text = Utiles.SumaDiasAFechas("CLP", FechaCalculo, FechaNAVFondoRescatableINT, Constantes.CONST_SOLO_DIAS_HABILES)
+                '=========================================================================================================================================================
+
                 FechaNAV = txtModalFechaNAV.Text
             End If
 
@@ -1831,7 +1839,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         If (negocioRescate.ControlMontoRescateVsPatrimonio(rescate, fondo)) Then
             If (fondo.ControlTipoDeConfiguracion = "Pago") Then
                 If (fondo.ControlTipoControl = "Movil") Then
-                    'TODO: OBTENER SIGUIENTE DIA (HABIL o CORRIDO DEPENDE EL CHECK DE DIASHABILES DEL FONDO) 
+                    'TODO: OBTENER SIGUIENTE DIA (HABIL o CORRIDO DEPENDE EL CHECK DE DIASHABILES DEL FONDO)
                     'Y ESTABLECERLO COMO FECHA DE SOLICITUD EN TextBoxFechaSolicitud Y REALIZAR TODOS LOS CAMBIOS QUE IMPLICA EL CHANGE DE CAMBIO DE FECHA DE SOLICITUD
                 ElseIf (fondo.ControlTipoControl = "Ventana") Then
                     'TODO: OBTENER FECHA SOLICITUD DE LA SIGUIETNE VENTANA
@@ -3207,10 +3215,16 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
                 End If
                 'FECHA NAV DIAS CORRIDOS
-                Dim SoloDiasHabiles As Integer
-                SoloDiasHabiles = IIf(FondoSerieAct.SoloDiasHabilesFechaNavRescate, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
-                txtModalFechaNAV.Text = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaNAVFondoRescatableINT, SoloDiasHabiles)
-                'CDate(FechaCalculo.AddDays(FechaNAVFondoRescatableINT).ToString("dd/MM/yyyy"))
+                'Dim SoloDiasHabiles As Integer
+                'SoloDiasHabiles = IIf(FondoSerieAct.SoloDiasHabilesFechaNavRescate, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
+                'txtModalFechaNAV.Text = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaNAVFondoRescatableINT, SoloDiasHabiles)
+
+                '=========================================================================================================================================================
+                ' JOVB: Cambio: Fecha nav no debe calcularse de acuerdo con el calendario de la moneda, solo debe calcularse a días hábiles chilenos.
+                ' Referencia : Revision Incidencias v2.0.docx (Jeffrey) 
+                Dim SoloDiasHabiles As Integer = IIf(FondoSerieAct.SoloDiasHabilesFechaNavRescate, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
+                txtModalFechaNAV.Text = Utiles.SumaDiasAFechas("CLP", FechaCalculo, FechaNAVFondoRescatableINT, Constantes.CONST_SOLO_DIAS_HABILES)
+                '=========================================================================================================================================================
                 FechaNAV = txtModalFechaNAV.Text
             End If
 
