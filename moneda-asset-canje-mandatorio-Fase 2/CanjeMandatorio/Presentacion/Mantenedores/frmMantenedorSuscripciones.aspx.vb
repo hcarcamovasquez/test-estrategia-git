@@ -1572,26 +1572,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
         Dim estructuraFechas = New EstructuraFechasDto
         estructuraFechas = Utiles.splitCharByComma(series.FechaNavSuscripcion)
 
-        'FechaNavSuscripcion = series.FechaNavSuscripcion
-        'Dim fechaNavC As String = estructuraFechas.DesdeQueFecha
-        ' Dim diasNavC As String = estructuraFechas.DiasASumar
-
-        'Dim Suscripcion As SuscripcionDTO = New SuscripcionDTO
-
-        'If diasNavC = "" Then
-        '    If (estructuraFechas.DesdeQueFecha = "FechaSuscripcion") Then
-        '        Suscripcion.FechaSuscripcion = txtFechaSuscripcion.Text
-        '    Else
-        '        Suscripcion.FechaSuscripcion = txtFechaIntencion.Text
-        '    End If
-
-
-        '    Dim testString As String = FormatDateTime(FechaSolicitud, DateFormat.LongDate)
-        '    FechaSolicitud = Suscripcion.FechaSuscripcion
-        '    txtFechaNAV.Text = FechaSolicitud
-        'Else
-        'Dim dias As Integer = Integer.Parse(diasNavC)
-
         Dim FechaSolicitud As Date
 
         Select Case estructuraFechas.DesdeQueFecha
@@ -1605,7 +1585,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
 
         If FechaSolicitud <> Nothing Then
             SoloDiasHabiles = IIf(series.SoloDiasHabilesFechaNavSuscripciones, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
-            FechaSolicitud = Utiles.SumaDiasAFechas(ddlMonedaPago.Text, FechaSolicitud, estructuraFechas.DiasASumar, SoloDiasHabiles)
+            FechaSolicitud = Utiles.SumaDiasAFechas("CLP", FechaSolicitud, estructuraFechas.DiasASumar, SoloDiasHabiles)
         End If
 
         txtFechaNAV.Text = FechaSolicitud
@@ -1625,25 +1605,28 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
 
         For Each series As FondoSerieDTO In listaSerie
             Dim estructuraFechas As EstructuraFechasDto = Utiles.splitCharByComma(series.FechaTCSuscripcion)
-            Dim fechaSolicitud As Date
+            Dim fechaParaCalculo As Date
 
             Select Case estructuraFechas.DesdeQueFecha
                 Case "FechaSuscripcion"
-                    fechaSolicitud = txtFechaSuscripcion.Text
+                    fechaParaCalculo = txtFechaSuscripcion.Text
                 Case "FechaNav"
-                    fechaSolicitud = txtFechaNAV.Text
+                    fechaParaCalculo = txtFechaNAV.Text
             End Select
 
-            If fechaSolicitud <> Nothing Then
-                fechaSolicitud = Utiles.SumaDiasAFechas(ddlMonedaPago.Text, fechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
-                Dim bDiaInhabil As Boolean = (Not Utiles.esFechaHabil(ddlMonedaPago.Text, fechaSolicitud) And ddlMonedaPago.Text = "USD")
+            If fechaParaCalculo <> Nothing Then
+
+                'fechaParaCalculo = Utiles.SumaDiasAFechas(ddlMonedaPago.Text, fechaParaCalculo, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
+
+                fechaParaCalculo = Utiles.SumaDiasAFechas("CLP", fechaParaCalculo, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
+                Dim bDiaInhabil As Boolean = (Not Utiles.esFechaHabil("CLP", fechaParaCalculo) And ddlMonedaPago.Text = "USD")
 
                 If bDiaInhabil Then
                     ShowAlert(CONST_INHABIL_PARA_TC)
                 End If
 
-                fechaSolicitud = Utiles.getDiaHabilSiguiente(fechaSolicitud, ddlMonedaPago.Text)
-                txtFechaTC.Text = fechaSolicitud
+                fechaParaCalculo = Utiles.getDiaHabilSiguiente(fechaParaCalculo, "CLP")
+                txtFechaTC.Text = fechaParaCalculo
             Else
                 txtFechaTC.Text = txtFechaIntencion.Text
             End If
@@ -1690,7 +1673,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
                 'FECHA DIAS HABILES
 
                 ' FechaSolicitud = Utiles.SumaDiasAFechas(ddlMonedaPago.Text, FechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_CORRIDOS)
-                FechaSolicitud = Utiles.SumaDiasAFechas(ddlMonedaPago.Text, FechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
+                FechaSolicitud = Utiles.SumaDiasAFechas("CLP", FechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
 
                 'fechaSolicitud = NegocioRescate.SelectFechaPagoSIRescatable(dias, fechaSolicitud, 0)
                 txtFechaSuscripcion.Text = fechaSolicitud

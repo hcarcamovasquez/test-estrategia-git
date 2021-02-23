@@ -74,6 +74,18 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
         Dim pentaho As ConfigPentahoDTO = New ConfigPentahoDTO()
         Dim negocio As ConfigPentahoNegocio = New ConfigPentahoNegocio
         Dim parErrores As String = ""
+        Dim strFecha As String
+        Dim parametros As String
+
+        txtFechaEjecucion.Text = Request.Form(txtFechaEjecucion.UniqueID)
+
+        If txtFechaEjecucion.Text = "" Then
+            strFecha = Date.Now.Date.ToString("yyyyMMdd")
+        Else
+            strFecha = CDate(txtFechaEjecucion.Text).ToString("yyyyMMdd")
+        End If
+
+        parametros = "FECHA_PAGO=" & strFecha
 
         pentaho.ID = 1
 
@@ -82,7 +94,8 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
         If pentaho.Code = Nothing Then
             ShowAlert("Nos e encuentra la configuracion de Pentaho")
         Else
-            If EjecutarETLParametrosAPI(pentaho, "p1=1234", parErrores) Then
+            ' FECHA_PAGO=20210101
+            If EjecutarETLParametrosAPI(pentaho, parametros, parErrores) Then
                 ShowAlert("Ejecutado correctamente")
             Else
                 ShowAlert(parErrores)
@@ -93,7 +106,7 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
 
     Public Function EjecutarETLParametrosAPI(pentaho As ConfigPentahoDTO, parametos As String, ByRef ParErrores As String) As Boolean
         Try
-            Dim TARGETURL = pentaho.API_Url ' & parametos
+            Dim TARGETURL = pentaho.API_Url & parametos
             Dim handler As New HttpClientHandler()
             Dim client As HttpClient
 
