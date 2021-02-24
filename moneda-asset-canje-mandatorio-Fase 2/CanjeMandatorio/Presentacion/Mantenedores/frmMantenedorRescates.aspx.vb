@@ -651,9 +651,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                 txtModalMonedaSerie.Text = FondoSerieAct.Moneda
 
                 If (FondoSerieAct.SoloDiasHabilesFechaNavRescate) Then
-                    EsSoloDiasHabiles = 1
+                    EsSoloDiasHabiles = Constantes.CONST_SOLO_DIAS_HABILES
                 Else
-                    EsSoloDiasHabiles = 0
+                    EsSoloDiasHabiles = Constantes.CONST_SOLO_DIAS_CORRIDOS
                 End If
             Next
         End If
@@ -838,7 +838,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                 '=========================================================================================================================================================
                 ' JOVB: Cambio: Fecha nav no debe calcularse de acuerdo con el calendario de la moneda, solo debe calcularse a días hábiles chilenos.
                 ' Referencia : Revision Incidencias v2.0.docx (Jeffrey) 
-                txtModalFechaNAV.Text = Utiles.SumaDiasAFechas("CLP", FechaCalculo, FechaNAVFondoRescatableINT, Constantes.CONST_SOLO_DIAS_HABILES)
+                txtModalFechaNAV.Text = Utiles.SumaDiasAFechas("CLP", FechaCalculo, FechaNAVFondoRescatableINT, EsSoloDiasHabiles)
                 '=========================================================================================================================================================
 
                 FechaNAV = txtModalFechaNAV.Text
@@ -869,14 +869,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                 FechaPago = txtModalFechaPago.Text
             End If
 
-            'If FechaPagoFondoRescatableINT = 0 Then
-            '    txtModalFechaPago.Text = FechaCalculo.ToString("dd/MM/yyyy")
-            '    FechaPago = txtModalFechaPago.Text
-            'Else
-            '    txtModalFechaPago.Text = NegocioRescate.SelectFechaPagoSIRescatable(FechaPagoFondoRescatableINT, FechaCalculo)
-            '    txtModalFechaPago.Text = CDate(txtModalFechaPago.Text).ToString("dd/MM/yyyy")
-            '    FechaPago = txtModalFechaPago.Text
-            'End If
+
         End If
 
         'FECHA TIPO CAMBIO
@@ -892,10 +885,10 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                 txtModalFechaTCObs.Text = ""
                 FechaTC = Nothing
             Else
-                'txtModalFechaTCObs.Text = CDate(NegocioRescate.SelectFechaPagoSIRescatable(FechaPagoFondoRescatableINT, FechaCalculo, 0)).ToString("dd/MM/yyyy")
-                txtModalFechaTCObs.Text = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_CORRIDOS)
-                Dim bDiaInhabil As Boolean = (Not Utiles.esFechaHabil(ddlModalMonedaPago.Text, txtModalFechaTCObs.Text) And ddlModalMonedaPago.Text = "USD")
-                txtModalFechaTCObs.Text = Utiles.getDiaHabilSiguiente(txtModalFechaTCObs.Text, ddlModalMonedaPago.Text)
+                txtModalFechaTCObs.Text = Utiles.SumaDiasAFechas("CLP", FechaCalculo, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_HABILES)
+
+                Dim bDiaInhabil As Boolean = (Not Utiles.esFechaHabil("CLP", txtModalFechaTCObs.Text) And ddlModalMonedaPago.Text = "USD")
+                txtModalFechaTCObs.Text = Utiles.getDiaHabilSiguiente(txtModalFechaTCObs.Text, "CLP")
 
                 If bDiaInhabil Then
                     ShowAlert(CONST_INHABIL_PARA_TC)
@@ -903,14 +896,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
                 FechaTC = txtModalFechaTCObs.Text
             End If
-            'If FechaPagoFondoRescatableINT = 0 Then
-            '    txtModalFechaTCObs.Text = FechaCalculo
-            '    txtModalFechaTCObs.Text = CDate(txtModalFechaTCObs.Text).ToString("dd/MM/yyyy")
-            '    FechaTC = txtModalFechaTCObs.Text
-            'Else
-            '    txtModalFechaTCObs.Text = CDate(NegocioRescate.SelectFechaPagoSIRescatable(FechaPagoFondoRescatableINT, FechaCalculo)).ToString("dd/MM/yyyy")
-            '    FechaTC = txtModalFechaTCObs.Text
-            'End If
+
 
         Else
             FechaCalculo = FechaSolicitud
@@ -951,10 +937,10 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                 If FechaCalculo = Nothing Then
                     txtModalFechaTCObs.Text = ""
                 Else
-                    'txtModalFechaTCObs.Text = CDate(NegocioRescate.SelectFechaPagoSIRescatable(FechaPagoFondoRescatableINT, FechaCalculo, 0)).ToString("dd/MM/yyyy")
-                    txtModalFechaTCObs.Text = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_CORRIDOS)
-                    Dim bDiaInhabil As Boolean = (Not Utiles.esFechaHabil(ddlModalMonedaPago.Text, txtModalFechaTCObs.Text) And ddlModalMonedaPago.Text = "USD")
-                    txtModalFechaTCObs.Text = Utiles.getDiaHabilSiguiente(txtModalFechaTCObs.Text, ddlModalMonedaPago.Text)
+
+                    txtModalFechaTCObs.Text = Utiles.SumaDiasAFechas("CLP", FechaCalculo, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_HABILES)
+                    Dim bDiaInhabil As Boolean = (Not Utiles.esFechaHabil("CLP", txtModalFechaTCObs.Text) And ddlModalMonedaPago.Text = "USD")
+                    txtModalFechaTCObs.Text = Utiles.getDiaHabilSiguiente(txtModalFechaTCObs.Text, "CLP")
 
                     If bDiaInhabil Then
                         ShowAlert(CONST_INHABIL_PARA_TC)
@@ -3219,7 +3205,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                 ' JOVB: Cambio: Fecha nav no debe calcularse de acuerdo con el calendario de la moneda, solo debe calcularse a días hábiles chilenos.
                 ' Referencia : Revision Incidencias v2.0.docx (Jeffrey) 
                 Dim SoloDiasHabiles As Integer = IIf(FondoSerieAct.SoloDiasHabilesFechaNavRescate, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
-                txtModalFechaNAV.Text = Utiles.SumaDiasAFechas("CLP", FechaCalculo, FechaNAVFondoRescatableINT, Constantes.CONST_SOLO_DIAS_HABILES)
+                txtModalFechaNAV.Text = Utiles.SumaDiasAFechas("CLP", FechaCalculo, FechaNAVFondoRescatableINT, SoloDiasHabiles)
                 '=========================================================================================================================================================
                 FechaNAV = txtModalFechaNAV.Text
             End If
@@ -3248,8 +3234,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             'FECHA TIPO CAMBIO
 
             txtModalFechaTCObs.Text = CalcularFechaTCObservado(FechaTCFondoRescatable, txtModalFechaSolicitud.Text, txtModalFechaNAV.Text, txtModalFechaPago.Text, txtModalFechaTCObs.Text)
-            Dim bDiaInhabil As Boolean = (Not Utiles.esFechaHabil(ddlModalMonedaPago.Text, txtModalFechaTCObs.Text) And ddlModalMonedaPago.Text = "USD")
-            txtModalFechaTCObs.Text = Utiles.getDiaHabilSiguiente(txtModalFechaTCObs.Text, ddlModalMonedaPago.Text)
+            Dim bDiaInhabil As Boolean = (Not Utiles.esFechaHabil("CLP", txtModalFechaTCObs.Text) And ddlModalMonedaPago.Text = "USD")
+            txtModalFechaTCObs.Text = Utiles.getDiaHabilSiguiente(txtModalFechaTCObs.Text, "CLP")
 
             If bDiaInhabil Then
                 ShowAlert(CONST_INHABIL_PARA_TC)
@@ -3535,7 +3521,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
         Dim strFecha As DateTime
         ' strFecha = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_CORRIDOS)
-        strFecha = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_HABILES)
+        'strFecha = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_HABILES)
+        strFecha = Utiles.SumaDiasAFechas("CLP", FechaCalculo, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_HABILES)
         'strFecha = NegocioRescate.SelectFechaPagoSIRescatable(FechaPagoFondoRescatableINT, FechaCalculo, 0)
 
         If strFecha = Nothing Then
@@ -3618,7 +3605,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         End If
 
         If Not txtFechaSolicitudHasta.Text.Equals("") Then
-            FechaHastaNAV = Date.Parse(txtFechaNAVHasta.Text)
+            FechaHastaNAV = Date.Parse(txtFechaSolicitudHasta.Text)
         Else
             FechaHastaNAV = Nothing
         End If

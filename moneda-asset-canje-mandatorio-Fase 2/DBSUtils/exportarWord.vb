@@ -325,24 +325,24 @@ Public Class exportarWord
 
     Private Shared Sub setColumnasCanje(document As DocX, fijacion As FijacionDTO)
 
-        document.ReplaceText("[COLUMNA B]", Date.Now().ToString("dd \de mmm \de yyyy")) ' Fecha generacion del documento 
-        document.ReplaceText("[COLUMNA I]", fijacion.ObjCanje.NombreFondo)   ' Nombre del fondo
-        document.ReplaceText("[COLUMNA J]", fijacion.ObjCanje.NombreSerieEntrante) ' Serie entrante
-        document.ReplaceText("[COLUMNA P]", fijacion.ObjCanje.NombreSerieSaliente)             ' serie saliente 
-        document.ReplaceText("[COLUMNA E]", fijacion.RazonSocial)   ' nombreAportante 
-        document.ReplaceText("[COLUMNA F]", fijacion.ApRut)         ' rut del aportante
+        document.ReplaceText("[Columna D]", Date.Now().ToString("dd \de mmm \de yyyy")) ' Fecha generacion del documento 
+        document.ReplaceText("[Columna K]", fijacion.ObjCanje.NombreFondo)   ' Nombre del fondo
+        document.ReplaceText("[Columna L]", fijacion.ObjCanje.NombreSerieEntrante) ' Serie entrante
+        document.ReplaceText("[Columna R]", fijacion.ObjCanje.NombreSerieSaliente)             ' serie saliente 
+        document.ReplaceText("[Columna G]", fijacion.RazonSocial)   ' nombreAportante 
+        document.ReplaceText("[Columna H]", fijacion.ApRut)         ' rut del aportante
 
-        document.ReplaceText("[COLUMNA Z]", fijacion.ObjCanje.Cuotas)         ' Cuotas Entrante
-        document.ReplaceText("[COLUMNA L]", fijacion.ObjCanje.MontoCLPEntrante) ' Monto Clp Entrante 
-        document.ReplaceText("[COLUMNA Y]", fijacion.ObjCanje.CuotaEntrante)         ' Cuotas Entrante
-        document.ReplaceText("[COLUMNA Q]", fijacion.ObjCanje.MontoCLPSaliente)         ' Monto CLP SALiente
-        document.ReplaceText("[COLUMNA S]", fijacion.ObjCanje.Factor)         ' Factor
+        document.ReplaceText("[Columna AB]", fijacion.ObjCanje.Cuotas)         ' Cuotas Entrante
+        document.ReplaceText("[Columna N]", fijacion.ObjCanje.MontoCLPEntrante) ' Monto Clp Entrante 
+        document.ReplaceText("[Columna AA]", fijacion.ObjCanje.CuotaEntrante)         ' Cuotas Entrante
+        document.ReplaceText("[Columna S]", fijacion.ObjCanje.MontoCLPSaliente)         ' Monto CLP SALiente
+        document.ReplaceText("[Columna U]", fijacion.ObjCanje.Factor)         ' Factor
 
-        document.ReplaceText("[COLUMNA K]", fijacion.ObjCanje.Cuotas)     ' 
-        document.ReplaceText("[COLUMNA T]", fijacion.ObjCanje.CuotaSaliente)     ' 
+        document.ReplaceText("[Columna M]", fijacion.ObjCanje.Cuotas)     ' 
+        document.ReplaceText("[Columna V]", fijacion.ObjCanje.CuotaSaliente)     ' 
 
-        document.ReplaceText("[COLUMNA O]", fijacion.ObjCanje.MontoEntrante)     ' 
-        document.ReplaceText("[COLUMNA N]", fijacion.ObjCanje.MontoSaliente)     ' 
+        document.ReplaceText("[Columna O]", fijacion.ObjCanje.MontoEntrante)     ' 
+        document.ReplaceText("[Columna Q]", fijacion.ObjCanje.MontoSaliente)     ' 
 
     End Sub
 

@@ -1033,10 +1033,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         Dim FechaNavCanje As String
         Dim estructuraFechas As EstructuraFechasDto
 
-        'Dim fechaNavC As String
-        'Dim diasNavC As String
 
-        'Dim canje As CanjeDTO = New CanjeDTO
         Dim fechaParaCalculo As Date
         Dim SoloDiasHabiles As Integer
 
@@ -1056,7 +1053,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
             FechaNavCanje = series.FechaNavCanje
             estructuraFechas = New EstructuraFechasDto
             estructuraFechas = Utiles.splitCharByComma(series.FechaNavCanje)
-            'fechaNavC = estructuraFechas.DesdeQueFecha
 
             Select Case estructuraFechas.DesdeQueFecha
                 Case "FechaSolicitud"
@@ -1074,7 +1070,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
 
             If fechaParaCalculo <> Nothing Then
                 SoloDiasHabiles = IIf(series.SoloDiasHabilesFechaNavCanje, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
-                txtModalFechaNavSaliente.Text = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, fechaParaCalculo, estructuraFechas.DiasASumar, SoloDiasHabiles)
+                txtModalFechaNavSaliente.Text = Utiles.SumaDiasAFechas("CLP", fechaParaCalculo, estructuraFechas.DiasASumar, SoloDiasHabiles)
 
                 CalcularValorSaliente()
                 CalcularCuotaEntrante()
@@ -1106,7 +1102,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
             If fechaParaCalculo <> Nothing Then
                 SoloDiasHabiles = IIf(series.SoloDiasHabilesFechaNavCanje, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
 
-                fechaParaCalculo = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, fechaParaCalculo, estructuraFechas.DiasASumar, SoloDiasHabiles)
+                fechaParaCalculo = Utiles.SumaDiasAFechas("CLP", fechaParaCalculo, estructuraFechas.DiasASumar, SoloDiasHabiles)
 
                 txtModalFechaNavSaliente.Text = fechaParaCalculo
                 txtModalFechaNavEntrante.Text = txtModalFechaNavSaliente.Text
@@ -1366,10 +1362,11 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
 
     Private Sub txtModalFSolicitud_TextChanged(sender As Object, e As EventArgs) Handles txtModalFSolicitud.TextChanged
         'txtModalFSolicitud.Text = CalendarModalFechaSolicitud.SelectedDate.ToShortDateString()
+        ConsultarFechaCanje()
         ConsultarFechaNavSaliente()
         ConsultarFechaNavEntrante()
         ConsultarFechaObservado()
-        ConsultarFechaCanje()
+
         CalcularCuotaDCV()
 
     End Sub
@@ -1483,7 +1480,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
 
             If FechaParaCalculo <> Nothing Then
                 DiasCorridos = IIf(serie.SoloDiasHabilesFechaNavCanje, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
-                txtModalFechaNavEntrante.Text = Utiles.SumaDiasAFechas(ddlModalMonedaEntrante.Text, FechaParaCalculo, estructuraFechas.DiasASumar, DiasCorridos)
+                txtModalFechaNavEntrante.Text = Utiles.SumaDiasAFechas("CLP", FechaParaCalculo, estructuraFechas.DiasASumar, DiasCorridos)
+                txtModalFechaNavSaliente.Text = txtModalFechaNavEntrante.Text
                 CalcularValorEntrante()
             End If
 
@@ -1510,7 +1508,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
 
                 SoloDiasHabiles = IIf(serieParam.SoloDiasHabilesFechaNavCanje, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
 
-                txtModalFechaNavEntrante.Text = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, FechaParaCalculo, estructuraFechas.DiasASumar, SoloDiasHabiles)
+                txtModalFechaNavEntrante.Text = Utiles.SumaDiasAFechas("CLP", FechaParaCalculo, estructuraFechas.DiasASumar, SoloDiasHabiles)
                 CalcularValorEntrante()
             End If
 
@@ -1548,43 +1546,47 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
             Case "FechaSolicitud"
 
                 fechaSolicitud = txtModalFSolicitud.Text
-                fechaSolicitud = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, fechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
+                'fechaSolicitud = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, fechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
 
-                bDiaInhabil = (Not Utiles.esFechaHabil(ddlModalMonedaSaliente.Text, fechaSolicitud) And ddlModalMonedaSaliente.Text = "USD")
-                fechaSolicitud = Utiles.getDiaHabilSiguiente(fechaSolicitud, ddlModalMonedaSaliente.Text)
+                fechaSolicitud = Utiles.SumaDiasAFechas("CLP", fechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
+
+                bDiaInhabil = (Not Utiles.esFechaHabil("CLP", fechaSolicitud) And ddlModalMonedaSaliente.Text = "USD")
+                fechaSolicitud = Utiles.getDiaHabilSiguiente(fechaSolicitud, "CLP")
 
                 txtModalFechaObservado.Text = fechaSolicitud
 
             Case "FechaNav"
                 canje.FechaNavSaliente = txtModalFechaNavSaliente.Text
-                Dim fechaNavSaliente = canje.FechaNavSaliente
+                Dim fechaParaClaculo = canje.FechaNavSaliente
 
                 SoloDiasHabiles = IIf(serieActual.SoloDiasHabilesFechaNavCanje, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_HABILES)
 
-                fechaNavSaliente = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, fechaNavSaliente, estructuraFechas.DiasASumar, SoloDiasHabiles)
-                bDiaInhabil = (Not Utiles.esFechaHabil(ddlModalMonedaSaliente.Text, fechaNavSaliente) And ddlModalMonedaSaliente.Text = "USD")
+                'fechaNavSaliente = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, fechaNavSaliente, estructuraFechas.DiasASumar, SoloDiasHabiles)
+                fechaParaClaculo = Utiles.SumaDiasAFechas("CLP", fechaParaClaculo, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
+                bDiaInhabil = (Not Utiles.esFechaHabil("CLP", fechaParaClaculo) And ddlModalMonedaSaliente.Text = "USD")
 
-                fechaNavSaliente = Utiles.getDiaHabilSiguiente(fechaNavSaliente, ddlModalMonedaSaliente.Text)
+                fechaParaClaculo = Utiles.getDiaHabilSiguiente(fechaParaClaculo, "CLP")
 
-                txtModalFechaObservado.Text = fechaNavSaliente
+                txtModalFechaObservado.Text = fechaParaClaculo
 
             Case "FechaCanje"
                 If txtModalFechaCanje.Text = "" Then
                     ConsultarFechaCanje()
                 End If
 
-                canje.FechaNavSaliente = txtModalFechaCanje.Text
-                Dim FechaTCObservado = canje.FechaNavSaliente
+                Dim fechaParaCalculo = txtModalFechaCanje.Text
 
                 SoloDiasHabiles = IIf(serieActual.SoloDiasHabilesFechaNavCanje, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
 
-                FechaTCObservado = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, FechaTCObservado, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
+                'FechaTCObservado = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, FechaTCObservado, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
+
+                fechaParaCalculo = Utiles.SumaDiasAFechas("CLP", fechaParaCalculo, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
                 ' Si fecha en cuestión cae en un día inhábil US, sistema mostrará mensaje de advertencia
-                bDiaInhabil = (Not Utiles.esFechaHabil(ddlModalMonedaSaliente.Text, FechaTCObservado) And ddlModalMonedaSaliente.Text = "USD")
+                bDiaInhabil = (Not Utiles.esFechaHabil("CLP", fechaParaCalculo) And ddlModalMonedaSaliente.Text = "USD")
 
-                FechaTCObservado = Utiles.getDiaHabilSiguiente(FechaTCObservado, ddlModalMonedaSaliente.Text)
+                fechaParaCalculo = Utiles.getDiaHabilSiguiente(fechaParaCalculo, "CLP")
 
-                txtModalFechaObservado.Text = FechaTCObservado
+                txtModalFechaObservado.Text = fechaParaCalculo
 
             Case Else
                 txtModalFechaObservado.Text = fechaSolicitud
@@ -2581,19 +2583,19 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         End If
 
         If Not txtFechaSolicitudHasta.Text.Equals("") Then
-            fechaSolicitudHasta = Date.Parse(txtFechaSolicitudDesde.Text)
+            fechaSolicitudHasta = Date.Parse(txtFechaSolicitudHasta.Text)
         Else
             fechaSolicitudHasta = Nothing
         End If
 
         If Not txtFechaNavDesde.Text.Equals("") Then
-            canje.FechaNavSaliente = Date.Parse(txtFechaSolicitudDesde.Text)
+            canje.FechaNavSaliente = Date.Parse(txtFechaNavDesde.Text)
         Else
             canje.FechaNavSaliente = Nothing
         End If
 
-        If Not txtFechaNavDesde.Text.Equals("") Then
-            fechaNavHasta = Date.Parse(txtFechaNavDesde.Text)
+        If Not txtFechaNavHasta.Text.Equals("") Then
+            fechaNavHasta = Date.Parse(txtFechaNavHasta.Text)
         Else
             fechaNavHasta = Nothing
         End If
