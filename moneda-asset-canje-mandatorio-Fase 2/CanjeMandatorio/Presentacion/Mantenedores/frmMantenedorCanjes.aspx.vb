@@ -1481,6 +1481,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
             If FechaParaCalculo <> Nothing Then
                 DiasCorridos = IIf(serie.SoloDiasHabilesFechaNavCanje, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
                 txtModalFechaNavEntrante.Text = Utiles.SumaDiasAFechas("CLP", FechaParaCalculo, estructuraFechas.DiasASumar, DiasCorridos)
+                txtModalFechaNavSaliente.Text = txtModalFechaNavEntrante.Text
                 CalcularValorEntrante()
             End If
 
@@ -2582,19 +2583,19 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         End If
 
         If Not txtFechaSolicitudHasta.Text.Equals("") Then
-            fechaSolicitudHasta = Date.Parse(txtFechaSolicitudDesde.Text)
+            fechaSolicitudHasta = Date.Parse(txtFechaSolicitudHasta.Text)
         Else
             fechaSolicitudHasta = Nothing
         End If
 
         If Not txtFechaNavDesde.Text.Equals("") Then
-            canje.FechaNavSaliente = Date.Parse(txtFechaSolicitudDesde.Text)
+            canje.FechaNavSaliente = Date.Parse(txtFechaNavDesde.Text)
         Else
             canje.FechaNavSaliente = Nothing
         End If
 
-        If Not txtFechaNavDesde.Text.Equals("") Then
-            fechaNavHasta = Date.Parse(txtFechaNavDesde.Text)
+        If Not txtFechaNavHasta.Text.Equals("") Then
+            fechaNavHasta = Date.Parse(txtFechaNavHasta.Text)
         Else
             fechaNavHasta = Nothing
         End If
