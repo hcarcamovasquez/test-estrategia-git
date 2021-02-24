@@ -111,12 +111,11 @@ Public Class WSRescates
 
     <WebMethod()>
     <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
-    Public Function ControlMovil(rescate As RescatesDTO, fondo As FondoDTO) As Boolean
+    Public Function ControlMontoRescateVsPatrimonio(rescate As RescatesDTO, fondo As FondoDTO) As Boolean
         Dim sp As New DBSqlServer.SqlServer.StoredProcedure("PRC_RescateControl")
         Dim ds As DataSet
         Try
             FillParametrosControl(rescate, fondo, sp)
-            sp.AgregarParametro("Accion", "Movil", System.Data.SqlDbType.VarChar)
             ds = sp.ReturnDataSet()
 
             If ds.Tables.Count > 0 AndAlso ds.Tables(0).Rows.Count > 0 Then
@@ -153,34 +152,12 @@ Public Class WSRescates
         End Try
     End Function
 
-    <WebMethod()>
-    <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
-    Public Function ControlVentana(rescate As RescatesDTO, fondo As FondoDTO) As Boolean
-        Dim sp As New DBSqlServer.SqlServer.StoredProcedure("PRC_RescateControl")
-        Dim ds As DataSet
-        Try
-            FillParametrosControl(rescate, fondo, sp)
-            sp.AgregarParametro("Accion", "Ventana", System.Data.SqlDbType.VarChar)
-            ds = sp.ReturnDataSet()
-
-            If ds.Tables.Count > 0 AndAlso ds.Tables(0).Rows.Count > 0 Then
-                Return ControlfillResultado(ds.Tables(0).Rows(0))
-            Else
-                Return False
-            End If
-        Catch ex As Exception
-            Return False
-        End Try
-    End Function
-
     Private Shared Sub FillParametrosControl(rescate As RescatesDTO, fondo As FondoDTO, sp As DBSqlServer.SqlServer.StoredProcedure)
-        sp.AgregarParametro("FechaSolucitud", rescate.RES_Fecha_Solicitud, System.Data.SqlDbType.VarChar)
-        sp.AgregarParametro("dias", fondo.ControlDiasAVerificar, System.Data.SqlDbType.Int)
-        sp.AgregarParametro("soloDiasHabiles", IIf(fondo.ControlDiasHabiles = -1, 1, 0), System.Data.SqlDbType.Int)
-        sp.AgregarParametro("pais", IIf(rescate.FS_Moneda = "USD", "USA", "CHILE"), System.Data.SqlDbType.VarChar)
         sp.AgregarParametro("rutFondo", fondo.Rut, System.Data.SqlDbType.VarChar)
-        sp.AgregarParametro("monto", rescate.RES_Monto, System.Data.SqlDbType.Decimal)
         sp.AgregarParametro("nemotecnico", rescate.FS_Nemotecnico, System.Data.SqlDbType.VarChar)
+        sp.AgregarParametro("FechaSolucitud", rescate.RES_Fecha_Solicitud, System.Data.SqlDbType.Date)
+        sp.AgregarParametro("pais", IIf(rescate.FS_Moneda = "USD", "USA", "CHILE"), System.Data.SqlDbType.VarChar)
+        sp.AgregarParametro("monto", rescate.RES_Monto, System.Data.SqlDbType.Decimal)
     End Sub
 
     Private Function ControlfillResultado(dataRow As DataRow) As Boolean
@@ -415,7 +392,6 @@ Public Class WSRescates
             sp.AgregarParametro("Accion", "SELECT_RESCATE_TRANSITO2", System.Data.SqlDbType.VarChar)
             FillParameters(Rescate, sp)
 
-
             ds = sp.ReturnDataSet()
             If ds.Tables.Count > 0 AndAlso ds.Tables(0).Rows.Count > 0 Then
                 Dim dataRow As DataRow = ds.Tables(0).Rows(0)
@@ -439,7 +415,6 @@ Public Class WSRescates
         Try
             sp.AgregarParametro("Accion", "SELECT_RESCATE_TRANSITO", System.Data.SqlDbType.VarChar)
             FillParameters(Rescate, sp)
-
 
             ds = sp.ReturnDataSet()
             If ds.Tables.Count > 0 AndAlso ds.Tables(0).Rows.Count > 0 Then
@@ -475,7 +450,6 @@ Public Class WSRescates
             sp.AgregarParametro("FS_Nemotecnico", Rescate.FS_Nemotecnico, System.Data.SqlDbType.VarChar)
             sp.AgregarParametro("FN_RUT", Rescate.FN_RUT, System.Data.SqlDbType.VarChar)
             sp.AgregarParametro("AP_RUT", Rescate.AP_RUT, System.Data.SqlDbType.VarChar)
-
 
             ds = sp.ReturnDataSet()
             If ds.Tables.Count > 0 AndAlso ds.Tables(0).Rows.Count > 0 Then

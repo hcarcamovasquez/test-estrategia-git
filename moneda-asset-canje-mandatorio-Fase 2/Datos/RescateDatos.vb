@@ -114,14 +114,9 @@ Public Class RescateDatos
         Return Ws.GetRelaciones(Rescate)
     End Function
 
-    Public Function ControlMovil(rescate As RescatesDTO, fondo As FondoDTO) As Boolean
+    Public Function ControlMontoRescateVsPatrimonio(rescate As RescatesDTO, fondo As FondoDTO) As Boolean
         Dim Ws = New WSCanjeMandatorio.WSRescates()
-        Return Ws.ControlMovil(rescate, fondo)
-    End Function
-
-    Public Function ControlVentana(rescate As RescatesDTO, fondo As FondoDTO) As Boolean
-        Dim Ws = New WSCanjeMandatorio.WSRescates()
-        Return Ws.ControlVentana(rescate, fondo)
+        Return Ws.ControlMontoRescateVsPatrimonio(rescate, fondo)
     End Function
 
     Public Function Prorrata(stringID As String, ByRef stringError As String) As String

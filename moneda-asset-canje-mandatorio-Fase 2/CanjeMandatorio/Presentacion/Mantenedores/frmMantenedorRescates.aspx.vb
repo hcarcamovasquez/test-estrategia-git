@@ -1404,11 +1404,12 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         CargarInfoCuotasDisponibles()
 
         'VALIDA CUOTAS CONTRA CUOTAS DIPONIBLES
-        If (Double.Parse(txtModalCuota.Text)) > (Double.Parse(txtModalDisponiblesCuotasDisponibles.Text)) Then
-            ShowAlert("El número de cuotas debe ser menor o igual a las Cuotas Disponibles")
+        If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalRescateMax.Text)) Then
+            ShowAlert("El monto de rescate debe ser menor o igual a máximo disponible")
             txtModalCuota.Text = "0"
+        Else
+            ControlMontoRescateVsPatrimonio()
         End If
-
 
         'CARGA LA FECHA Y CUOTA  DCV
         EstablecerDatosDCV()
@@ -1577,9 +1578,13 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         CargarInfoCuotasDisponibles()
 
         'VALIDA CUOTAS CONTRA CUOTAS DIPONIBLES
-        If (Double.Parse(txtModalCuota.Text)) > (Double.Parse(txtModalDisponiblesCuotasDisponibles.Text)) Then
-            ShowAlert("El número de cuotas debe ser menor o igual a las Cuotas Disponibles")
+        If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalRescateMax.Text)) Then
+            ShowAlert("El monto de rescate debe ser menor o igual a máximo disponible")
             txtModalCuota.Text = "0"
+        Else
+            If (ddlModalNemotecnico.SelectedValue <> "") Then
+                ControlMontoRescateVsPatrimonio()
+            End If
         End If
 
         'CARGA LA FECHA Y CUOTA  DCV
@@ -1771,45 +1776,35 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         End If
 
         If ((Double.Parse(txtModalCuota.Text)) > (Double.Parse(txtModalDisponiblesCuotasDisponibles.Text) + Double.Parse(txtModalCuota.ToolTip)) And ((ddlModalNombreAportante.ToolTip = ddlModalNombreAportante.SelectedValue))) Then
-            ShowAlert("El número de cuotas debe ser menor o igual a las Cuotas Disponibles")
+            ShowAlert("El monto de rescate debe ser menor o igual a máximo disponible")
             txtModalCuota.Text = "0"
             txtModalMonto.Text = "0"
             txtModalMontoCLP.Text = "0"
             Return
         End If
-
-        If ((Double.Parse(txtModalCuota.Text)) > (Double.Parse(txtModalDisponiblesCuotasDisponibles.Text)) And ((ddlModalNombreAportante.ToolTip <> ddlModalNombreAportante.SelectedValue))) Then
-            ShowAlert("El número de cuotas debe ser menor o igual a las Cuotas Disponibles")
-            txtModalCuota.Text = "0"
-            txtModalMonto.Text = "0"
-            txtModalMontoCLP.Text = "0"
-            Return
-        End If
-
-        Dim TipoCalculoNav As TipoCalculoNavDTO = New TipoCalculoNavDTO()
-        Dim NegocioTipoCalculoNav As TipoCalculoNav = New TipoCalculoNav
 
         CalcularMontos()
 
-        If (txtModalFechaSolicitud.Text >= CDate(Date.Today.ToString("dd/MM/yyyy"))) Then
-            If (ControlMontoRescateVsPatrimonio()) Then
-                ShowAlert("Fecha De Solicitud Modificada, Monto Excede Disponible")
+        If ((Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalRescateMax.Text))) Then
+            ShowAlert("El monto de rescate debe ser menor o igual a máximo disponible")
+            txtModalCuota.Text = "0"
+            txtModalMonto.Text = "0"
+            txtModalMontoCLP.Text = "0"
+            Return
+        Else
+            Dim TipoCalculoNav As TipoCalculoNavDTO = New TipoCalculoNavDTO()
+            Dim NegocioTipoCalculoNav As TipoCalculoNav = New TipoCalculoNav
 
-                'TODO: MENSAJE FLUJO NORMAL SIN EL CONTROL DE RESCATE VS PATRIMONIO
-                ' ShowAlert("El Valor del Monto debe ser menor o igual al Patrimonio Disponible")
-                Return
+            ControlMontoRescateVsPatrimonio()
+
+            If txtIDRescate.Text() <> Nothing Then
+                TipoCalculoNav.ID = txtIDRescate.Text()
+                TipoCalculoNav.TipoTransaccion = "Rescate"
+                TipoCalculoNav.TipoCalculo = "C"
             End If
+
+            Dim updateCNJ_Tipo_CalculoNAV = NegocioTipoCalculoNav.UpdateTipoCalculoNav(TipoCalculoNav)
         End If
-
-        If txtIDRescate.Text() <> Nothing Then
-            TipoCalculoNav.ID = txtIDRescate.Text()
-            TipoCalculoNav.TipoTransaccion = "Rescate"
-            TipoCalculoNav.TipoCalculo = "C"
-        End If
-
-
-        Dim updateCNJ_Tipo_CalculoNAV = NegocioTipoCalculoNav.UpdateTipoCalculoNav(TipoCalculoNav)
-
     End Sub
 
     Private Function ControlMontoRescateVsPatrimonio() As Boolean
@@ -1835,17 +1830,24 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
         fondo.Rut = rescate.FN_RUT
         fondo = negocioFondo.GetFondo(fondo)
-
+        rescate.FN_Nombre_Corto = fondo.RazonSocial
         If (negocioRescate.ControlMontoRescateVsPatrimonio(rescate, fondo)) Then
             If (fondo.ControlTipoDeConfiguracion = "Pago") Then
                 If (fondo.ControlTipoControl = "Movil") Then
-                    'TODO: OBTENER SIGUIENTE DIA (HABIL o CORRIDO DEPENDE EL CHECK DE DIASHABILES DEL FONDO)
-                    'Y ESTABLECERLO COMO FECHA DE SOLICITUD EN TextBoxFechaSolicitud Y REALIZAR TODOS LOS CAMBIOS QUE IMPLICA EL CHANGE DE CAMBIO DE FECHA DE SOLICITUD
+                    txtModalFechaSolicitud.Text = Utiles.SumaDiasAFechas(rescate.FS_Moneda, rescate.RES_Fecha_Solicitud, fondo.ControlCantidadDias, fondo.ControlDiasHabiles).ToString("dd/MM/yyyy")
                 ElseIf (fondo.ControlTipoControl = "Ventana") Then
                     'TODO: OBTENER FECHA SOLICITUD DE LA SIGUIETNE VENTANA
                     'Y ESTABLECERLO COMO FECHA DE SOLICITUD EN TextBoxFechaSolicitud Y REALIZAR TODOS LOS CAMBIOS QUE IMPLICA EL CHANGE DE CAMBIO DE FECHA DE SOLICITUD
-                End If
+                    Dim FechaRescateVentanaSiguiente As String = negocioRescate.ObtenerFechaPagoVentana(rescate)
 
+                    If FechaRescateVentanaSiguiente <> "" Then
+                        txtModalFechaPago.Text = FechaRescateVentanaSiguiente
+                    Else
+                        ShowAlert("PORCENTAJE DE RESCATE SUPERADO, NO EXISTE VENTANA SIGUIENTE")
+                        Return False
+                    End If
+                End If
+                ShowAlert("PORCENTAJE DE RESCATE SUPERADO, SE CAMBIO FECHA")
                 Return True
             ElseIf (fondo.ControlTipoDeConfiguracion = "Prorrata") Then
                 ShowAlert("DEBE REALIZAR PRORRATA")
@@ -1874,21 +1876,15 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                 ModalCuota = txtModalMonto.Text / txtModalNAV.Text
                 txtModalCuota.Text = Utiles.SetToCapitalizedNumber(Math.Floor(ModalCuota))
 
-                If (Double.Parse(txtModalCuota.Text)) > (Double.Parse(txtModalDisponiblesCuotasDisponibles.Text)) Then
-                    ShowAlert("El número de cuotas debe ser menor o igual a las Cuotas Disponibles")
-                    txtModalCuota.Text = "0"
-                    Return
-                End If
-
                 CalcularMontos()
 
-                If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalDisponibles.Text)) Then
-                    ShowAlert("El Valor del Monto debe ser menor o igual al Patrimonio Disponible")
-                    txtModalMonto.Text = "0"
-                    txtModalMontoCLP.Text = "0"
+                If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalRescateMax.Text)) Then
+                    ShowAlert("El monto de rescate debe ser menor o igual a máximo disponible")
+                    txtModalCuota.Text = "0"
                     Return
+                Else
+                    ControlMontoRescateVsPatrimonio()
                 End If
-
 
                 If txtIDRescate.Text() <> Nothing Then
                     TipoCalculoNav.ID = txtIDRescate.Text()
@@ -3674,15 +3670,17 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 #End Region
 
     Protected Sub ddlModalMonedaPago_SelectedChange(sender As Object, e As EventArgs) Handles ddlModalMonedaPago.SelectedIndexChanged
-        txtModalFechaSolicitud.Text = Request.Form(txtModalFechaSolicitud.UniqueID)
+        ' txtModalFechaSolicitud.Text = Request.Form(txtModalFechaSolicitud.UniqueID)
         CargarTodoCuandoCambiaFechaSolicitud()
         CalcularMontos()
+        ControlMontoRescateVsPatrimonio()
     End Sub
 
     Protected Sub txtModalFechaSolicitud_TextChanged(sender As Object, e As EventArgs) Handles txtModalFechaSolicitud.TextChanged
-        txtModalFechaSolicitud.Text = Request.Form(txtModalFechaSolicitud.UniqueID)
+        'txtModalFechaSolicitud.Text = Request.Form(txtModalFechaSolicitud.UniqueID)
         CargarTodoCuandoCambiaFechaSolicitud()
         CalcularMontos()
+        ControlMontoRescateVsPatrimonio()
     End Sub
 
     Private Sub txtModalFechaNAV_TextChanged(sender As Object, e As EventArgs) Handles txtModalFechaNAV.TextChanged

@@ -180,31 +180,59 @@ Public Class RescateNegocio
     End Function
 
     Public Function ControlMontoRescateVsPatrimonio(rescate As RescatesDTO, fondo As FondoDTO) As Boolean
-        Dim NegocioFondo As Negocio.FondosNegocio = New FondosNegocio()
-        If (fondo.ControlTipoControl = "Movil") Then
-            Return ControlMovil(rescate, fondo)
-        ElseIf (fondo.ControlTipoControl = "Ventana") Then
-            'TODO: FALTA AGREGAR LOGICA DE VENTANA A SP
-            Return ControlVentana(rescate, fondo)
-        Else
-            Return False
-        End If
-
-        Return False
-    End Function
-
-    Public Function ControlVentana(rescate As RescatesDTO, fondo As FondoDTO) As Boolean
         Dim datosRescate As RescateDatos = New RescateDatos()
-        Return datosRescate.ControlVentana(rescate, fondo)
-    End Function
-
-    Private Function ControlMovil(rescate As RescatesDTO, fondo As FondoDTO) As Boolean
-        Dim datosRescate As RescateDatos = New RescateDatos()
-        Return datosRescate.ControlMovil(rescate, fondo)
+        Return datosRescate.ControlMontoRescateVsPatrimonio(rescate, fondo)
     End Function
 
     Public Function Prorrata(stringID As String, ByRef stringError As String) As String
         Dim datosRescate As RescateDatos = New RescateDatos()
         Return datosRescate.Prorrata(stringID, stringError)
+    End Function
+
+    Public Function ObtenerFechaPagoVentana(rescate As RescatesDTO) As String
+        Dim negocioVentanaRescate As VentanasRescateNegocio = New VentanasRescateNegocio()
+        Dim ventanRescate As VentanasRescateDTO = New VentanasRescateDTO()
+        Dim ventanRescateReturn As VentanasRescateDTO = New VentanasRescateDTO()
+
+        ventanRescate.FN_Nombre_Corto = rescate.FN_Nombre_Corto
+        ventanRescate.FN_RUT = rescate.FN_RUT
+        ventanRescate.FS_Nemotecnico = ""
+        ventanRescate.RES_Fecha_Solicitud = rescate.RES_Fecha_Solicitud
+
+        ventanRescateReturn = negocioVentanaRescate.SelectFechasNORescatable(ventanRescate)
+
+        ventanRescate.RES_Fecha_Solicitud = ventanRescateReturn.RES_Fecha_Solicitud
+        ventanRescate.VTRES_Fecha_NAV = ventanRescateReturn.VTRES_Fecha_NAV
+        ventanRescate.VTRES_Fecha_Pago = ventanRescateReturn.VTRES_Fecha_Pago
+
+        If ventanRescate Is Nothing Then
+            ventanRescate.FS_Nemotecnico = rescate.FS_Nemotecnico
+            ventanRescateReturn = negocioVentanaRescate.SelectFechasNORescatable(ventanRescate)
+
+            ventanRescate.RES_Fecha_Solicitud = ventanRescateReturn.RES_Fecha_Solicitud
+            ventanRescate.VTRES_Fecha_NAV = ventanRescateReturn.VTRES_Fecha_NAV
+            ventanRescate.VTRES_Fecha_Pago = ventanRescateReturn.VTRES_Fecha_Pago
+
+            If ventanRescate Is Nothing Then
+                Return ""
+            Else
+                ventanRescate.RES_Fecha_Solicitud.AddDays(1)
+                Return negocioVentanaRescate.SelectFechasNORescatable(ventanRescate).VTRES_Fecha_Pago.ToString()
+            End If
+        Else
+            ventanRescate.RES_Fecha_Solicitud = ventanRescate.RES_Fecha_Solicitud.AddDays(1)
+            ventanRescateReturn = negocioVentanaRescate.SelectFechasNORescatable(ventanRescate)
+
+            If ventanRescateReturn Is Nothing Then
+                Return ""
+            Else
+                ventanRescate.RES_Fecha_Solicitud = ventanRescateReturn.RES_Fecha_Solicitud
+                ventanRescate.VTRES_Fecha_NAV = ventanRescateReturn.VTRES_Fecha_NAV
+                ventanRescate.VTRES_Fecha_Pago = ventanRescateReturn.VTRES_Fecha_Pago
+
+                Return ventanRescate.VTRES_Fecha_Pago.ToString("dd-MM-yyyy")
+            End If
+        End If
+        Return ""
     End Function
 End Class
