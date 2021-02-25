@@ -1362,11 +1362,11 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
 
     Private Sub txtModalFSolicitud_TextChanged(sender As Object, e As EventArgs) Handles txtModalFSolicitud.TextChanged
         'txtModalFSolicitud.Text = CalendarModalFechaSolicitud.SelectedDate.ToShortDateString()
-        ConsultarFechaCanje()
+
         ConsultarFechaNavSaliente()
         ConsultarFechaNavEntrante()
         ConsultarFechaObservado()
-
+        ConsultarFechaCanje()
         CalcularCuotaDCV()
 
     End Sub
@@ -1481,7 +1481,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
             If FechaParaCalculo <> Nothing Then
                 DiasCorridos = IIf(serie.SoloDiasHabilesFechaNavCanje, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
                 txtModalFechaNavEntrante.Text = Utiles.SumaDiasAFechas("CLP", FechaParaCalculo, estructuraFechas.DiasASumar, DiasCorridos)
-                txtModalFechaNavSaliente.Text = txtModalFechaNavEntrante.Text
+                'txtModalFechaNavSaliente.Text = txtModalFechaNavEntrante.Text
                 CalcularValorEntrante()
             End If
 

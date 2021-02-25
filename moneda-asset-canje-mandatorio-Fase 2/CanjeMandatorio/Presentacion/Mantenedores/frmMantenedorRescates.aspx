@@ -1398,10 +1398,12 @@
                     if ($('.checkFijacionAll input').prop('checked') == true) {
                         $('.checkFijacion input').prop('checked', true);
                         enableDisableButtons(true);
+                        enableDisableButtonsProrrotear(false);
                     }
                     else {
                         $('.checkFijacion input').prop('checked', false);
                         enableDisableButtons(false);
+                        enableDisableButtonsProrrotear(true);
                     }
 
                 });
@@ -1487,14 +1489,20 @@
             btnProrrotear.disabled = newValue;
         }
 
-        function checkRadioBtn(id) {
+        function checkRadioBtn(chk) {
             var gv = document.getElementById('<%=GrvTabla.ClientID %>');
+            var flag = false;
+
             if (gv != null) {
                 for (var i = 1; i < gv.rows.length; i++) {
                     var radioBtn = gv.rows[i].cells[0].getElementsByTagName("input");
 
+                    if (radioBtn[0].checked) {
+                        flag = true;  
+                    }
+
                     // Check if the id not same
-                    if (radioBtn[0].id != id.id) {
+                    if (radioBtn[0].id != chk.id) {
                        // radioBtn[0].checked = false;
                     }
                     else {
@@ -1505,8 +1513,11 @@
                     }
                 }
             }
-        }
 
+            enableDisableButtonsProrrotear(!(flag));
+            
+        }
+        
 
         function isPerfilConsulta() {
             var HiddenPerfil = $("#<%=HiddenPerfil.ClientID %>").val();
