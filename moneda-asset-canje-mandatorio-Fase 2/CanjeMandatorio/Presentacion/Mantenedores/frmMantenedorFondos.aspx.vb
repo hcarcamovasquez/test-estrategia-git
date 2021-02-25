@@ -427,8 +427,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
         txtControlCantidadDias.Text = fondo.ControlCantidadDias
         chkControlDiasHabiles.Checked = fondo.ControlDiasHabiles
 
-        txtControlCantidadDias.Enabled = Not (fondo.ControlTipoDeConfiguracion.Equals("Pago"))
-        chkControlDiasHabiles.Enabled = Not (fondo.ControlTipoDeConfiguracion.Equals("Pago"))
+        txtControlCantidadDias.Enabled = (fondo.ControlTipoDeConfiguracion.Equals("Pago"))
+        chkControlDiasHabiles.Enabled = (fondo.ControlTipoDeConfiguracion.Equals("Pago"))
 
     End Sub
 

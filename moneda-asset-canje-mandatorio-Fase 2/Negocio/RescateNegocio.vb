@@ -235,4 +235,21 @@ Public Class RescateNegocio
         End If
         Return ""
     End Function
+
+    Public Function ExisteVentana(rescate As RescatesDTO) As String
+        Dim negocioVentanaRescate As VentanasRescateNegocio = New VentanasRescateNegocio()
+        Dim ventanRescate As VentanasRescateDTO = New VentanasRescateDTO()
+        Dim ventanRescateReturn As VentanasRescateDTO = New VentanasRescateDTO()
+
+        ventanRescate.FN_Nombre_Corto = rescate.FN_Nombre_Corto
+        ventanRescate.FN_RUT = rescate.FN_RUT
+        ventanRescate.FS_Nemotecnico = ""
+        ventanRescate.RES_Fecha_Solicitud = rescate.RES_Fecha_Solicitud
+
+        ventanRescateReturn = negocioVentanaRescate.SelectFechasNORescatable(ventanRescate)
+
+        If ventanRescateReturn.FN_RUT = Nothing Then
+
+        End If
+    End Function
 End Class
