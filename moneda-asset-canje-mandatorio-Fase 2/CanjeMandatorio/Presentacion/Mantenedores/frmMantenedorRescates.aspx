@@ -316,6 +316,7 @@
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalNAV_CLP" EventName="TextChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutAportante" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreAportante" EventName="SelectedIndexChanged" />
+                                                            
                                                         </Triggers>
                                                         <ContentTemplate>
                                                             <asp:TextBox ID="txtModalCuota" runat="server" CssClass="form-control dbs-entero-decimal" OnTextChanged="CargarMontoModal" AutoPostBack="true"></asp:TextBox>
@@ -381,6 +382,7 @@
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnico" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalFechaSolicitud" EventName="TextChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalMonedaPago" EventName="SelectedIndexChanged" />
+                                                            <asp:AsyncPostBackTrigger ControlID="txtModalCuota" EventName="TextChanged" />
 
                                                         </Triggers>
                                                         <ContentTemplate>
@@ -406,6 +408,7 @@
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnico" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalFechaSolicitud" EventName="TextChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalMonedaPago" EventName="SelectedIndexChanged" />
+                                                            <asp:AsyncPostBackTrigger ControlID="txtModalCuota" EventName="TextChanged" />
                                                         </Triggers>
                                                         <ContentTemplate>
                                                             <div class="input-group">
@@ -430,6 +433,7 @@
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnico" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalFechaSolicitud" EventName="TextChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalMonedaPago" EventName="SelectedIndexChanged" />
+                                                            <asp:AsyncPostBackTrigger ControlID="txtModalCuota" EventName="TextChanged" />
                                                         </Triggers>
                                                         <ContentTemplate>
                                                             <div class="input-group">
@@ -454,6 +458,7 @@
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnico" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalFechaSolicitud" EventName="TextChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalMonedaPago" EventName="SelectedIndexChanged" />
+                                                            <asp:AsyncPostBackTrigger ControlID="txtModalCuota" EventName="TextChanged" />
                                                         </Triggers>
                                                         <ContentTemplate>
                                                             <div class="input-group">

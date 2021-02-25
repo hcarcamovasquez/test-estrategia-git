@@ -241,7 +241,7 @@
                                 </div>
                                 <div class="col-xs-2 col-md-2">
                                      <div class="form-check">
-                                        <asp:CheckBox ID="chkControlDiasHabiles" runat="server" Text="" cssclass="form-check-input" />
+                                        <asp:CheckBox ID="chkControlDiasHabiles" runat="server" Text="" cssclass="form-check-input"/>
                                         <label class="form-check-label" for="chkControlDiasHabiles">Dias Hábiles</label>
                                     </div>
                                 </div>
