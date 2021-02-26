@@ -259,4 +259,7 @@ Public Class Utiles
 
     End Function
 
+    Friend Shared Function FormatodeFecha(now As Date) As String
+        Return now.ToString("dd \de MMMM \de yyyy")
+    End Function
 End Class

@@ -219,7 +219,7 @@ Public Class exportarWord
 
         If bPrimero Then
             bPrimero = False
-            document.ReplaceText("[COLUMNA B]", Date.Now().ToString("dd \de mmmm \de yyyy")) ' Fecha generacion del documento 
+            document.ReplaceText("[COLUMNA B]", Utiles.FormatodeFecha(Date.Now())) ' Fecha generacion del documento 
             document.ReplaceText("[COLUMNA I]", transaccion.FnNombreCorto)
             document.ReplaceText("[COLUMNA J]", transaccion.ObjCanje.NombreSerieEntrante)       ' Nombre del Fondo.
             document.ReplaceText("[COLUMNA P]", transaccion.ObjCanje.NombreSerieSaliente)        ' Nombre de la serie
@@ -242,25 +242,20 @@ Public Class exportarWord
     Private Shared Function setColumnasDCVAporte(bPrimero As Boolean, document As DocX, newRow As Row, fijacion As FijacionDTO) As Boolean
         If bPrimero Then
             bPrimero = False
-            document.ReplaceText("[COLUMNA C]", "Aporte")
-            document.ReplaceText("[COLUMNA B]", Date.Now().ToString("dd \de mmmm \de yyyy")) ' Fecha generacion del documento 
+            document.ReplaceText("[COLUMNA C]", "APORTE")
+            document.ReplaceText("[COLUMNA B]", Utiles.FormatodeFecha(Date.Now)) ' Fecha generacion del documento 
             document.ReplaceText("[COLUMNA E]", fijacion.FnNombreCorto)
             document.ReplaceText("[COLUMNA D]", fijacion.Nemotecnico)        ' Nombre de la serie
             document.ReplaceText("[COLUMNA G]", fijacion.Rut)        ' Rut del fondo
-            document.ReplaceText("[COLUMNA N]", Date.Now().ToString("dd \de mmmm \de yyyy")) ' Fecha generacion del documento 
+            document.ReplaceText("[COLUMNA N]", Utiles.FormatodeFecha(Date.Now)) ' Fecha generacion del documento 
             document.ReplaceText("[COLUMNA M]", Utiles.formatearMonto(fijacion.NAV_FIJADO, fijacion.MonedaPago))    ' Valor Cuota Nav 
         End If
 
         newRow.ReplaceText("[COLUMNA I]", fijacion.RazonSocial)   ' nombreAportante 
         newRow.ReplaceText("[COLUMNA J]", fijacion.ApRut)         ' rut del aportante
-        newRow.ReplaceText("[COLUMNA K]", Utiles.formateConSeparadorDeMiles(fijacion.Cuotas, 0))            ' cantidad de cuotas
-        newRow.ReplaceText("[COLUMNA N]", Date.Now().ToString("dd \de mmmm \de yyyy"))             ' monto en la moneda de la transaccion 
-
-        'document.ReplaceText("[COLUMNA I]", fijacion.fechaPago.ToString("dd-mm-yyyy"))  ' Fecha de Solicitud
-        'document.ReplaceText("[COLUMNA Y]", fijacion.fechaPago.ToString("HH:mm"))   ' Hora Solicitud
-        'document.ReplaceText("[COLUMNA N]", fijacion.MonedaPago)    'Moneda pago
-        'document.ReplaceText("[COLUMNA O]", fijacion.TipoTransaccion)   ' 
-        'document.ReplaceText("[COLUMNA P]", fijacion.Monto)             ' monto en la moneda de la transaccion 
+        document.ReplaceText("[COLUMNA K]", fijacion.Monto)            ' cantidad de cuotas
+        newRow.ReplaceText("[COLUMNA N]", Utiles.FormatodeFecha(Date.Now))             ' monto en la moneda de la transaccion 
+        document.ReplaceText("[COLUMNA P]", Utiles.formateConSeparadorDeMiles(fijacion.Cuotas, 0))             ' monto en la moneda de la transaccion 
 
         Return bPrimero
     End Function
@@ -325,7 +320,7 @@ Public Class exportarWord
 
     Private Shared Sub setColumnasCanje(document As DocX, fijacion As FijacionDTO)
 
-        document.ReplaceText("[Columna D]", Date.Now().ToString("dd \de mmm \de yyyy")) ' Fecha generacion del documento 
+        document.ReplaceText("[Columna D]", Utiles.FormatodeFecha(Date.Now())) ' Fecha generacion del documento 
         document.ReplaceText("[Columna K]", fijacion.ObjCanje.NombreFondo)   ' Nombre del fondo
         document.ReplaceText("[Columna L]", fijacion.ObjCanje.NombreSerieEntrante) ' Serie entrante
         document.ReplaceText("[Columna R]", fijacion.ObjCanje.NombreSerieSaliente)             ' serie saliente 
@@ -347,19 +342,32 @@ Public Class exportarWord
     End Sub
 
     Private Shared Sub setColumnasAporte(document As DocX, fijacion As FijacionDTO)
-        document.ReplaceText("[COLUMNA D]", "Aporte")
-        document.ReplaceText("[COLUMNA C]", Date.Now().ToString("dd \de mmmm \de yyyy")) ' Fecha generacion del documento 
-        document.ReplaceText("[COLUMNA X]", fijacion.fechaPago.ToString("dd-mm-yyyy"))  ' Fecha de Solicitud
-        document.ReplaceText("[COLUMNA Y]", fijacion.fechaPago.ToString("HH:mm"))   ' Hora Solicitud
-        document.ReplaceText("[COLUMNA F]", fijacion.FnNombreCorto)       ' Nombre del Fondo.
-        document.ReplaceText("[COLUMNA G]", fijacion.Nemotecnico)        ' Nombre de la serie
-        document.ReplaceText("[COLUMNA J]", fijacion.RazonSocial)   ' nombreAportante 
-        document.ReplaceText("[COLUMNA K]", fijacion.ApRut)         ' rut del aportante
-        document.ReplaceText("[COLUMNA N]", fijacion.MonedaPago)    'Moneda pago
-        document.ReplaceText("[COLUMNA M]", Utiles.formatearMonto(fijacion.NAV_FIJADO, fijacion.MonedaPago))    ' Valor Cuota Nav  
-        document.ReplaceText("[COLUMNA O]", fijacion.TipoTransaccion)   ' 
-        document.ReplaceText("[COLUMNA L]", Utiles.formateConSeparadorDeMiles(fijacion.Cuotas, 0))             ' cantidad de cuotas
-        document.ReplaceText("[COLUMNA P]", Utiles.formatearMonto(fijacion.Monto, fijacion.MonedaPago))             ' monto en la moneda de la transaccion 
+        Dim fechaPago As String
+        Dim horaPago As String
+
+        If fijacion.TipoTransaccion = "Rescate" Then
+            fechaPago = "" + fijacion.ObjRescate.RES_Fecha_Pago
+            horaPago = "" + fijacion.ObjRescate.RES_Fecha_Pago.ToString("HH:mm")
+        Else
+            fechaPago = "" + fijacion.ObjSuscripcion.FechaSuscripcion
+            horaPago = "" + fijacion.ObjSuscripcion.FechaSuscripcion.ToString("HH:mm")
+        End If
+
+        document.ReplaceText("[COLUMNA D]", "APORTE")
+        document.ReplaceText("[Columna C]", Utiles.FormatodeFecha(Date.Now())) ' Fecha generacion del documento 
+
+        document.ReplaceText("[Columna X]", fechaPago)  ' Fecha de Solicitud
+        document.ReplaceText("[Columna Y]", horaPago)   ' Hora Solicitud
+
+        document.ReplaceText("[Columna F]", fijacion.FnNombreCorto)       ' Nombre del Fondo.
+        document.ReplaceText("[Columna G]", fijacion.Nemotecnico)        ' Nombre de la serie
+        document.ReplaceText("[Columna J]", fijacion.RazonSocial)   ' nombreAportante 
+        document.ReplaceText("[Columna K]", fijacion.ApRut)         ' rut del aportante
+        document.ReplaceText("[Columna N]", fijacion.MonedaPago)    'Moneda pago
+        document.ReplaceText("[Columna M]", Utiles.formatearMonto(fijacion.NAV_FIJADO, fijacion.MonedaPago))    ' Valor Cuota Nav  
+        document.ReplaceText("[Columna O]", fijacion.TipoTransaccion)   ' 
+        document.ReplaceText("[Columna L]", Utiles.formateConSeparadorDeMiles(fijacion.Cuotas, 0))             ' cantidad de cuotas
+        document.ReplaceText("[Columna P]", Utiles.formatearMonto(fijacion.Monto, fijacion.MonedaPago))             ' monto en la moneda de la transaccion 
     End Sub
 
     Private Shared Function getNombreArchivoOutput(fijacion As FijacionDTO) As String

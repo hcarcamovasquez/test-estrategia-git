@@ -3804,6 +3804,8 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         Dim fijaciones As List(Of FijacionDTO) = New List(Of FijacionDTO)
         Dim fijacion As FijacionDTO = New FijacionDTO
 
+        Dim listaQueNoSeImprimen As List(Of FijacionDTO) = New List(Of FijacionDTO)
+
 
         For Each row As GridViewRow In GrvTabla.Rows
             Dim chk As CheckBox = row.Cells(0).Controls(1)
@@ -3832,28 +3834,40 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                 fijacion.Cuotas = row.Cells(CONST_COL_CUOTAS).Text().Trim()
                 fijacion.Monto = row.Cells(CONST_COL_MONTO).Text().Trim()
 
+                If fijacion.FijacionNAV.Equals("Pendiente") Or fijacion.FijacionTCObservado.Equals("Pendiente") Then
+                    listaQueNoSeImprimen.Add(fijacion)
 
-                Select Case fijacion.TipoTransaccion.ToLower()
-                    Case "canje"
-                        SetCamposAdicionalesCanje(fijacion)
-                    Case "suscripcion"
-                        SetCamposAdicionalesSuscripcion(fijacion)
-                    Case "rescate"
-                        SetCamposAdicionalesRescate(fijacion)
-                End Select
+                Else
+                    Select Case fijacion.TipoTransaccion.ToLower()
+                        Case "canje"
+                            SetCamposAdicionalesCanje(fijacion)
+                        Case "suscripcion"
+                            SetCamposAdicionalesSuscripcion(fijacion)
+                        Case "rescate"
+                            SetCamposAdicionalesRescate(fijacion)
+                    End Select
 
-                fijaciones.Add(fijacion)
-
-
+                    fijaciones.Add(fijacion)
+                End If
             End If
         Next
 
+        Dim strMensaje As String = CONST_NO_HAY_TRANSACCIONES_SELECCIONADAS
+        Dim strMensajeAux As String = ""
+
         If (fijaciones.Count() < 1) Then
-            ShowAlert(CONST_NO_HAY_TRANSACCIONES_SELECCIONADAS)
+            ShowAlert(strMensaje)
             Exit Sub
         End If
 
+        If listaQueNoSeImprimen.Count() > 0 Then
+            strMensajeAux = "No se pudieron imprimir transacciones que no estan fijadas"
+        End If
+
+        strMensaje = String.Format("{0}<BR>{1}", "Archivo Generado correctamente ", strMensajeAux)
+
         Dim nombrearchivo As String = exportarWord.GenerarCartas(fijaciones)
+
         If nombrearchivo IsNot Nothing Then
             Archivo.NavigateUrl = nombrearchivo
             Archivo.Text = "Bajar Archivo"
@@ -3863,7 +3877,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
 
         txtAccionHidden.Value = "MOSTRAR_DIALOGO"
 
-        ShowMessages(CONST_TITULO_FIJACION, "Archivo Generado correctamente ", Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_LOGO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_INFO, False)
+        ShowMessages(CONST_TITULO_FIJACION, strMensaje, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_LOGO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_INFO, False)
 
     End Sub
 
