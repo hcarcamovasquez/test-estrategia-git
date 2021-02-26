@@ -1406,7 +1406,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
 
         If FechaParaCalculo <> Nothing Then
             SoloDiasHabiles = IIf(serie.SoloDiasHabilesFechaCanje, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
-            txtModalFechaCanje.Text = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, FechaParaCalculo, estructuraFechas.DiasASumar, SoloDiasHabiles)
+            ' txtModalFechaCanje.Text = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, FechaParaCalculo, estructuraFechas.DiasASumar, SoloDiasHabiles)
+            txtModalFechaCanje.Text = Utiles.SumaDiasAFechas("CLP", FechaParaCalculo, estructuraFechas.DiasASumar, SoloDiasHabiles)
         End If
     End Sub
 
