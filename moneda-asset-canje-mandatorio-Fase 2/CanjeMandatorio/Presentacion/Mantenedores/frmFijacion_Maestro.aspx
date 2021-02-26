@@ -178,7 +178,7 @@
                     <asp:TemplateField HeaderText="Sel.">
                         <HeaderTemplate>
                             Sel.
-                <asp:CheckBox ID="checkFijacionAll" CssClass="checkFijacionAll" runat="server" />
+                                <asp:CheckBox ID="checkFijacionAll" CssClass="checkFijacionAll" runat="server" />
                         </HeaderTemplate>
                         <ItemTemplate>
                             <asp:CheckBox ID="RowSelector" CssClass="checkFijacion" runat="server" onclick="checkRadioBtn(this);" />

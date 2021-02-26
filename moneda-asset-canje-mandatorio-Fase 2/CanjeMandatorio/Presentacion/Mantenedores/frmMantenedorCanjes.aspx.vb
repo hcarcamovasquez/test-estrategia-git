@@ -1033,7 +1033,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         Dim FechaNavCanje As String
         Dim estructuraFechas As EstructuraFechasDto
 
-
         Dim fechaParaCalculo As Date
         Dim SoloDiasHabiles As Integer
 
@@ -1362,11 +1361,11 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
 
     Private Sub txtModalFSolicitud_TextChanged(sender As Object, e As EventArgs) Handles txtModalFSolicitud.TextChanged
         'txtModalFSolicitud.Text = CalendarModalFechaSolicitud.SelectedDate.ToShortDateString()
-
+        ConsultarFechaCanje()
         ConsultarFechaNavSaliente()
         ConsultarFechaNavEntrante()
         ConsultarFechaObservado()
-        ConsultarFechaCanje()
+
         CalcularCuotaDCV()
 
     End Sub
@@ -1406,9 +1405,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         End Select
 
         If FechaParaCalculo <> Nothing Then
-
             SoloDiasHabiles = IIf(serie.SoloDiasHabilesFechaCanje, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
-            txtModalFechaCanje.Text = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, FechaParaCalculo, estructuraFechas.DiasASumar, SoloDiasHabiles)
+            ' txtModalFechaCanje.Text = Utiles.SumaDiasAFechas(ddlModalMonedaSaliente.Text, FechaParaCalculo, estructuraFechas.DiasASumar, SoloDiasHabiles)
+            txtModalFechaCanje.Text = Utiles.SumaDiasAFechas("CLP", FechaParaCalculo, estructuraFechas.DiasASumar, SoloDiasHabiles)
         End If
     End Sub
 
@@ -1435,18 +1434,28 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
     End Sub
 
     Private Sub txtModalFechaNavSaliente_TextChanged(sender As Object, e As EventArgs) Handles txtModalFechaNavSaliente.TextChanged
-        txtModalFechaNavEntrante.Text = txtModalFechaNavSaliente.Text
+        'txtModalFechaNavEntrante.Text = txtModalFechaNavSaliente.Text
 
+        ConsultarFechaObservado()
         CalcularValorSaliente()
         CalcularValorEntrante()
     End Sub
 
     Private Sub txtModalFechaNavEntrante_TextChanged(sender As Object, e As EventArgs) Handles txtModalFechaNavEntrante.TextChanged
-        txtModalFechaNavSaliente.Text = txtModalFechaNavEntrante.Text ' CalendarModalFechaNavEntrante.SelectedDate.ToShortDateString()
+        'txtModalFechaNavSaliente.Text = txtModalFechaNavEntrante.Text ' CalendarModalFechaNavEntrante.SelectedDate.ToShortDateString()
 
+        ConsultarFechaObservado()
         CalcularValorEntrante()
         CalcularValorSaliente()
 
+    End Sub
+
+    Private Sub txtModalFechaCanje_TextChanged(sender As Object, e As EventArgs) Handles txtModalFechaCanje.TextChanged
+        ConsultarFechaNavSaliente()
+        ConsultarFechaNavEntrante()
+        ConsultarFechaObservado()
+
+        CalcularCuotaDCV()
     End Sub
 
     '--FUN MOSTRAR CALENDARIOS--
@@ -1505,9 +1514,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
             End Select
 
             If FechaParaCalculo <> Nothing Then
-
                 SoloDiasHabiles = IIf(serieParam.SoloDiasHabilesFechaNavCanje, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
-
                 txtModalFechaNavEntrante.Text = Utiles.SumaDiasAFechas("CLP", FechaParaCalculo, estructuraFechas.DiasASumar, SoloDiasHabiles)
                 CalcularValorEntrante()
             End If
@@ -1647,11 +1654,11 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
                     For Each vcs As VcSerieDTO In listaUltimo
                         valorNav = vcs.Valor
                         If ddlModalMonedaEntrante.SelectedValue <> "CLP" Then
-                            If ddlModalMonedaEntrante.Text.Trim = "USD" Then
-                                txtModalNavEntrante.Text = Utiles.formatearNAV(vcs.Valor) ' String.Format("{0:N4}", vcs.Valor)
-                            Else
-                                txtModalNavEntrante.Text = Utiles.formatearNAV(vcs.Valor) ' String.Format("{0:N4}", vcs.Valor)
-                            End If
+                            'If ddlModalMonedaEntrante.Text.Trim = "USD" Then
+                            txtModalNavEntrante.Text = Utiles.formatearNAV(vcs.Valor) ' String.Format("{0:N4}", vcs.Valor)
+                            'Else
+                            'txtModalNavEntrante.Text = Utiles.formatearNAV(vcs.Valor) ' String.Format("{0:N4}", vcs.Valor)
+                            'End If
                             txtModalNavCLPEntrante.Text = Utiles.formatearNAVCLP(vcs.Valor) ' String.Format("{0:N4}", valorNav)
                         ElseIf ddlModalMonedaEntrante.SelectedValue = "CLP" Then
                             txtModalNavEntrante.Text = Utiles.formatearNAV(vcs.Valor) ' String.Format("{0:N4}", vcs.Valor)
@@ -1664,11 +1671,11 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
                 For Each valores As VcSerieDTO In listaValores
                     valorNav = valores.Valor
                     If ddlModalMonedaEntrante.SelectedValue <> "CLP" Then
-                        If ddlModalMonedaEntrante.Text.Trim = "USD" Then
-                            txtModalNavEntrante.Text = Utiles.formatearNAV(valores.Valor) '  String.Format("{0:N4}", valores.Valor)
-                        Else
-                            txtModalNavEntrante.Text = Utiles.formatearNAV(valores.Valor) '  String.Format("{0:N4}", valores.Valor)
-                        End If
+                        'If ddlModalMonedaEntrante.Text.Trim = "USD" Then
+                        txtModalNavEntrante.Text = Utiles.formatearNAV(valores.Valor) '  String.Format("{0:N4}", valores.Valor)
+                        'Else
+                        'txtModalNavEntrante.Text = Utiles.formatearNAV(valores.Valor) '  String.Format("{0:N4}", valores.Valor)
+                        'End If
                         txtModalNavCLPEntrante.Text = Utiles.formatearNAVCLP(valores.Valor)  ' valorNav
                     ElseIf ddlModalMonedaEntrante.SelectedValue = "CLP" Then
                         txtModalNavEntrante.Text = Utiles.formatearNAV(valores.Valor) '  String.Format("{0:N4}", valores.Valor)
@@ -1683,7 +1690,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
             calcularFactor()
             CalcularCuotaEntrante()
 
-            txtModalFechaNavSaliente.Text = txtModalFechaNavEntrante.Text
+            'txtModalFechaNavSaliente.Text = txtModalFechaNavEntrante.Text
         End If
     End Sub
 

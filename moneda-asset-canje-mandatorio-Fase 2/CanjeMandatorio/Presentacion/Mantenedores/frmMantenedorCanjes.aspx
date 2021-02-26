@@ -408,6 +408,7 @@
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSaliente" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalFSolicitud" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalFechaNavEntrante" EventName="TextChanged" />
+                                                        <asp:AsyncPostBackTrigger ControlID="txtModalFechaCanje" EventName="TextChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <div class="input-group">
@@ -723,6 +724,7 @@
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalFSolicitud" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalFechaNavSaliente" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSaliente" EventName="SelectedIndexChanged" />
+                                                        <asp:AsyncPostBackTrigger ControlID="txtModalFechaCanje" EventName="TextChanged" />
 
                                                     </Triggers>
                                                     <ContentTemplate>
@@ -943,6 +945,8 @@
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalFSolicitud" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoEntrante" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoEntrante" EventName="TextChanged" />
+                                                        <asp:AsyncPostBackTrigger ControlID="txtModalFechaCanje" EventName="TextChanged" />
+                                                        <asp:AsyncPostBackTrigger ControlID="txtModalFechaNavEntrante" EventName="TextChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <div class="input-group">
