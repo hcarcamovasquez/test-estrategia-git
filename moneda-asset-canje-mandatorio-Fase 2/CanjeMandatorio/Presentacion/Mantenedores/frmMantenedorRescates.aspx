@@ -1057,7 +1057,7 @@
                             <div class="row">
                                 <!-- FECHA SOLICITUD-->
                                 <div class="col-md-4">
-                                    <label class="form-control-label">FECHA SOLICITUD</label>
+                                    <label class="form-control-label">Fecha Solicitud</label>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:Label ID="lblPopUpFechaSolicitud" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
@@ -1120,7 +1120,7 @@
                             <div class="row">
                                 <!-- RUT Administradora-->
                                 <div class="col-md-4">
-                                    <label class="form-control-label">RUT Administradora</label>
+                                    <label class="form-control-label">Rut Administradora</label>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:Label ID="lblPopUpRutAdministradora" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
@@ -1147,7 +1147,7 @@
                             <div class="row">
                                 <!-- CUOTAS -->
                                 <div class="col-md-4">
-                                    <label class="form-control-label">CUOTAS</label>
+                                    <label class="form-control-label">Cuotas</label>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:Label ID="lblPopUpCuotas" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
@@ -1156,7 +1156,7 @@
                             <div class="row">
                                 <!-- CUOTAS EN DCV-->
                                 <div class="col-md-4">
-                                    <label class="form-control-label">CUOTAS EN DCV</label>
+                                    <label class="form-control-label">Cuotas en DCV</label>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:Label ID="lblPopUpCuotasEnDCV" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
@@ -1165,7 +1165,7 @@
                             <div class="row">
                                 <!-- CTTO GRAL DE FONDOS-->
                                 <div class="col-md-4">
-                                    <label class="form-control-label">CTTO GRAL DE FONDOS</label>
+                                    <label class="form-control-label">CTTO GRAL de Fondos</label>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:Label ID="lblPopUpCttoGralDeFondos" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
@@ -1174,7 +1174,7 @@
                             <div class="row">
                                 <!-- PODERES/REG FIR-->
                                 <div class="col-md-4">
-                                    <label class="form-control-label">PODERES/REG FIR</label>
+                                    <label class="form-control-label">Poderes/REG FIR</label>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:Label ID="lblPopUpPoderRegFir" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
@@ -1183,7 +1183,7 @@
                             <div class="row">
                                 <!-- MONEDA DE PAGO-->
                                 <div class="col-md-4">
-                                    <label class="form-control-label">MONEDA DE PAGO</label>
+                                    <label class="form-control-label">Moneda de Pago</label>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:Label ID="lblPopUpMonedaDePago" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
@@ -1192,7 +1192,7 @@
                             <div class="row">
                                 <!-- VALOR NAV -->
                                 <div class="col-md-4">
-                                    <label class="form-control-label">VALOR NAV</label>
+                                    <label class="form-control-label">Valor NAV</label>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:Label ID="lblPopUpValorNav" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
@@ -1210,7 +1210,7 @@
                             <div class="row">
                                 <!-- VALOR RESCATE-->
                                 <div class="col-md-4">
-                                    <label class="form-control-label">VALOR RESCATE</label>
+                                    <label class="form-control-label">Valor Rescate</label>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:Label ID="lblPopUpValorRescate" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
@@ -1219,7 +1219,7 @@
                             <div class="row">
                                 <!-- FECHA NAV -->
                                 <div class="col-md-4">
-                                    <label class="form-control-label">FECHA NAV</label>
+                                    <label class="form-control-label">Fecha NAV</label>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:Label ID="lblPopUpFechaNav" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
@@ -1228,7 +1228,7 @@
                             <div class="row">
                                 <!-- FECHA PAGO RESCATE-->
                                 <div class="col-md-4">
-                                    <label class="form-control-label">FECHA PAGO RESCATE</label>
+                                    <label class="form-control-label">Fecha Pago Rescate</label>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:Label ID="lblPopUpFechaPagoRescate" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
@@ -1237,7 +1237,7 @@
                             <div class="row">
                                 <!-- EJECUTADO-->
                                 <div class="col-md-4">
-                                    <label class="form-control-label">EJECUTADO</label>
+                                    <label class="form-control-label">Ejecutado</label>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:Label ID="lblPopUpEjecutado" runat="server" Text="" Font-Bold="true" Font-Size="X-Large"> </asp:Label>
