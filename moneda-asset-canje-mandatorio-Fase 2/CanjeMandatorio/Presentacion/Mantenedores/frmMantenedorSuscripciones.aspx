@@ -1096,7 +1096,7 @@
                             <div class="row">
                                 <!-- FECHA SOLICITUD-->
                                 <div class="col-md-4">
-                                    <label class="form-control-label">FECHA SOLICITUD</label>
+                                    <label class="form-control-label">Fecha Solicitud</label>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:label id="lblPopUpFechaSolicitud" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
@@ -1159,7 +1159,7 @@
                             <div class="row">
                                 <!-- RUT Administradora-->
                                 <div class="col-md-4">
-                                    <label class="form-control-label">RUT Administradora</label>
+                                    <label class="form-control-label">Rut Administradora</label>
                                 </div>
                                 <div class="col-md-8">
                                     <asp:label id="lblPopUpRutAdministradora" runat="server" text="" font-bold="true" font-size="X-Large"> </asp:label>
