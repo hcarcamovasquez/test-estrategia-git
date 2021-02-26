@@ -4005,7 +4005,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
             resultadoProceso = rescateNegocio.Prorrata(stringID, stringError)
             If resultadoProceso = "OK" Then
-                ShowAlert("Prorroteo ejecutado exitosamente")
+                ShowAlert("Prorrateo ejecutado exitosamente")
             Else
                 ShowAlert(stringError)
             End If
