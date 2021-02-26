@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server" />
+    <asp:scriptmanager id="ScriptManager1" runat="server" />
 
     <h2 class="TdRedondeado titleMant">Fijación de<strong> Transacciones</strong></h2>
 
@@ -12,59 +12,58 @@
         <div class="row">
             <!-- LISTA Tipo Transaccion-->
             <div class="col-md-4">
-                <asp:Label runat="server" ID="lblTipoTransaccion">Tipo Transacción</asp:Label>
-                <asp:DropDownList ID="ddlListaTipoTransaccion" CssClass="form-control js-select2-rut" runat="server" />
+                <asp:label runat="server" id="lblTipoTransaccion">Tipo Transacción</asp:label>
+                <asp:dropdownlist id="ddlListaTipoTransaccion" cssclass="form-control js-select2-rut" runat="server" />
             </div>
 
             <!-- LISTA RUT FONDO-->
             <div class="col-md-4">
-                <asp:Label runat="server" ID="rutfondo">Fondo</asp:Label>
-                <asp:DropDownList ID="ddlListaRutFondo" CssClass="form-control js-select2-rut" runat="server" />
+                <asp:label runat="server" id="rutfondo">Fondo</asp:label>
+                <asp:dropdownlist id="ddlListaRutFondo" cssclass="form-control js-select2-rut" runat="server" />
             </div>
             <!-- NEMOTÉCNICO -->
             <div class="col-md-4">
-                <asp:Label runat="server" ID="nemotecnico">Nemotécnico</asp:Label>
-                <asp:DropDownList ID="ddlListaNemotecnico" CssClass="form-control js-select2-rut" runat="server" />
+                <asp:label runat="server" id="nemotecnico">Nemotécnico</asp:label>
+                <asp:dropdownlist id="ddlListaNemotecnico" cssclass="form-control js-select2-rut" runat="server" />
             </div>
         </div>
 
         <div class="row mt-4">
             <!-- FIJACIÓN NAV -->
             <div class="col-md-3">
-                <asp:Label runat="server" ID="Label6">Fijación NAV</asp:Label>
-                <asp:DropDownList ID="ddlFijacionNav" CssClass="form-control js-select2-rut" runat="server" />
+                <asp:label runat="server" id="Label6">Fijación NAV</asp:label>
+                <asp:dropdownlist id="ddlFijacionNav" cssclass="form-control js-select2-rut" runat="server" />
             </div>
 
             <!-- FECHA NAV DESDE -->
             <div class="col-md-3">
-                <asp:Label runat="server" ID="Label4">Fecha NAV Desde</asp:Label>
+                <asp:label runat="server" id="Label4">Fecha NAV Desde</asp:label>
                 <div class="input-group">
-                    <asp:TextBox ID="txtNAVDesde" runat="server" CssClass="form-control datepicker" ReadOnly="True"></asp:TextBox>
+                    <asp:textbox id="txtNAVDesde" runat="server" cssclass="form-control datepicker" readonly="True"></asp:textbox>
 
-                    <asp:LinkButton ID="lnkBtnNAVDesde" Class="btn btn-moneda" runat="server" OnClientClick="return clickCalendar('txtNAVDesde')" 
-                        ><i class="far fa-calendar-alt"></i></asp:LinkButton>
-                    <asp:LinkButton ID="BtnLimpiarFechaDesde" Text=""  OnClientClick="return limpiarCalendar('txtNAVDesde')" class="btn btn-secondary ml-1" runat="server">
-                        <i class="far fa-trash-alt"></i></asp:LinkButton>
+                    <asp:linkbutton id="lnkBtnNAVDesde" class="btn btn-moneda" runat="server" onclientclick="return clickCalendar('txtNAVDesde')"><i class="far fa-calendar-alt"></i></asp:linkbutton>
+                    <asp:linkbutton id="BtnLimpiarFechaDesde" text="" onclientclick="return limpiarCalendar('txtNAVDesde')" class="btn btn-secondary ml-1" runat="server">
+                        <i class="far fa-trash-alt"></i></asp:linkbutton>
 
                 </div>
             </div>
 
             <!-- FECHA NAV HASTA -->
             <div class="col-md-3">
-                <asp:Label runat="server" ID="Label7">Fecha NAV Hasta</asp:Label>
+                <asp:label runat="server" id="Label7">Fecha NAV Hasta</asp:label>
                 <div class="input-group">
-                    <asp:TextBox ID="txtNAVHasta" runat="server" CssClass="form-control datepicker" ReadOnly="True"></asp:TextBox>
-                    <asp:LinkButton ID="lnkBtnNAVHasta" Class="btn btn-moneda" runat="server" OnClientClick="return clickCalendar('txtNAVHasta')">
+                    <asp:textbox id="txtNAVHasta" runat="server" cssclass="form-control datepicker" readonly="True"></asp:textbox>
+                    <asp:linkbutton id="lnkBtnNAVHasta" class="btn btn-moneda" runat="server" onclientclick="return clickCalendar('txtNAVHasta')">
                         <i class="far fa-calendar-alt"></i>
-                    </asp:LinkButton>
-                    <asp:LinkButton ID="LinkButton5" Text="" OnClientClick="return limpiarCalendar('txtNAVHasta')" class="btn btn-secondary ml-1" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                   
+                    </asp:linkbutton>
+                    <asp:linkbutton id="LinkButton5" text="" onclientclick="return limpiarCalendar('txtNAVHasta')" class="btn btn-secondary ml-1" runat="server"><i class="far fa-trash-alt"></i></asp:linkbutton>
+
                 </div>
             </div>
 
             <!-- BOTÓN FIJAR NAV -->
             <div class="col-md-3 text-center">
-                <asp:Button ID="BtnFijarNav" Text="Fijar NAV" class="btn btn-info mt-4 BtnFijarNav" runat="server" Enabled="false" OnClientClick="return validateBtn();" />
+                <asp:button id="BtnFijarNav" text="Fijar NAV" class="btn btn-info mt-4 BtnFijarNav" runat="server" enabled="false" onclientclick="return validateBtn();" />
             </div>
 
         </div>
@@ -72,36 +71,35 @@
         <div class="row mt-4">
             <!-- FIJACIÓN TC OBSERVADO-->
             <div class="col-md-3">
-                <asp:Label runat="server" ID="Label8">Fijación TC Observado</asp:Label>
-                <asp:DropDownList ID="ddlFijacionTCObservacion" CssClass="form-control js-select2-rut" runat="server" />
+                <asp:label runat="server" id="Label8">Fijación TC Observado</asp:label>
+                <asp:dropdownlist id="ddlFijacionTCObservacion" cssclass="form-control js-select2-rut" runat="server" />
             </div>
             <!-- FECHA TC OBSERVACION DESDE -->
             <div class="col-md-3">
-                <asp:Label runat="server" ID="Label2">Fecha TC Obser. Desde</asp:Label>
+                <asp:label runat="server" id="Label2">Fecha TC Obser. Desde</asp:label>
                 <div class="input-group">
-                    <asp:TextBox ID="txtFechaTCDesde" runat="server" CssClass="form-control datepicker" ReadOnly="True"></asp:TextBox>
-                    <asp:LinkButton ID="LinkButton1" Class="btn btn-moneda" runat="server" OnClientClick="return clickCalendar('txtFechaTCDesde')" 
-                        ><i class="far fa-calendar-alt"></i></asp:LinkButton>
-                    <asp:LinkButton ID="LinkButton6" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtFechaTCDesde')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                    
+                    <asp:textbox id="txtFechaTCDesde" runat="server" cssclass="form-control datepicker" readonly="True"></asp:textbox>
+                    <asp:linkbutton id="LinkButton1" class="btn btn-moneda" runat="server" onclientclick="return clickCalendar('txtFechaTCDesde')"><i class="far fa-calendar-alt"></i></asp:linkbutton>
+                    <asp:linkbutton id="LinkButton6" text="" class="btn btn-secondary ml-1" onclientclick="return limpiarCalendar('txtFechaTCDesde')" runat="server"><i class="far fa-trash-alt"></i></asp:linkbutton>
+
                 </div>
             </div>
 
             <!-- FECHA TC OBSERVACION HASTA -->
             <div class="col-md-3">
-                <asp:Label runat="server" ID="Label3">Fecha TC Obser. Hasta</asp:Label>
+                <asp:label runat="server" id="Label3">Fecha TC Obser. Hasta</asp:label>
                 <div class="input-group">
-                    <asp:TextBox ID="txtFechaTCHasta" runat="server" CssClass="form-control datepicker" ReadOnly="True"></asp:TextBox>
-                    <asp:LinkButton ID="LinkButton2" Class="btn btn-moneda" runat="server" 
-                        OnClientClick="return clickCalendar('txtFechaTCHasta')" ><i class="far fa-calendar-alt"></i></asp:LinkButton>
-                    <asp:LinkButton ID="LinkButton11" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtFechaTCHasta')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
+                    <asp:textbox id="txtFechaTCHasta" runat="server" cssclass="form-control datepicker" readonly="True"></asp:textbox>
+                    <asp:linkbutton id="LinkButton2" class="btn btn-moneda" runat="server"
+                        onclientclick="return clickCalendar('txtFechaTCHasta')"><i class="far fa-calendar-alt"></i></asp:linkbutton>
+                    <asp:linkbutton id="LinkButton11" text="" class="btn btn-secondary ml-1" onclientclick="return limpiarCalendar('txtFechaTCHasta')" runat="server"><i class="far fa-trash-alt"></i></asp:linkbutton>
 
-                   
+
                 </div>
             </div>
             <!-- BOTÓN TC OBS -->
             <div class="col-md-3 text-center">
-                <asp:Button ID="BtnTCObs" Text="TC Obser." class="btn btn-info mt-4 BtnTCObs" runat="server" Enabled="false" OnClientClick="return validateBtn();" />
+                <asp:button id="BtnTCObs" text="TC Obser." class="btn btn-info mt-4 BtnTCObs" runat="server" enabled="false" onclientclick="return validateBtn();" />
             </div>
         </div>
 
@@ -110,32 +108,30 @@
             </div>
             <!-- FECHA TC OBSERVACION DESDE -->
             <div class="col-md-3">
-                <asp:Label runat="server" ID="Label37">Fecha pago desde</asp:Label>
+                <asp:label runat="server" id="Label37">Fecha pago desde</asp:label>
                 <div class="input-group">
-                    <asp:TextBox ID="txtFechaPagoDesde" runat="server" CssClass="form-control datepicker" ReadOnly="True"></asp:TextBox>
-                    <asp:LinkButton ID="LinkButton3" Class="btn btn-moneda" runat="server" OnClientClick="return clickCalendar('txtFechaPagoDesde')" 
-                        ><i class="far fa-calendar-alt"></i></asp:LinkButton>
-                    <asp:LinkButton ID="LinkButton4" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtFechaPagoDesde')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                    
+                    <asp:textbox id="txtFechaPagoDesde" runat="server" cssclass="form-control datepicker" readonly="True"></asp:textbox>
+                    <asp:linkbutton id="LinkButton3" class="btn btn-moneda" runat="server" onclientclick="return clickCalendar('txtFechaPagoDesde')"><i class="far fa-calendar-alt"></i></asp:linkbutton>
+                    <asp:linkbutton id="LinkButton4" text="" class="btn btn-secondary ml-1" onclientclick="return limpiarCalendar('txtFechaPagoDesde')" runat="server"><i class="far fa-trash-alt"></i></asp:linkbutton>
+
                 </div>
             </div>
 
             <!-- FECHA TC OBSERVACION HASTA -->
             <div class="col-md-3">
-                <asp:Label runat="server" ID="Label38">Fecha pago Hasta</asp:Label>
+                <asp:label runat="server" id="Label38">Fecha pago Hasta</asp:label>
                 <div class="input-group">
-                    <asp:TextBox ID="txtFechaPagoHasta" runat="server" CssClass="form-control datepicker" ReadOnly="True"></asp:TextBox>
-                    <asp:LinkButton ID="LinkButton12" Class="btn btn-moneda" runat="server" 
-                        OnClientClick="return clickCalendar('txtFechaPagoHasta')" ><i class="far fa-calendar-alt"></i></asp:LinkButton>
-                    <asp:LinkButton ID="LinkButton13" Text="" class="btn btn-secondary ml-1" 
-                        OnClientClick="return limpiarCalendar('txtFechaPagoHasta')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
+                    <asp:textbox id="txtFechaPagoHasta" runat="server" cssclass="form-control datepicker" readonly="True"></asp:textbox>
+                    <asp:linkbutton id="LinkButton12" class="btn btn-moneda" runat="server"
+                        onclientclick="return clickCalendar('txtFechaPagoHasta')"><i class="far fa-calendar-alt"></i></asp:linkbutton>
+                    <asp:linkbutton id="LinkButton13" text="" class="btn btn-secondary ml-1"
+                        onclientclick="return limpiarCalendar('txtFechaPagoHasta')" runat="server"><i class="far fa-trash-alt"></i></asp:linkbutton>
 
-                   
+
                 </div>
             </div>
             <!-- BOTÓN TC OBS -->
             <div class="col-md-3 text-center">
-
             </div>
         </div>
 
@@ -143,9 +139,9 @@
         <div class="row text-center mt-5 p-3 border-bottom">
             <div class="col-md-12">
                 <!-- BOTÓN BUSCAR -->
-                <asp:Button ID="BtnBuscar" Text="Buscar" class="btn btn-moneda" runat="server" />
-                <asp:Button ID="btnLimpiarFrm" Text="Borrar" class="btn btn-secondary" runat="server" OnClick="btnLimpiarFrm_Click" />
-                
+                <asp:button id="BtnBuscar" text="Buscar" class="btn btn-moneda" runat="server" />
+                <asp:button id="btnLimpiarFrm" text="Borrar" class="btn btn-secondary" runat="server" onclick="btnLimpiarFrm_Click" />
+
             </div>
         </div>
 
@@ -156,28 +152,28 @@
             </div>
         </div>
 
-        <asp:HiddenField ID="txtAccionHidden" runat="server" />
+        <asp:hiddenfield id="txtAccionHidden" runat="server" />
 
         <!-- TABLA DE RESULTADOS -->
         <div class="row mt-3">
             <div class="col-md-8">
-                <h5 class="mt-3 text-secondary"><i class="fas fa-file-invoice fa-sm"></i> Resultado de la búsqueda</h5>
+                <h5 class="mt-3 text-secondary"><i class="fas fa-file-invoice fa-sm"></i>Resultado de la búsqueda</h5>
             </div>
             <div class="col-md-4">
-                <asp:Button ID="btnImprimir" Text="Imprimir" class="btn btn-moneda btnImprimir" runat="server" Enabled="false" />
+                <asp:button id="btnImprimir" text="Imprimir" class="btn btn-moneda btnImprimir" runat="server" enabled="false" />
             </div>
         </div>
-        
+
         <div class="table-responsive card p-3">
-            <asp:GridView
-                ID="GrvTabla"
+            <asp:gridview
+                id="GrvTabla"
                 runat="server"
-                CssClass="table table-bordered table-hover table-sm gvv"
-                HeaderStyle-BackColor=""
-                HeaderStyle-Font-Size=""
-                RowStyle-Font-Size="Small"
-                AutoGenerateColumns="false"
-                AllowSorting="false">
+                cssclass="table table-bordered table-hover table-sm gvv"
+                headerstyle-backcolor=""
+                headerstyle-font-size=""
+                rowstyle-font-size="Small"
+                autogeneratecolumns="false"
+                allowsorting="false">
                 <Columns>
                     <asp:TemplateField HeaderText="Sel.">
                         <HeaderTemplate>
@@ -208,32 +204,32 @@
                     <asp:BoundField DataField="Cuotas" HeaderText="Cuotas" />
                     <asp:BoundField DataField="Monto" HeaderText="Monto" />
                 </Columns>
-            </asp:GridView>
+            </asp:gridview>
         </div>
         <div class="row mt-3">
             <div class="col-md-12 text-center">
-                <asp:Button ID="BtnModificar" runat="server" class="btn btn-info btnmodificar" Text="Fijación Manual" Enabled="false"></asp:Button>
-                <asp:Button ID="BtnExportar" class="btn btn-success" Text="Exportar" runat="server" Enabled="false" />
+                <asp:button id="BtnModificar" runat="server" class="btn btn-info btnmodificar" text="Fijación Manual" enabled="false"></asp:button>
+                <asp:button id="BtnExportar" class="btn btn-success" text="Exportar" runat="server" enabled="false" />
             </div>
         </div>
 
     </div>
-   
+
     <!-- Bootstrap Modal Dialog Suscripcione Crear/Modificar -->
     <div class="modal fade" id="myModalSuscripcion" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog" style="max-width: 90%;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <asp:Label ID="lbModalTittle" runat="server" Text="Formulario - Suscripciones" Font-Bold="true" Font-Size="X-Large">
-                        </asp:Label>
+                        <asp:label id="lbModalTittle" runat="server" text="Formulario - Suscripciones" font-bold="true" font-size="X-Large">
+                        </asp:label>
                     </h4>
                     <button id="btnXCerrar" type="button" class="close" data-dismiss="modal" aria-label="Close" runat="server"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <div class="jumbotron p-3">
                         <!-- FORMULARIO-->
-                        <asp:HiddenField ID="txtEstadoCambio" runat="server"></asp:HiddenField>
+                        <asp:hiddenfield id="txtEstadoCambio" runat="server"></asp:hiddenfield>
                         <div class="col-md-12 mx-auto mt-10 " style="margin-top: 30px" visible="false">
                             <div class="col-md-12 mx-auto d-flex p-0 mb-10 justify-content-between" style="margin-top: 30px">
                                 <!-- TARJETA 1 -->
@@ -243,11 +239,11 @@
                                         <div class="row mt-3">
                                             <div class="col-md-6">
                                                 <label class="form-control-label">Id Suscripción</label>
-                                                <asp:TextBox ID="txtIdSuscripcion" runat="server" CssClass="form-control form-control-sm" ReadOnly="true"></asp:TextBox>
+                                                <asp:textbox id="txtIdSuscripcion" runat="server" cssclass="form-control form-control-sm" readonly="true"></asp:textbox>
                                             </div>
                                             <div class="col-md-6">
                                                 <label class="form-control-label">RUT Aportante</label>
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel6" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel6" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNombreAportante" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalMultifondo" EventName="SelectedIndexChanged" />
@@ -255,13 +251,13 @@
                                                     <ContentTemplate>
                                                         <asp:DropDownList ID="ddlModalRutAportante" CssClass="form-control js-select2-rut" runat="server" OnSelectedIndexChanged="CargarNombreAportanteNemotecnicoPorRutAportanteModal" AutoPostBack="true" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-md-6">
                                                 <label class="form-control-label">Nombre Aportante</label>
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel2" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel2" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalRutAportante" EventName="" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalMultifondo" EventName="" />
@@ -269,11 +265,11 @@
                                                     <ContentTemplate>
                                                         <asp:DropDownList ID="ddlModalNombreAportante" CssClass="form-control js-select2-rut" runat="server" OnSelectedIndexChanged="CargarRutAportanteNemotecnicoPorNombreAportanteModal" AutoPostBack="true" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
-                                             <div class="col-md-6">
-                                                 <label class="form-control-label">Multifondo</label>
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel7" UpdateMode="Conditional">
+                                            <div class="col-md-6">
+                                                <label class="form-control-label">Multifondo</label>
+                                                <asp:updatepanel runat="server" id="UpdatePanel7" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalRutAportante" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNombreAportante" EventName="SelectedIndexChanged" />
@@ -281,26 +277,26 @@
                                                     <ContentTemplate>
                                                         <asp:DropDownList ID="ddlModalMultifondo" CssClass="form-control js-select2-rut" runat="server" OnSelectedIndexChanged="CargarRutYRazonSocialPorMultifondo" AutoPostBack="true" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
-                                       
+
                                         <div class="row mt-3">
-                                           
+
                                             <div class="col-md-6">
-                                                 <asp:Label runat="server" ID="Label10">Rut Fondo</asp:Label>
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel9" UpdateMode="Conditional">
+                                                <asp:label runat="server" id="Label10">Rut Fondo</asp:label>
+                                                <asp:updatepanel runat="server" id="UpdatePanel9" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNemotecnico" EventName="SelectedIndexChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:DropDownList ID="ddlFondo" CssClass="form-control js-select2-rut" runat="server" OnSelectedIndexChanged="SelectedIndexChangedFnRut" AutoPostBack="true" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
-                                               <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label27">Nombre Fondo</asp:Label>
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel25" UpdateMode="Conditional">
+                                            <div class="col-md-6">
+                                                <asp:label runat="server" id="Label27">Nombre Fondo</asp:label>
+                                                <asp:updatepanel runat="server" id="UpdatePanel25" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNemotecnico" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlFondo" EventName="SelectedIndexChanged" />
@@ -308,24 +304,24 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtNombreFondo" CssClass="form-control" runat="server" ReadOnly="true" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="LbNemotecnico">Nemotécnico</asp:Label>
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel8" UpdateMode="Conditional">
+                                                <asp:label runat="server" id="LbNemotecnico">Nemotécnico</asp:label>
+                                                <asp:updatepanel runat="server" id="UpdatePanel8" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlFondo" EventName="SelectedIndexChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:DropDownList ID="ddlNemotecnico" CssClass="form-control js-select2-rut" runat="server" OnSelectedIndexChanged="LlenarPorNemotecnico" AutoPostBack="true" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label28">Serie</asp:Label>
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel26" UpdateMode="Conditional">
+                                                <asp:label runat="server" id="Label28">Serie</asp:label>
+                                                <asp:updatepanel runat="server" id="UpdatePanel26" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNemotecnico" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlFondo" EventName="SelectedIndexChanged" />
@@ -333,13 +329,13 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtNombreSerie" CssClass="form-control" runat="server" ReadOnly="true" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label29">Moneda Serie</asp:Label>
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel27" UpdateMode="Conditional">
+                                                <asp:label runat="server" id="Label29">Moneda Serie</asp:label>
+                                                <asp:updatepanel runat="server" id="UpdatePanel27" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNemotecnico" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlFondo" EventName="SelectedIndexChanged" />
@@ -347,18 +343,18 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtMonedaSerie" CssClass="form-control" runat="server" ReadOnly="true" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="lblMonedaPago">Moneda pago</asp:Label>
-                                                <asp:DropDownList ID="ddlMonedaPago" CssClass="form-control js-select2-rut" runat="server" />
+                                                <asp:label runat="server" id="lblMonedaPago">Moneda pago</asp:label>
+                                                <asp:dropdownlist id="ddlMonedaPago" cssclass="form-control js-select2-rut" runat="server" />
                                             </div>
                                         </div>
-                                        
+
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="lbNAV">NAV</asp:Label>
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel19" UpdateMode="Conditional">
+                                                <asp:label runat="server" id="lbNAV">NAV</asp:label>
+                                                <asp:updatepanel runat="server" id="UpdatePanel19" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNemotecnico" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlFondo" EventName="SelectedIndexChanged" />
@@ -367,11 +363,11 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtNAV" CssClass="form-control dbs-entero20-decimal6" runat="server" OnTextChanged="CuotasTextChanged" AutoPostBack="true" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
-                                            </div>   
+                                                </asp:updatepanel>
+                                            </div>
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label11">NAV (CLP)</asp:Label>
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel23" UpdateMode="Conditional">
+                                                <asp:label runat="server" id="Label11">NAV (CLP)</asp:label>
+                                                <asp:updatepanel runat="server" id="UpdatePanel23" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNemotecnico" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlFondo" EventName="SelectedIndexChanged" />
@@ -384,10 +380,10 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtNAVCLP" CssClass="form-control dbs-entero20-decimal4" runat="server" ReadOnly="true" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                                 <!-- TARJETA 2 -->
@@ -395,8 +391,8 @@
                                     <div class="card-body ">
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label15">Fecha intención</asp:Label>
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel3" UpdateMode="Conditional">
+                                                <asp:label runat="server" id="Label15">Fecha intención</asp:label>
+                                                <asp:updatepanel runat="server" id="UpdatePanel3" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="LinkButton9" EventName="click" />
                                                     </Triggers>
@@ -413,11 +409,11 @@
                                                         <asp:LinkButton ID="LinkButton9" Visible="false" Class="btn btn-secondary mt-1 btn-sm w-100" OnClick="LinkButton9_Click" runat="server">Elegir Fecha</asp:LinkButton>
                                                         <span id="reqtxtFecha3" class="reqError"></span>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label5">Fecha NAV</asp:Label>
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel1" UpdateMode="Conditional">
+                                                <asp:label runat="server" id="Label5">Fecha NAV</asp:label>
+                                                <asp:updatepanel runat="server" id="UpdatePanel1" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="LinkButton7" EventName="click" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNemotecnico" EventName="SelectedIndexChanged" />
@@ -436,13 +432,13 @@
                                                         <asp:LinkButton ID="LinkButton7" Visible="false" Class="btn btn-secondary mt-1 btn-sm w-100" OnClick="LinkButton7_Click" runat="server">Elegir Fecha</asp:LinkButton>
                                                         <span id="reqtxtFecha1" class="reqError"></span>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label1">Fecha suscripción</asp:Label>
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel4" UpdateMode="Conditional">
+                                                <asp:label runat="server" id="Label1">Fecha suscripción</asp:label>
+                                                <asp:updatepanel runat="server" id="UpdatePanel4" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="LinkButton10" EventName="click" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNemotecnico" EventName="SelectedIndexChanged" />
@@ -461,11 +457,11 @@
                                                         <asp:LinkButton ID="LinkButton10" Visible="false" Class="btn btn-secondary mt-1 btn-sm w-100" OnClick="LinkButton10_Click" runat="server">Elegir Fecha</asp:LinkButton>
                                                         <span id="reqtxtFecha8" class="reqError"></span>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label13">Fecha TC Obs</asp:Label>
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel5" UpdateMode="Conditional">
+                                                <asp:label runat="server" id="Label13">Fecha TC Obs</asp:label>
+                                                <asp:updatepanel runat="server" id="UpdatePanel5" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="LinkButton8" EventName="click" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNemotecnico" EventName="SelectedIndexChanged" />
@@ -484,13 +480,13 @@
                                                         <asp:LinkButton ID="LinkButton8" Visible="false" Class="btn btn-secondary mt-1 btn-sm w-100" OnClick="LinkButton8_Click" runat="server">Elegir Fecha</asp:LinkButton>
                                                         <span id="reqtxtFecha" class="reqError"></span>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="lbTC">TC Observado</asp:Label>
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel20" UpdateMode="Conditional">
+                                                <asp:label runat="server" id="lbTC">TC Observado</asp:label>
+                                                <asp:updatepanel runat="server" id="UpdatePanel20" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNemotecnico" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlFondo" EventName="SelectedIndexChanged" />
@@ -498,11 +494,11 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtTCObservado" CssClass="form-control dbs-entero20-decimal6" runat="server" OnTextChanged="TcObservadoChanged" AutoPostBack="true" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="lbCuotas">Cuotas</asp:Label>
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel24" UpdateMode="Conditional">
+                                                <asp:label runat="server" id="lbCuotas">Cuotas</asp:label>
+                                                <asp:updatepanel runat="server" id="UpdatePanel24" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNemotecnico" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlFondo" EventName="SelectedIndexChanged" />
@@ -511,14 +507,14 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtCuotas" CssClass="form-control dbs-entero-decimal" runat="server" OnTextChanged="CuotasTextChanged" AutoPostBack="true" AutoComplete="off" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
 
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label14">Monto</asp:Label>
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel21" UpdateMode="Conditional">
+                                                <asp:label runat="server" id="Label14">Monto</asp:label>
+                                                <asp:updatepanel runat="server" id="UpdatePanel21" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNemotecnico" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlFondo" EventName="SelectedIndexChanged" />
@@ -528,11 +524,11 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtMonto" CssClass="form-control dbs-entero20-decimal2" runat="server" OnTextChanged="MontoTextChanged" AutoPostBack="true" AutoComplete="off" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label16">Monto (CLP)</asp:Label>
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel16" UpdateMode="Conditional">
+                                                <asp:label runat="server" id="Label16">Monto (CLP)</asp:label>
+                                                <asp:updatepanel runat="server" id="UpdatePanel16" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNemotecnico" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlFondo" EventName="SelectedIndexChanged" />
@@ -545,17 +541,17 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtMontoCLP" CssClass="form-control dbs-entero20-decimal0" runat="server" ReadOnly="True" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label17">Contrato</asp:Label>
-                                                <asp:DropDownList ID="ddlContrato" CssClass="form-control js-select2-rut" runat="server" />
+                                                <asp:label runat="server" id="Label17">Contrato</asp:label>
+                                                <asp:dropdownlist id="ddlContrato" cssclass="form-control js-select2-rut" runat="server" />
                                             </div>
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="lbPoderes">Poderes</asp:Label>
-                                                <asp:DropDownList ID="ddlPoderes" CssClass="form-control js-select2-rut" runat="server" />
+                                                <asp:label runat="server" id="lbPoderes">Poderes</asp:label>
+                                                <asp:dropdownlist id="ddlPoderes" cssclass="form-control js-select2-rut" runat="server" />
                                             </div>
                                         </div>
                                     </div>
@@ -570,10 +566,10 @@
 
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label12">Fecha DCV</asp:Label>
+                                                <asp:label runat="server" id="Label12">Fecha DCV</asp:label>
                                             </div>
                                             <div class="col-md-6">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel15" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel15" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNemotecnico" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlFondo" EventName="SelectedIndexChanged" />
@@ -581,15 +577,15 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtFechaDCV" CssClass="form-control form-control-sm" runat="server" ReadOnly="True" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label18">Estado</asp:Label>
+                                                <asp:label runat="server" id="Label18">Estado</asp:label>
                                             </div>
                                             <div class="col-md-6">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel22" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel22" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNemotecnico" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlFondo" EventName="SelectedIndexChanged" />
@@ -597,24 +593,24 @@
                                                     <ContentTemplate>
                                                         <asp:DropDownList ID="ddlEstado1" CssClass="form-control js-select2-rut" runat="server" SelectedIndexChanged="llenarCLP" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label19">Observaciones</asp:Label>
+                                                <asp:label runat="server" id="Label19">Observaciones</asp:label>
                                             </div>
                                             <div class="col-md-6">
-                                                <asp:TextBox ID="txtObservaciones" CssClass="form-control form-control-sm" runat="server" />
+                                                <asp:textbox id="txtObservaciones" cssclass="form-control form-control-sm" runat="server" />
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label20">Fijación NAV</asp:Label>
+                                                <asp:label runat="server" id="Label20">Fijación NAV</asp:label>
                                             </div>
                                             <div class="col-md-6">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel17" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel17" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNemotecnico" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlFondo" EventName="SelectedIndexChanged" />
@@ -622,15 +618,15 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtFijacionNAV" Text="" CssClass="form-control form-control-sm" runat="server" ReadOnly="True" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label21">Fijación TC Obs</asp:Label>
+                                                <asp:label runat="server" id="Label21">Fijación TC Obs</asp:label>
                                             </div>
                                             <div class="col-md-6">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel18" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel18" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNemotecnico" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlFondo" EventName="SelectedIndexChanged" />
@@ -638,7 +634,7 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtFijacionTCObs" Text="" CssClass="form-control form-control-sm" runat="server" ReadOnly="True" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
                                     </div>
@@ -653,52 +649,52 @@
 
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label34">Cuotas emitidas</asp:Label>
+                                                <asp:label runat="server" id="Label34">Cuotas emitidas</asp:label>
 
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel89" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel89" updatemode="Conditional">
                                                     <Triggers>
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtCuotasEmitidas" CssClass="form-control dbs-entero16-decimal0" runat="server" ReadOnly="true" EventName="SelectionChanged" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label31">Acumulada</asp:Label>
+                                                <asp:label runat="server" id="Label31">Acumulada</asp:label>
 
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel90" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel90" updatemode="Conditional">
                                                     <Triggers>
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtAcumulada" CssClass="form-control dbs-entero16-decimal0" runat="server" ReadOnly="true" EventName="SelectionChanged" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
 
 
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label32">Actual</asp:Label>
+                                                <asp:label runat="server" id="Label32">Actual</asp:label>
 
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel91" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel91" updatemode="Conditional">
                                                     <Triggers>
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtActual" CssClass="form-control dbs-entero16-decimal0" runat="server" ReadOnly="true" EventName="SelectionChanged" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label33">Utilizado</asp:Label>
+                                                <asp:label runat="server" id="Label33">Utilizado</asp:label>
 
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel92" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel92" updatemode="Conditional">
                                                     <Triggers>
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtUtilizado" CssClass="form-control dbs-entero16-decimal0" runat="server" ReadOnly="true" EventName="SelectionChanged" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
 
@@ -706,15 +702,15 @@
 
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label35">DISPONIBLES</asp:Label>
+                                                <asp:label runat="server" id="Label35">DISPONIBLES</asp:label>
 
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel93" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel93" updatemode="Conditional">
                                                     <Triggers>
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtDisponiblesEmitidas" CssClass="form-control dbs-entero16-decimal0" runat="server" ReadOnly="true" EventName="SelectionChanged" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
 
@@ -729,63 +725,63 @@
 
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label22">Cuotas DCV</asp:Label>
+                                                <asp:label runat="server" id="Label22">Cuotas DCV</asp:label>
 
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel12" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel12" updatemode="Conditional">
                                                     <Triggers>
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtCuotasDCV" CssClass="form-control dbs-entero16-decimal0" runat="server" ReadOnly="True" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label23">Rescates</asp:Label>
+                                                <asp:label runat="server" id="Label23">Rescates</asp:label>
 
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel10" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel10" updatemode="Conditional">
                                                     <Triggers>
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtRescates" CssClass="form-control dbs-entero16-decimal0" runat="server" ReadOnly="True" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label24">Suscripciones</asp:Label>
+                                                <asp:label runat="server" id="Label24">Suscripciones</asp:label>
 
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel11" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel11" updatemode="Conditional">
                                                     <Triggers>
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtSuscripciones" CssClass="form-control dbs-entero16-decimal0" runat="server" ReadOnly="True" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label25">Canje</asp:Label>
+                                                <asp:label runat="server" id="Label25">Canje</asp:label>
 
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel13" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel13" updatemode="Conditional">
                                                     <Triggers>
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtCanje" CssClass="form-control dbs-entero16-decimal0" runat="server" ReadOnly="True" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label26">DISPONIBLES</asp:Label>
+                                                <asp:label runat="server" id="Label26">DISPONIBLES</asp:label>
 
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel14" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel14" updatemode="Conditional">
                                                     <Triggers>
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtDisponibles" CssClass="form-control dbs-entero16-decimal0" runat="server" ReadOnly="True" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
 
@@ -798,8 +794,8 @@
                         <!-- GRUPO DE BOTONES 2 -->
                         <div class="form-group mt-5 text-center">
                             <div class="col-md-offset-1">
-                                <asp:Button ID="btnModalModificar" Text="Modificar" CssClass="btn btn-info" runat="server" OnClientClick="if (!confirm('¿Seguro que desea guardar los elementos cambios?')) return false;"></asp:Button>
-                                <asp:Button ID="btnModalCancelar" Text="Cancelar" CssClass="btn btn-secondary" runat="server" OnClientClick="if (!confirm('¿Seguro que desea Cancelar?')) return false;"></asp:Button>
+                                <asp:button id="btnModalModificar" text="Modificar" cssclass="btn btn-info" runat="server" onclientclick="if (!confirm('¿Seguro que desea guardar los elementos cambios?')) return false;"></asp:button>
+                                <asp:button id="btnModalCancelar" text="Cancelar" cssclass="btn btn-secondary" runat="server" onclientclick="if (!confirm('¿Seguro que desea Cancelar?')) return false;"></asp:button>
                             </div>
                         </div>
                         <!-- FIN GRUPO DE BOTONES 2 -->
@@ -815,16 +811,16 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <asp:Label ID="Label9" runat="server" Text="Formulario - Canjes" Font-Bold="true" Font-Size="X-Large">
-                        </asp:Label>
+                        <asp:label id="Label9" runat="server" text="Formulario - Canjes" font-bold="true" font-size="X-Large">
+                        </asp:label>
                     </h4>
                     <button id="Button1" type="button" class="close" data-dismiss="modal" aria-label="Close" runat="server"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <div class="jumbotron p-3">
-                        <asp:HiddenField ID="HiddenField1" runat="server"></asp:HiddenField>
-                        <div class="col-md-12 mt-10"  visible="false">
-                                    <div class="col-md-12 d-flex p-0 mb-10">
+                        <asp:hiddenfield id="HiddenField1" runat="server"></asp:hiddenfield>
+                        <div class="col-md-12 mt-10" visible="false">
+                            <div class="col-md-12 d-flex p-0 mb-10">
                                 <!-- TARJETA 1 -->
                                 <div class="card mt-0 col-md-12">
                                     <div class="card-body">
@@ -834,7 +830,7 @@
 
                                             </div>
                                             <div class="col-md-3">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel28" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel28" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalMultifondoCanje" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNombreAportanteCanje" EventName="SelectedIndexChanged" />
@@ -842,14 +838,14 @@
                                                     <ContentTemplate>
                                                         <asp:DropDownList ID="ddlModalRutAportanteCanje" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="true" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                             <div class="col-md-1">
                                                 <label class="form-control-label">Nombre Aportante</label>
                                             </div>
                                             <div class="col-md-3">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel29" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel29" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalRutAportanteCanje" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalMultifondoCanje" EventName="SelectedIndexChanged" />
@@ -857,13 +853,13 @@
                                                     <ContentTemplate>
                                                         <asp:DropDownList ID="ddlModalNombreAportanteCanje" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="true" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                             <div class="col-md-1">
                                                 <label class="form-control-label">Multifondo</label>
                                             </div>
                                             <div class="col-md-3">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel30" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel30" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalRutAportanteCanje" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNombreAportanteCanje" EventName="SelectedIndexChanged" />
@@ -871,7 +867,7 @@
                                                     <ContentTemplate>
                                                         <asp:DropDownList ID="ddlModalMultifondoCanje" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="true" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                         </div>
@@ -880,27 +876,27 @@
                                                 <label class="form-control-label">Fondo</label>
                                             </div>
                                             <div class="col-md-3">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel31" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel31" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoEntranteCanje" EventName="SelectedIndexChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:DropDownList ID="ddlModalFondoCanje" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="true" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                             <div class="col-md-1">
                                                 <label class="form-control-label">Tipo Transacción</label>
                                             </div>
                                             <div class="col-md-3">
-                                                <asp:TextBox ID="txtModalTipoTrnasaccion" CssClass="form-control" runat="server" Enabled="false">Canje</asp:TextBox>
+                                                <asp:textbox id="txtModalTipoTrnasaccion" cssclass="form-control" runat="server" enabled="false">Canje</asp:textbox>
                                             </div>
                                             <div class="col-md-1">
                                                 <label class="form-control-label">Fecha Solicitud</label>
                                             </div>
                                             <div class="col-md-3">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel32" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel32" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="lnkBtnModalFechaSolicitud" EventName="click" />
                                                     </Triggers>
@@ -917,7 +913,7 @@
                                                         <asp:LinkButton ID="lnkBtnModalFechaSolicitud" Class="btn btn-secondary mt-1 btn-sm w-100" runat="server" Visible="false">Elegir Fecha</asp:LinkButton>
                                                         <span id="reqtxtModalFechaSolicitud" class="reqError"></span>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
                                         <div class="row mt-2">
@@ -926,7 +922,7 @@
                                             </div>
                                             <div class="col-md-3">
 
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel33" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel33" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalFondoCanje" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoEntranteCanje" EventName="SelectedIndexChanged" />
@@ -934,13 +930,13 @@
                                                     <ContentTemplate>
                                                         <asp:DropDownList ID="ddlModalNombreFondoCanje" CssClass="form-control js-select2-rut" runat="server" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                             <div class="col-md-1">
                                                 <label class="form-control-label">Fijación TC</label>
                                             </div>
                                             <div class="col-md-3">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel36" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel36" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalNavSaliente" EventName="TextChanged" />
                                                     </Triggers>
@@ -951,7 +947,7 @@
                                                             <asp:ListItem Value="Realizado">Realizado</asp:ListItem>
                                                         </asp:DropDownList>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
 
@@ -959,7 +955,7 @@
                                                 <label class="form-control-label">Fecha de Canje</label>
                                             </div>
                                             <div class="col-md-3">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanelFC" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanelFC" updatemode="Conditional">
                                                     <Triggers>
                                                         <%--<asp:AsyncPostBackTrigger ControlID="lnkbtnModalFechaObservado" EventName="click" />
                                                         <asp:AsyncPostBackTrigger ControlID="CalendarModalFechaNavSaliente" EventName="SelectionChanged" />
@@ -978,7 +974,7 @@
                                                             <span id="reqtxtModalFechaCanje" class="reqError"></span>
                                                         </div>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
 
                                         </div>
@@ -1000,7 +996,7 @@
                                                 <label class="form-control-label">Nemotécnico</label>
                                             </div>
                                             <div class="col-md-9">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel35" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel35" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalFondoCanje" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoEntranteCanje" EventName="SelectedIndexChanged" />
@@ -1008,7 +1004,7 @@
                                                     <ContentTemplate>
                                                         <asp:DropDownList ID="ddlModalNemotecnicoSalienteCanje" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="true" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                         </div>
@@ -1017,7 +1013,7 @@
                                                 <label class="form-control-label">Fecha Nav</label>
                                             </div>
                                             <div class="col-md-9">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel37" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel37" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="lnkbtnModalFechaNavSaliente" EventName="click" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSalienteCanje" EventName="SelectedIndexChanged" />
@@ -1035,7 +1031,7 @@
                                                         <asp:LinkButton ID="lnkbtnModalFechaNavSaliente" Class="btn btn-secondary mt-1 btn-sm w-100" runat="server" Height="5%" Visible="false">Elegir Fecha</asp:LinkButton>
                                                         <span id="reqtxtModalFechaNavSaliente" class="reqError"></span>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
                                         <div class="row mt-2">
@@ -1044,28 +1040,28 @@
 
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel38" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel38" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSalienteCanje" EventName="SelectedIndexChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:DropDownList ID="ddlModalSerieSalienteCanje" CssClass="form-control js-select2-rut" runat="server" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                             <div class="col-md-2">
                                                 <label class="form-control-label">Moneda</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel39" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel39" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSalienteCanje" EventName="SelectedIndexChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:DropDownList ID="ddlModalMonedaSalienteCanje" CssClass="form-control js-select2-rut" runat="server" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                         </div>
@@ -1076,7 +1072,7 @@
 
                                             </div>
                                             <div class="col-md-4">
-                                                        <asp:updatepanel runat="server" id="UpdatePanel94" updatemode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel94" updatemode="Conditional">
                                                             <Triggers>
                                                                 <asp:AsyncPostBackTrigger ControlID="txtModalMontoSaliente" EventName="TextChanged" />
                                                                 <asp:AsyncPostBackTrigger ControlID="txtModalNavSaliente" EventName="TextChanged" /> 
@@ -1086,14 +1082,14 @@
                                                                  <asp:Textbox ID="txtModalCuotaSaliente" CssClass="form-control dbs-entero13-decimal0" onpaste="return false" oncut="return false" oncopy="return false" runat="server" OnTextChanged="CalcularCuotaEntrante" AutoPostBack="true"></asp:Textbox>
                                                             </ContentTemplate>
                                                         </asp:updatepanel>
-                                                       
-                                                    </div>
+
+                                            </div>
                                             <div class="col-md-2">
                                                 <label class="form-control-label">Factor</label>
 
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel40" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel40" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSalienteCanje" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalNavSaliente" EventName="TextChanged" />
@@ -1103,7 +1099,7 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtFactorSaliente" CssClass="form-control dbs-entero17-decimal9" runat="server"></asp:TextBox>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
 
@@ -1114,7 +1110,7 @@
 
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel41" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel41" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSalienteCanje" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalTipoCambio" EventName="TextChanged" />
@@ -1123,7 +1119,7 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtModalNavSaliente" OnTextChanged="calcularFactor" AutoPostBack="true" CssClass="form-control dbs-entero20-decimal6" runat="server"> </asp:TextBox>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                             <div class="col-md-2">
@@ -1131,7 +1127,7 @@
 
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel42" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel42" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSalienteCanje" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalNavSaliente" EventName="TextChanged" />
@@ -1140,7 +1136,7 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtModalNavCLPSaliente" CssClass="form-control dbs-entero20-decimal4" runat="server"></asp:TextBox>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                         </div>
@@ -1150,7 +1146,7 @@
 
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel43" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel43" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalNavSaliente" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalCuotaSaliente" EventName="TextChanged" />
@@ -1159,7 +1155,7 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtModalMontoSaliente" CssClass="form-control dbs-entero20-decimal2" runat="server"></asp:TextBox>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                             <div class="col-md-2">
@@ -1167,7 +1163,7 @@
 
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel44" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel44" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalNavSaliente" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalTipoCambio" EventName="TextChanged" />
@@ -1178,7 +1174,7 @@
                                                         <asp:TextBox ID="txtModalMontoCLPSaliente" CssClass="form-control dbs-entero20-decimal2" runat="server"></asp:TextBox>
 
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                         </div>
@@ -1188,7 +1184,7 @@
 
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel45" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel45" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalCuotaSaliente" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalNavSaliente" EventName="TextChanged" />
@@ -1199,14 +1195,14 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtModalDiferencia" CssClass="form-control dbs-entero20-decimal6" runat="server"></asp:TextBox>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                             <div class="col-md-2">
                                                 <label class="form-control-label">Diferencia CLP</label>
 
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel46" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel46" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalCuotaSaliente" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalNavSaliente" EventName="TextChanged" />
@@ -1217,7 +1213,7 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtModalDiferenciaCLP" CssClass="form-control dbs-entero18-decimal0" runat="server"></asp:TextBox>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
 
                                         </div>
@@ -1226,7 +1222,7 @@
                                                 <label class="form-control-label">Fijación Nav</label>
                                             </div>
                                             <div class="col-md-9">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel56" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel56" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoEntranteCanje" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalNavSaliente" EventName="TextChanged" />
@@ -1238,7 +1234,7 @@
                                                             <asp:ListItem Value="Realizado">Realizado</asp:ListItem>
                                                         </asp:DropDownList>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                         </div>
@@ -1254,7 +1250,7 @@
 
                                             </div>
                                             <div class="col-md-9">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel47" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel47" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalFondoCanje" EventName="SelectedIndexChanged" />
 
@@ -1262,7 +1258,7 @@
                                                     <ContentTemplate>
                                                         <asp:DropDownList ID="ddlModalNemotecnicoEntranteCanje" CssClass="form-control js-select2-rut" AutoPostBack="true" runat="server" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
                                         <div class="row mt-2">
@@ -1270,7 +1266,7 @@
                                                 <label class="form-control-label">Fecha Nav</label>
                                             </div>
                                             <div class="col-md-9">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel48" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel48" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="lnkbtnModalFechaNavEntrante" EventName="click" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoEntranteCanje" EventName="SelectedIndexChanged" />
@@ -1288,7 +1284,7 @@
                                                         <asp:LinkButton ID="lnkbtnModalFechaNavEntrante" Class="btn btn-secondary mt-1 btn-sm w-100" runat="server" Height="5%" Visible="false">Elegir Fecha</asp:LinkButton>
                                                         <span id="reqtxtModalFechaNavEntrante" class="reqError"></span>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
                                         <div class="row mt-2">
@@ -1297,28 +1293,28 @@
 
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel49" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel49" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoEntranteCanje" EventName="SelectedIndexChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:DropDownList ID="ddlModalSerieEntranteCanje" CssClass="form-control js-select2-rut" runat="server" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                             <div class="col-md-2">
                                                 <label class="form-control-label">Moneda</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel50" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel50" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoEntranteCanje" EventName="SelectedIndexChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:DropDownList ID="ddlModalMonedaEntranteCanje" CssClass="form-control js-select2-rut" runat="server" />
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                         </div>
@@ -1328,7 +1324,7 @@
 
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel51" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel51" updatemode="Conditional">
                                                     <Triggers>                                                        
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalCuotaSaliente" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalNavSaliente" EventName="TextChanged" />
@@ -1339,7 +1335,7 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtModalCuotaEntrante" CssClass="form-control dbs-entero13-decimal0" runat="server" AutoPostBack="true"></asp:TextBox>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                             <div class="col-md-2">
@@ -1347,7 +1343,7 @@
 
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel200" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel200" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSalienteCanje" EventName="SelectedIndexChanged" />
                                                         
@@ -1359,7 +1355,7 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtModalFactor" CssClass="form-control dbs-entero17-decimal9" runat="server" ReadOnly="true"></asp:TextBox>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                         </div>
@@ -1369,7 +1365,7 @@
 
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel52" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel52" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoEntranteCanje" EventName="SelectedIndexChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalTipoCambio" EventName="TextChanged" />
@@ -1377,14 +1373,14 @@
                                                     <ContentTemplate>
                                                         <asp:Textbox ID="txtModalNavEntrante" CssClass="form-control dbs-entero20-decimal6" runat="server" onpaste="return false" oncut="return false" oncopy="return false" onchange="validarValorEntrante()" OnTextChanged="calcularFactor" AutoPostBack="true"></asp:Textbox>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                             <div class="col-md-2">
                                                 <label class="form-control-label">Nav (CLP)</label>
 
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel53" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel53" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalNavEntrante" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalCuotaSaliente" EventName="TextChanged" />
@@ -1394,7 +1390,7 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtModalNavCLPEntrante" CssClass="form-control dbs-entero20-decimal4" runat="server"></asp:TextBox>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                         </div>
                                         <div class="row mt-2">
@@ -1403,7 +1399,7 @@
 
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel54" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel54" updatemode="Conditional">
                                                     <Triggers>                                                        
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalCuotaSaliente" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalMontoSaliente" EventName="TextChanged" />
@@ -1414,7 +1410,7 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtModalMontoEntrante" CssClass="form-control dbs-entero20-decimal2" runat="server"></asp:TextBox>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                             <div class="col-md-2">
@@ -1422,7 +1418,7 @@
 
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel55" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel55" updatemode="Conditional">
                                                     <Triggers>                                                        
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalTipoCambio" EventName="TextChanged" />
                                                         <asp:AsyncPostBackTrigger ControlID="txtModalMontoSaliente" EventName="TextChanged" />
@@ -1433,16 +1429,16 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtModalMontoCLPEntrante" CssClass="form-control dbs-entero20-decimal2" runat="server"></asp:TextBox>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
-                                         </div>   
+                                        </div>
                                         <div class="row mt-2">
                                             <div class="col-md-2">
                                                 <label class="form-control-label">Fecha Observado</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel34" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel34" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="lnkbtnModalFechaObservado" EventName="click" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSalienteCanje" EventName="SelectedIndexChanged" />
@@ -1460,16 +1456,15 @@
                                                         <asp:LinkButton ID="lnkbtnModalFechaObservado" Class="btn btn-secondary mt-1 btn-sm w-100" runat="server" Visible="false">Elegir Fecha</asp:LinkButton>
                                                         <span id="reqtxtModalFechaObservado" class="reqError"></span>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                             <div class="col-md-2">
-                                                
                                             </div>
                                             <div class="col-md-4">
                                             </div>
                                         </div>
-                                    
-                                </div>
+
+                                    </div>
                                 </div>
 
 
@@ -1485,7 +1480,7 @@
                                                 <label class="form-control-label">Fecha Actual</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel57" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel57" updatemode="Conditional">
                                                     <Triggers>
 
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSalienteCanje" EventName="SelectedIndexChanged" />
@@ -1493,20 +1488,20 @@
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtModalFechaCuotaDCV" runat="server" CssClass="form-control" ReadOnly="True"></asp:TextBox>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                             <div class="col-md-2">
                                                 <label class="form-control-label">Cuotas DCV</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel58" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel58" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSalienteCanje" EventName="SelectedIndexChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtModalCuotaDCV" CssClass="form-control dbs-entero18-decimal0" runat="server" ReadOnly="True"></asp:TextBox>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                         </div>
@@ -1516,28 +1511,28 @@
 
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel59" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel59" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSalienteCanje" EventName="SelectedIndexChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtModalRescateTransito" CssClass="form-control dbs-entero10-decimal0" runat="server"></asp:TextBox>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                             <div class="col-md-2">
                                                 <label class="form-control-label">Canjes</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel60" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel60" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSalienteCanje" EventName="SelectedIndexChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtModalCanjeTransito" CssClass="form-control dbs-entero10-decimal0" runat="server"></asp:TextBox>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                         </div>
@@ -1548,27 +1543,27 @@
 
                                             </div>
                                             <div class="col-md-3">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel61" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel61" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSalienteCanje" EventName="SelectedIndexChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtModalSuscripcionTransito" CssClass="form-control dbs-entero10-decimal0" runat="server"></asp:TextBox>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                             <div class="col-md-2">
                                                 <label class="form-control-label">Cuotas Disponibles</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel62" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel62" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSalienteCanje" EventName="SelectedIndexChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:TextBox ID="txtModalCuotasDisponibles" CssClass="form-control dbs-entero18-decimal0" runat="server"></asp:TextBox>
                                                     </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
 
                                             </div>
                                         </div>
@@ -1581,24 +1576,24 @@
                                                 <label class="form-control-label">Tipo Cambio</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:UpdatePanel runat="server" ID="UpdatePanel63" UpdateMode="Conditional">
+                                                <asp:updatepanel runat="server" id="UpdatePanel63" updatemode="Conditional">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoSalienteCanje" EventName="SelectedIndexChanged" />
                                                     </Triggers>
                                                     <ContentTemplate>
                                                         <asp:Textbox ID="txtModalTipoCambio" CssClass="form-control dbs-entero20-decimal6" runat="server" onpaste="return false" oncut="return false" OnTextChanged="cambioTC" AutoPostBack="true"></asp:Textbox>
                                                            </ContentTemplate>
-                                                </asp:UpdatePanel>
+                                                </asp:updatepanel>
                                             </div>
                                             <div class="col-md-2">
                                                 <label class="form-control-label">Contrato</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:DropDownList ID="ddlModalContrato" CssClass="form-control js-select2-rut" runat="server">
+                                                <asp:dropdownlist id="ddlModalContrato" cssclass="form-control js-select2-rut" runat="server">
                                                     <asp:ListItem Value="">Seleccione una opción</asp:ListItem>
                                                     <asp:ListItem Value="OK">OK</asp:ListItem>
                                                     <asp:ListItem Value="No OK">No OK</asp:ListItem>
-                                                </asp:DropDownList>
+                                                </asp:dropdownlist>
                                             </div>
                                         </div>
                                         <div class="row mt-2">
@@ -1606,21 +1601,21 @@
                                                 <label class="form-control-label">Estado</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:DropDownList ID="ddlModalEstado" CssClass="form-control js-select2-rut" runat="server">
+                                                <asp:dropdownlist id="ddlModalEstado" cssclass="form-control js-select2-rut" runat="server">
                                                     <asp:ListItem Value="">Seleccione una opción</asp:ListItem>
                                                     <asp:ListItem Value="Pendiente">Pendiente</asp:ListItem>
                                                     <asp:ListItem Value="Cerrado">Cerrado</asp:ListItem>
-                                                </asp:DropDownList>
+                                                </asp:dropdownlist>
                                             </div>
                                             <div class="col-md-2">
                                                 <label class="form-control-label">Poderes</label>
                                             </div>
                                             <div class="col-md-4">
-                                                <asp:DropDownList ID="ddlModalPoderes" CssClass="form-control js-select2-rut" runat="server">
+                                                <asp:dropdownlist id="ddlModalPoderes" cssclass="form-control js-select2-rut" runat="server">
                                                     <asp:ListItem Value="">Seleccione una opción</asp:ListItem>
                                                     <asp:ListItem Value="OK">OK</asp:ListItem>
                                                     <asp:ListItem Value="No OK">No OK</asp:ListItem>
-                                                </asp:DropDownList>
+                                                </asp:dropdownlist>
                                             </div>
                                         </div>
                                         <div class="row mt-2">
@@ -1629,7 +1624,7 @@
 
                                             </div>
                                             <div class="col-md-9">
-                                                <asp:TextBox ID="txtModalObservaciones" CssClass="form-control" runat="server" TextMode="MultiLine"></asp:TextBox>
+                                                <asp:textbox id="txtModalObservaciones" cssclass="form-control" runat="server" textmode="MultiLine"></asp:textbox>
                                             </div>
                                         </div>
                                         <div class="row mt-2">
@@ -1638,7 +1633,7 @@
 
                                             </div>
                                             <div class="col-md-9">
-                                                <asp:TextBox ID="txtIdCanje" CssClass="form-control" runat="server" ReadOnly="true"></asp:TextBox>
+                                                <asp:textbox id="txtIdCanje" cssclass="form-control" runat="server" readonly="true"></asp:textbox>
                                             </div>
                                         </div>
                                     </div>
@@ -1653,8 +1648,8 @@
                             <!-- GRUPO DE BOTONES 2 -->
                             <div class="form-group mt-5 text-right">
                                 <div class="col-md-offset-1">
-                                    <asp:Button ID="btnModalModificarCanje" Text="Modificar" CssClass="btn btn-info w-25" runat="server" OnClientClick="if (!confirm('¿Seguro que desea guardar los elementos cambios?')) return false;"></asp:Button>
-                                    <asp:Button ID="btnModalCancelarCanje" Text="Cancelar" CssClass="btn btn-secondary w-25" Width="15%" runat="server" OnClientClick="if (!confirm('¿Seguro que desea Cancelar?')) return false;"></asp:Button>
+                                    <asp:button id="btnModalModificarCanje" text="Modificar" cssclass="btn btn-info w-25" runat="server" onclientclick="if (!confirm('¿Seguro que desea guardar los elementos cambios?')) return false;"></asp:button>
+                                    <asp:button id="btnModalCancelarCanje" text="Cancelar" cssclass="btn btn-secondary w-25" width="15%" runat="server" onclientclick="if (!confirm('¿Seguro que desea Cancelar?')) return false;"></asp:button>
                                 </div>
                             </div>
                             <!-- FIN GRUPO DE BOTONES 2 -->
@@ -1671,8 +1666,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        <asp:Label ID="Label30" runat="server" Text="Formulario - Rescates" Font-Bold="true" Font-Size="X-Large">
-                        </asp:Label>
+                        <asp:label id="Label30" runat="server" text="Formulario - Rescates" font-bold="true" font-size="X-Large">
+                        </asp:label>
                     </h4>
                     <button id="Button6" type="button" class="close" data-dismiss="modal" aria-label="Close" runat="server"><span aria-hidden="true">&times;</span></button>
                 </div>
@@ -1681,7 +1676,7 @@
                         <div class="card p-4">
                             <div class="row">
                                 <!-- FORMULARIO-->
-                                <asp:TextBox ID="txtIDRescate" runat="server" Visible="false"></asp:TextBox>
+                                <asp:textbox id="txtIDRescate" runat="server" visible="false"></asp:textbox>
 
                                 <div class="col-lg-6">
                                     <div class="card h-30 mt-0">
@@ -1692,7 +1687,7 @@
                                                     <label class="form-control-label">RUT Aportante</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel64" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel64" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreAportanteRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalMultifondoRescate" EventName="SelectedIndexChanged" />
@@ -1700,7 +1695,7 @@
                                                         <ContentTemplate>
                                                             <asp:DropDownList ID="ddlModalRutAportanteRescate" CssClass="form-control js-select2-rut" runat="server" OnSelectedIndexChanged="CargarNombreAportanteNemotecnicoPorRutAportanteModal" AutoPostBack="true" />
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -1708,7 +1703,7 @@
                                                     <label class="form-control-label">Nombre Aportante</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel65" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel65" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutAportanteRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalMultifondoRescate" EventName="SelectedIndexChanged" />
@@ -1716,7 +1711,7 @@
                                                         <ContentTemplate>
                                                             <asp:DropDownList ID="ddlModalNombreAportanteRescate" CssClass="form-control js-select2-rut" runat="server" OnSelectedIndexChanged="CargarRutAportanteNemotecnicoPorNombreAportanteModal" AutoPostBack="true" />
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -1724,7 +1719,7 @@
                                                     <label class="form-control-label">Multifondo</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel66" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel66" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutAportanteRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreAportanteRescate" EventName="SelectedIndexChanged" />
@@ -1732,7 +1727,7 @@
                                                         <ContentTemplate>
                                                             <asp:DropDownList ID="ddlModalMultifondoRescate" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="true" />
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -1740,7 +1735,7 @@
                                                     <label class="form-control-label">Nombre Serie</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel67" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel67" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoRescate" EventName="SelectedIndexChanged" />
@@ -1749,7 +1744,7 @@
                                                             <asp:TextBox ID="txtModalNombreSerie" runat="server" CssClass="form-control form-control-sm"></asp:TextBox>
 
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
 
@@ -1758,7 +1753,7 @@
                                                     <label class="form-control-label">Cuotas</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel68" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel68" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalNAV" EventName="TextChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalMonto" EventName="TextChanged" />
@@ -1768,7 +1763,7 @@
                                                         <ContentTemplate>
                                                             <asp:TextBox ID="txtModalCuota" runat="server" CssClass="form-control dbs-entero-decimal" onkeypress="return soloNumeros(event)"></asp:TextBox>
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -1776,7 +1771,7 @@
                                                     <label class="form-control-label">Moneda de Pago</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel69" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel69" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondoRescate" EventName="SelectedIndexChanged" />
@@ -1788,7 +1783,7 @@
                                                                 <asp:ListItem Value="CLP">CLP</asp:ListItem>
                                                             </asp:DropDownList>
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -1796,7 +1791,7 @@
                                                     <label class="form-control-label">TC Observado</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel70" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel70" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondoRescate" EventName="SelectedIndexChanged" />
@@ -1808,7 +1803,7 @@
                                                         <ContentTemplate>
                                                             <asp:TextBox ID="txtModalTCObservado" runat="server" CssClass="form-control dbs-entero20-decimal6" OnTextChanged="tcrescateschanged" AutoPostBack="true"></asp:TextBox>
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                         </div>
@@ -1823,7 +1818,7 @@
                                                     <label class="form-control-label">Fecha de Solicitud</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel71" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel71" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondoRescate" EventName="SelectedIndexChanged" />
@@ -1840,7 +1835,7 @@
                                                                 <TodayDayStyle BackColor="#CCCCCC" />
                                                             </asp:Calendar>
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -1848,7 +1843,7 @@
                                                     <label class="form-control-label">Fecha de NAV</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel72" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel72" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondoRescate" EventName="SelectedIndexChanged" />
@@ -1866,7 +1861,7 @@
                                                             </asp:Calendar>
                                                             <asp:LinkButton ID="lnkBtnModalFechaNAV" class="btn btn-secondary mt-1 btn-sm w-100" runat="server" Visible="false">Elegir Fecha NAV</asp:LinkButton>
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -1874,7 +1869,7 @@
                                                     <label class="form-control-label">Fecha de Pago</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel73" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel73" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondoRescate" EventName="SelectedIndexChanged" />
@@ -1892,7 +1887,7 @@
                                                             </asp:Calendar>
                                                             <asp:LinkButton ID="lnkBtnModalFechaPago" class="btn btn-secondary mt-1 btn-sm w-100" runat="server" Visible="false">Elegir Fecha Pago</asp:LinkButton>
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -1900,7 +1895,7 @@
                                                     <label class="form-control-label">Fecha de TC Obs</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel74" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel74" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondoRescate" EventName="SelectedIndexChanged" />
@@ -1918,7 +1913,7 @@
                                                             </asp:Calendar>
                                                             <asp:LinkButton ID="lnkBtnModalFechaTCObs" class="btn btn-secondary mt-1 btn-sm w-100" runat="server" Visible="false">Elegir Fecha TC</asp:LinkButton>
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -1926,7 +1921,7 @@
                                                     <label class="form-control-label">Monto</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel75" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel75" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalCuota" EventName="TextChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalNAV" EventName="TextChanged" />
@@ -1938,7 +1933,7 @@
                                                         <ContentTemplate>
                                                             <asp:TextBox ID="txtModalMonto" runat="server" CssClass="form-control dbs-entero14-decimal2" OnTextChanged="CargarCuotasModalRescate" AutoPostBack="true"></asp:TextBox>
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -1946,7 +1941,7 @@
                                                     <label class="form-control-label">Monto (CLP)</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel76" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel76" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalCuota" EventName="TextChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalNAV" EventName="TextChanged" />
@@ -1960,7 +1955,7 @@
                                                         <ContentTemplate>
                                                             <asp:TextBox ID="txtModalMontoCLP" runat="server" CssClass="form-control dbs-entero14-decimal2" AutoPostBack="true"></asp:TextBox>
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -1968,11 +1963,11 @@
                                                     <label class="form-control-label">Contrato</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="Dropdownlist7" CssClass="form-control js-select2-rut" runat="server" Enabled="false">
+                                                    <asp:dropdownlist id="Dropdownlist7" cssclass="form-control js-select2-rut" runat="server" enabled="false">
                                                         <asp:ListItem Value=""></asp:ListItem>
                                                         <asp:ListItem Value="OK">OK</asp:ListItem>
                                                         <asp:ListItem Value="NO OK">NO OK</asp:ListItem>
-                                                    </asp:DropDownList>
+                                                    </asp:dropdownlist>
                                                 </div>
                                             </div>
                                         </div>
@@ -1987,7 +1982,7 @@
                                                     <label class="form-control-label">Patrimonio</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:TextBox ID="txtModalPatrimonio" runat="server" CssClass="form-control dbs-entero15-decimal4" ReadOnly="True"></asp:TextBox>
+                                                    <asp:textbox id="txtModalPatrimonio" runat="server" cssclass="form-control dbs-entero15-decimal4" readonly="True"></asp:textbox>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -1995,7 +1990,7 @@
                                                     <label class="form-control-label">Porcentaje %</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel77" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel77" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondoRescate" EventName="SelectedIndexChanged" />
@@ -2004,7 +1999,7 @@
                                                         <ContentTemplate>
                                                             <asp:TextBox ID="txtModalPorcentaje" runat="server" CssClass="form-control form-control-sm" ReadOnly="True"></asp:TextBox>
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -2012,7 +2007,7 @@
                                                     <label class="form-control-label">Rescate Max</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:TextBox ID="txtModalRescateMax" runat="server" CssClass="form-control dbs-entero14-decimal4" ReadOnly="True"></asp:TextBox>
+                                                    <asp:textbox id="txtModalRescateMax" runat="server" cssclass="form-control dbs-entero14-decimal4" readonly="True"></asp:textbox>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -2020,7 +2015,7 @@
                                                     <label class="form-control-label">Utilizado</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:TextBox ID="txtModalUtilizado" runat="server" CssClass="form-control dbs-entero14-decimal4" ReadOnly="True"></asp:TextBox>
+                                                    <asp:textbox id="txtModalUtilizado" runat="server" cssclass="form-control dbs-entero14-decimal4" readonly="True"></asp:textbox>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -2028,7 +2023,7 @@
                                                     <label class="form-control-label">Disponibles</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:TextBox ID="txtModalDisponibles" runat="server" CssClass="form-control dbs-entero14-decimal4" ReadOnly="True"></asp:TextBox>
+                                                    <asp:textbox id="txtModalDisponibles" runat="server" cssclass="form-control dbs-entero14-decimal4" readonly="True"></asp:textbox>
                                                 </div>
                                             </div>
                                         </div>
@@ -2047,7 +2042,7 @@
                                                     <label class="form-control-label">RUT Fondo</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel78" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel78" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoRescate" EventName="SelectedIndexChanged" />
@@ -2055,7 +2050,7 @@
                                                         <ContentTemplate>
                                                             <asp:DropDownList ID="ddlModalRutFondoRescate" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="true" />
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -2063,7 +2058,7 @@
                                                     <label class="form-control-label">Nombre Fondo</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel79" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel79" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoRescate" EventName="SelectedIndexChanged" />
@@ -2071,7 +2066,7 @@
                                                         <ContentTemplate>
                                                             <asp:DropDownList ID="ddlModalNombreFondoRescate" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="true" />
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
 
@@ -2080,7 +2075,7 @@
                                                     <label class="form-control-label">Nemotécnico</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondoRescate" EventName="SelectedIndexChanged" />
@@ -2088,7 +2083,7 @@
                                                         <ContentTemplate>
                                                             <asp:DropDownList ID="ddlModalNemotecnicoRescate" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="true" />
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -2096,7 +2091,7 @@
                                                     <label class="form-control-label">Moneda Serie</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel80" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel80" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoRescate" EventName="SelectedIndexChanged" />
@@ -2105,7 +2100,7 @@
                                                             <%--<asp:DropDownList ID="ddlModalMonedaSerie" CssClass="form-control js-select2-rut" runat="server" />--%>
                                                             <asp:TextBox ID="txtModalMonedaSerie" runat="server" CssClass="form-control form-control-sm"></asp:TextBox>
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -2113,7 +2108,7 @@
                                                     <label class="form-control-label">NAV</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel81" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel81" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoRescate" EventName="SelectedIndexChanged" />
@@ -2125,7 +2120,7 @@
                                                         <ContentTemplate>
                                                             <asp:TextBox ID="txtModalNAV" runat="server" CssClass="form-control dbs-entero14-decimal6" OnTextChanged="CargarMontoModal" AutoPostBack="true"></asp:TextBox>
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -2133,7 +2128,7 @@
                                                     <label class="form-control-label">NAV (CLP)</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel88" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel88" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondoRescate" EventName="SelectedIndexChanged" />
@@ -2148,7 +2143,7 @@
                                                         <ContentTemplate>
                                                             <asp:TextBox ID="txtModalNAV_CLP" runat="server" CssClass="form-control dbs-entero14-decimal4" Enabled="false"></asp:TextBox>
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -2156,11 +2151,11 @@
                                                     <label class="form-control-label">Poderes</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="Dropdownlist9" CssClass="form-control js-select2-rut" runat="server" Enabled="false">
+                                                    <asp:dropdownlist id="Dropdownlist9" cssclass="form-control js-select2-rut" runat="server" enabled="false">
                                                         <asp:ListItem Value=""></asp:ListItem>
                                                         <asp:ListItem Value="OK">OK</asp:ListItem>
                                                         <asp:ListItem Value="NO OK">NO OK</asp:ListItem>
-                                                    </asp:DropDownList>
+                                                    </asp:dropdownlist>
                                                 </div>
                                             </div>
                                         </div>
@@ -2175,7 +2170,7 @@
                                                     <label class="form-control-label">Fecha DCV</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel82" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel82" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondoRescate" EventName="SelectedIndexChanged" />
@@ -2194,7 +2189,7 @@
                                                                 <TodayDayStyle BackColor="#CCCCCC" />
                                                             </asp:Calendar>
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -2202,10 +2197,10 @@
                                                     <label class="form-control-label">Estado</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:DropDownList ID="Dropdownlist10" CssClass="form-control js-select2-rut" runat="server" Enabled="false">
+                                                    <asp:dropdownlist id="Dropdownlist10" cssclass="form-control js-select2-rut" runat="server" enabled="false">
                                                         <asp:ListItem Value="Pendiente">PENDIENTE</asp:ListItem>
                                                         <asp:ListItem Value="Cerrado">CERRADO</asp:ListItem>
-                                                    </asp:DropDownList>
+                                                    </asp:dropdownlist>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -2213,7 +2208,7 @@
                                                     <label class="form-control-label">Observaciones</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:TextBox ID="Textbox2" runat="server" CssClass="form-control form-control-sm" Enabled="false"></asp:TextBox>
+                                                    <asp:textbox id="Textbox2" runat="server" cssclass="form-control form-control-sm" enabled="false"></asp:textbox>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -2221,7 +2216,7 @@
                                                     <label class="form-control-label">Fijación NAV</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel83" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel83" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnicoRescate" EventName="SelectedIndexChanged" />
@@ -2230,7 +2225,7 @@
                                                         <ContentTemplate>
                                                             <asp:TextBox ID="txtModalFijacionNAV" runat="server" CssClass="form-control form-control-sm" ReadOnly="True"></asp:TextBox>
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -2238,7 +2233,7 @@
                                                     <label class="form-control-label">Fijacion TC Obs</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel84" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel84" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondoRescate" EventName="SelectedIndexChanged" />
@@ -2249,7 +2244,7 @@
                                                         <ContentTemplate>
                                                             <asp:TextBox ID="txtModalFijacionTCObs" runat="server" CssClass="form-control form-control-sm" ReadOnly="True"></asp:TextBox>
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                         </div>
@@ -2264,7 +2259,7 @@
                                                     <label class="form-control-label">Cuotas DCV</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel85" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel85" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondoRescate" EventName="SelectedIndexChanged" />
@@ -2273,7 +2268,7 @@
                                                         <ContentTemplate>
                                                             <asp:TextBox ID="txtModalCuotasDVC" runat="server" CssClass="form-control dbs-entero26-decimal0" ReadOnly="True"></asp:TextBox>
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -2281,7 +2276,7 @@
                                                     <label class="form-control-label">Rescates</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel86" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel86" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondoRescate" EventName="SelectedIndexChanged" />
@@ -2290,7 +2285,7 @@
                                                         <ContentTemplate>
                                                             <asp:TextBox ID="txtModalRescates" runat="server" CssClass="form-control dbs-entero18-decimal0" ReadOnly="True"></asp:TextBox>
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -2298,7 +2293,7 @@
                                                     <label class="form-control-label">Suscripciones</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:TextBox ID="txtModalSuscripciones" runat="server" CssClass="form-control dbs-entero18-decimal0" ReadOnly="True"></asp:TextBox>
+                                                    <asp:textbox id="txtModalSuscripciones" runat="server" cssclass="form-control dbs-entero18-decimal0" readonly="True"></asp:textbox>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -2306,7 +2301,7 @@
                                                     <label class="form-control-label">Canje</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:TextBox ID="txtModalCanje" runat="server" CssClass="form-control dbs-entero18-decimal0" ReadOnly="True"></asp:TextBox>
+                                                    <asp:textbox id="txtModalCanje" runat="server" cssclass="form-control dbs-entero18-decimal0" readonly="True"></asp:textbox>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -2314,7 +2309,7 @@
                                                     <label class="form-control-label">Disponibles</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <asp:UpdatePanel runat="server" ID="UpdatePanel87" UpdateMode="Conditional">
+                                                    <asp:updatepanel runat="server" id="UpdatePanel87" updatemode="Conditional">
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondoRescate" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondoRescate" EventName="SelectedIndexChanged" />
@@ -2323,7 +2318,7 @@
                                                         <ContentTemplate>
                                                             <asp:TextBox ID="txtModalDisponiblesCuotasDisponibles" runat="server" CssClass="form-control dbs-entero18-decimal0" ReadOnly="True"></asp:TextBox>
                                                         </ContentTemplate>
-                                                    </asp:UpdatePanel>
+                                                    </asp:updatepanel>
                                                 </div>
                                             </div>
                                         </div>
@@ -2336,8 +2331,8 @@
                             <!-- GRUPO DE BOTONES 2 -->
                             <div class="form-group mt-5 text-right">
                                 <div class="col-md-offset-1">
-                                    <asp:Button ID="btnModalModificarRastreo" Text="Modificar" CssClass="btn btn-info w-25" runat="server"></asp:Button>
-                                    <asp:Button ID="btnCancelarModalRescates" Text="Cancelar" CssClass="btn btn-secondary w-25" Width="15%" runat="server" OnClientClick="if (!confirm('¿Seguro que desea Cancelar?')) return false;"></asp:Button>
+                                    <asp:button id="btnModalModificarRastreo" text="Modificar" cssclass="btn btn-info w-25" runat="server"></asp:button>
+                                    <asp:button id="btnCancelarModalRescates" text="Cancelar" cssclass="btn btn-secondary w-25" width="15%" runat="server" onclientclick="if (!confirm('¿Seguro que desea Cancelar?')) return false;"></asp:button>
                                 </div>
                             </div>
                             <!-- FIN GRUPO DE BOTONES 2 -->
@@ -2354,21 +2349,21 @@
             <div class="modal-content text-center">
                 <div class="modal-header mx-auto">
                     <h4 class="modal-title">
-                        <asp:Image ID="img_modal" ImageUrl="~/Img/info1.png" runat="server" Width="130" Height="50" />
-                        <asp:Label ID="lblModalTitle" runat="server" Text="" Font-Bold="true" Font-Size="X-Large">
-                        </asp:Label>
+                        <asp:image id="img_modal" imageurl="~/Img/info1.png" runat="server" width="130" height="50" />
+                        <asp:label id="lblModalTitle" runat="server" text="" font-bold="true" font-size="X-Large">
+                        </asp:label>
                     </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <asp:Label ID="lblModalBody" runat="server" Font-Size="X-Large" Text=""></asp:Label>
+                    <asp:label id="lblModalBody" runat="server" font-size="X-Large" text=""></asp:label>
                     <br>
                     <br />
-                    <asp:HyperLink ID="Archivo" runat="server"></asp:HyperLink>
+                    <asp:hyperlink id="Archivo" runat="server"></asp:hyperlink>
                     <div class="text-center">
-                        <asp:Image ID="img_body_modal" runat="server" ImageUrl="~/Img/important.png" Width="100" Height="100" />
+                        <asp:image id="img_body_modal" runat="server" imageurl="~/Img/important.png" width="100" height="100" />
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -2398,8 +2393,8 @@
         </div>
     </div>
 
-    <asp:HiddenField ID="HiddenPerfil" runat="server" />
-    <asp:HiddenField ID="HiddenConstante" runat="server" />
+    <asp:hiddenfield id="HiddenPerfil" runat="server" />
+    <asp:hiddenfield id="HiddenConstante" runat="server" />
 
 
 </asp:Content>
@@ -2428,14 +2423,14 @@
                 changeFechas($("[id*=txtNAVDesde]"), $("[id*=txtNAVHasta]"), 2)
             });
 
-             $("[id*=txtFechaTCDesde]").change(function () {
+            $("[id*=txtFechaTCDesde]").change(function () {
                 changeFechas($("[id*=txtFechaTCDesde]"), $("[id*=txtFechaTCHasta]"), 1)
             });
             $("[id*=txtFechaTCHasta]").change(function () {
                 changeFechas($("[id*=txtFechaTCDesde]"), $("[id*=txtFechaTCHasta]"), 2)
             });
 
-             $("[id*=txtFechaPagoDesde]").change(function () {
+            $("[id*=txtFechaPagoDesde]").change(function () {
                 changeFechas($("[id*=txtFechaPagoDesde]"), $("[id*=txtFechaPagoHasta]"), 1)
             });
             $("[id*=txtFechaPagoHasta]").change(function () {
@@ -2462,13 +2457,13 @@
                             $(".btnmodificar").prop('disabled', false);
                             $(".BtnFijarNav").prop('disabled', false);
                             $(".BtnTCObs").prop('disabled', false);
-                             $(".btnImprimir").prop('disabled', false);
+                            $(".btnImprimir").prop('disabled', false);
                         }
                         else {
                             $(".btnmodificar").prop('disabled', true);
                             $(".BtnFijarNav").prop('disabled', true);
                             $(".BtnTCObs").prop('disabled', true);
-                             $(".btnImprimir").prop('disabled', true);
+                            $(".btnImprimir").prop('disabled', true);
 
                         }
                     }
@@ -2506,24 +2501,24 @@
                 seteaBotonFijacionTC();
                 seteaBotonModificar();
 
-                 //Sys.WebForms.PageRequestManager.getInstance().add_endRequest(bindDataTable);
+                //Sys.WebForms.PageRequestManager.getInstance().add_endRequest(bindDataTable);
             }
-        });        
+        });
 
-         function bindDataTable() {
+        function bindDataTable() {
             $(".js-select2-rut").select2({
                 templateResult: formatState,
                 placeholder: 'Selecciona una opción'
             });
 
-             confNumeros();
+            confNumeros();
         };
 
-        function confNumeros() {            
+        function confNumeros() {
             $('.dbs-entero20-decimal6').mask2(getMask(20, 6));
-            $('.dbs-entero17-decimal9').mask2(getMask(17, 9));            
+            $('.dbs-entero17-decimal9').mask2(getMask(17, 9));
             $('.dbs-entero18-decimal0').mask2(getMask(18, 0));
-            $('.dbs-entero13-decimal0').mask2(getMask(13, 0)); 
+            $('.dbs-entero13-decimal0').mask2(getMask(13, 0));
             $('.dbs-entero10-decimal0').mask2(getMask(10, 0));
             $('.dbs-entero28-decimal12').mask2(getMask(16, 12));
             $('.dbs-entero14-decimal4').mask2(getMask(14, 4));
@@ -2535,7 +2530,7 @@
             $('.dbs-entero20-decimal0').mask2(getMask(20, 0));
             $('.dbs-entero14-decimal6').mask2(getMask(14, 6));
 
-        }   
+        }
 
         function noPuntoComa(event) {
             var e = event || window.event;
@@ -2632,14 +2627,18 @@
             btnModificar.disabled = newValue;
             BtnFijarNav.disabled = newValue;
             BtnTCObs.disabled = newValue;
-            btnImprimir.disabled = newValue; 
+            btnImprimir.disabled = newValue;
         }
 
         function checkRadioBtn(id) {
             var gv = document.getElementById('<%=GrvTabla.ClientID %>');
+            var flag = false
             if (gv != null) {
                 for (var i = 1; i < gv.rows.length; i++) {
                     var radioBtn = gv.rows[i].cells[0].getElementsByTagName("input");
+                    if (radioBtn[0].checked) {
+                        flag = true;
+                    }
                     // Check if the id not same
                     if (radioBtn[0].id != id.id) {
                         //radioBtn[0].checked = false;
@@ -2651,6 +2650,8 @@
                     }
                 }
             }
+            var btnImprimir = document.getElementById('<%=btnImprimir.ClientID%>');
+            btnImprimir.disabled = !(flag);
         }
         function isPerfilConsulta() {
             var HiddenPerfil = $("#<%=HiddenPerfil.ClientID %>").val();

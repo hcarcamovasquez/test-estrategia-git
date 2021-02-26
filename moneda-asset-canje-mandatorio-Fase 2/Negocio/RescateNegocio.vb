@@ -248,8 +248,10 @@ Public Class RescateNegocio
 
         ventanRescateReturn = negocioVentanaRescate.SelectFechasNORescatable(ventanRescate)
 
-        If ventanRescateReturn.FN_RUT = Nothing Then
-
+        If ventanRescateReturn Is Nothing Then
+            Return False
+        Else
+            Return True
         End If
     End Function
 End Class

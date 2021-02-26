@@ -154,6 +154,8 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         Dim ValorNAVSeleccionado As Decimal
         Dim Fijado As String
 
+        Dim listaMensajes As List(Of String) = New List(Of String)
+
         For Each row As GridViewRow In GrvTabla.Rows
             Dim chk As CheckBox = row.Cells(0).Controls(1)
             If chk IsNot Nothing And chk.Checked Then
@@ -183,11 +185,9 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                                 TipoFijacionNAV = SerieActualizado.FijacionSuscripcion
                             Case "rescate"
                                 TipoFijacionNAV = SerieActualizado.FijacionNav
-
                             Case Else
                                 TipoFijacionNAV = Nothing
                         End Select
-
                     Else
                         TipoFijacionNAV = Nothing
                     End If
@@ -254,6 +254,12 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                                             CantidadNOFijados = CantidadNOFijados + 1
                                         Else
 
+
+                                            'SI EXCEDE; GENERAR ADVERTENCIA
+                                            If ControlValidacionPatrimonioAutomatico(RescateSeleccionado) Then
+                                                listaMensajes.Add("Los rescates no cumplen con el maximo del patrimonio")
+                                            End If
+
                                             If MonedaSerieSeleccionado = "CLP" Then
                                                 'Recalcula y Manda a Actualizar cuando Moneda es CLP
                                                 ValorNAVActualizado = ValorNAVSeleccionado
@@ -287,6 +293,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                                                 NegocioRescates.RecalculoFijacionNAV(RescateActualizar)
                                                 negocioMod.UpdateFijacionNav(Fijacion.ID, Fijacion.TipoTransaccion)
                                             End If
+
                                         End If
                                     End If
 
@@ -515,12 +522,8 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             End If
         Next
 
+        MostrarMensaje(TransaccionesTotales, TransaccionesExitosas, TransaccionesNoExitosas, CantidadFijados, CantidadNOFijados, Mensaje, listaMensajes)
 
-        TransaccionesTotales = CantidadFijados + CantidadNOFijados
-        TransaccionesExitosas = CantidadFijados
-        TransaccionesNoExitosas = CantidadNOFijados
-
-        ShowAlert(" Transacciones Seleccionadas: " + CStr(TransaccionesTotales) + "\n Transacciones Fijadas: " + CStr(TransaccionesExitosas) + "\n Transacciones con error: " + CStr(TransaccionesNoExitosas) & "." & Mensaje)
         txtAccionHidden.Value = ""
         FormateoLimpiarForm()
         Me.GrvTabla.DataSource = Nothing
@@ -548,6 +551,8 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         Dim FechaTCObsSeleccionada As Date
         Dim TipoTransaccionSeleccionado As String
         Dim Fijado As String
+
+        Dim listaMensajes As List(Of String) = New List(Of String)
         'Dim ValorTCObsSeleccionado As Decimal
 
         For Each row As GridViewRow In GrvTabla.Rows
@@ -628,6 +633,11 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                                         ValorNAVSeleccionado = RescateSeleccionado.RES_Nav
                                         ValorNAV_CLPSeleccionado = RescateSeleccionado.RES_Nav_CLP
                                         RescateSeleccionado.TC_Valor = ValorTcObsSeleccionado
+
+                                        'SI EXCEDE PATRIMONIO GENERAR ALERTA
+                                        If ControlValidacionPatrimonioAutomatico(RescateSeleccionado) Then
+                                            listaMensajes.Add("Los rescates no cumplen con el maximo del patrimonio")
+                                        End If
 
                                         If MonedaSerieSeleccionado = "CLP" Then
                                             CantidadFijados = CantidadFijados + 1
@@ -861,17 +871,31 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
 
             End If
         Next
-        TransaccionesTotales = CantidadFijados + CantidadNOFijados
-        TransaccionesExitosas = CantidadFijados
-        TransaccionesNoExitosas = CantidadNOFijados
 
-        ShowAlert("Transacciones Seleccionadas: " + CStr(TransaccionesTotales) + " Transacciones Fijadas: " + CStr(TransaccionesExitosas) + " Transacciones con error: " + CStr(TransaccionesNoExitosas) & "." & Mensaje)
+        MostrarMensaje(TransaccionesTotales, TransaccionesExitosas, TransaccionesNoExitosas, CantidadFijados, CantidadNOFijados, Mensaje, listaMensajes)
         txtAccionHidden.Value = ""
         FormateoLimpiarForm()
         Me.GrvTabla.DataSource = Nothing
         GrvTabla.DataBind()
         findfijacion()
         'ShowMessages(CONST_TITULO_FIJACION, CONST_MODIFICAR_EXITO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_LOGO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_CORRECTO)
+    End Sub
+
+    Private Sub MostrarMensaje(ByRef TransaccionesTotales As Integer, ByRef TransaccionesExitosas As Integer, ByRef TransaccionesNoExitosas As Integer, CantidadFijados As Integer, CantidadNOFijados As Integer, Mensaje As String, listaMensajes As List(Of String))
+        Dim stringMensajes As String = ""
+        Dim stringAux As String = ""
+
+        If listaMensajes.Count() > 0 Then
+            stringAux = "\n\n ADVERTENCIA: Algunas transacciones exceden el patrimonio del fondo."
+        End If
+
+        TransaccionesTotales = CantidadFijados + CantidadNOFijados
+        TransaccionesExitosas = CantidadFijados
+        TransaccionesNoExitosas = CantidadNOFijados
+
+        stringMensajes = String.Format("Transacciones Seleccionadas: {0} \n Transacciones Fijadas: {1} \n Transacciones con error: {2} . {3} {4}", CStr(TransaccionesTotales), CStr(TransaccionesExitosas), CStr(TransaccionesNoExitosas), Mensaje, stringAux)
+
+        ShowAlert(stringMensajes)
     End Sub
 
     Protected Sub btnModificar_Click(sender As Object, e As EventArgs) Handles BtnModificar.Click
@@ -1080,6 +1104,10 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             If (txtModalTCObservado.Text = "0" Or txtModalNAV.Text = "0") Then
                 ShowAlert("Tc observado y NAV deben ser mayores a 0, por favor verifique")
             Else
+                If ControlValidacionPatrimonioManual() Then
+                    ShowAlert("transacción excede el patrimonio máximo del fondo")
+                End If
+
                 Dim negocioMod As FijacionNegocio = New FijacionNegocio
                 Dim IdRescate = txtIDRescate.Text
                 Dim TipoTransaccion = "Rescate"
@@ -1136,6 +1164,49 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
 
 
     End Sub
+
+    Private Function ControlValidacionPatrimonioManual() As Boolean
+        Dim rescate As RescatesDTO = New RescatesDTO()
+
+        rescate.RES_Fecha_Solicitud = txtModalFechaSolicitudRescate.Text
+        rescate.AP_RUT = ddlModalRutAportanteRescate.SelectedValue
+        rescate.AP_Multifondo = ddlModalMultifondoRescate.SelectedValue
+        rescate.FN_RUT = ddlModalRutFondoRescate.SelectedValue
+        rescate.FS_Moneda = txtModalMonedaSerie.Text
+        rescate.RES_Monto = 0
+
+        Return ControlValidacionPatrimonio(rescate)
+
+    End Function
+
+    Private Function ControlValidacionPatrimonioAutomatico(rescate As RescatesDTO) As Boolean
+        rescate.RES_Monto = 0
+
+        If ControlValidacionPatrimonio(rescate) Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
+    Private Function ControlValidacionPatrimonio(rescate As RescatesDTO) As Boolean
+        Dim negocioRescate As RescateNegocio = New RescateNegocio
+        Dim fondo As FondoDTO = New FondoDTO()
+        Dim negocioFondo As FondosNegocio = New FondosNegocio
+
+        fondo.Rut = rescate.FN_RUT
+        fondo = negocioFondo.GetFondo(fondo)
+
+        rescate.FN_Nombre_Corto = fondo.RazonSocial
+        rescate.FS_Nemotecnico = "" 'VERIFICAR SI DEBE APLICAR NEMOTECNICO DEL RESCATE A VALIDAR
+
+        If negocioRescate.ExisteVentana(rescate) Then
+            fondo.ControlTipoControl = "Ventana"
+            Return negocioRescate.ControlMontoRescateVsPatrimonio(rescate, fondo)
+        Else
+            Return False
+        End If
+    End Function
 
     Protected Sub BtnBuscar_Click(sender As Object, e As EventArgs) Handles BtnBuscar.Click
         findfijacion()

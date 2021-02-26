@@ -1820,7 +1820,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         If (negocioRescate.ControlMontoRescateVsPatrimonio(rescate, fondo)) Then
             If (fondo.ControlTipoDeConfiguracion = "Pago") Then
                 If (fondo.ControlTipoControl = "Movil") Then
-                    txtModalFechaSolicitud.Text = Utiles.SumaDiasAFechas(rescate.FS_Moneda, rescate.RES_Fecha_Solicitud, fondo.ControlCantidadDias, fondo.ControlDiasHabiles).ToString("dd/MM/yyyy")
+                    txtModalFechaSolicitud.Text = Utiles.SumaDiasAFechas(rescate.FS_Moneda, rescate.RES_Fecha_Solicitud, fondo.ControlCantidadDias, IIf(fondo.ControlDiasHabiles = 0, 0, 1)).ToString("dd/MM/yyyy")
                     CargarTodoCuandoCambiaFechaSolicitud()
                 ElseIf (fondo.ControlTipoControl = "Ventana") Then
                     'TODO: OBTENER FECHA SOLICITUD DE LA SIGUIETNE VENTANA
