@@ -111,7 +111,7 @@ Public Class WSRescates
 
     <WebMethod()>
     <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
-    Public Function ControlMontoRescateVsPatrimonio(rescate As RescatesDTO, fondo As FondoDTO) As Boolean
+    Public Function ControlMontoRescateVsPatrimonio(rescate As RescatesDTO, fondo As FondoDTO) As String
         Dim sp As New DBSqlServer.SqlServer.StoredProcedure("PRC_RescateControl")
         Dim ds As DataSet
         Try
@@ -121,10 +121,10 @@ Public Class WSRescates
             If ds.Tables.Count > 0 AndAlso ds.Tables(0).Rows.Count > 0 Then
                 Return ControlfillResultado(ds.Tables(0).Rows(0))
             Else
-                Return False
+                Return ""
             End If
         Catch ex As Exception
-            Return False
+            Return ""
         End Try
     End Function
 
@@ -160,7 +160,7 @@ Public Class WSRescates
         sp.AgregarParametro("monto", rescate.RES_Monto, System.Data.SqlDbType.Decimal)
     End Sub
 
-    Private Function ControlfillResultado(dataRow As DataRow) As Boolean
+    Private Function ControlfillResultado(dataRow As DataRow) As String
         Return dataRow("Resultado")
     End Function
 

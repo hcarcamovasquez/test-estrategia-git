@@ -1817,7 +1817,17 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         fondo.Rut = rescate.FN_RUT
         fondo = negocioFondo.GetFondo(fondo)
         rescate.FN_Nombre_Corto = fondo.RazonSocial
-        If (negocioRescate.ControlMontoRescateVsPatrimonio(rescate, fondo)) Then
+
+        Dim resultadoCalculo As String
+        Dim resultadoDisponible As Decimal
+        Dim resultado() As String = negocioRescate.ControlMontoRescateVsPatrimonio(rescate, fondo).Split(",")
+        resultadoCalculo = resultado(0)
+        resultadoDisponible = resultado(1)
+
+        txtModalUtilizado.Text = Utiles.SetToCapitalizedNumber(resultadoDisponible)
+        txtModalDisponibles.Text = Utiles.SetToCapitalizedNumber(Double.Parse(txtModalRescateMax.Text) - Double.Parse(txtModalUtilizado.Text))
+
+        If (resultadoCalculo) Then
             If (fondo.ControlTipoDeConfiguracion = "Pago") Then
                 If (fondo.ControlTipoControl = "Movil") Then
                     txtModalFechaSolicitud.Text = Utiles.SumaDiasAFechas(rescate.FS_Moneda, rescate.RES_Fecha_Solicitud, fondo.ControlCantidadDias, IIf(fondo.ControlDiasHabiles = 0, 0, 1)).ToString("dd/MM/yyyy")
@@ -1835,6 +1845,13 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                     End If
                 End If
                 ShowAlert("PORCENTAJE DE RESCATE SUPERADO, SE CAMBIO FECHA")
+
+                rescate.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
+                resultado = negocioRescate.ControlMontoRescateVsPatrimonio(rescate, fondo).Split(",")
+                resultadoDisponible = resultado(1)
+
+                txtModalUtilizado.Text = Utiles.SetToCapitalizedNumber(resultadoDisponible)
+                txtModalDisponibles.Text = Utiles.SetToCapitalizedNumber(Double.Parse(txtModalRescateMax.Text) - Double.Parse(txtModalUtilizado.Text))
                 Return True
             ElseIf (fondo.ControlTipoDeConfiguracion = "Prorrata") Then
                 ShowAlert("DEBE REALIZAR PRORRATA")
@@ -3661,14 +3678,16 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         ' txtModalFechaSolicitud.Text = Request.Form(txtModalFechaSolicitud.UniqueID)
         CargarTodoCuandoCambiaFechaSolicitud()
         CalcularMontos()
-        ControlMontoRescateVsPatrimonio()
     End Sub
 
     Protected Sub txtModalFechaSolicitud_TextChanged(sender As Object, e As EventArgs) Handles txtModalFechaSolicitud.TextChanged
         'txtModalFechaSolicitud.Text = Request.Form(txtModalFechaSolicitud.UniqueID)
         CargarTodoCuandoCambiaFechaSolicitud()
         CalcularMontos()
-        ControlMontoRescateVsPatrimonio()
+
+        If ddlModalRutAportante.Text <> "" And ddlModalNemotecnico.Text <> "" Then
+            ControlMontoRescateVsPatrimonio()
+        End If
     End Sub
 
     Private Sub txtModalFechaNAV_TextChanged(sender As Object, e As EventArgs) Handles txtModalFechaNAV.TextChanged
