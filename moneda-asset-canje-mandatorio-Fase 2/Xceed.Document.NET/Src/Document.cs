@@ -1368,8 +1368,8 @@ namespace Xceed.Document.NET
       // Check if each PackagePart pp exists in this document.
       foreach( PackagePart remote_pp in ppc )
       {
-        if( ignoreContentTypes.Contains( remote_pp.ContentType ) || _imageContentTypes.Contains( remote_pp.ContentType ) )
-          continue;
+       // if( ignoreContentTypes.Contains( remote_pp.ContentType ) || _imageContentTypes.Contains( remote_pp.ContentType ) )
+       //   continue;
 
         // If this external PackagePart already exits then we must merge them.
         if( _package.PartExists( remote_pp.Uri ) )

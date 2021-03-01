@@ -180,8 +180,11 @@ Public Class exportarWord
 
             For Each pair As KeyValuePair(Of Integer, List(Of FijacionDTO)) In listaDOcDVC
                 If pair.Value.Count() > 0 Then
+                    PlantillaWord = Nothing
+                    PlantillaWord = DocX.Load(TemplatePath)
 
                     firstTime = insertaPagina(document, PlantillaWord, firstTime)
+
                     Dim t As Table = document.Tables(numeroTabla)
 
                     bPrimero = True
@@ -189,6 +192,7 @@ Public Class exportarWord
                     Dim NewRow As Row
 
                     For Each transaccion As FijacionDTO In pair.Value
+
 
                         PatronDeFila = t.Rows(t.Rows.Count() - 1)
                         NewRow = t.InsertRow(PatronDeFila, t.RowCount - 1)
@@ -305,13 +309,14 @@ Public Class exportarWord
 
 
         If fijaciones.Count > 0 Then
-            Dim PlantillaWord = DocX.Load(TemplatePath)
+
             Dim document = DocX.Create(nombreOutput)
             Dim firstTime As Boolean = True
-            For Each fijacion As FijacionDTO In fijaciones
-                firstTime = insertaPagina(document, PlantillaWord, firstTime)
 
-                'document.InsertDocument(PlantillaWord, True)
+            For Each fijacion As FijacionDTO In fijaciones
+                Dim PlantillaWord As DocX = DocX.Load(TemplatePath)
+
+                firstTime = insertaPagina(document, PlantillaWord, firstTime)
 
                 If (tipoDeCarta.Equals("aporte")) Then
                     setColumnasAporte(document, fijacion)
