@@ -176,10 +176,12 @@ Public Class exportarWord
                 cantidadDeTablasASaltar = 1
             End If
 
+            Dim firstTime As Boolean = True
 
             For Each pair As KeyValuePair(Of Integer, List(Of FijacionDTO)) In listaDOcDVC
                 If pair.Value.Count() > 0 Then
-                    document.InsertDocument(PlantillaWord, True)
+
+                    firstTime = insertaPagina(document, PlantillaWord, firstTime)
                     Dim t As Table = document.Tables(numeroTabla)
 
                     bPrimero = True
@@ -205,6 +207,7 @@ Public Class exportarWord
                 End If
             Next
 
+
             If File.Exists(nombreOutput) Then
                 File.Delete(nombreOutput)
             End If
@@ -213,6 +216,16 @@ Public Class exportarWord
         End If
         Return nombreOutput + ".docx"
 
+    End Function
+
+    Private Shared Function insertaPagina(document As DocX, plantillaWord As DocX, firstTime As Boolean) As Boolean
+        If firstTime Then
+            document.InsertDocument(plantillaWord, False)
+            firstTime = False
+        Else
+            document.InsertDocument(plantillaWord, True)
+        End If
+        Return firstTime
     End Function
 
     Private Shared Function setColumnasDCVCanje(bPrimero As Boolean, document As DocX, newRow As Row, transaccion As FijacionDTO) As Boolean
@@ -294,10 +307,11 @@ Public Class exportarWord
         If fijaciones.Count > 0 Then
             Dim PlantillaWord = DocX.Load(TemplatePath)
             Dim document = DocX.Create(nombreOutput)
-
+            Dim firstTime As Boolean = True
             For Each fijacion As FijacionDTO In fijaciones
+                firstTime = insertaPagina(document, PlantillaWord, firstTime)
 
-                document.InsertDocument(PlantillaWord, True)
+                'document.InsertDocument(PlantillaWord, True)
 
                 If (tipoDeCarta.Equals("aporte")) Then
                     setColumnasAporte(document, fijacion)
@@ -353,7 +367,7 @@ Public Class exportarWord
             horaPago = "" + fijacion.ObjSuscripcion.FechaSuscripcion.ToString("HH:mm")
         End If
 
-        document.ReplaceText("[COLUMNA D]", "APORTE")
+        document.ReplaceText("[Columna D]", "APORTE")
         document.ReplaceText("[Columna C]", Utiles.FormatodeFecha(Date.Now())) ' Fecha generacion del documento 
 
         document.ReplaceText("[Columna X]", fechaPago)  ' Fecha de Solicitud

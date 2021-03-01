@@ -4030,6 +4030,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             End If
         End If
 
+        btnProrrotear.Enabled = (GrvTabla.Rows.Count <> 0)
 
     End Sub
 
