@@ -525,17 +525,24 @@
             }
 
             var cantDias = $('#<%=txtControlCantidadDias.ClientID%>').val();
-            if ((cantDias == "") || (cantDias > 30)) {
-                msgAlert('La cantidad de dias No debe exceder a 30');
+            var ddlControlTipoControl = document.getElementById('<%=ddlControlTipoControl.ClientID%>');
+            var txtControlDiasAVerificar = $('#<%=txtControlDiasAVerificar.ClientID%>').val();
+            var ddlControlTipoDeConfiguracion = document.getElementById('<%=ddlControlTipoDeConfiguracion.ClientID%>');
+
+            if (ddlControlTipoControl.value == "") {
+                msgAlert('Debe ingresar los valores de control');
                 return false;
             }
 
-            cantDias = $('#<%=txtControlDiasAVerificar.ClientID%>').val();
-            if ((cantDias == "") || (cantDias > 30)) {
-                msgAlert('La cantidad de dias No debe exceder a 30');
+            if (ddlControlTipoDeConfiguracion.value == "") {
+                msgAlert('Debe ingresar los valores de control');
                 return false;
             }
 
+            if ((cantDias == "") || (txtControlDiasAVerificar == "")) {
+                msgAlert('Debe ingresar los valores de control');
+                return false;
+            }
 
             if ($('#<%=txtCuotasEmitidas.ClientID %>').val() != "") {
                 if (!validarValorEmitidas()) {
