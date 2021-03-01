@@ -49,13 +49,14 @@ Public Class TipoCambioNegocio
     Public Function GetTipoCambio(TipoCambio As TipoCambioDTO) As TipoCambioDTO
         Dim TipoCambioRetorno As TipoCambioDTO
         Dim TipoCambioDatos As New Datos.TipoCambioDatos
+
+        TipoCambioRetorno = TipoCambioDatos.GetTipoCambio(TipoCambio)
+
         If TipoCambio.Codigo <> "CLP" Then
-            TipoCambioRetorno = TipoCambioDatos.GetTipoCambio(TipoCambio)
             Return TipoCambioRetorno
         Else
-
-            TipoCambio.Valor = 1
-            Return TipoCambio
+            TipoCambioRetorno.Valor = 1
+            Return TipoCambioRetorno
         End If
 
     End Function
