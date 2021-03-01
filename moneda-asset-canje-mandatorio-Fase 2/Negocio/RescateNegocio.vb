@@ -179,7 +179,7 @@ Public Class RescateNegocio
         Return True
     End Function
 
-    Public Function ControlMontoRescateVsPatrimonio(rescate As RescatesDTO, fondo As FondoDTO) As Boolean
+    Public Function ControlMontoRescateVsPatrimonio(rescate As RescatesDTO, fondo As FondoDTO) As String
         Dim datosRescate As RescateDatos = New RescateDatos()
         Return datosRescate.ControlMontoRescateVsPatrimonio(rescate, fondo)
     End Function

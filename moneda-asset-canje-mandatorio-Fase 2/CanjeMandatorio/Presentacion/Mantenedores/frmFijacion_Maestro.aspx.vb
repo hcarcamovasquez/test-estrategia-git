@@ -1202,7 +1202,13 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
 
         If negocioRescate.ExisteVentana(rescate) Then
             fondo.ControlTipoControl = "Ventana"
-            Return negocioRescate.ControlMontoRescateVsPatrimonio(rescate, fondo)
+
+            Dim resultadoCalculo As String
+
+            Dim resultado() As String = negocioRescate.ControlMontoRescateVsPatrimonio(rescate, fondo).Split(",")
+            resultadoCalculo = resultado(0)
+
+            Return resultadoCalculo
         Else
             Return False
         End If

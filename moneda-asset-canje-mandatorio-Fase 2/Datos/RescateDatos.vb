@@ -114,7 +114,7 @@ Public Class RescateDatos
         Return Ws.GetRelaciones(Rescate)
     End Function
 
-    Public Function ControlMontoRescateVsPatrimonio(rescate As RescatesDTO, fondo As FondoDTO) As Boolean
+    Public Function ControlMontoRescateVsPatrimonio(rescate As RescatesDTO, fondo As FondoDTO) As String
         Dim Ws = New WSCanjeMandatorio.WSRescates()
         Return Ws.ControlMontoRescateVsPatrimonio(rescate, fondo)
     End Function

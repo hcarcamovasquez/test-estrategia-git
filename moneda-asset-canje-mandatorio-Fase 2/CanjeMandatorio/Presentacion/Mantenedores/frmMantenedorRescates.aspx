@@ -598,6 +598,7 @@
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutAportante" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreAportante" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalMultifondo" EventName="SelectedIndexChanged" />
+                                                            <asp:AsyncPostBackTrigger ControlID="txtModalCuota" EventName="TextChanged" />
                                                         </Triggers>
                                                         <ContentTemplate>
                                                             <asp:TextBox ID="txtModalUtilizado" runat="server" CssClass="form-control dbs-entero14-decimal4" ReadOnly="True"></asp:TextBox>
@@ -619,6 +620,7 @@
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutAportante" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreAportante" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalMultifondo" EventName="SelectedIndexChanged" />
+                                                            <asp:AsyncPostBackTrigger ControlID="txtModalCuota" EventName="TextChanged" />
                                                         </Triggers>
                                                         <ContentTemplate>
                                                             <asp:TextBox ID="txtModalDisponibles" runat="server" CssClass="form-control dbs-entero14-decimal4" ReadOnly="True"></asp:TextBox>

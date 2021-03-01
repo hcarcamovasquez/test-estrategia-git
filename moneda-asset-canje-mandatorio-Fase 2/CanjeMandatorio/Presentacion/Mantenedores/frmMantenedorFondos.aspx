@@ -75,12 +75,12 @@
                     <asp:BoundField DataField="NombreCorto" HeaderText="Nombre corto" />
                     <asp:BoundField DataField="Estado" HeaderText="Estado" Visible="false" />
 
-                    <asp:BoundField DataField="CuotasEmitidas" HeaderText="Cuotas Emitidas" DataFormatString="{0:N6}" ItemStyle-HorizontalAlign="Right"/>
+                    <asp:BoundField DataField="CuotasEmitidas" HeaderText="Cuotas Emitidas" DataFormatString="{0:N6}" ItemStyle-HorizontalAlign="Right" />
                     <asp:BoundField DataField="FechaEmision" HeaderText="Fecha Emisión" DataFormatString="{0:dd-MM-yyyy}" />
                     <asp:BoundField DataField="FechaVencimiento" HeaderText="Fecha Vencimiento" DataFormatString="{0:dd-MM-yyyy}" />
-                    <asp:BoundField DataField="Acumulado" HeaderText="Acumulado" DataFormatString="{0:N6}" ItemStyle-HorizontalAlign="Right"/>
+                    <asp:BoundField DataField="Acumulado" HeaderText="Acumulado" DataFormatString="{0:N6}" ItemStyle-HorizontalAlign="Right" />
 
-                    <asp:BoundField DataField="ControlDeCuotas" HeaderText="Control de cuotas"  ItemStyle-HorizontalAlign="Center"/>
+                    <asp:BoundField DataField="ControlDeCuotas" HeaderText="Control de cuotas" ItemStyle-HorizontalAlign="Center" />
 
                     <asp:BoundField DataField="FechaIngreso" HeaderText="Fecha Ingreso" DataFormatString="{0:dd-MM-yyyy}" />
                     <asp:BoundField DataField="UsuarioIngreso" HeaderText="Usuario Ingreso" />
@@ -159,14 +159,14 @@
                                             <div class="col-md-8 mt-3">
                                                 <asp:Label runat="server" ID="Label1">Cuotas Emitidas: </asp:Label>
                                                 <div class="input-group">
-                                                    <asp:TextBox ID="txtCuotasEmitidas" runat="server" CssClass="form-control dbs-entero-decimal" ></asp:TextBox>
+                                                    <asp:TextBox ID="txtCuotasEmitidas" runat="server" CssClass="form-control dbs-entero-decimal"></asp:TextBox>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 mt-3">
                                                 <div class="form-check">
-                                                        <asp:CheckBox ID="chkControlCuotas" runat="server" Text="" cssclass="form-check-input" />
-                                                        <label class="form-check-label" for="chkControlCuotas">No Aplica</label>
-                                                    </div>
+                                                    <asp:CheckBox ID="chkControlCuotas" runat="server" Text="" CssClass="form-check-input" />
+                                                    <label class="form-check-label" for="chkControlCuotas">No Aplica</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -183,7 +183,7 @@
                                                     <asp:TextBox ID="Textbox2" runat="server" CssClass="form-control  datepicker" ReadOnly="True"></asp:TextBox>
                                                     <asp:LinkButton ID="LinkButton3" class="btn btn-moneda" Height="38px" runat="server" OnClientClick="return clickCalendar('Textbox2')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
                                                     <asp:LinkButton ID="Linkbutton4" Text="Limpiar Fecha" class="btn btn-secondary ml-1" Height="38px" runat="server" OnClientClick="return limpiarCalendar('Textbox2')"><i class="far fa-trash-alt" ></i></asp:LinkButton>
-                                                  
+
                                                 </div>
 
                                                 <!-- FECHA DE VENCIMIENTO -->
@@ -192,7 +192,7 @@
                                                     <asp:TextBox ID="Textbox3" runat="server" CssClass="form-control datepicker" ReadOnly="True"></asp:TextBox>
                                                     <asp:LinkButton ID="LinkButton5" class="btn btn-moneda" Height="38px" runat="server" OnClientClick="return clickCalendar('Textbox3')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
                                                     <asp:LinkButton ID="Linkbutton6" Text="Limpiar Fecha" class="btn btn-secondary ml-1" Height="38px" runat="server" OnClientClick="return limpiarCalendar('Textbox3')"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                                                   
+
                                                 </div>
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
@@ -202,7 +202,7 @@
                                     <div class="col-md-12 mt-3">
                                         <asp:Label runat="server" ID="Label5">Acumulado: </asp:Label>
                                         <div class="input-group">
-                                            <asp:TextBox ID="Textbox4" runat="server" CssClass="form-control dbs-entero-decimal" ></asp:TextBox>                                            
+                                            <asp:TextBox ID="Textbox4" runat="server" CssClass="form-control dbs-entero-decimal"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div>
@@ -229,19 +229,19 @@
                                 </div>
 
                                 <div class="col-xs-2 col-md-2">
-                                     <asp:DropDownList ID="ddlControlTipoDeConfiguracion" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="False" onchange="CambiaEstadosConfiguracion(this)" >
-                                          <asp:ListItem Value="">&nbsp;</asp:ListItem>
+                                    <asp:DropDownList ID="ddlControlTipoDeConfiguracion" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="False" onchange="CambiaEstadosConfiguracion(this)">
+                                        <asp:ListItem Value="">&nbsp;</asp:ListItem>
                                         <asp:ListItem Value="Pago">Pago</asp:ListItem>
                                         <asp:ListItem Value="Prorrata">Prorrata</asp:ListItem>
                                     </asp:DropDownList>
                                 </div>
                                 <div class="col-xs-2 col-md-2">
-                                        <asp:TextBox ID="txtControlCantidadDias" runat="server" MaxLength="2" CssClass="form-control dbs-entero"></asp:TextBox>
-                                        <asp:RangeValidator ID="rangeMessageCantDias" runat="server" ControlToValidate="txtControlCantidadDias" ErrorMessage="El valor debe estar entre 0 y 30 días" MaximumValue="30" MinimumValue="0" Type="Integer"></asp:RangeValidator>
+                                    <asp:TextBox ID="txtControlCantidadDias" runat="server" MaxLength="2" CssClass="form-control dbs-entero"></asp:TextBox>
+                                    <asp:RangeValidator ID="rangeMessageCantDias" runat="server" ControlToValidate="txtControlCantidadDias" ErrorMessage="El valor debe estar entre 0 y 30 días" MaximumValue="30" MinimumValue="0" Type="Integer"></asp:RangeValidator>
                                 </div>
                                 <div class="col-xs-2 col-md-2">
-                                     <div class="form-check">
-                                        <asp:CheckBox ID="chkControlDiasHabiles" runat="server" Text="" cssclass="form-check-input"/>
+                                    <div class="form-check">
+                                        <asp:CheckBox ID="chkControlDiasHabiles" runat="server" Text="" CssClass="form-check-input" />
                                         <label class="form-check-label" for="chkControlDiasHabiles">Dias Hábiles</label>
                                     </div>
                                 </div>
@@ -328,7 +328,7 @@
 
     <script src="<%=ResolveUrl("~/Scripts/date-dd-mmm-yyyy.js")%>"></script>
 
-     <style>
+    <style>
         .datepicker {
             z-index: 1600 !important;
         }
@@ -379,40 +379,51 @@
                 , showOn: "none"
             });
 
-            
 
-        });        
+
+        });
 
 
         function CambiaEstadosConfiguracion(ddl) {
-            var txtCantidadDias = document.getElementById('<%=txtControlCantidadDias.ClientID%>'); 
-            var ckkDiasHabiles = document.getElementById('<%=chkControlDiasHabiles.ClientID%>'); 
+            var txtCantidadDias = document.getElementById('<%=txtControlCantidadDias.ClientID%>');
+            var ckkDiasHabiles = document.getElementById('<%=chkControlDiasHabiles.ClientID%>');
+            var ddlControlTipoControl = document.getElementById('<%=ddlControlTipoControl.ClientID%>');
 
-            if (ddl.value == "Prorrata") {
-                txtCantidadDias.disabled= true;
-                ckkDiasHabiles.disabled = true;
+            if (ddlControlTipoControl.value != "Ventana") {
+                if (ddl.value == "Prorrata") {
+                    txtCantidadDias.disabled = true;
+                    ckkDiasHabiles.disabled = true;
+                } else {
+                    txtCantidadDias.disabled = false;
+                    ckkDiasHabiles.disabled = false;
+                }
             } else {
-                txtCantidadDias.disabled = false;
-                ckkDiasHabiles.disabled = false;
-
+                txtCantidadDias.disabled = true;
+                ckkDiasHabiles.disabled = true;
             }
             return false;
         }
 
         function CambiaEstadosTipoControl(ddl) {
-            var txtControlDiasAVerificar = document.getElementById('<%=txtControlDiasAVerificar.ClientID%>'); 
+            var txtControlDiasAVerificar = document.getElementById('<%=txtControlDiasAVerificar.ClientID%>');
+            var txtControlCantidadDias = document.getElementById('<%=txtControlCantidadDias.ClientID%>');
+            var ckkDiasHabiles = document.getElementById('<%=chkControlDiasHabiles.ClientID%>');
 
             if (ddl.value == "Ventana") {
-                txtControlDiasAVerificar.disabled= true;
+                txtControlDiasAVerificar.disabled = true;
+                txtControlCantidadDias.disabled = true;
+                ckkDiasHabiles.disabled = true;
             } else {
                 txtControlDiasAVerificar.disabled = false;
+                txtControlCantidadDias.disabled = false;
+                ckkDiasHabiles.disabled = false;
             }
             return false;
         }
 
         function confNumeros() {
-            $('.dbs-entero-decimal').mask2(getMask(12, 6));            
-            $('.dbs-entero').mask2(getMask(2, 0));            
+            $('.dbs-entero-decimal').mask2(getMask(12, 6));
+            $('.dbs-entero').mask2(getMask(2, 0));
         }
 
         function soloNumerosyComa(e) {
@@ -502,54 +513,61 @@
             if ($('#<%=txtModalRutFondo.ClientID %>').val() == "-" || $('#<%=txtModalRutFondo.ClientID %>').val() == "") {
                 msgAlert('El Rut es un campo obligatorio.')
                 return false;
-            } 
-                if ($('#<%=txtModalNombreFondo.ClientID %>').val() == "") {
-                    msgAlert('El nombre fondo es un campo obligatorio')
-                    return false;
-            } 
-
-            if ($('#<%=txtModalNombreCorto.ClientID %>').val() == "") {
-                    msgAlert('El nombre corto es un campo obligatorio')
-                    return false;
+            }
+            if ($('#<%=txtModalNombreFondo.ClientID %>').val() == "") {
+                msgAlert('El nombre fondo es un campo obligatorio')
+                return false;
             }
 
-            var cantDias = $('#<%=txtControlCantidadDias.ClientID%>').val(); 
-            if ((cantDias == "") || (cantDias > 30)) {
-                msgAlert('La cantidad de dias No debe exceder a 30');
+            if ($('#<%=txtModalNombreCorto.ClientID %>').val() == "") {
+                msgAlert('El nombre corto es un campo obligatorio')
                 return false;
-            } 
+            }
 
-            cantDias = $('#<%=txtControlDiasAVerificar.ClientID%>').val(); 
-            if ((cantDias == "") || (cantDias > 30)) {
-                msgAlert('La cantidad de dias No debe exceder a 30');
+            var cantDias = $('#<%=txtControlCantidadDias.ClientID%>').val();
+            var ddlControlTipoControl = document.getElementById('<%=ddlControlTipoControl.ClientID%>');
+            var txtControlDiasAVerificar = $('#<%=txtControlDiasAVerificar.ClientID%>').val();
+            var ddlControlTipoDeConfiguracion = document.getElementById('<%=ddlControlTipoDeConfiguracion.ClientID%>');
+
+            if (ddlControlTipoControl.value == "") {
+                msgAlert('Debe ingresar los valores de control');
                 return false;
-            } 
+            }
 
+            if (ddlControlTipoDeConfiguracion.value == "") {
+                msgAlert('Debe ingresar los valores de control');
+                return false;
+            }
 
-                if ($('#<%=txtCuotasEmitidas.ClientID %>').val() != "") {
-                    if (!validarValorEmitidas()) {
-                        return false;
-                    }
+            if ((cantDias == "") || (txtControlDiasAVerificar == "")) {
+                msgAlert('Debe ingresar los valores de control');
+                return false;
+            }
+
+            if ($('#<%=txtCuotasEmitidas.ClientID %>').val() != "") {
+                if (!validarValorEmitidas()) {
+                    return false;
                 }
+            }
 
-                if ($('#<%=Textbox4.ClientID %>').val() != "") {
-                    if (validarValorAcumulado()) {
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
+            if ($('#<%=Textbox4.ClientID %>').val() != "") {
+                if (validarValorAcumulado()) {
+                    return true;
                 }
+                else {
+                    return false;
+                }
+            }
 
         }
 
         function validarValorEmitidas() {
             return true;
 
-            var valor1 = document.getElementById('<%=txtCuotasEmitidas.ClientID%>').value.replace(/\./g, '').replace(/\,/g, '.');         
+            var valor1 = document.getElementById('<%=txtCuotasEmitidas.ClientID%>').value.replace(/\./g, '').replace(/\,/g, '.');
 
             console.log("valor:" + valor1);
-           
+
             var valor = parseFloat(valor1);
 
             console.log("float valor:" + valor);
