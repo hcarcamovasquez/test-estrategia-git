@@ -49,7 +49,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
     Public Const CONST_COL_MONTO As Integer = 17
 
     Private Const CONST_LLENAR_CAMPOS As String = "Debe llenar todos los campos"
-    Private Const CONST_NO_HAY_TRANSACCIONES_SELECCIONADAS As String = "No hay trascacciones seleccionadas"
+    Private Const CONST_NO_HAY_TRANSACCIONES_SELECCIONADAS As String = "No hay transacciones seleccionadas"
 
 #End Region
     Dim NegocioSuscripcion As SuscripcionNegocio = New SuscripcionNegocio
@@ -3861,7 +3861,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         End If
 
         If listaQueNoSeImprimen.Count() > 0 Then
-            strMensajeAux = "No se pudieron imprimir transacciones que no estan fijadas"
+            strMensajeAux = "No se pueden imprimir transacciones que no estan fijadas"
         End If
 
         strMensaje = String.Format("{0}<BR>{1}", "Archivo Generado correctamente ", strMensajeAux)
