@@ -73,6 +73,7 @@
     <Compile Include="ApGpDatos.vb" />
     <Compile Include="CanjeDatos.vb" />
     <Compile Include="ConfigPentahoDatos.vb" />
+    <Compile Include="ReporteControlCuotasEmitidasDatos.vb" />
     <Compile Include="EjecucionRescateVsPatrimonioDatos.vb" />
     <Compile Include="FechasDatos.vb" />
     <Compile Include="FijacionDatos.vb" />

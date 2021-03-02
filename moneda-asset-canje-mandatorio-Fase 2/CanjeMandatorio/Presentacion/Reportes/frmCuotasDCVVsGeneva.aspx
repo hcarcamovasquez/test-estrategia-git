@@ -1,20 +1,16 @@
-﻿<%@ Page Title="" Language="VB" MasterPageFile="~/Site.master" AutoEventWireup="false" CodeFile="frmRescatesVsPatrimonio.aspx.vb" Inherits="Presentacion_Mantenedores_frmRescatesVsPatrimonio" %>
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/Site.master" AutoEventWireup="false" CodeFile="frmCuotasDCVVsGeneva.aspx.vb" Inherits="Presentacion_Reportes_frmCuotasDCVVsGeneva" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server" />
+<asp:ScriptManager ID="ScriptManager1" runat="server" />
+
     
-    <h2 class="TdRedondeado titleMant">Reporte Rescates Versus Patrimonio</h2>
+    <h2 class="TdRedondeado titleMant">Generar reporte control de cuotas DCV vs Geneva</h2>
 
        <div class="card p-4 jumbotron">
         <div class="row">
-            <!-- LISTA RUT FONDO-->
-            <div class="col-md-3">
-                <asp:Label runat="server" ID="rutfondo">Fondo</asp:Label>
-                <asp:DropDownList ID="ddlListaRutFondo" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="true" />
-            </div>
-            <!-- FECHA DESDE -->
+            <!-- FECHA ejecución -->
             <div class="col-md-3">
                 <asp:Label runat="server" ID="Label2">Fecha de ejecución</asp:Label>
                 <div class="input-group">
@@ -26,14 +22,12 @@
                         OnClientClick="return limpiarCalendar('txtFechaEjecucion')"><i class="far fa-trash-alt"></i></asp:LinkButton>
                 </div>
             </div>
-
         </div>
 
         <!-- BOTONES BUSCAR LIMPIAR Y CREAR -->
         <div class="row text-center mt-5 p-3 border-bottom">
             <div class="col-md-12">
                 <!-- BOTÓN BUSCAR -->
-                <asp:Button ID="BtnBuscar" Text="Buscar" class="btn btn-moneda" runat="server" />
                 <asp:Button ID="btnGenerarInforme" Text="Generar Informe" class="btn btn-moneda" runat="server"/>
             </div>
         </div>
@@ -105,5 +99,4 @@
     </script>
 
 </asp:Content>
-
 

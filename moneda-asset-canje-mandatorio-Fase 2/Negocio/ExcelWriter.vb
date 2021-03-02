@@ -74,6 +74,77 @@ Public Class ExcelWriter
         Return False
     End Function
 
+    Friend Function CrearExcelReporteCuotasEmitidas(lista As List(Of ReporteControlCuotasEmitidasDTO)) As Boolean
+        Dim pkg As ExcelPackage = New ExcelPackage()
+        Dim sheet As ExcelWorksheet = pkg.Workbook.Worksheets.Add("Fondos")
+        Dim fila As Integer = 1
+        Dim configurationAppSettings As New System.Configuration.AppSettingsReader()
+        Try
+
+            sheet.Cells(fila, 1).Value = "NEMO"
+            sheet.Cells(fila, 2).Value = "CCY"
+            sheet.Cells(fila, 3).Value = "Fecha Emisión"
+            sheet.Cells(fila, 4).Value = "Fecha Vencimiento"
+            sheet.Cells(fila, 5).Value = "Cuotas Emitidas"
+            sheet.Cells(fila, 6).Value = "Acumulado"
+            sheet.Cells(fila, 7).Value = "Año en Curso"
+            sheet.Cells(fila, 9).Value = "% Sobre última emisión"
+            sheet.Cells(fila, 10).Value = "Total Suscritas de última emisión"
+            sheet.Cells(fila, 11).Value = "Total Cuotas Suscritas y pagadas"
+            sheet.Cells(fila, 12).Value = "% Sobre total de Cuotas Suscritas y pagadas"
+
+            fila = fila + 1
+
+            For Each cuotas As ReporteControlCuotasEmitidasDTO In lista
+
+                sheet.Cells(fila, 1).Value = cuotas.FsNemotecnico.ToString()
+                sheet.Cells(fila, 2).Value = cuotas.FsMoneda.ToString()
+
+                sheet.Cells(fila, 3).Value = cuotas.FnFechaEmision.ToString()
+                sheet.Cells(fila, 4).Value = cuotas.FnFechaVencimiento.ToString()
+
+                sheet.Cells(fila, 5).Value = cuotas.FnCuotasEmitidas.ToString()
+
+                sheet.Cells(fila, 6).Value = cuotas.Acumulado.ToString()
+                sheet.Cells(fila, 7).Value = cuotas.Annio.ToString()
+
+                sheet.Cells(fila, 9).Value = cuotas.PorcentajeUltimaEmision.ToString()
+                sheet.Cells(fila, 10).Value = cuotas.TotalSuscritasUltimaEmision.ToString()
+                sheet.Cells(fila, 11).Value = cuotas.TotalCuotasSuscritaspagadas.ToString()
+                sheet.Cells(fila, 12).Value = cuotas.PorcentajeTotalCuotasSuscritasPagadas.ToString()
+
+                fila = fila + 1
+            Next
+
+            Dim fileNameFormat As String = "{0}_{1}{2}"
+            Dim ruta As String = DirectCast(configurationAppSettings.GetValue("RutaGeneracionExcel", GetType(System.String)), String)
+            Dim carpetaGeneracionExcel As String = DirectCast(configurationAppSettings.GetValue("CarpetaGeneracionExcel", GetType(System.String)), String)
+
+            Dim filename As String
+            filename = String.Format(fileNameFormat, "ReporteControlCuotasEmitidas", Date.Now().ToString("ddMMyyyy"), ".xlsx")
+
+            Dim fi As FileInfo
+            fi = New FileInfo(ruta + filename)
+
+            If fi.Exists Then
+                fi.Delete()
+            End If
+
+            pkg.SaveAs(fi)
+            fi = New FileInfo(ruta + fileName)
+            If fi.Exists Then
+                rutaArchivosExcel = carpetaGeneracionExcel + fileName
+                Return True
+            Else
+                rutaArchivosExcel = Nothing
+                Return False
+            End If
+        Catch ex As Exception
+            Throw
+        End Try
+        Return False
+    End Function
+
     Public Function CrearExcelGrupoAportantes(listaGrupoAportante As List(Of AportantesXGrupoDTO)) As Boolean
         Dim pkg As ExcelPackage = New ExcelPackage()
         Dim sheet As ExcelWorksheet = pkg.Workbook.Worksheets.Add("Grupo Aportantes")

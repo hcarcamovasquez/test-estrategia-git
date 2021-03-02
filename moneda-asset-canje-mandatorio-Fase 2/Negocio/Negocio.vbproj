@@ -85,6 +85,7 @@
     <Compile Include="PatrimonioNegocio.vb" />
     <Compile Include="ProcesoDetalleNegocio.vb" />
     <Compile Include="RelacionMonedaPaisNegocio.vb" />
+    <Compile Include="ReporteControlCuotasEmitidasNegocio.vb" />
     <Compile Include="ReporteNegocio.vb" />
     <Compile Include="AportanteNegocio.vb" />
     <Compile Include="CertificadoNegocio.vb" />

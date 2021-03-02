@@ -25,5 +25,10 @@
 
     Public Const CONST_SIN_RESULTADOS As String = "No se obtuvieron resultados de la búsqueda"
 
+    Public Const CONST_NO_SE_ENCUENTRA_CONFIGURACION As String = "Nos e encuentra la configuración de Pentaho"
+    Public Const CONST_EJECUTADO_CORRECTAMENTE As String = "Ejecutado correctamente"
+
+    Public Const CONST_MENSAJE_EXCEL_GUARDADO As String = "Excel Guardado de forma Exitosa"
+    Public Const CONST_MENSAJE_EXCEL_ERROR As String = "Error al Guardar Excel"
 
 End Class

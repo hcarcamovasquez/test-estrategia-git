@@ -2,9 +2,12 @@
 Imports Negocio
 Imports System.Net
 Imports System.Net.Http
+Imports DBSUtils
 
 Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
     Inherits System.Web.UI.Page
+
+    Private Const CONST_ID_PENTAHO As Integer = 1
 
     Private Sub Presentacion_Mantenedores_frmRescatesVsPatrimonio_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
@@ -45,6 +48,7 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
             ddlListaRutFondo.Items.Insert(0, New ListItem("", ""))
         End If
     End Sub
+
     Protected Sub BtnBuscar_Click(sender As Object, e As EventArgs) Handles BtnBuscar.Click
         Dim negocio As EjecucionRescateVsPatrimonioNegocio = New EjecucionRescateVsPatrimonioNegocio()
         Dim ejecucionDto As EjecucionRescateVsPatrimonioDTO = New EjecucionRescateVsPatrimonioDTO()
@@ -73,73 +77,70 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
     Protected Sub btnGenerarInforme_Click(sender As Object, e As EventArgs) Handles btnGenerarInforme.Click
         Dim pentaho As ConfigPentahoDTO = New ConfigPentahoDTO()
         Dim negocio As ConfigPentahoNegocio = New ConfigPentahoNegocio
+
         Dim parErrores As String = ""
         Dim strFecha As String
         Dim parametros As String
 
         txtFechaEjecucion.Text = Request.Form(txtFechaEjecucion.UniqueID)
 
-        If txtFechaEjecucion.Text = "" Then
-            strFecha = Date.Now.Date.ToString("yyyyMMdd")
-        Else
-            strFecha = CDate(txtFechaEjecucion.Text).ToString("yyyyMMdd")
-        End If
+        strFecha = IIf(txtFechaEjecucion.Text = "", Date.Now.Date, CDate(txtFechaEjecucion.Text)).ToString("yyyy-MM-dd")
 
+        'Set Parametros 
         parametros = "FECHA_PAGO=" & strFecha
 
-        pentaho.ID = 1
+        pentaho.ID = CONST_ID_PENTAHO
 
         pentaho = negocio.GetPentahoPorId(pentaho)
 
         If pentaho.Code = Nothing Then
-            ShowAlert("Nos e encuentra la configuracion de Pentaho")
+            ShowAlert(Constantes.CONST_NO_SE_ENCUENTRA_CONFIGURACION)
         Else
             ' FECHA_PAGO=20210101
-            If EjecutarETLParametrosAPI(pentaho, parametros, parErrores) Then
-                ShowAlert("Ejecutado correctamente")
+            If pentahoutil.EjecutarETLParametrosAPI(pentaho, parametros, parErrores) Then
+                ShowAlert(Constantes.CONST_EJECUTADO_CORRECTAMENTE)
             Else
                 ShowAlert(parErrores)
             End If
         End If
-
     End Sub
 
-    Public Function EjecutarETLParametrosAPI(pentaho As ConfigPentahoDTO, parametos As String, ByRef ParErrores As String) As Boolean
-        Try
-            Dim TARGETURL = pentaho.API_Url & parametos
-            Dim handler As New HttpClientHandler()
-            Dim client As HttpClient
+    'Public Function EjecutarETLParametrosAPI(pentaho As ConfigPentahoDTO, parametos As String, ByRef ParErrores As String) As Boolean
+    '    Try
+    '        Dim TARGETURL = pentaho.API_Url & parametos
+    '        Dim handler As New HttpClientHandler()
+    '        Dim client As HttpClient
 
-            If pentaho.API_WebProxy <> "" Then
-                handler.Proxy = New WebProxy(pentaho.API_WebProxy)
-                handler.UseProxy = True
+    '        If pentaho.API_WebProxy <> "" Then
+    '            handler.Proxy = New WebProxy(pentaho.API_WebProxy)
+    '            handler.UseProxy = True
 
-                client = New HttpClient(handler)
-            Else
-                client = New HttpClient()
-            End If
+    '            client = New HttpClient(handler)
+    '        Else
+    '            client = New HttpClient()
+    '        End If
 
-            Dim byteArray = Encoding.ASCII.GetBytes(pentaho.API_Usuario & ":" & pentaho.API_Password)
+    '        Dim byteArray = Encoding.ASCII.GetBytes(pentaho.API_Usuario & ":" & pentaho.API_Password)
 
-            client.DefaultRequestHeaders.Authorization = New Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray))
-            Dim response As HttpResponseMessage = client.GetAsync(TARGETURL).Result
+    '        client.DefaultRequestHeaders.Authorization = New Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray))
+    '        Dim response As HttpResponseMessage = client.GetAsync(TARGETURL).Result
 
-            Dim content As HttpContent = response.Content
-            ' ... Read the string.
-            Dim result As String = content.ReadAsStringAsync().Result
+    '        Dim content As HttpContent = response.Content
+    '        ' ... Read the string.
+    '        Dim result As String = content.ReadAsStringAsync().Result
 
-            ' ... Display the result.
-            If result IsNot Nothing AndAlso Not result.Contains("ERROR") AndAlso CInt(response.StatusCode) = 200 Then
-                ParErrores = ""
-                Return True
-            Else
-                ParErrores = result & TARGETURL
-                Return False
-            End If
-        Catch ex As Exception
-            Throw ex
-            Return False
-        End Try
-    End Function
+    '        ' ... Display the result.
+    '        If result IsNot Nothing AndAlso Not result.Contains("ERROR") AndAlso CInt(response.StatusCode) = 200 Then
+    '            ParErrores = ""
+    '            Return True
+    '        Else
+    '            ParErrores = result & TARGETURL
+    '            Return False
+    '        End If
+    '    Catch ex As Exception
+    '        Throw ex
+    '        Return False
+    '    End Try
+    'End Function
 
 End Class

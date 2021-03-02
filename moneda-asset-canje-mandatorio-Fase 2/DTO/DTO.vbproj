@@ -75,6 +75,8 @@
     <Compile Include="PatrimonioDTO.vb" />
     <Compile Include="ProcesoDetalleDTO.vb" />
     <Compile Include="RelacionMonedaPaisDto.vb" />
+    <Compile Include="ReporteControlCuotasEmitidasDTO.vb" />
+    <Compile Include="ReporteDcvVsGenevaDTO.vb" />
     <Compile Include="ReporteFechaCanjeDTO.vb" />
     <Compile Include="AportanteDTO.vb" />
     <Compile Include="AportantesXGrupoDTO.vb" />
