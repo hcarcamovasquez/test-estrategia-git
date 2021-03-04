@@ -84,20 +84,24 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
 
         txtFechaEjecucion.Text = Request.Form(txtFechaEjecucion.UniqueID)
 
-        strFecha = IIf(txtFechaEjecucion.Text = "", Date.Now.Date, CDate(txtFechaEjecucion.Text)).ToString("yyyy-MM-dd")
+        If txtFechaEjecucion.Text = "" Then
+            strFecha = Date.Now.Date.ToString("yyyy-MM-dd")
+        Else
+            strFecha = CDate(txtFechaEjecucion.Text).ToString("yyyy-MM-dd")
+        End If
 
         'Set Parametros 
         parametros = "FECHA_PAGO=" & strFecha
 
         pentaho.ID = CONST_ID_PENTAHO
-
         pentaho = negocio.GetPentahoPorId(pentaho)
 
         If pentaho.Code = Nothing Then
             ShowAlert(Constantes.CONST_NO_SE_ENCUENTRA_CONFIGURACION)
         Else
-            ' FECHA_PAGO=20210101
-            If pentahoutil.EjecutarETLParametrosAPI(pentaho, parametros, parErrores) Then
+            pentaho.API_Parametros = parametros
+
+            If PentahoUtil.EjecutarETLParametrosAPI(pentaho, parErrores) Then
                 ShowAlert(Constantes.CONST_EJECUTADO_CORRECTAMENTE)
             Else
                 ShowAlert(parErrores)
@@ -105,42 +109,12 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
         End If
     End Sub
 
-    'Public Function EjecutarETLParametrosAPI(pentaho As ConfigPentahoDTO, parametos As String, ByRef ParErrores As String) As Boolean
-    '    Try
-    '        Dim TARGETURL = pentaho.API_Url & parametos
-    '        Dim handler As New HttpClientHandler()
-    '        Dim client As HttpClient
+    Protected Sub btnLimpiarFrm_Click(sender As Object, e As EventArgs) Handles btnLimpiarFrm.Click
+        grvEjecuciones.DataSource = Nothing
+        grvEjecuciones.DataBind()
 
-    '        If pentaho.API_WebProxy <> "" Then
-    '            handler.Proxy = New WebProxy(pentaho.API_WebProxy)
-    '            handler.UseProxy = True
-
-    '            client = New HttpClient(handler)
-    '        Else
-    '            client = New HttpClient()
-    '        End If
-
-    '        Dim byteArray = Encoding.ASCII.GetBytes(pentaho.API_Usuario & ":" & pentaho.API_Password)
-
-    '        client.DefaultRequestHeaders.Authorization = New Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray))
-    '        Dim response As HttpResponseMessage = client.GetAsync(TARGETURL).Result
-
-    '        Dim content As HttpContent = response.Content
-    '        ' ... Read the string.
-    '        Dim result As String = content.ReadAsStringAsync().Result
-
-    '        ' ... Display the result.
-    '        If result IsNot Nothing AndAlso Not result.Contains("ERROR") AndAlso CInt(response.StatusCode) = 200 Then
-    '            ParErrores = ""
-    '            Return True
-    '        Else
-    '            ParErrores = result & TARGETURL
-    '            Return False
-    '        End If
-    '    Catch ex As Exception
-    '        Throw ex
-    '        Return False
-    '    End Try
-    'End Function
-
+        ddlListaRutFondo.SelectedIndex = -1
+        txtFechaEjecucion.Text = ""
+        txtAccionHidden.Value = ""
+    End Sub
 End Class

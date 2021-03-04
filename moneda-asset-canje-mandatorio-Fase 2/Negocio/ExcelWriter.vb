@@ -10,6 +10,85 @@ Public Class ExcelWriter
 
     Public Property rutaArchivosExcel As String
 
+    Public Function CrearExcelReporteGeneva(lista As List(Of ReporteDcvVsGenevaDTO)) As Boolean
+        Dim pkg As ExcelPackage = New ExcelPackage()
+        Dim sheet As ExcelWorksheet = pkg.Workbook.Worksheets.Add("DCV vs Geneva")
+        Dim fila As Integer = 3
+        Dim configurationAppSettings As New System.Configuration.AppSettingsReader()
+
+        Try
+            sheet.Cells(fila, 2).Value = "DCV"
+            sheet.Cells(fila, 5).Value = "GENEVA"
+            sheet.Cells(fila, 8).Value = "Transito"
+            sheet.Cells(fila, 8).Value = "Fecha"
+            fila = fila + 1
+
+            sheet.Cells(fila, 2).Value = "NEMO"
+            sheet.Cells(fila, 3).Value = "Cuotas Colocadas"
+            sheet.Cells(fila, 5).Value = "NEMO"
+            sheet.Cells(fila, 6).Value = "CLASE"
+            sheet.Cells(fila, 7).Value = "Cuotas Colocadas"
+
+            sheet.Cells(fila, 8).Value = "Rescates"
+            sheet.Cells(fila, 9).Value = "Suscripciones"
+            sheet.Cells(fila, 10).Value = "Canje"
+
+            sheet.Cells(fila, 11).Value = "Recompra"
+            sheet.Cells(fila, 12).Value = "Total"
+            sheet.Cells(fila, 13).Value = "Diferencia"
+            sheet.Cells(fila, 14).Value = "Observaciones"
+
+            fila = fila + 1
+
+            For Each cuotas As ReporteDcvVsGenevaDTO In lista
+
+                sheet.Cells(fila, 2).Value = cuotas.DCV_Nemo.ToString()
+                sheet.Cells(fila, 3).Value = cuotas.DCV_Cuotas.ToString()
+                sheet.Cells(fila, 5).Value = cuotas.GNV_Nemo.ToString()
+                sheet.Cells(fila, 6).Value = cuotas.GNV_Clase.ToString()
+                sheet.Cells(fila, 7).Value = cuotas.GNV_Cuotas.ToString()
+
+                sheet.Cells(fila, 8).Value = cuotas.TRS_Rescates.ToString()
+                sheet.Cells(fila, 9).Value = cuotas.TRS_Suscripciones.ToString()
+                sheet.Cells(fila, 10).Value = cuotas.TRS_Canje.ToString()
+
+                sheet.Cells(fila, 11).Value = cuotas.Recompra.ToString()
+                sheet.Cells(fila, 12).Value = cuotas.Total.ToString()
+                sheet.Cells(fila, 13).Value = cuotas.Diferencia.ToString()
+                sheet.Cells(fila, 14).Value = cuotas.Observaciones.ToString()
+
+                fila = fila + 1
+            Next
+
+            Dim fileNameFormat As String = "{0}_{1}{2}"
+            Dim ruta As String = DirectCast(configurationAppSettings.GetValue("RutaGeneracionExcel", GetType(System.String)), String)
+            Dim carpetaGeneracionExcel As String = DirectCast(configurationAppSettings.GetValue("CarpetaGeneracionExcel", GetType(System.String)), String)
+
+            Dim filename As String
+            filename = String.Format(fileNameFormat, "DCV_vs_Geneva", Date.Now().ToString("ddMMyyyy"), ".xlsx")
+
+            Dim fi As FileInfo
+            fi = New FileInfo(ruta + filename)
+
+            If fi.Exists Then
+                fi.Delete()
+            End If
+
+            pkg.SaveAs(fi)
+            fi = New FileInfo(ruta + filename)
+            If fi.Exists Then
+                rutaArchivosExcel = carpetaGeneracionExcel + filename
+                Return True
+            Else
+                rutaArchivosExcel = Nothing
+                Return False
+            End If
+        Catch ex As Exception
+            Throw
+        End Try
+        Return False
+    End Function
+
     Public Function CrearExcelAportantes(listaAportante As List(Of AportanteDTO)) As Boolean
         Dim pkg As ExcelPackage = New ExcelPackage()
         Dim sheet As ExcelWorksheet = pkg.Workbook.Worksheets.Add("Aportantes")
@@ -106,7 +185,7 @@ Public Class ExcelWriter
                 sheet.Cells(fila, 5).Value = cuotas.FnCuotasEmitidas.ToString()
 
                 sheet.Cells(fila, 6).Value = cuotas.Acumulado.ToString()
-                sheet.Cells(fila, 7).Value = cuotas.Annio.ToString()
+                sheet.Cells(fila, 7).Value = cuotas.Anno_En_Curso.ToString()
 
                 sheet.Cells(fila, 9).Value = cuotas.PorcentajeUltimaEmision.ToString()
                 sheet.Cells(fila, 10).Value = cuotas.TotalSuscritasUltimaEmision.ToString()

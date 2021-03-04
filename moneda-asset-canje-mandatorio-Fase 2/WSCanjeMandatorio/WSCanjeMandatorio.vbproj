@@ -93,6 +93,7 @@
     <Content Include="WSApGp.asmx" />
     <Content Include="WSCanje.asmx" />
     <Content Include="WSCanjeMandatorio.asmx" />
+    <Content Include="WSReporteDcvVsGeneva.asmx" />
     <Content Include="WSReporteControlCuotasEmitidas.asmx" />
     <Content Include="WSEjecucionRescateVsPatrimonio.asmx" />
     <Content Include="WSConfigPentaho.asmx" />
@@ -152,6 +153,10 @@
     </Compile>
     <Compile Include="WSCanjeMandatorio.asmx.vb">
       <DependentUpon>WSCanjeMandatorio.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WSReporteDcvVsGeneva.asmx.vb">
+      <DependentUpon>WSReporteDcvVsGeneva.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WSReporteControlCuotasEmitidas.asmx.vb">

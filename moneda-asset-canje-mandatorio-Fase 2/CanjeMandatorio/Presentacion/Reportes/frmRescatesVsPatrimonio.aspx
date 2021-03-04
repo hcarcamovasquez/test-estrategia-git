@@ -35,6 +35,7 @@
                 <!-- BOTÓN BUSCAR -->
                 <asp:Button ID="BtnBuscar" Text="Buscar" class="btn btn-moneda" runat="server" />
                 <asp:Button ID="btnGenerarInforme" Text="Generar Informe" class="btn btn-moneda" runat="server"/>
+                <asp:Button ID="btnLimpiarFrm" Text="Limpiar" class="btn btn-secondary" runat="server" />
             </div>
         </div>
 
@@ -105,5 +106,3 @@
     </script>
 
 </asp:Content>
-
-

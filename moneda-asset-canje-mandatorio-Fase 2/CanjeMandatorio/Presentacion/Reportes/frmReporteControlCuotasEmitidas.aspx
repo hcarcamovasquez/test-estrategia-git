@@ -12,7 +12,7 @@
         <div class="row">
             <!-- LISTA RUT FONDO-->
             <div class="col-md-3">
-                <asp:Label runat="server" ID="rutfondo">Fondo</asp:Label>
+                <asp:Label runat="server" ID="rutfondo">Nemotecnico</asp:Label>
                 <asp:DropDownList ID="ddlNemotecnico" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="True" />
             </div>
 
@@ -48,7 +48,7 @@
                     <asp:BoundField DataField="FnFechaVencimiento" HeaderText="Fecha Vencimiento"  DataFormatString="{0:dd/MM/yyyy}"  ItemStyle-HorizontalAlign="Center"/>
                     <asp:BoundField DataField="FnCuotasEmitidas" HeaderText="Cuotas Emitidas"  ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N0}" />
                     <asp:BoundField DataField="Acumulado" HeaderText="Acumulado"  ItemStyle-HorizontalAlign="Right"  DataFormatString="{0:N0}"/>
-                    <asp:BoundField DataField="Annio" HeaderText="Año en Curso"  ItemStyle-HorizontalAlign="Right"  DataFormatString="{0:N0}" />
+                    <asp:BoundField DataField="Anno_En_Curso" HeaderText="Año en Curso"  ItemStyle-HorizontalAlign="Right"  DataFormatString="{0:N0}" />
                     <asp:BoundField DataField="dummy" HeaderText="" />
                     <asp:BoundField DataField="PorcentajeUltimaEmision" HeaderText="% Sobre última emisión"  ItemStyle-HorizontalAlign="Right"  DataFormatString="{0:N2}" />
                     <asp:BoundField DataField="TotalSuscritasUltimaEmision" HeaderText="Total Suscritas de última emisión"  ItemStyle-HorizontalAlign="Right"  DataFormatString="{0:N0}" />
@@ -66,12 +66,12 @@
      </div>
 
     <!-- Bootstrap Modal Dialog Mensajes-->
-    <div class="modal fade" id="myModalmg" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="dlgMensajeDescarga" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content text-center">
                 <div class="modal-header mx-auto">
+                    <asp:image id="img_modal" imageurl="~/Img/info1.png" runat="server" width="130" height="50" />
                     <h4 class="modal-title">
-                        <asp:image id="img_modal" imageurl="~/Img/info1.png" runat="server" width="130" height="50" />
                         <asp:label id="lblModalTitle" runat="server" text="" font-bold="true" font-size="X-Large">
                         </asp:label>
                     </h4>
@@ -111,8 +111,15 @@
 
     <script>
         $(document).ready(function () {
+            var txtHiddenAccion = $('#<%=txtAccionHidden.ClientID %>').val();
 
             $("[id*=txtFechaEjecucion]").datepicker();
+            if (txtHiddenAccion == "MOSTRAR_DIALOGO") {
+                $('#dlgMensajeDescarga').modal();
+                $('#<%=txtAccionHidden.ClientID %>').val("");
+
+            }
+
            
         })
 

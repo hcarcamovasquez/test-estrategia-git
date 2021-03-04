@@ -61,7 +61,7 @@ Public Class WSReporteControlCuotasEmitidas
             .FnCuotasEmitidas = dataRow("FN_Cuotas_Emitidas").ToString().Trim()
             .CuotasDisponibles = dataRow("Cuotas_Disponibles").ToString().Trim()
             .Acumulado = dataRow("Acumulado").ToString().Trim()
-            .Annio = dataRow("annio").ToString().Trim()
+            .Anno_En_Curso = dataRow("Anno_En_Curso").ToString().Trim()
             .PorcentajeUltimaEmision = dataRow("Porcentaje_Ultima_Emision").ToString().Trim()
             .TotalSuscritasUltimaEmision = dataRow("Total_Suscritas_Ultima_Emision").ToString().Trim()
             .TotalCuotasSuscritaspagadas = dataRow("Total_Cuotas_suscritas_pagadas").ToString().Trim()

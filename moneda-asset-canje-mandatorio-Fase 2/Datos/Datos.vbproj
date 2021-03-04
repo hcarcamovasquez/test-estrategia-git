@@ -104,6 +104,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="PruebaWSDatos.vb" />
+    <Compile Include="ReporteDcvVsGenevaDatos.vb" />
     <Compile Include="RescateDatos.vb" />
     <Compile Include="SuscripcionDatos.vb" />
     <Compile Include="TipoCalculoNav.vb" />

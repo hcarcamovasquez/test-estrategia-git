@@ -5,9 +5,8 @@ Imports DBSUtils
 Partial Class Presentacion_Reportes_frmReporteControlCuotasEmitidas
     Inherits System.Web.UI.Page
 
-
     Private Const CONST_ID_PENTAHO As Integer = 3
-    Private Const CONST_TITULO_REPORTE As String = "Reporte Control de Cuotas Emitidas"
+    Private Const CONST_TITULO_REPORTE As String = "Control de Cuotas Emitidas"
 
     Private Sub Presentacion_Reportes_frmReporteControlCuotasEmitidas_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Not Page.IsPostBack Then
@@ -28,6 +27,7 @@ Partial Class Presentacion_Reportes_frmReporteControlCuotasEmitidas
     Private Sub DataInitial()
         llenarComboNemotecnico()
         BtnExportar.Enabled = False
+        txtAccionHidden.Value = ""
     End Sub
 
     Protected Sub btnGenerarInforme_Click(sender As Object, e As EventArgs) Handles btnGenerarInforme.Click
@@ -101,6 +101,7 @@ Partial Class Presentacion_Reportes_frmReporteControlCuotasEmitidas
         ddlNemotecnico.SelectedIndex = -1
 
         BtnExportar.Enabled = False
+        txtAccionHidden.Value = ""
     End Sub
 
 

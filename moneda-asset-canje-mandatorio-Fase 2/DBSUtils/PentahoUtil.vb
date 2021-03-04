@@ -6,12 +6,18 @@ Imports DTO
 Public Class PentahoUtil
 
 
-    Public Shared Function EjecutarETLParametrosAPI(pentaho As ConfigPentahoDTO, parametos As String, ByRef ParErrores As String) As Boolean
+    Public Shared Function EjecutarETLParametrosAPI(pentaho As ConfigPentahoDTO, ByRef ParErrores As String) As Boolean
         Dim handler As New HttpClientHandler()
         Dim client As HttpClient
 
         Try
-            Dim TARGETURL = pentaho.API_Url & parametos
+            Dim TARGETURL As String
+
+            TARGETURL = pentaho.API_Url
+
+            If pentaho.API_Parametros <> "" Then
+                TARGETURL = TARGETURL & pentaho.API_Parametros
+            End If
 
             If pentaho.API_WebProxy <> "" Then
                 handler.Proxy = New WebProxy(pentaho.API_WebProxy)
