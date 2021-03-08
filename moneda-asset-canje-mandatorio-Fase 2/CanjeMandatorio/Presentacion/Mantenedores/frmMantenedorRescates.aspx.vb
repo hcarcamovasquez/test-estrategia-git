@@ -1955,6 +1955,27 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         CuotasAportante = txtModalCuota.Text
         CuotasDisponibles = txtModalDisponiblesCuotasDisponibles.Text
 
+        ' Validacion de fechas
+        If txtModalFechaSolicitud.Text = "" Then
+            ShowAlert("El campo Fecha Solicitud No puede estar vacío")
+            Return
+        End If
+
+        If txtModalFechaNAV.Text = "" Then
+            ShowAlert("El campo Fecha NAV No puede estar vacío")
+            Return
+        End If
+
+        If txtModalFechaPago.Text = "" Then
+            ShowAlert("El campo Fecha Pago No puede estar vacío")
+            Return
+        End If
+
+        If txtModalFechaTCObs.Text = "" Then
+            ShowAlert("El campo Fecha Tipo Cambio No puede estar vacío")
+            Return
+        End If
+
         'VALIDACIONES DE CAMPOS REQUERIDOS
         If ddlModalRutAportante.Text = "" Then
             ShowAlert("Debe seleccionar datos de Aportantes")
@@ -2002,25 +2023,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             Return
         End If
 
-        If txtModalFechaSolicitud.Text = "" Then
-            ShowAlert("El campo Fecha Solicitud No puede estar vacío")
-            Return
-        End If
 
-        If txtModalFechaNAV.Text = "" Then
-            ShowAlert("El campo Fecha NAV No puede estar vacío")
-            Return
-        End If
-
-        If txtModalFechaPago.Text = "" Then
-            ShowAlert("El campo Fecha Pago No puede estar vacío")
-            Return
-        End If
-
-        If txtModalFechaTCObs.Text = "" Then
-            ShowAlert("El campo Fecha Tipo Cambio No puede estar vacío")
-            Return
-        End If
 
         'VALIDACIONES ANTES DE GUARDAR
         If txtModalMonto.Text = "0" Then
@@ -3294,26 +3297,29 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             End If
 
             txtModalFechaTCObs.Text = CalcularFechaTCObservado(FechaTCFondoRescatable, txtModalFechaSolicitud.Text, txtModalFechaNAV.Text, txtModalFechaPago.Text, txtModalFechaTCObs.Text)
-            Dim bDiaInhabil As Boolean = (Not Utiles.esFechaHabil(ddlModalMonedaPago.Text, txtModalFechaTCObs.Text) And ddlModalMonedaPago.Text = "USD")
-            txtModalFechaTCObs.Text = Utiles.getDiaHabilSiguiente(txtModalFechaTCObs.Text, ddlModalMonedaPago.Text)
 
-            If bDiaInhabil Then
-                ShowAlert(CONST_INHABIL_PARA_TC)
+            If txtModalFechaTCObs.Text <> "" Then
+                Dim bDiaInhabil As Boolean = (Not Utiles.esFechaHabil(ddlModalMonedaPago.Text, txtModalFechaTCObs.Text) And ddlModalMonedaPago.Text = "USD")
+                txtModalFechaTCObs.Text = Utiles.getDiaHabilSiguiente(txtModalFechaTCObs.Text, ddlModalMonedaPago.Text)
+
+                If bDiaInhabil Then
+                    ShowAlert(CONST_INHABIL_PARA_TC)
+                End If
             End If
         ElseIf FondoRescatable = "N/A" Then
-            txtModalFechaNAV.Text = ""
-            txtModalFechaPago.Text = ""
-            txtModalFechaTCObs.Text = ""
+                txtModalFechaNAV.Text = ""
+                txtModalFechaPago.Text = ""
+                txtModalFechaTCObs.Text = ""
 
-            txtModalFechaNAV.Enabled = False
-            txtModalFechaTCObs.Enabled = False
-            txtModalFechaPago.Enabled = False
-            lnkBtnModalFechaNAV.Visible = True
-            lnkModalFechaSolicitud.Visible = True
-            lnkBtnModalFechaPago.Visible = True
-            lnkBtnModalFechaTCObs.Enabled = True
-        Else
-            txtModalFechaNAV.Text = ""
+                txtModalFechaNAV.Enabled = False
+                txtModalFechaTCObs.Enabled = False
+                txtModalFechaPago.Enabled = False
+                lnkBtnModalFechaNAV.Visible = True
+                lnkModalFechaSolicitud.Visible = True
+                lnkBtnModalFechaPago.Visible = True
+                lnkBtnModalFechaTCObs.Enabled = True
+            Else
+                txtModalFechaNAV.Text = ""
             txtModalFechaPago.Text = ""
 
             txtModalFechaNAV.Enabled = False
