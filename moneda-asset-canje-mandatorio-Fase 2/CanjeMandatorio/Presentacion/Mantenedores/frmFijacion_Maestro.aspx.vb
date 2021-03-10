@@ -1775,20 +1775,32 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
     Private Sub MantenedorRescate(Rescate As RescatesDTO)
 
         Dim Relacion As RescatesDTO = NegocioRescate.GetRelaciones(Rescate)
+        Dim fondo As FondoDTO = New FondoDTO()
+        Dim negocioFondo As FondosNegocio = New FondosNegocio
+
+        fondo.Rut = Rescate.FN_RUT
+        fondo = negocioFondo.GetFondo(fondo)
 
         If (Relacion.CountAP > 0) Then
             txtAccionHidden.Value = ""
             ShowAlert(" No se pudo modificar el rescate, el aportante fue modificado.")
             txtAccionHidden.Value = "x"
+
         ElseIf (Relacion.CountFN > 0) Then
             txtAccionHidden.Value = ""
             ShowAlert(" No se pudo modificar el rescate, el fondo fue modificado.")
             txtAccionHidden.Value = "x"
+
         ElseIf (Relacion.CountFS > 0) Then
             txtAccionHidden.Value = ""
             ShowAlert(" No se pudo modificar el rescate, la serie fue modificada")
             txtAccionHidden.Value = "x"
+
+        ElseIf (fondo.ControlTipoDeConfiguracion = "Prorrata") Then
+            ShowAlert("DEBE REALIZAR PRORRATA")
+            txtAccionHidden.Value = "x"
         Else
+
 
             CargarRutFondoModal()
             CargaNombreFondoModal()
@@ -4068,20 +4080,51 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         Dim fijaciones As List(Of FijacionDTO) = New List(Of FijacionDTO)
         Dim strMensaje As String = CONST_NO_HAY_TRANSACCIONES_SELECCIONADAS
 
-        fijaciones = getTransaccionesSeleccionadas()
+        Try
+            fijaciones = getTransaccionesSeleccionadas()
 
-        ' Ha seleccionado alguna transaccion ? - P1 
-        If (fijaciones.Count() < 1) Then
-            ShowAlert(strMensaje)
-            Exit Sub
-        End If
+            ' Ha seleccionado alguna transaccion ? - P1 
+            If (fijaciones.Count() < 1) Then
+                ShowAlert(strMensaje)
+                Exit Sub
+            End If
 
-        For Each fija As FijacionDTO In fijaciones
-            Dim negocio As FijacionNegocio = New FijacionNegocio()
+            Dim transaccionesSuscripciones As List(Of FijacionDTO) = fijaciones.Where(Function(x) x.TipoTransaccion.Equals("Suscripcion")).ToList()
+
+            If (transaccionesSuscripciones.Count() < 1) Then
+                ShowAlert("No ha selecionado ninguna Suscripción")
+                Exit Sub
+            End If
+
+            Dim icantidad As Integer = transaccionesSuscripciones.Where(Function(x) x.ObjSuscripcion.EstadoIntencion.Equals("Intencion")).ToList().Count()
+
+            If icantidad <> transaccionesSuscripciones.Count() Then
+                ShowAlert("Existen registros seleccionados que no pueden ser eliminados por su Estado de Confirmación")
+                Exit Sub
+            End If
 
 
+            For Each fija As FijacionDTO In transaccionesSuscripciones
+                Dim negocio As SuscripcionNegocio = New SuscripcionNegocio()
 
-        Next
+                With fija.ObjSuscripcion
+                    .FechaIntencion = Utiles.SumaDiasAFechas("CLP", .FechaIntencion, 1, Constantes.CONST_SOLO_DIAS_HABILES)
+                    .FechaSuscripcion = ObtenerFechasSolicitud.ObtenerFechaSuscripcion(.Nemotecnico, .FechaIntencion, .FechaNAV)
+                    .FechaNAV = ObtenerFechasSolicitud.ObtenerFechaNav(.Nemotecnico, .FechaSuscripcion, .FechaIntencion)
+                    .FechaTC = ObtenerFechasSolicitud.ObtenerFechaTCObservado(.Nemotecnico, .FechaSuscripcion, .FechaNAV, .FechaIntencion)
 
+                End With
+
+                If Not negocio.UpdateSuscripcion(fija.ObjSuscripcion) Then
+
+                End If
+            Next
+
+            ShowAlert("Proceso terminado con Exito")
+        Catch ex As Exception
+
+        Finally
+            FindFijacion()
+        End Try
     End Sub
 End Class

@@ -211,8 +211,8 @@
                     <asp:BoundField DataField="FijacionTCObservado" HeaderText="Fijación TC Observado" />                    
                     <asp:BoundField DataField="Nemotecnico" HeaderText="Nemotécnico" />
                     <asp:BoundField DataField="MonedaPago" HeaderText="Moneda Pago" />
-                    <asp:BoundField DataField="Cuotas" HeaderText="Cuotas" />
-                    <asp:BoundField DataField="Monto" HeaderText="Monto" />
+                    <asp:BoundField DataField="Cuotas" HeaderText="Cuotas" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right"/>
+                    <asp:BoundField DataField="Monto" HeaderText="Monto" DataFormatString="{0:N6}" ItemStyle-HorizontalAlign="Right"/>
                 </Columns>
             </asp:gridview>
         </div>

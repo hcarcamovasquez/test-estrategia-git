@@ -10,18 +10,18 @@ Public Class ObtenerFechasSolicitud
         Dim serieParam As FondoSerieDTO = New FondoSerieDTO
         Dim negocioSerie As FondoSeriesNegocio = New FondoSeriesNegocio
         Dim NegocioRescate As RescateNegocio = New RescateNegocio()
-
-        serieParam.Nemotecnico = Nemotecnico
-
         Dim SoloDiasHabiles As Integer
 
         Dim series As FondoSerieDTO
-        series = negocioSerie.GetFondoSeriesNemotecnico(serieParam)
 
         Dim estructuraFechas = New EstructuraFechasDto
-        estructuraFechas = Utiles.splitCharByComma(series.FechaNavSuscripcion)
-
         Dim FechaSolicitud As Date
+
+        serieParam.Nemotecnico = Nemotecnico
+
+        series = negocioSerie.GetFondoSeriesNemotecnico(serieParam)
+
+        estructuraFechas = Utiles.splitCharByComma(series.FechaNavSuscripcion)
 
         Select Case estructuraFechas.DesdeQueFecha
             Case "FechaSuscripcion"
@@ -29,7 +29,6 @@ Public Class ObtenerFechasSolicitud
             Case Else
                 FechaSolicitud = fechaIntencion
         End Select
-
 
         If FechaSolicitud <> Nothing Then
             SoloDiasHabiles = IIf(series.SoloDiasHabilesFechaNavSuscripciones, Constantes.CONST_SOLO_DIAS_HABILES, Constantes.CONST_SOLO_DIAS_CORRIDOS)
@@ -40,9 +39,9 @@ Public Class ObtenerFechasSolicitud
         Return FechaSolicitud
     End Function
 
-    Public Shared Function ObtenerFechaTCObservado(Nemotecnico As String, fechaSuscripcion As String, fechaNav As String) As Date
+    Public Shared Function ObtenerFechaTCObservado(Nemotecnico As String, fechaSuscripcion As String, fechaNav As String, FechaIntencion As String) As Date
         Dim serie As FondoSerieDTO = New FondoSerieDTO
-        Dim NegocioRescate As RescateNegocio = New RescateNegocio()
+        'Dim NegocioRescate As RescateNegocio = New RescateNegocio()
         Dim negocioSerie As FondoSeriesNegocio = New FondoSeriesNegocio
 
         Dim listaSerie As List(Of FondoSerieDTO)
@@ -60,25 +59,19 @@ Public Class ObtenerFechasSolicitud
                     fechaParaCalculo = fechaSuscripcion
                 Case "FechaNav"
                     fechaParaCalculo = fechaNav
+                Case Else
+                    ' TODO: JOVB Pregunta -> Si No hay configuracion de la serie ¿ que valor le debe poner al TC ? 
+                    fechaParaCalculo = FechaIntencion
             End Select
 
             If fechaParaCalculo <> Nothing Then
-
-                'fechaParaCalculo = Utiles.SumaDiasAFechas(ddlMonedaPago.Text, fechaParaCalculo, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
-
                 fechaParaCalculo = Utiles.SumaDiasAFechas("CLP", fechaParaCalculo, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
                 Dim bDiaInhabil As Boolean = (Not Utiles.esFechaHabil("CLP", fechaParaCalculo) And "CLP" = "USD")
 
-                'If bDiaInhabil Then
-                '    ShowAlert(CONST_INHABIL_PARA_TC)
-                'End If
-
                 fechaParaCalculo = Utiles.getDiaHabilSiguiente(fechaParaCalculo, "CLP")
-                'txtFechaTC.Text = fechaParaCalculo
             Else
                 'txtFechaTC.Text = txtFechaIntencion.Text
             End If
-
         Next
 
         Return fechaParaCalculo
@@ -98,40 +91,35 @@ Public Class ObtenerFechasSolicitud
         listaSerie = negocioSerie.GrupoSeriesPorNemotecnico(serie)
 
         For Each series As FondoSerieDTO In listaSerie
-            Dim fechaNavC As String
-            Dim diasNavC As String
+            'Dim fechaNavC As String
+            'Dim diasNavC As String
             Dim estructuraFechas = New EstructuraFechasDto
-            estructuraFechas = Utiles.splitCharByComma(series.FechaSuscripcion)
             Dim Suscripcion As SuscripcionDTO = New SuscripcionDTO
 
+            estructuraFechas = Utiles.splitCharByComma(series.FechaSuscripcion)
             FechaNavSuscripcion = series.FechaSuscripcion
 
-            fechaNavC = estructuraFechas.DesdeQueFecha
-            diasNavC = estructuraFechas.DiasASumar
+            'fechaNavC = estructuraFechas.DesdeQueFecha
+            'diasNavC = estructuraFechas.DiasASumar
 
+            'Dim testString As String = FormatDateTime(FechaSolicitud, DateFormat.LongDate)
 
-            Dim testString As String = FormatDateTime(FechaSolicitud, DateFormat.LongDate)
+            Select Case estructuraFechas.DesdeQueFecha
+                Case "FechaIntencion"
+                    FechaSolicitud = fechaIntencion
+                Case Else
+                    FechaSolicitud = fechaIntencion
+            End Select
+            'If diasNavC = "" Then
+            '    Suscripcion.FechaIntencion = fechaIntencion
+            '    FechaSolicitud = Suscripcion.FechaIntencion
+            '    'txtFechaSuscripcion.Text = FechaSolicitud
+            'Else
 
-            If diasNavC = "" Then
-                Suscripcion.FechaIntencion = fechaIntencion
-
-                FechaSolicitud = Suscripcion.FechaIntencion
-                'txtFechaSuscripcion.Text = FechaSolicitud
-            Else
-                Dim dias As Integer = Integer.Parse(diasNavC)
-                Suscripcion.FechaIntencion = fechaIntencion
-                FechaSolicitud = Suscripcion.FechaIntencion
-
-                'FechaPagoFondoRescatableINT es días que hay que sumar o restar, FechaCalculo es a la fecha a la que hay que sumar o restar
-                'FECHA DIAS HABILES
-
-                ' FechaSolicitud = Utiles.SumaDiasAFechas(ddlMonedaPago.Text, FechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_CORRIDOS)
-                FechaSolicitud = Utiles.SumaDiasAFechas("CLP", FechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
-
-                'fechaSolicitud = NegocioRescate.SelectFechaPagoSIRescatable(dias, fechaSolicitud, 0)
-
-
-            End If
+            Suscripcion.FechaIntencion = fechaIntencion
+            FechaSolicitud = Suscripcion.FechaIntencion
+            FechaSolicitud = Utiles.SumaDiasAFechas("CLP", FechaSolicitud, estructuraFechas.DiasASumar, Constantes.CONST_SOLO_DIAS_HABILES)
+            'End If
         Next
         Return FechaSolicitud
     End Function

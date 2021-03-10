@@ -7,7 +7,7 @@
     Public Property Nemotecnico As String
     Public Property TipoTransaccion As String
     Public Property RazonSocial As String
-    Public Property Cuotas As Int32
+    Public Property Cuotas As Decimal
     Public Property Rut As String
     Public Property FnNombreCorto As String
     Public Property FsNombreCorto As String

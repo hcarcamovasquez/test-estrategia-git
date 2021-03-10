@@ -208,7 +208,7 @@
                                 </div>
                             </div>
                             <div class="w-100"></div>
-                            <div class="row form-group">
+                            <div class="row  mt-3">
                                 <div class="col-xs-2 col-md-2">
                                     <asp:Label runat="server" ID="Label6" Font-Size="Large">Control Rescate </asp:Label>
                                 </div>
@@ -388,18 +388,22 @@
             var txtCantidadDias = document.getElementById('<%=txtControlCantidadDias.ClientID%>');
             var ckkDiasHabiles = document.getElementById('<%=chkControlDiasHabiles.ClientID%>');
             var ddlControlTipoControl = document.getElementById('<%=ddlControlTipoControl.ClientID%>');
+            var txtControlDiasAVerificar = document.getElementById('<%=txtControlDiasAVerificar.ClientID%>');
 
             if (ddlControlTipoControl.value != "Ventana") {
                 if (ddl.value == "Prorrata") {
                     txtCantidadDias.disabled = true;
                     ckkDiasHabiles.disabled = true;
+                    txtControlDiasAVerificar.disabled = true; 
                 } else {
                     txtCantidadDias.disabled = false;
                     ckkDiasHabiles.disabled = false;
+                    txtControlDiasAVerificar.disabled = false; 
                 }
             } else {
                 txtCantidadDias.disabled = true;
                 ckkDiasHabiles.disabled = true;
+                txtControlDiasAVerificar.disabled = true; 
             }
             return false;
         }
@@ -408,15 +412,23 @@
             var txtControlDiasAVerificar = document.getElementById('<%=txtControlDiasAVerificar.ClientID%>');
             var txtControlCantidadDias = document.getElementById('<%=txtControlCantidadDias.ClientID%>');
             var ckkDiasHabiles = document.getElementById('<%=chkControlDiasHabiles.ClientID%>');
+            var ddlControlTipoDeConfiguracion = document.getElementById('<%=ddlControlTipoDeConfiguracion.ClientID%>');
 
             if (ddl.value == "Ventana") {
                 txtControlDiasAVerificar.disabled = true;
                 txtControlCantidadDias.disabled = true;
                 ckkDiasHabiles.disabled = true;
             } else {
-                txtControlDiasAVerificar.disabled = false;
-                txtControlCantidadDias.disabled = false;
-                ckkDiasHabiles.disabled = false;
+                if (ddlControlTipoDeConfiguracion.value == "Prorrata") {
+                    txtControlCantidadDias.disabled = true;
+                    ckkDiasHabiles.disabled = true;
+                    txtControlDiasAVerificar.disabled = true;
+                } else {
+                    txtControlDiasAVerificar.disabled = false;
+                    txtControlCantidadDias.disabled = false;
+                    ckkDiasHabiles.disabled = false;
+                }
+                
             }
             return false;
         }
