@@ -8,6 +8,7 @@ Imports DBSUtils
 Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
     Inherits System.Web.UI.Page
     Public Const CONST_INHABIL_PARA_TC As String = "La fecha TC es inhábil en la moneda. Se moverá al hábil siguiente"
+    Private Const CONST_ID_PENTAHO As Integer = 3
 
 #Region "DATA INICIAL"
     Private Sub Mantenedores_Aportantes_Maestro_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -2157,5 +2158,29 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
         lblPopUpContratoGralFondos.Text = Suscripcion.ContratoFondo
         lblPopUpPoderes.Text = Suscripcion.RevisionPoderes
 
+    End Sub
+
+    Protected Sub btnSuscripcionesMasivas_Click(sender As Object, e As EventArgs) Handles btnSuscripcionesMasivas.Click
+        Dim pentaho As ConfigPentahoDTO = New ConfigPentahoDTO()
+        Dim negocio As ConfigPentahoNegocio = New ConfigPentahoNegocio
+
+        Dim parErrores As String = ""
+        'Dim parametros As String
+
+        pentaho.ID = CONST_ID_PENTAHO
+
+        pentaho = negocio.GetPentahoPorId(pentaho)
+
+        If pentaho.Code = Nothing Then
+            ShowAlert(Constantes.CONST_NO_SE_ENCUENTRA_CONFIGURACION)
+        Else
+            'pentaho.API_Parametros = parametros
+
+            If PentahoUtil.EjecutarETLParametrosAPI(pentaho, parErrores) Then
+                ShowAlert(Constantes.CONST_EJECUTADO_CORRECTAMENTE)
+            Else
+                ShowAlert(parErrores)
+            End If
+        End If
     End Sub
 End Class
