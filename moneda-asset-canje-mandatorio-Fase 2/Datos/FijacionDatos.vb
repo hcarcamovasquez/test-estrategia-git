@@ -74,4 +74,11 @@ Public Class FijacionDatos
         Return Ws.ConsultarFijacionTC()
 
     End Function
+
+    Public Function UpdateEstadoConfirmacion(fijacion As FijacionDTO) As Boolean
+
+        Dim Ws = New WSCanjeMandatorio.WSFijacion()
+        Return Ws.UpdateEstadoConfirmacion(fijacion)
+
+    End Function
 End Class

@@ -39,14 +39,15 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
     Public Const CONST_COL_FECHAPAGO As Integer = 9
     Public Const CONST_COL_NAV_FIJADO As Integer = 10
     Public Const CONST_COL_TC_OBSERVADO As Integer = 11
+    Public Const CONST_COL_ESTADOINTENCION As Integer = 12
 
-    Public Const CONST_COL_FIJACIONNAV As Integer = 12
-    Public Const CONST_COL_FIJACIONTCOBSERVADO As Integer = 13
-    Public Const CONST_COL_NEMOTECNICO As Integer = 14
+    Public Const CONST_COL_FIJACIONNAV As Integer = 13
+    Public Const CONST_COL_FIJACIONTCOBSERVADO As Integer = 14
+    Public Const CONST_COL_NEMOTECNICO As Integer = 15
 
-    Public Const CONST_COL_MONEDA_PAGO As Integer = 15
-    Public Const CONST_COL_CUOTAS As Integer = 16
-    Public Const CONST_COL_MONTO As Integer = 17
+    Public Const CONST_COL_MONEDA_PAGO As Integer = 16
+    Public Const CONST_COL_CUOTAS As Integer = 17
+    Public Const CONST_COL_MONTO As Integer = 18
 
     Private Const CONST_LLENAR_CAMPOS As String = "Debe llenar todos los campos"
     Private Const CONST_NO_HAY_TRANSACCIONES_SELECCIONADAS As String = "No hay transacciones seleccionadas"
@@ -74,12 +75,14 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             BtnModificar.Enabled = False
             BtnExportar.Enabled = False
             btnImprimir.Enabled = False
+            BtnEliminar.Enabled = False
 
         ElseIf Session("PERFIL") = Constantes.CONST_PERFIL_FULL Or Session("PERFIL") = Constantes.CONST_PERFIL_ADMIN Then
             BtnModificar.Visible = True
             BtnModificar.Enabled = False
             BtnExportar.Visible = True
             btnImprimir.Enabled = False
+            BtnEliminar.Enabled = False
         End If
     End Sub
 
@@ -465,8 +468,13 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                                             txtAccionHidden.Value = ""
                                             Mensaje = Mensaje & " No se pudo modificar la suscripción " & TransaccionSeleccionada & " La serie fue modificada"
                                             CantidadNOFijados = CantidadNOFijados + 1
-                                        Else
+                                            ' JOVB: R3 
+                                        ElseIf Not EsConfirmada(SuscripcionSeleccionada) Then
+                                            txtAccionHidden.Value = ""
+                                            Mensaje = Mensaje & " No se pudo fijar la suscripción " & TransaccionSeleccionada & ". Transacción en Intención"
+                                            CantidadNOFijados = CantidadNOFijados + 1
 
+                                        Else
 
                                             CuotasSeleccionado = SuscripcionSeleccionada.CuotasASuscribir
                                             MonedaSerieSeleccionado = SuscripcionSeleccionada.MonedaSerie
@@ -528,9 +536,18 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         FormateoLimpiarForm()
         Me.GrvTabla.DataSource = Nothing
         GrvTabla.DataBind()
-        findfijacion()
+        FindFijacion()
 
     End Sub
+
+    Private Function EsConfirmada(suscripcionSeleccionada As SuscripcionDTO) As Boolean
+        If (suscripcionSeleccionada.EstadoIntencion.Equals("Intencion")) Then
+            Return False
+        Else
+            Return True
+        End If
+
+    End Function
 
     Protected Sub BtnTCObs_Click(sender As Object, e As EventArgs) Handles BtnTCObs.Click
         Dim TransaccionesTotales As Integer = 0
@@ -815,6 +832,12 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                                 txtAccionHidden.Value = ""
                                 Mensaje = Mensaje & " No se pudo modificar la suscripción " & TransaccionSeleccionada & " La serie fue modificada"
                                 CantidadNOFijados = CantidadNOFijados + 1
+                                ' JOVB: R3 
+                            ElseIf Not EsConfirmada(SuscripcionSeleccionada) Then
+                                txtAccionHidden.Value = ""
+                                Mensaje = Mensaje & " No se pudo fijar la suscripción " & TransaccionSeleccionada & ". Transacción en Intención"
+                                CantidadNOFijados = CantidadNOFijados + 1
+
                             Else
 
                                 TipoCambio.Fecha = FechaTCObsSeleccionada
@@ -877,7 +900,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         FormateoLimpiarForm()
         Me.GrvTabla.DataSource = Nothing
         GrvTabla.DataBind()
-        findfijacion()
+        FindFijacion()
         'ShowMessages(CONST_TITULO_FIJACION, CONST_MODIFICAR_EXITO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_LOGO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_CORRECTO)
     End Sub
 
@@ -998,7 +1021,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                 'DataInitial()
                 Session("TC") = Nothing
                 Session("NAV") = Nothing
-                findfijacion()
+                FindFijacion()
             End If
         Else
             ShowAlert("No deben haber campos vacíos, por favor verifique")
@@ -1036,7 +1059,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                 End If
                 txtAccionHidden.Value = ""
                 DataInitial()
-                findfijacion()
+                FindFijacion()
             End If
         Else
             ShowAlert("No deben haber campos vacíos, por favor verifique")
@@ -1156,7 +1179,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                 Me.GrvTabla.DataSource = Nothing
                 GrvTabla.DataBind()
                 DataInitial()
-                findfijacion()
+                FindFijacion()
             End If
         Else
             ShowAlert("No deben haber campos vacíos, por favor verifique")
@@ -1215,7 +1238,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
     End Function
 
     Protected Sub BtnBuscar_Click(sender As Object, e As EventArgs) Handles BtnBuscar.Click
-        findfijacion()
+        FindFijacion()
         ValidaPermisosPerfil()
         If GrvTabla.Rows.Count <> 0 Then
 
@@ -1319,6 +1342,12 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             FechaPagoHasta = Date.Parse(txtFechaPagoHasta.Text)
         End If
 
+        If ddlEstadoConfirmacion.Text.Trim() = "" Then
+            Fijacion.EstadoIntencion = Nothing
+        Else
+            Fijacion.EstadoIntencion = ddlEstadoConfirmacion.SelectedValue
+        End If
+
         Dim mensaje As String = ""
 
         If ddlFijacionTCObservacion.SelectedValue.Trim() = Nothing And _
@@ -1331,7 +1360,8 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             txtFechaTCDesde.Text.Equals("") And _
             txtFechaTCHasta.Text.Equals("") And _
             txtFechaPagoDesde.Text.Equals("") And _
-            txtFechaPagoHasta.Text.Equals("") Then
+            txtFechaPagoHasta.Text.Equals("") And _
+            ddlEstadoConfirmacion.Text = "" Then
 
             mensaje = negocio.ExportarAExcelTodos(Fijacion)
         Else
@@ -1668,16 +1698,25 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         CargaRutAportanteSusc()
         CargarNombreAportanteModalSuscripciones()
         CargarMultifondoModalSuscripciones()
+
         Dim Relacion As SuscripcionDTO = NegocioSuscripcion.GetRelaciones(Suscripcion)
         If (Relacion.CountAP > 0) Then
             ShowAlert("No se puede modificar la suscripción, información del aportante se modificó")
             txtAccionHidden.Value = "x"
+
         ElseIf (Relacion.CountFN > 0) Then
             ShowAlert("No se puede modificar esta suscripción, información del fondo se modificó")
             txtAccionHidden.Value = "x"
+
         ElseIf (Relacion.CountFS > 0) Then
             ShowAlert("No se puede modificar esta suscripción, información de la serie se modificó")
             txtAccionHidden.Value = "x"
+
+            ' JOVB: R3 
+        ElseIf Not EsConfirmada(Suscripcion) Then
+            ShowAlert("No se pudo fijar la suscripción " & Suscripcion.TipoTransaccion & ". Transacción en Intención")
+            txtAccionHidden.Value = "x"
+
         Else
             txtIdSuscripcion.Text = Suscripcion.IdSuscripcion
             ddlModalNombreAportante.SelectedValue = Suscripcion.RazonSocial
@@ -1725,6 +1764,9 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             Suscripcion.Estado = "1"
             Session("NAV") = Suscripcion.NAV
             Session("Tc") = Suscripcion.TcObservado
+
+            'JOVB: R3
+            ddlEstadoIntencion.Text = IIf(Suscripcion.EstadoIntencion = "", "Intencion", Suscripcion.EstadoIntencion)
         End If
 
 
@@ -2045,6 +2087,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         txtNombreFondo.Enabled = False
         txtNombreSerie.Enabled = False
         txtMonedaSerie.Enabled = False
+        ddlEstadoIntencion.Enabled = False
 
 
 
@@ -2713,7 +2756,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
 
     End Sub
 
-    Private Sub findfijacion()
+    Private Sub FindFijacion()
         Dim Fijacion As FijacionDTO = New FijacionDTO()
         Dim negocio As FijacionNegocio = New FijacionNegocio
         Dim FechaTCDesde As Nullable(Of Date)
@@ -2802,6 +2845,14 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             FechaPagoHasta = Date.Parse(Request.Form(txtFechaPagoHasta.UniqueID))
         End If
 
+        If ddlEstadoConfirmacion.Text.Trim() = "" Then
+            Fijacion.EstadoIntencion = Nothing
+        Else
+            Fijacion.EstadoIntencion = ddlEstadoConfirmacion.SelectedValue
+        End If
+
+
+
         If ddlFijacionTCObservacion.SelectedValue.Trim() = Nothing And _
             ddlListaTipoTransaccion.SelectedValue.Trim() = Nothing And _
             ddlListaRutFondo.SelectedValue.Trim() = Nothing And _
@@ -2812,7 +2863,8 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             Request.Form(txtFechaTCDesde.UniqueID).Equals("") And _
             Request.Form(txtFechaTCHasta.UniqueID).Equals("") And _
             Request.Form(txtFechaPagoDesde.UniqueID).Equals("") And _
-            Request.Form(txtFechaPagoHasta.UniqueID).Equals("") Then
+            Request.Form(txtFechaPagoHasta.UniqueID).Equals("") And _
+            ddlEstadoConfirmacion.Text = "" Then
 
             GrvTabla.DataSource = negocio.ConsultarTodos(Fijacion)
 
@@ -3840,6 +3892,8 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                 fijacion.Cuotas = row.Cells(CONST_COL_CUOTAS).Text().Trim()
                 fijacion.Monto = row.Cells(CONST_COL_MONTO).Text().Trim()
 
+                fijacion.EstadoIntencion = row.Cells(CONST_COL_ESTADOINTENCION).Text().Trim()
+
                 If fijacion.FijacionNAV.Equals("Pendiente") Or fijacion.FijacionTCObservado.Equals("Pendiente") Then
                     listaQueNoSeImprimen.Add(fijacion)
 
@@ -3903,4 +3957,131 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         fijacion.ObjCanje = negocio.GetFijacionId(fijacion.ID)
     End Sub
 
+    Protected Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles BtnEliminar.Click
+        Dim fijaciones As List(Of FijacionDTO) = New List(Of FijacionDTO)
+        Dim strMensaje As String = CONST_NO_HAY_TRANSACCIONES_SELECCIONADAS
+
+        Dim listaQueNoSeUpdatearon As List(Of FijacionDTO) = New List(Of FijacionDTO)
+
+        fijaciones = getTransaccionesSeleccionadas()
+
+        ' Ha seleccionado alguna transaccion ? - P1 
+        If (fijaciones.Count() < 1) Then
+            ShowAlert(strMensaje)
+            Exit Sub
+        End If
+
+        Dim transaccionesSuscripciones As List(Of FijacionDTO) = fijaciones.Where(Function(x) x.TipoTransaccion.Equals("Suscripcion")).ToList()
+
+        If (transaccionesSuscripciones.Count() < 1) Then
+            ShowAlert("No ha selecionado ninguna Suscripción")
+            Exit Sub
+        End If
+
+
+        Dim icantidad As Integer = transaccionesSuscripciones.Where(Function(x) x.ObjSuscripcion.EstadoIntencion.Equals("Intencion")).ToList().Count()
+
+        If icantidad <> transaccionesSuscripciones.Count() Then
+            ShowAlert("Existen registros seleccionados que no pueden ser eliminados por su Estado de Confirmación")
+            Exit Sub
+        End If
+
+        For Each fija As FijacionDTO In transaccionesSuscripciones
+            Dim negocio As SuscripcionNegocio = New SuscripcionNegocio()
+            If Not negocio.DeleteSuscripcion(fija.ObjSuscripcion) Then
+                listaQueNoSeUpdatearon.Add(fija)
+            End If
+        Next
+
+        If listaQueNoSeUpdatearon.Count() > 0 Then
+            ShowAlert("No se pudieron Eliminar todas las transacciones Seleccionadas")
+        End If
+
+        FindFijacion()
+
+    End Sub
+
+    Protected Sub btnConfirmar_Click(sender As Object, e As EventArgs) Handles btnConfirmar.Click
+        Dim fijaciones As List(Of FijacionDTO) = New List(Of FijacionDTO)
+        Dim fijacion As FijacionDTO = New FijacionDTO
+        Dim strMensaje As String = CONST_NO_HAY_TRANSACCIONES_SELECCIONADAS
+        Dim strMensajeAux As String = ""
+
+
+        Dim listaQueNoSeUpdatearon As List(Of FijacionDTO) = New List(Of FijacionDTO)
+        '•	Para las transacciones que son seleccionadas y se presiona el botón 'Confirmar’, pasan a tener Estado de Confirmación ‘Confirmadas’
+        '•	Todo este flujo de confirmación aplica solo para las suscripciones. Para rescates y canjes por defecto en su Estado de Confirmación es 'Confirmadas’.
+
+        fijaciones = getTransaccionesSeleccionadas()
+
+        ' Ha seleccionado alguna transaccion ? - P1 
+        If (fijaciones.Count() < 1) Then
+            ShowAlert(strMensaje)
+            Exit Sub
+        End If
+
+        For Each fija As FijacionDTO In fijaciones
+            Dim negocio As FijacionNegocio = New FijacionNegocio()
+            If Not negocio.UpdateEstadoConfirmacion(fija) Then
+                listaQueNoSeUpdatearon.Add(fija)
+            End If
+        Next
+
+        ' No se actualizaron estas Transacciones - P2
+        If listaQueNoSeUpdatearon.Count() > 0 Then
+            ShowAlert("No se pudieron actualizar estas transacciones")
+            Exit Sub
+        End If
+
+        ShowAlert("Proceso concluido con Exito")
+
+        FindFijacion()
+    End Sub
+
+    Private Function getTransaccionesSeleccionadas() As List(Of FijacionDTO)
+        Dim fijaciones As List(Of FijacionDTO) = New List(Of FijacionDTO)
+        Dim fijacion As FijacionDTO = New FijacionDTO
+
+        For Each row As GridViewRow In GrvTabla.Rows
+            Dim chk As CheckBox = row.Cells(0).Controls(1)
+            If chk IsNot Nothing And chk.Checked Then
+                fijacion = New FijacionDTO
+                fijacion.ID = row.Cells(CONST_COL_ID).Text().Trim()
+                fijacion.TipoTransaccion = row.Cells(CONST_COL_TIPOTRANSACCION).Text().Trim()
+
+                Select Case fijacion.TipoTransaccion.ToLower()
+                    Case "canje"
+                        SetCamposAdicionalesCanje(fijacion)
+                    Case "suscripcion"
+                        SetCamposAdicionalesSuscripcion(fijacion)
+                    Case "rescate"
+                        SetCamposAdicionalesRescate(fijacion)
+                End Select
+
+                fijaciones.Add(fijacion)
+            End If
+        Next
+        Return fijaciones
+    End Function
+
+    Protected Sub btnMoverIntencion_Click(sender As Object, e As EventArgs) Handles btnMoverIntencion.Click
+        Dim fijaciones As List(Of FijacionDTO) = New List(Of FijacionDTO)
+        Dim strMensaje As String = CONST_NO_HAY_TRANSACCIONES_SELECCIONADAS
+
+        fijaciones = getTransaccionesSeleccionadas()
+
+        ' Ha seleccionado alguna transaccion ? - P1 
+        If (fijaciones.Count() < 1) Then
+            ShowAlert(strMensaje)
+            Exit Sub
+        End If
+
+        For Each fija As FijacionDTO In fijaciones
+            Dim negocio As FijacionNegocio = New FijacionNegocio()
+
+
+
+        Next
+
+    End Sub
 End Class

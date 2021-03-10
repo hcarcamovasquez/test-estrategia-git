@@ -122,7 +122,7 @@ Public Class SuscripcionNegocio
 
         Return SuscripcionConsultado
     End Function
-    Public Function updatesuscripcion(suscripcion As SuscripcionDTO) As Integer
+    Public Function UpdateSuscripcion(suscripcion As SuscripcionDTO) As Integer
         Dim suscripciondatos As New Datos.SuscripcionDatos
         Return suscripciondatos.UpdateSuscripcion(suscripcion)
     End Function

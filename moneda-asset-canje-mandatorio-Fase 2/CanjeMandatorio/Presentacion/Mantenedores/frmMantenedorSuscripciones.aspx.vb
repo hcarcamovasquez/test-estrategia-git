@@ -23,6 +23,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
         CargaNemotecnico()
         CargaFiltroMultifondoAportante()
         CargaFiltroNombreAportante()
+
     End Sub
     Private Sub DataInitial()
         CargaDatosModalInicial()
@@ -106,19 +107,20 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
     Public Const CONST_COL_SUSCRIPCIONESTRANSITO As Integer = 27
     Public Const CONST_COL_CANJESTRANSITO As Integer = 28
     Public Const CONST_COL_CUOTASDISPONIBLES As Integer = 29
-    Public Const CONST_COL_FIJACIONNAV As Integer = 30
-    Public Const CONST_COL_TCOBSERVADO As Integer = 31
-    Public Const CONST_COL_FIJACIONTC As Integer = 32
-    Public Const CONST_COL_ESTADOSUSCRIPCION As Integer = 33
-    Public Const CONST_COL_CUOTAEMITIDA As Integer = 34
-    Public Const CONST_COL_ACUMULADA As Integer = 35
-    Public Const CONST_COL_ACTUAL As Integer = 36
-    Public Const CONST_COL_UTILIZADA As Integer = 37
-    Public Const CONST_COL_DISPONIBLES As Integer = 38
-    Public Const CONST_COL_FECHAINGRESO As Integer = 39
-    Public Const CONST_COL_USUARIOINGRESO As Integer = 40
-    Public Const CONST_COL_FECHAMODIFICACION As Integer = 41
-    Public Const CONST_COL_USUARIOMODIFICACION As Integer = 42
+    Public Const CONST_COL_ESTADOINTENCION As Integer = 30
+    Public Const CONST_COL_FIJACIONNAV As Integer = 31
+    Public Const CONST_COL_TCOBSERVADO As Integer = 32
+    Public Const CONST_COL_FIJACIONTC As Integer = 33
+    Public Const CONST_COL_ESTADOSUSCRIPCION As Integer = 34
+    Public Const CONST_COL_CUOTAEMITIDA As Integer = 35
+    Public Const CONST_COL_ACUMULADA As Integer = 36
+    Public Const CONST_COL_ACTUAL As Integer = 37
+    Public Const CONST_COL_UTILIZADA As Integer = 38
+    Public Const CONST_COL_DISPONIBLES As Integer = 39
+    Public Const CONST_COL_FECHAINGRESO As Integer = 40
+    Public Const CONST_COL_USUARIOINGRESO As Integer = 41
+    Public Const CONST_COL_FECHAMODIFICACION As Integer = 42
+    Public Const CONST_COL_USUARIOMODIFICACION As Integer = 43
 
 
 #End Region
@@ -170,7 +172,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
 
             Dim negocioMod As SuscripcionNegocio = New SuscripcionNegocio
             Dim Suscripcion As SuscripcionDTO = GetSuscripcionModal()
-            Dim solicitudMod As Integer = negocioMod.updatesuscripcion(Suscripcion)
+            Dim solicitudMod As Integer = negocioMod.UpdateSuscripcion(Suscripcion)
 
             If solicitudMod = Constantes.CONST_OPERACION_EXITOSA Then
                 ShowAlert(CONST_MODIFICAR_EXITO)
@@ -178,7 +180,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
             Else
                 ShowAlert(CONST_MODIFICAR_ERROR)
             End If
-            findsuscripcion()
+            FindSuscripcion()
             FormateoLimpiarDatosModal()
             FormateoLimpiarForm()
 
@@ -279,7 +281,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
         txtSuscripcionDesde.Text = Request.Form(txtSuscripcionDesde.UniqueID)
         txtSuscripcionHasta.Text = Request.Form(txtSuscripcionHasta.UniqueID)
 
-        findsuscripcion()
+        FindSuscripcion()
         BtnModificar.Enabled = False
         If GrvTabla.Rows.Count <> 0 Then
 
@@ -358,6 +360,12 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
             FechaSuscripcionHasta = ("31/12/9999")
         Else
             FechaSuscripcionHasta = Date.Parse(Request.Form(txtSuscripcionHasta.UniqueID))
+        End If
+
+        If ddlEstadoConfirmacion.Text.Trim() = "" Then
+            Suscripcion.EstadoIntencion = Nothing
+        Else
+            Suscripcion.EstadoIntencion = ddlEstadoConfirmacion.SelectedValue
         End If
 
         Dim mensaje As String = negocio.ExportarAExcel(Suscripcion, FechaIntencionHasta, FechaNAVHasta, FechaSuscripcionHasta)
@@ -766,7 +774,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
         fecha.DF_PAIS = ddlMonedaPago.Text
 
         'FechaValidar = Negocio.ValidaDiaHabil(txtFechaTC.Text)
-        FechaValidar = Negocio.ValidaDiaHabil(fecha)
+        FechaValidar = negocio.ValidaDiaHabil(fecha)
 
         If FechaValidar = "Festivo" Then
             txtFechaTC.Text = ""
@@ -833,6 +841,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
         txtActual.Text = String.Format("{0:N0}", Suscripcion.ScActual)
         txtDisponiblesEmitidas.Text = String.Format("{0:N0}", Suscripcion.ScDisponibles)
 
+        ddlEstadoIntencion.Text = Suscripcion.EstadoIntencion
+
         Suscripcion.Estado = "1"
     End Sub
     Protected Sub FormateoLimpiarDatosModal()
@@ -875,6 +885,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
         txtUtilizado.Text = ""
         txtDisponiblesEmitidas.Text = ""
         txtAcumulada.Text = ""
+        ddlEstadoIntencion.SelectedIndex = 0
     End Sub
     Private Sub FormateoEstiloFormCrear()
         btnModalModificar.Enabled = False
@@ -1301,7 +1312,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
             ShowAlert(CONST_SIN_RESULTADOS_MODAL)
         End If
     End Sub
-    Private Sub findsuscripcion()
+    Private Sub FindSuscripcion()
         Dim Suscripcion As SuscripcionDTO = New SuscripcionDTO()
         Dim negocio As SuscripcionNegocio = New SuscripcionNegocio
         Dim FechaIntencionHasta As Nullable(Of Date)
@@ -1378,7 +1389,23 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
             FechaSuscripcionHasta = Date.Parse(Request.Form(txtSuscripcionHasta.UniqueID))
         End If
 
-        If ddlListaRutAportante.SelectedValue.Trim() = Nothing And ddlListaRutFondo.SelectedValue.Trim() = Nothing And ddlListaNemotecnico.SelectedValue.Trim() = Nothing And ddlEstado.SelectedValue.Trim() = Nothing And Request.Form(txtIntencionDesde.UniqueID).Equals("") And Request.Form(txtIntencionHasta.UniqueID).Equals("") And Request.Form(txtNAVDesde.UniqueID).Equals("") And Request.Form(txtNAVHasta.UniqueID).Equals("") And Request.Form(txtSuscripcionDesde.UniqueID).Equals("") And Request.Form(txtSuscripcionHasta.UniqueID).Equals("") Then
+        If ddlEstadoConfirmacion.Text.Trim() = "" Then
+            Suscripcion.EstadoIntencion = Nothing
+        Else
+            Suscripcion.EstadoIntencion = ddlEstadoConfirmacion.SelectedValue
+        End If
+
+        If ddlListaRutAportante.SelectedValue.Trim() = Nothing And _
+            ddlListaRutFondo.SelectedValue.Trim() = Nothing And _
+            ddlListaNemotecnico.SelectedValue.Trim() = Nothing And _
+            ddlEstado.SelectedValue.Trim() = Nothing And _
+            Request.Form(txtIntencionDesde.UniqueID).Equals("") And _
+            Request.Form(txtIntencionHasta.UniqueID).Equals("") And _
+            Request.Form(txtNAVDesde.UniqueID).Equals("") And _
+            Request.Form(txtNAVHasta.UniqueID).Equals("") And _
+            Request.Form(txtSuscripcionDesde.UniqueID).Equals("") And _
+            Request.Form(txtSuscripcionHasta.UniqueID).Equals("") And _
+            ddlEstadoConfirmacion.Text = "" Then
             GrvTabla.DataSource = negocio.GetListaSuscripcion(Suscripcion)
         Else
             GrvTabla.DataSource = negocio.GetListaTCConFiltro(Suscripcion, FechaIntencionHasta, FechaNAVHasta, FechaSuscripcionHasta)
@@ -1432,6 +1459,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
                 Suscripcion.SuscripcionesTransito = row.Cells(CONST_COL_SUSCRIPCIONESTRANSITO).Text().Trim()
                 Suscripcion.CanjesTransito = row.Cells(CONST_COL_CANJESTRANSITO).Text().Trim()
                 Suscripcion.CuotasDisponibles = row.Cells(CONST_COL_CUOTASDISPONIBLES).Text().Trim()
+                Suscripcion.EstadoIntencion = row.Cells(CONST_COL_ESTADOINTENCION).Text().Trim()
                 Suscripcion.FijacionNAV = row.Cells(CONST_COL_FIJACIONNAV).Text().Trim()
                 Suscripcion.TcObservado = row.Cells(CONST_COL_TCOBSERVADO).Text().Trim()
                 Suscripcion.FijacionTC = row.Cells(CONST_COL_FIJACIONTC).Text().Trim()
@@ -1519,6 +1547,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
             'TODO: JOVB
             Suscripcion.ScDisponibles = Decimal.Parse(Replace(txtDisponiblesEmitidas.Text.ToString(), ".", ""))
         End If
+
+        'jOVB
+        Suscripcion.EstadoIntencion = ddlEstadoIntencion.SelectedValue
 
         Return Suscripcion
     End Function

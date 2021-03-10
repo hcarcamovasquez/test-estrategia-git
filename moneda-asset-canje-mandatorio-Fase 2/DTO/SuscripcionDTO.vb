@@ -52,6 +52,9 @@ Public Class SuscripcionDTO
     Public Property CountFN As Integer
     Public Property CountFS As Integer
 
+    'Jovb R3 
+    Public Property EstadoIntencion As String
+
     Public Sub New(IdSuscripcion As Integer, TipoTransaccion As String, FechaIntencion As Date, RutAportante As String, Multifondo As Char, RutFondo As String,
                    Nemotecnico As String, CuotasASuscribir As Decimal, Moneda_Pago As String, FechaNAV As Date, FechaSuscripcion As Date, FechaTC As Date,
                    NAV As Double, Monto As Double, NAVCLP As Double, MontoCLP As Double, TipoCambio As String, ContratoFondo As String, RevisionPoderes As String,

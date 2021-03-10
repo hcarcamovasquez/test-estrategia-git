@@ -116,5 +116,12 @@ Public Class FijacionNegocio
         End If
         Return False
     End Function
+
+    Public Function UpdateEstadoConfirmacion(fijacion As FijacionDTO) As Boolean
+        Dim FijacionDatos As New Datos.FijacionDatos
+        Return FijacionDatos.UpdateEstadoConfirmacion(fijacion)
+
+    End Function
+
 End Class
 

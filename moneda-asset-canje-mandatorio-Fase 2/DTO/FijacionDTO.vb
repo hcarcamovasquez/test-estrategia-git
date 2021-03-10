@@ -33,6 +33,9 @@
     Public Property ObjSuscripcion As SuscripcionDTO
     Public Property ObjRescate As RescatesDTO
 
+    'Jovb R3 
+    Public Property EstadoIntencion As String
+
 
     Public Sub New(id As Int32, fechaNav As Date, fechaTCObs As Date, apRut As String, apMultifondo As String, nemotecnico As String,
                    tipoTransaccion As String, razonSocial As String, cuotas As Int32, rut As String, fnNombreCorto As String, fsNombreCorto As String, contrato As String, poderes As String,

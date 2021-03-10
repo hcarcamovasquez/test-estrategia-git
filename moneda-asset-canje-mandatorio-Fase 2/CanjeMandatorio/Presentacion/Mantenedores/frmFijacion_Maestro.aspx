@@ -9,7 +9,7 @@
 
     <div class="card p-4 jumbotron">
 
-        <div class="row">
+        <div class="row mt-2">
             <!-- LISTA Tipo Transaccion-->
             <div class="col-md-4">
                 <asp:label runat="server" id="lblTipoTransaccion">Tipo Transacción</asp:label>
@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        <div class="row mt-4">
+        <div class="row mt-2">
             <!-- FIJACIÓN NAV -->
             <div class="col-md-3">
                 <asp:label runat="server" id="Label6">Fijación NAV</asp:label>
@@ -68,7 +68,7 @@
 
         </div>
 
-        <div class="row mt-4">
+        <div class="row mt-2">
             <!-- FIJACIÓN TC OBSERVADO-->
             <div class="col-md-3">
                 <asp:label runat="server" id="Label8">Fijación TC Observado</asp:label>
@@ -103,8 +103,14 @@
             </div>
         </div>
 
-        <div class="row mt-4">
+        <div class="row mt-2">
             <div class="col-md-3">
+                <asp:label runat="server" id="lblIntencion">Estado de Confirmación</asp:label>
+                <asp:dropdownlist id="ddlEstadoConfirmacion" cssclass="form-control js-select2-rut" runat="server" autopostback="false">
+                    <asp:ListItem Value="&nbsp;">&nbsp;</asp:ListItem>
+                    <asp:ListItem Value="Intencion">Intención</asp:ListItem>
+                    <asp:ListItem Value="Confirmada">Confirmada</asp:ListItem>
+                </asp:dropdownlist>
             </div>
             <!-- FECHA TC OBSERVACION DESDE -->
             <div class="col-md-3">
@@ -127,11 +133,19 @@
                     <asp:linkbutton id="LinkButton13" text="" class="btn btn-secondary ml-1"
                         onclientclick="return limpiarCalendar('txtFechaPagoHasta')" runat="server"><i class="far fa-trash-alt"></i></asp:linkbutton>
 
-
                 </div>
             </div>
             <!-- BOTÓN TC OBS -->
             <div class="col-md-3 text-center">
+                <asp:button id="btnConfirmar" text="Confirmar" class="btn btn-info mt-4 BtnTCObs" runat="server" enabled="false" visible="true" OnClientClick="return validateBotonConfirmar();" />
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-3"></div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3 text-center">
+                <asp:button id="btnMoverIntencion" text="Mover Intención" class="btn btn-info mt-4 BtnTCObs" runat="server" enabled="false" visible="true" />
             </div>
         </div>
 
@@ -144,18 +158,11 @@
 
             </div>
         </div>
-
-        <div class="row mt-3">
-
-            <!-- FECHA SUSCRIPCIÓN HASTA-->
-            <div class="col-md-5">
-            </div>
-        </div>
-
+        
         <asp:hiddenfield id="txtAccionHidden" runat="server" />
 
         <!-- TABLA DE RESULTADOS -->
-        <div class="row mt-3">
+        <div class="row mt-2">
             <div class="col-md-8">
                 <h5 class="mt-3 text-secondary"><i class="fas fa-file-invoice fa-sm"></i>Resultado de la búsqueda</h5>
             </div>
@@ -197,6 +204,9 @@
                     <asp:BoundField DataField="fechaPago" HeaderText="Fecha de Pago"  DataFormatString="{0:dd-MM-yyyy}" ItemStyle-HorizontalAlign="center"/>
                     <asp:BoundField DataField="NAV_FIJADO" HeaderText="NAV Fijado"  DataFormatString="{0:N6}" ItemStyle-HorizontalAlign="Right"/>
                     <asp:BoundField DataField="TC_OBSERVADO" HeaderText="TC Observado" DataFormatString="{0:N6}" ItemStyle-HorizontalAlign="Right"/>
+
+                    <asp:BoundField DataField="EstadoIntencion" HeaderText="Estado de Confirmación" ItemStyle-HorizontalAlign="Left"/>
+
                     <asp:BoundField DataField="FijacionNAV" HeaderText="Fijación NAV" />
                     <asp:BoundField DataField="FijacionTCObservado" HeaderText="Fijación TC Observado" />                    
                     <asp:BoundField DataField="Nemotecnico" HeaderText="Nemotécnico" />
@@ -210,6 +220,7 @@
             <div class="col-md-12 text-center">
                 <asp:button id="BtnModificar" runat="server" class="btn btn-info btnmodificar" text="Fijación Manual" enabled="false"></asp:button>
                 <asp:button id="BtnExportar" class="btn btn-success" text="Exportar" runat="server" enabled="false" />
+                <asp:button id="BtnEliminar" class="btn btn-success btnEliminar" text="Eliminar" runat="server" enabled="false" visible="true" />
             </div>
         </div>
 
@@ -552,6 +563,16 @@
                                             <div class="col-md-6">
                                                 <asp:label runat="server" id="lbPoderes">Poderes</asp:label>
                                                 <asp:dropdownlist id="ddlPoderes" cssclass="form-control js-select2-rut" runat="server" />
+                                            </div>
+                                        </div>
+                                         <%-- Estado de Confirmacion  --%>
+                                        <div class="row mt-3">
+                                            <div class="col-md-6">
+                                                <asp:Label runat="server" ID="Label36">Estado de Confirmación</asp:Label>
+                                                <asp:DropDownList ID="ddlEstadoIntencion" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="false">
+                                                    <asp:ListItem Value="Intencion">Intención</asp:ListItem>
+                                                    <asp:ListItem Value="Confirmada">Confirmada</asp:ListItem>
+                                                </asp:DropDownList>
                                             </div>
                                         </div>
                                     </div>
@@ -2451,6 +2472,7 @@
                         $(".BtnFijarNav").prop('disabled', false);
                         $(".BtnTCObs").prop('disabled', false);
                         $(".btnImprimir").prop('disabled', false);
+                        $(".btnEliminar").prop('disabled', false);
                     }
                     else {
                         if (contador == 1) {
@@ -2458,12 +2480,14 @@
                             $(".BtnFijarNav").prop('disabled', false);
                             $(".BtnTCObs").prop('disabled', false);
                             $(".btnImprimir").prop('disabled', false);
+                            $(".btnEliminar").prop('disabled', false);
                         }
                         else {
                             $(".btnmodificar").prop('disabled', true);
                             $(".BtnFijarNav").prop('disabled', true);
                             $(".BtnTCObs").prop('disabled', true);
                             $(".btnImprimir").prop('disabled', true);
+                            $(".btnEliminar").prop('disabled', true);
 
                         }
                     }
@@ -2474,12 +2498,14 @@
                         $(".BtnFijarNav").prop('disabled', false);
                         $(".BtnTCObs").prop('disabled', false);
                         $(".btnImprimir").prop('disabled', false);
+                        $(".btnEliminar").prop('disabled', false);
                     }
                     else {
                         $('.checkFijacion input').prop('checked', false);
                         $(".BtnFijarNav").prop('disabled', true);
                         $(".BtnTCObs").prop('disabled', true);
                         $(".btnImprimir").prop('disabled', true);
+                        $(".btnEliminar").prop('disabled', true);
                     }
 
                 });
@@ -2500,6 +2526,7 @@
                 seteaBotonFijacionNAV();
                 seteaBotonFijacionTC();
                 seteaBotonModificar();
+                seteaBotonConfirmar()
 
                 //Sys.WebForms.PageRequestManager.getInstance().add_endRequest(bindDataTable);
             }
@@ -2543,7 +2570,7 @@
             $("#<%=BtnFijarNav.ClientID %>").unbind("click");
             $("#<%=BtnFijarNav.ClientID %>").click(function () {
                 if (!confirm('¿Confirma que desea Fijar NAV?')) {
-                    return false; Seguro
+                    return false; 
                 }
                 else {
                     return true;
@@ -2554,7 +2581,7 @@
             $("#<%=BtnTCObs.ClientID %>").unbind("click");
             $("#<%=BtnTCObs.ClientID %>").click(function () {
                 if (!confirm('¿Confirma que desea Fijar Tipo Cambio?')) {
-                    return false; Seguro
+                    return false; 
                 }
                 else {
                     return true;
@@ -2565,14 +2592,14 @@
             $("#<%=btnModalModificarRastreo.ClientID %>").unbind("click");
             $("#<%=btnModalModificarRastreo.ClientID %>").click(function () {
                 if (!confirm('¿Confirma que desea Modificar y Fijar NAV?')) {
-                    return false; Seguro
+                    return false; 
                 }
                 else {
                     return true;
                 }
             });
         }
-
+        
         function validarValorEntrante() {
             var valor = document.getElementById('<%=txtModalNavEntrante.ClientID%>').value;
             if (valor.match(/^\d{1,20}(\,\d{1,6})?$/)) {
@@ -2623,11 +2650,13 @@
             var BtnFijarNav = document.getElementById('<%=BtnFijarNav.ClientID%>');
             var BtnTCObs = document.getElementById('<%=BtnTCObs.ClientID%>');
             var btnImprimir = document.getElementById('<%=btnImprimir.ClientID%>');
+            var btnEliminar = document.getElementById('<%=BtnEliminar.ClientID%>');
 
             btnModificar.disabled = newValue;
             BtnFijarNav.disabled = newValue;
             BtnTCObs.disabled = newValue;
             btnImprimir.disabled = newValue;
+            btnEliminar.disabled = newValue;
         }
 
         function checkRadioBtn(id) {
@@ -2652,7 +2681,12 @@
             }
             var btnImprimir = document.getElementById('<%=btnImprimir.ClientID%>');
             btnImprimir.disabled = !(flag);
+
+            var btnEliminar= document.getElementById('<%=BtnEliminar.ClientID%>');
+            btnEliminar.disabled = !(flag);
+
         }
+
         function isPerfilConsulta() {
             var HiddenPerfil = $("#<%=HiddenPerfil.ClientID %>").val();
             var HiddenConstante = $("#<%=HiddenConstante.ClientID %>").val();
@@ -2774,5 +2808,31 @@
                 return true;
             }
         }
+
+        /*
+         JOVB : R3 
+        */
+
+        function seteaBotonConfirmar() {
+            $("#<%=btnConfirmar.ClientID %>").unbind("click");
+            $("#<%=btnConfirmar.ClientID %>").click(function () {
+                if (!confirm('¿ Confirma que desea Confirmar la(s) transacciones Seleccionadas ?')) {
+                    return false; 
+                }
+                else {
+                    return true;
+                }
+            });
+        }
+
+        function validateBotonConfirmar() {
+            if (!confirm('¿Confirma que desea Confirmar la(s) transacciones Seleccionadas?')) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+
     </script>
 </asp:Content>

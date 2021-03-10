@@ -113,6 +113,16 @@
                    
                 </div>
             </div>
+
+            <div class="col-md-3">
+                <asp:Label runat="server" ID="lblIntencion">Estado de Confirmación</asp:Label>
+                <asp:DropDownList ID="ddlEstadoConfirmacion" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="false">
+                    <asp:ListItem Value="&nbsp;">&nbsp;</asp:ListItem>
+                    <asp:ListItem Value="Intencion">Intención</asp:ListItem>
+                    <asp:ListItem Value="Confirmada">Confirmada</asp:ListItem>
+                </asp:DropDownList>
+            </div>
+
         </div>
 
         <!-- BOTÓN BUSCAR -->
@@ -180,6 +190,7 @@
                         <asp:BoundField DataField="SuscripcionesTransito" HeaderText="Suscripciones en tránsito" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right"/>
                         <asp:BoundField DataField="CanjesTransito" HeaderText="Canjes en tránsito" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right"/>
                         <asp:BoundField DataField="CuotasDisponibles" HeaderText="Cuotas disponibles" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right"/>
+                        <asp:BoundField DataField="EstadoIntencion" HeaderText="Estado de Confirmación" ItemStyle-HorizontalAlign="Left"/>
                         <asp:BoundField DataField="FijacionNAV" HeaderText="Fijación Nav" />
                         <asp:BoundField DataField="TcObservado" HeaderText="TC observado" />
                         <asp:BoundField DataField="FijacionTC" HeaderText="Fijación TC observado" />
@@ -628,6 +639,17 @@
                                                 <asp:DropDownList ID="ddlPoderes" CssClass="form-control js-select2-rut" runat="server" />
                                             </div>
                                         </div>
+
+                                        <%-- Estado de Confirmacion  --%>
+                                        <div class="row mt-3">
+                                            <div class="col-md-6">
+                                                <asp:Label runat="server" ID="Label36">Estado de Confirmación</asp:Label>
+                                                <asp:DropDownList ID="ddlEstadoIntencion" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="false">
+                                                    <asp:ListItem Value="Intencion">Intención</asp:ListItem>
+                                                    <asp:ListItem Value="Confirmada">Confirmada</asp:ListItem>
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1035,7 +1057,7 @@
 
     <!--PopUp Suscripciones-->
     <div class="modal fade" id="PopUpSuscripciones" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-        <div class="modal-dialog" style="max-width: 90%;">
+        <div class="modal-dialog" style="max-width: 60%;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">

@@ -32,6 +32,8 @@ Public Class WSFijacion
     Private CONST_SELECT_FIJACION_TC As String = "SELECT_FIJACIONTC"
     Private Const CONST_SELECT_ONE As String = "SELECT_ONE"
     Private Const CONST_SELECT_RELACIONES As String = "SELECT_RELACIONES"
+    Private Const CONST_UPDATE_INTENCION As String = "UPDATE_ESTADO_INTENCION"
+
     <WebMethod()>
     <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
     Public Function ConsultarTodos(Fijacion As FijacionDTO) As List(Of FijacionDTO)
@@ -57,7 +59,7 @@ Public Class WSFijacion
 
     <WebMethod()>
     <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
-    Public Function Nemotecnico As List(Of FondoSerieDTO)
+    Public Function Nemotecnico() As List(Of FondoSerieDTO)
         Dim ListaSerie As List(Of FondoSerieDTO) = New List(Of FondoSerieDTO)
         Dim sp As New DBSqlServer.SqlServer.StoredProcedure(SP_CONSULTAS)
         Dim ds As DataSet
@@ -81,6 +83,7 @@ Public Class WSFijacion
 
         Return ListaSerie
     End Function
+
 
     <WebMethod()>
     <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
@@ -106,6 +109,7 @@ Public Class WSFijacion
 
             sp.AgregarParametro("FechaPagoDesde", FechaPagoDesde, System.Data.SqlDbType.Date)
             sp.AgregarParametro("FechaPagoHasta", FechaPagoHasta, System.Data.SqlDbType.Date)
+            sp.AgregarParametro("ScEstadoIntencion", Fijacion.EstadoIntencion, System.Data.SqlDbType.VarChar)
 
             ds = sp.ReturnDataSet()
 
@@ -266,6 +270,27 @@ Public Class WSFijacion
         Return False
     End Function
 
+    <WebMethod()>
+    <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
+    Public Function UpdateEstadoConfirmacion(fijacion As FijacionDTO) As Boolean
+        Dim sp As New DBSqlServer.SqlServer.StoredProcedure(SP_UPDATE)
+        Dim ds As DataSet
+        Try
+            sp.AgregarParametro("Accion", CONST_UPDATE_INTENCION, System.Data.SqlDbType.VarChar)
+            sp.AgregarParametro("TipoTransaccion", fijacion.TipoTransaccion, System.Data.SqlDbType.VarChar)
+            sp.AgregarParametro("Id", fijacion.ID, System.Data.SqlDbType.Int)
+
+            ds = sp.ReturnDataSet()
+            Return True
+        Catch ex As Exception
+            Return False
+
+        End Try
+        Return False
+
+
+    End Function
+
     '<WebMethod()>
     '<ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
     'Public Function GetListaFijacion(Fijacion As DTO.FijacionDTO) As List(Of DTO.FijacionDTO)
@@ -420,6 +445,7 @@ Public Class WSFijacion
             .TC_OBSERVADO = dataRow("tc_observado").ToString().Trim()
             .NAV_FIJADO = dataRow("NAV_FIJADO").ToString().Trim()
             .MonedaPago = dataRow("Moneda_Pago").ToString().Trim()
+            .EstadoIntencion = dataRow("SC_EstadoIntencion").ToString().Trim()
         End With
         Return Fijacion
     End Function

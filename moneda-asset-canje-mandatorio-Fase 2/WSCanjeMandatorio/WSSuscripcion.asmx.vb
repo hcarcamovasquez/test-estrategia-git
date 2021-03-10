@@ -266,6 +266,7 @@ Public Class WSSuscripcion
             sp.AgregarParametro("FechaSuscripcionHasta", FechaSuscripcionHasta, System.Data.SqlDbType.Date)
 
             FillParameters(Suscripcion, sp)
+
             ds = sp.ReturnDataSet()
             For Each dataRow As DataRow In ds.Tables(0).Rows
                 listaSuscripcion.Add(fillObject(dataRow))
@@ -511,6 +512,8 @@ Public Class WSSuscripcion
         sp.AgregarParametro("ScUsuarioIngreso", Suscripcion.ScUsuarioIngreso, System.Data.SqlDbType.VarChar)
         sp.AgregarParametro("ScUsuarioModificacion", Suscripcion.ScUsuarioModificacion, System.Data.SqlDbType.VarChar)
         'sp.AgregarParametro("ScFechaModificacion", Suscripcion.ScFechaModificacion, System.Data.SqlDbType.DateTime)
+
+        sp.AgregarParametro("ScEstadoIntencion", Suscripcion.EstadoIntencion, System.Data.SqlDbType.VarChar)
     End Sub
 
     Private Function fillObject(dataRow As DataRow) As SuscripcionDTO
@@ -567,6 +570,8 @@ Public Class WSSuscripcion
             .ScFechaIngreso = dataRow("Sc_Fecha_Ingreso").ToString().Trim()
             .ScUsuarioModificacion = dataRow("Sc_Usuario_Modificacion").ToString()
             .ScFechaModificacion = dataRow("Sc_Fecha_Modificacion").ToString().Trim()
+
+            .EstadoIntencion = dataRow("Sc_EstadoIntencion").ToString().Trim()
 
         End With
         Return Suscripcion
