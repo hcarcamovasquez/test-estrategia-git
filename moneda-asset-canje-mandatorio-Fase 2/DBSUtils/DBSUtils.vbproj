@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="exportarWord.vb" />
+    <Compile Include="ObtenerFechasSolicitud.vb" />
     <Compile Include="PentahoUtil.vb" />
     <Compile Include="TMarcadores.vb" />
     <Compile Include="Utiles.vb" />
