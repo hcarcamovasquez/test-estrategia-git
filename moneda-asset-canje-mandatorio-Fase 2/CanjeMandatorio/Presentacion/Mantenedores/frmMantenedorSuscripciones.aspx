@@ -132,6 +132,8 @@
                 <asp:Button ID="btnLimpiarFrm" Text="Borrar" OnClick="btnLimpiarFrm_Click" class="btn btn-secondary" runat="server" />
                 <!-- BOTÓN CREAR -->
                 <asp:Button ID="btnCrear" Text="Crear" class="btn btn-info" runat="server" OnClick="btnCrear_Click" />
+                <!-- BOTÓN LLAMADO ETL SUSCRIPCIONES MASIVAS -->
+                <asp:Button ID="btnSuscripcionesMasivas" Text="Carga Suscripciones Masivas" class="btn btn-info" runat="server" style="float:right" />
             </div>
         </div>
 
