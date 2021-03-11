@@ -52,11 +52,13 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
     Private Const CONST_LLENAR_CAMPOS As String = "Debe llenar todos los campos"
     Private Const CONST_NO_HAY_TRANSACCIONES_SELECCIONADAS As String = "No hay transacciones seleccionadas"
 
+
 #End Region
     Dim NegocioSuscripcion As SuscripcionNegocio = New SuscripcionNegocio
     Dim NegocioRescate As RescateNegocio = New RescateNegocio
     Dim NegocioCanje As CanjeNegocio = New CanjeNegocio
     Dim Negocio As FijacionNegocio = New FijacionNegocio
+
 
 
 #Region "DATA INICIAL"
@@ -157,13 +159,19 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         Dim ValorNAVSeleccionado As Decimal
         Dim Fijado As String
 
+        Dim ListaErrores As List(Of TErroresFijacion)
+
+        ListaErrores = CargarListaErroresSoportados()
+
         Dim listaMensajes As List(Of String) = New List(Of String)
 
         For Each row As GridViewRow In GrvTabla.Rows
             Dim chk As CheckBox = row.Cells(0).Controls(1)
+
             If chk IsNot Nothing And chk.Checked Then
                 Fijacion.ID = row.Cells(CONST_COL_ID).Text().Trim()
                 Fijacion.TipoTransaccion = row.Cells(CONST_COL_TIPOTRANSACCION).Text().Trim()
+
                 TransaccionSeleccionada = row.Cells(CONST_COL_ID).Text().Trim()
                 TipoTransaccionSeleccionado = row.Cells(CONST_COL_TIPOTRANSACCION).Text().Trim()
                 FechaNAVSeleccionada = row.Cells(CONST_COL_FECHANAV).Text().Trim()
@@ -173,364 +181,384 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                 Fijado = row.Cells(CONST_COL_FIJACIONNAV).Text().Trim()
 
                 If (Fijado = "Realizado") Then
+                    ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_ERROR_TRANSACCION_YA_FIJADA, NemotecnicoSeleccionado)
                     CantidadNOFijados = CantidadNOFijados + 1
+                    Continue For
+                End If
+
+                Series.Nemotecnico = NemotecnicoSeleccionado
+                Series.Rut = FondoRUTSeleccionado
+                SerieActualizado = negocioSeries.GetFondosSeries(Series)
+
+                If (SerieActualizado IsNot Nothing) Then
+                    Select Case Fijacion.TipoTransaccion.ToLower()
+                        Case "canje"
+                            TipoFijacionNAV = SerieActualizado.FijacionCanje
+                        Case "suscripcion"
+                            TipoFijacionNAV = SerieActualizado.FijacionSuscripcion
+                        Case "rescate"
+                            TipoFijacionNAV = SerieActualizado.FijacionNav
+                        Case Else
+                            TipoFijacionNAV = Nothing
+                    End Select
                 Else
+                    TipoFijacionNAV = Nothing
+                End If
 
-                    Series.Nemotecnico = NemotecnicoSeleccionado
-                    Series.Rut = FondoRUTSeleccionado
-                    SerieActualizado = negocioSeries.GetFondosSeries(Series)
+                If (TipoFijacionNAV IsNot Nothing) Then
+                    If TipoFijacionNAV = "Automático" Then
+                        Dim NegocioVC As ValoresCuotaNegocio = New ValoresCuotaNegocio
+                        Dim ValoresCuota As VcSerieDTO = New VcSerieDTO()
+                        Dim ValoresCuotaSeleccionado As VcSerieDTO = New VcSerieDTO()
 
-                    If (SerieActualizado IsNot Nothing) Then
-                        Select Case Fijacion.TipoTransaccion.ToLower()
-                            Case "canje"
-                                TipoFijacionNAV = SerieActualizado.FijacionCanje
-                            Case "suscripcion"
-                                TipoFijacionNAV = SerieActualizado.FijacionSuscripcion
-                            Case "rescate"
-                                TipoFijacionNAV = SerieActualizado.FijacionNav
-                            Case Else
-                                TipoFijacionNAV = Nothing
-                        End Select
-                    Else
-                        TipoFijacionNAV = Nothing
-                    End If
+                        Dim NegocioRescates As RescateNegocio = New RescateNegocio
+                        Dim Rescates As RescatesDTO = New RescatesDTO()
+                        Dim RescateSeleccionado As RescatesDTO = New RescatesDTO()
+                        Dim RescateActualizar As RescatesDTO = New RescatesDTO()
 
-                    If (TipoFijacionNAV IsNot Nothing) Then
-                        If TipoFijacionNAV = "Automático" Then
-                            Dim NegocioVC As ValoresCuotaNegocio = New ValoresCuotaNegocio
-                            Dim ValoresCuota As VcSerieDTO = New VcSerieDTO()
-                            Dim ValoresCuotaSeleccionado As VcSerieDTO = New VcSerieDTO()
+                        Dim NegocioSuscripcion As SuscripcionNegocio = New SuscripcionNegocio
+                        Dim Suscripcion As SuscripcionDTO = New SuscripcionDTO()
+                        Dim SuscripcionSeleccionada As SuscripcionDTO = New SuscripcionDTO()
+                        Dim SuscripcionActualizar As SuscripcionDTO = New SuscripcionDTO()
 
-                            Dim NegocioRescates As RescateNegocio = New RescateNegocio
-                            Dim Rescates As RescatesDTO = New RescatesDTO()
-                            Dim RescateSeleccionado As RescatesDTO = New RescatesDTO()
-                            Dim RescateActualizar As RescatesDTO = New RescatesDTO()
+                        Dim CuotasSeleccionado As Decimal
+                        Dim MonedaSerieSeleccionado As String
+                        Dim ValorNAV_CLPSeleccionado As Decimal
+                        Dim ValorTcObsSeleccionado As Decimal
 
-                            Dim NegocioSuscripcion As SuscripcionNegocio = New SuscripcionNegocio
-                            Dim Suscripcion As SuscripcionDTO = New SuscripcionDTO()
-                            Dim SuscripcionSeleccionada As SuscripcionDTO = New SuscripcionDTO()
-                            Dim SuscripcionActualizar As SuscripcionDTO = New SuscripcionDTO()
+                        Dim ValorNAVActualizado As Decimal
+                        Dim ValorNAV_CLPActualizado As Decimal
+                        Dim ValorMontoActualizado As Decimal
+                        Dim ValorMontoCLPActualizado As Decimal
 
-                            Dim CuotasSeleccionado As Decimal
-                            Dim MonedaSerieSeleccionado As String
-                            Dim ValorNAV_CLPSeleccionado As Decimal
-                            Dim ValorTcObsSeleccionado As Decimal
+                        ValoresCuota.FnRut = FondoRUTSeleccionado
+                        ValoresCuota.FsNemotecnico = NemotecnicoSeleccionado
+                        ValoresCuota.Fecha = FechaNAVSeleccionada
+                        ValoresCuotaSeleccionado = NegocioVC.GetValoresCuota(ValoresCuota)
 
-                            Dim ValorNAVActualizado As Decimal
-                            Dim ValorNAV_CLPActualizado As Decimal
-                            Dim ValorMontoActualizado As Decimal
-                            Dim ValorMontoCLPActualizado As Decimal
+                        If ValoresCuotaSeleccionado IsNot Nothing Then
+                            'Trae el valor NAV, Fija y Recalcula 
+                            If TipoTransaccionSeleccionado = "Rescate" Then
+                                ValorNAVSeleccionado = ValoresCuotaSeleccionado.Valor
+                                'Trae los campos necesarios para recalcular
+                                Rescates.RES_ID = TransaccionSeleccionada
+                                RescateSeleccionado = NegocioRescates.GetRescateOne(Rescates)
 
-                            ValoresCuota.FnRut = FondoRUTSeleccionado
-                            ValoresCuota.FsNemotecnico = NemotecnicoSeleccionado
-                            ValoresCuota.Fecha = FechaNAVSeleccionada
-                            ValoresCuotaSeleccionado = NegocioVC.GetValoresCuota(ValoresCuota)
-
-                            If ValoresCuotaSeleccionado IsNot Nothing Then
-                                'Trae el valor NAV, Fija y Recalcula 
-                                If TipoTransaccionSeleccionado = "Rescate" Then
-                                    ValorNAVSeleccionado = ValoresCuotaSeleccionado.Valor
-                                    'Trae los campos necesarios para recalcular
-                                    Rescates.RES_ID = TransaccionSeleccionada
-                                    RescateSeleccionado = NegocioRescates.GetRescateOne(Rescates)
-
-                                    If RescateSeleccionado IsNot Nothing Then
-                                        CuotasSeleccionado = RescateSeleccionado.RES_Cuotas
-                                        MonedaSerieSeleccionado = RescateSeleccionado.FS_Moneda
-                                        ValorNAV_CLPSeleccionado = RescateSeleccionado.RES_Nav_CLP
-                                        ValorTcObsSeleccionado = RescateSeleccionado.TC_Valor
+                                If RescateSeleccionado IsNot Nothing Then
+                                    CuotasSeleccionado = RescateSeleccionado.RES_Cuotas
+                                    MonedaSerieSeleccionado = RescateSeleccionado.FS_Moneda
+                                    ValorNAV_CLPSeleccionado = RescateSeleccionado.RES_Nav_CLP
+                                    ValorTcObsSeleccionado = RescateSeleccionado.TC_Valor
 
 
-                                        Dim Relacion As RescatesDTO = NegocioRescate.GetRelaciones(RescateSeleccionado)
+                                    Dim Relacion As RescatesDTO = NegocioRescate.GetRelaciones(RescateSeleccionado)
 
-                                        If (Relacion.CountAP > 0) Then
-                                            txtAccionHidden.Value = ""
-                                            Mensaje = Mensaje & " No se pudo modificar el rescate " & TransaccionSeleccionada & " El aportante fue modificado."
-                                            CantidadNOFijados = CantidadNOFijados + 1
-                                        ElseIf (Relacion.CountFN > 0) Then
-                                            txtAccionHidden.Value = ""
-                                            Mensaje = Mensaje & " No se pudo modificar el rescate " & TransaccionSeleccionada & " El fondo fue modificado."
-                                            CantidadNOFijados = CantidadNOFijados + 1
-                                        ElseIf (Relacion.CountFS > 0) Then
-                                            txtAccionHidden.Value = ""
-                                            Mensaje = Mensaje & " No se pudo modificar el rescate " & TransaccionSeleccionada & " La serie fue modificada"
-                                            CantidadNOFijados = CantidadNOFijados + 1
-                                        Else
-
-
-                                            'SI EXCEDE; GENERAR ADVERTENCIA
-                                            If ControlValidacionPatrimonioAutomatico(RescateSeleccionado) Then
-                                                listaMensajes.Add("Los rescates no cumplen con el maximo del patrimonio")
-                                            End If
-
-                                            If MonedaSerieSeleccionado = "CLP" Then
-                                                'Recalcula y Manda a Actualizar cuando Moneda es CLP
-                                                ValorNAVActualizado = ValorNAVSeleccionado
-                                                ValorNAV_CLPActualizado = ValorNAVSeleccionado
-                                                ValorMontoActualizado = (CuotasSeleccionado) * (ValorNAVActualizado)
-                                                ValorMontoCLPActualizado = (CuotasSeleccionado) * (ValorNAV_CLPActualizado)
-
-                                                RescateActualizar.RES_ID = TransaccionSeleccionada
-                                                RescateActualizar.RES_Nav = ValorNAVActualizado
-                                                RescateActualizar.RES_Nav_CLP = ValorNAV_CLPActualizado
-                                                RescateActualizar.RES_Monto = ValorMontoActualizado
-                                                RescateActualizar.RES_Monto_CLP = ValorMontoCLPActualizado
-
-                                                CantidadFijados = CantidadFijados + 1
-                                                NegocioRescates.RecalculoFijacionNAV(RescateActualizar)
-                                                negocioMod.UpdateFijacionNav(Fijacion.ID, Fijacion.TipoTransaccion)
-                                            Else
-                                                'Recalcula y Manda a Actualizar cuando Moneda es Diferente a CLP
-                                                ValorNAVActualizado = ValorNAVSeleccionado
-                                                ValorNAV_CLPActualizado = (ValorNAVSeleccionado) * (ValorTcObsSeleccionado)
-                                                ValorMontoActualizado = (CuotasSeleccionado) * (ValorNAVActualizado)
-                                                ValorMontoCLPActualizado = (CuotasSeleccionado) * (ValorNAV_CLPActualizado)
-
-                                                RescateActualizar.RES_ID = TransaccionSeleccionada
-                                                RescateActualizar.RES_Nav = ValorNAVActualizado
-                                                RescateActualizar.RES_Nav_CLP = ValorNAV_CLPActualizado
-                                                RescateActualizar.RES_Monto = ValorMontoActualizado
-                                                RescateActualizar.RES_Monto_CLP = ValorMontoCLPActualizado
-
-                                                CantidadFijados = CantidadFijados + 1
-                                                NegocioRescates.RecalculoFijacionNAV(RescateActualizar)
-                                                negocioMod.UpdateFijacionNav(Fijacion.ID, Fijacion.TipoTransaccion)
-                                            End If
-
-                                        End If
-                                    End If
-
-                                ElseIf TipoTransaccionSeleccionado = "Canje" Then
-
-                                    Dim valorSaliente As VcSerieDTO = New VcSerieDTO
-                                    valorSaliente.Fecha = FechaNAVSeleccionada
-                                    valorSaliente.FnRut = FondoRUTSeleccionado
-                                    valorSaliente.FsNemotecnico = NemotecnicoSeleccionado
-                                    Dim valorNavSaliente = NegocioVC.GetValoresCuota(valorSaliente)
-
-                                    Dim canje As CanjeDTO = New CanjeDTO()
-                                    canje.IdCanje = TransaccionSeleccionada
-
-                                    Dim canjeSeleccionado As CanjeDTO = NegocioCanje.GetCanje(canje)
-                                    Dim valorEntrante As VcSerieDTO = New VcSerieDTO
-                                    valorEntrante.Fecha = canjeSeleccionado.FechaNavEntrante
-                                    valorEntrante.FnRut = canjeSeleccionado.RutFondo
-                                    valorEntrante.FsNemotecnico = canjeSeleccionado.NemotecnicoEntrante.Trim()
-
-                                    Dim valorNavEntrante = NegocioVC.GetValoresCuota(valorEntrante)
-
-                                    If valorNavSaliente Is Nothing Or valorNavEntrante Is Nothing Then
-                                        canjeSeleccionado.FijacionNav = "Pendiente"
+                                    If (Relacion.CountAP > 0) Then
+                                        txtAccionHidden.Value = ""
+                                        Mensaje = Mensaje & " No se pudo modificar el rescate " & TransaccionSeleccionada & " El aportante fue modificado."
+                                        CantidadNOFijados = CantidadNOFijados + 1
+                                    ElseIf (Relacion.CountFN > 0) Then
+                                        txtAccionHidden.Value = ""
+                                        Mensaje = Mensaje & " No se pudo modificar el rescate " & TransaccionSeleccionada & " El fondo fue modificado."
+                                        CantidadNOFijados = CantidadNOFijados + 1
+                                    ElseIf (Relacion.CountFS > 0) Then
+                                        txtAccionHidden.Value = ""
+                                        Mensaje = Mensaje & " No se pudo modificar el rescate " & TransaccionSeleccionada & " La serie fue modificada"
                                         CantidadNOFijados = CantidadNOFijados + 1
                                     Else
 
-                                        Dim aportante As AportanteDTO = New AportanteDTO()
-                                        aportante.Rut = canjeSeleccionado.RutAportante
-                                        If canjeSeleccionado.Multifondo = "&nbsp;" Then
-                                            aportante.Multifondo = String.Empty
-                                        Else
-                                            aportante.Multifondo = canjeSeleccionado.Multifondo
-                                        End If
-                                        Dim listaAportante As List(Of AportanteDTO) = NegocioCanje.CompararDatosAportantes(aportante)
-
-                                        Dim serieEntrante As FondoSerieDTO = New FondoSerieDTO()
-                                        serieEntrante.Rut = canjeSeleccionado.RutFondo
-                                        serieEntrante.Nemotecnico = canjeSeleccionado.NemotecnicoEntrante
-                                        Dim listaEntrantes As List(Of FondoSerieDTO) = NegocioCanje.CompararDatosEntrantes(serieEntrante)
-
-                                        Dim Ex As String = ""
-                                        Dim serieSaliente As FondoSerieDTO = New FondoSerieDTO()
-                                        serieSaliente.Rut = canjeSeleccionado.RutFondo
-                                        serieSaliente.Nemotecnico = canjeSeleccionado.NemotecnicoSaliente
-                                        Dim listaSaliente As List(Of FondoSerieDTO) = NegocioCanje.CompararDatosSalientes(serieSaliente)
-
-                                        If listaAportante.Count > 0 Then
-                                            For Each aportantes As AportanteDTO In listaAportante
-                                                Dim razonSocial = aportantes.RazonSocial
-                                                Dim estado = aportantes.Estado
-                                                If canjeSeleccionado.NombreAportante <> razonSocial And estado = 1 Or estado = 0 Then
-                                                    Mensaje = Mensaje & " No se puede modificar el canje, información del Aportante se modifico"
-                                                    Ex = "x"
-                                                ElseIf listaEntrantes.Count > 0 Then
-                                                    For Each entrante As FondoSerieDTO In listaEntrantes
-                                                        Dim serie = entrante.Nombrecorto
-                                                        Dim moneda = entrante.Moneda
-                                                        Dim estadoEntrante = entrante.Estado
-                                                        If canjeSeleccionado.NombreSerieEntrante <> serie Or canjeSeleccionado.MonedaEntrante <> moneda And estadoEntrante = 1 Or estadoEntrante = 0 Then
-                                                            Mensaje = Mensaje & (" No se puede modificar el canje, Serie entrante modificada")
-                                                            Ex = "x"
-                                                        ElseIf listaSaliente.Count > 0 Then
-                                                            For Each saliente As FondoSerieDTO In listaSaliente
-                                                                Dim serieSaliente2 = saliente.Nombrecorto
-                                                                Dim monedaSaliente = saliente.Moneda
-                                                                Dim estadoSaliente = saliente.Estado
-                                                                If canjeSeleccionado.NombreSerieSaliente <> serieSaliente2 Or canjeSeleccionado.MonedaSaliente <> monedaSaliente And estadoSaliente = 1 Or estadoSaliente = 0 Then
-                                                                    Mensaje = Mensaje & (" No se puede modificar el canje, Serie saliente modificada ")
-                                                                    Ex = "x"
-                                                                End If
-                                                            Next
-                                                        End If
-                                                    Next
-                                                End If
-                                            Next
+                                        'SI EXCEDE; GENERAR ADVERTENCIA
+                                        If ControlValidacionPatrimonioAutomatico(RescateSeleccionado) Then
+                                            listaMensajes.Add("Los rescates no cumplen con el maximo del patrimonio")
                                         End If
 
-                                        If (canjeSeleccionado IsNot Nothing And Ex <> "x") Then
-                                            Dim cuotaSaliente As Double
-                                            Dim navEntranteUSD As Double
-                                            Dim navEntranteCLP As Double
-                                            Dim montoEntranteUSD As Double
-                                            Dim montoEntranteCLP As Double
-                                            Dim diferencias As Double
-                                            Dim diferenciasCLP As Double
-                                            Dim factor As Double
-                                            Dim cuotaEntrante As Double
+                                        If MonedaSerieSeleccionado = "CLP" Then
+                                            'Recalcula y Manda a Actualizar cuando Moneda es CLP
+                                            ValorNAVActualizado = ValorNAVSeleccionado
+                                            ValorNAV_CLPActualizado = ValorNAVSeleccionado
+                                            ValorMontoActualizado = (CuotasSeleccionado) * (ValorNAVActualizado)
+                                            ValorMontoCLPActualizado = (CuotasSeleccionado) * (ValorNAV_CLPActualizado)
 
-                                            Dim navSalienteUSD As Double
-                                            Dim navSalienteCLP As Double
-
-                                            Dim montoSalienteUSD As Double
-                                            Dim montoSalienteCLP As Double
-
-                                            Dim navEntranteCLPConDecimales As Double
-                                            Dim navSalienteCLPConDecimales As Double
-
-                                            cuotaSaliente = canjeSeleccionado.CuotaSaliente
-
-                                            navEntranteUSD = valorNavEntrante.Valor
-                                            navEntranteCLP = Utiles.calcularNAVCLP(canjeSeleccionado.TipoCambio, navEntranteUSD)
-
-                                            navSalienteUSD = valorNavSaliente.Valor '     valorNavSaliente.Valor
-                                            navSalienteCLP = Utiles.calcularNAVCLP(canjeSeleccionado.TipoCambio, navSalienteUSD)  '     canjeSeleccionado.NavCLPSaliente  '     valorNavSaliente.Valor
-
-                                            navSalienteCLPConDecimales = canjeSeleccionado.TipoCambio * navSalienteUSD
-                                            navEntranteCLPConDecimales = canjeSeleccionado.TipoCambio * navEntranteUSD
-
-                                            If navEntranteCLPConDecimales = 0 Then
-                                                factor = 0
-                                            Else
-
-                                                factor = navSalienteCLPConDecimales / navEntranteCLPConDecimales
-                                            End If
-
-
-                                            cuotaEntrante = Math.Truncate(factor * cuotaSaliente)
-
-                                            montoEntranteUSD = cuotaEntrante * navEntranteUSD
-                                            montoEntranteCLP = Utiles.calcularMontoCLP(cuotaEntrante, navEntranteUSD, canjeSeleccionado.TipoCambio)
-
-                                            montoSalienteUSD = cuotaSaliente * navSalienteUSD
-                                            montoSalienteCLP = Utiles.calcularMontoCLP(cuotaSaliente, navSalienteUSD, canjeSeleccionado.TipoCambio)
-
-                                            diferencias = montoSalienteUSD - montoEntranteUSD
-                                            diferenciasCLP = montoSalienteCLP - montoEntranteCLP
-
-                                            canjeSeleccionado.IdCanje = TransaccionSeleccionada
-                                            canjeSeleccionado.CuotaSaliente = cuotaSaliente
-                                            canjeSeleccionado.CuotaEntrante = cuotaEntrante
-                                            canjeSeleccionado.NavEntrante = navEntranteUSD
-                                            canjeSeleccionado.Factor = factor
-                                            canjeSeleccionado.NavSaliente = navSalienteUSD
-                                            canjeSeleccionado.NavCLPEntrante = navEntranteCLP
-                                            canjeSeleccionado.NavCLPSaliente = navSalienteCLP
-                                            canjeSeleccionado.Diferencia = diferencias
-                                            canjeSeleccionado.DiferenciaCLP = diferenciasCLP
-                                            canjeSeleccionado.MontoEntrante = montoEntranteUSD
-                                            canjeSeleccionado.MontoCLPEntrante = montoEntranteCLP
-                                            canjeSeleccionado.MontoSaliente = montoSalienteUSD
-                                            canjeSeleccionado.MontoCLPSaliente = montoSalienteCLP
-                                            canjeSeleccionado.FijacionNav = "Realizado"
-                                            NegocioCanje.UpdateCanje(canjeSeleccionado)
-                                            negocioMod.UpdateFijacionNav(Fijacion.ID, Fijacion.TipoTransaccion)
-                                            CantidadFijados = CantidadFijados + 1
-                                        Else
-                                            CantidadNOFijados = CantidadNOFijados + 1
-                                        End If
-                                    End If
-                                ElseIf TipoTransaccionSeleccionado = "Suscripcion" Then
-                                    ValorNAVSeleccionado = ValoresCuotaSeleccionado.Valor
-                                    'Trae los campos necesarios para recalcular
-                                    Suscripcion.IdSuscripcion = TransaccionSeleccionada
-                                    SuscripcionSeleccionada = NegocioSuscripcion.GetSuscripcion(Suscripcion)
-
-                                    If SuscripcionSeleccionada IsNot Nothing Then
-
-                                        Dim Relacion As SuscripcionDTO = NegocioSuscripcion.GetRelaciones(SuscripcionSeleccionada)
-                                        If (Relacion.CountAP > 0) Then
-                                            txtAccionHidden.Value = ""
-                                            Mensaje = Mensaje & " No se pudo modificar la suscripción " & TransaccionSeleccionada & " El aportante fue modificado."
-                                            CantidadNOFijados = CantidadNOFijados + 1
-                                        ElseIf (Relacion.CountFN > 0) Then
-                                            txtAccionHidden.Value = ""
-                                            Mensaje = Mensaje & " No se pudo modificar la suscripción " & TransaccionSeleccionada & " El fondo fue modificado."
-                                            CantidadNOFijados = CantidadNOFijados + 1
-                                        ElseIf (Relacion.CountFS > 0) Then
-                                            txtAccionHidden.Value = ""
-                                            Mensaje = Mensaje & " No se pudo modificar la suscripción " & TransaccionSeleccionada & " La serie fue modificada"
-                                            CantidadNOFijados = CantidadNOFijados + 1
-                                            ' JOVB: R3 
-                                        ElseIf Not EsConfirmada(SuscripcionSeleccionada) Then
-                                            txtAccionHidden.Value = ""
-                                            Mensaje = Mensaje & " No se pudo fijar la suscripción " & TransaccionSeleccionada & ". Transacción en Intención"
-                                            CantidadNOFijados = CantidadNOFijados + 1
-
-                                        Else
-
-                                            CuotasSeleccionado = SuscripcionSeleccionada.CuotasASuscribir
-                                            MonedaSerieSeleccionado = SuscripcionSeleccionada.MonedaSerie
-                                            ValorNAV_CLPSeleccionado = SuscripcionSeleccionada.NAVCLP
-                                            If (SuscripcionSeleccionada.TcObservado.Contains(".")) Then
-                                                ValorTcObsSeleccionado = (SuscripcionSeleccionada.TcObservado.Substring("0", SuscripcionSeleccionada.TcObservado.IndexOf(".")))
-                                            Else
-                                                ValorTcObsSeleccionado = (SuscripcionSeleccionada.TcObservado)
-                                            End If
-
-                                            If MonedaSerieSeleccionado = "CLP" Then
-                                                'Recalcula y Manda a Actualizar cuando Moneda es CLP
-                                                ValorNAVActualizado = ValorNAVSeleccionado
-                                                ValorNAV_CLPActualizado = ValorNAVSeleccionado
-                                                ValorMontoActualizado = (CuotasSeleccionado) * (ValorNAVActualizado)
-                                                ValorMontoCLPActualizado = (CuotasSeleccionado) * (ValorNAV_CLPActualizado)
-
-                                            Else
-                                                'Recalcula y Manda a Actualizar cuando Moneda es Diferente a CLP
-                                                ValorNAVActualizado = ValorNAVSeleccionado
-                                                ValorNAV_CLPActualizado = (ValorNAVSeleccionado) * (ValorTcObsSeleccionado)
-                                                ValorMontoActualizado = (CuotasSeleccionado) * (ValorNAVActualizado)
-                                                ValorMontoCLPActualizado = (CuotasSeleccionado) * (ValorNAV_CLPActualizado)
-
-                                            End If
-
-                                            SuscripcionActualizar.IdSuscripcion = TransaccionSeleccionada
-                                            SuscripcionActualizar.NAV = ValorNAVActualizado
-                                            SuscripcionActualizar.NAVCLP = ValorNAV_CLPActualizado
-                                            SuscripcionActualizar.Monto = ValorMontoActualizado
-                                            SuscripcionActualizar.MontoCLP = ValorMontoCLPActualizado
+                                            RescateActualizar.RES_ID = TransaccionSeleccionada
+                                            RescateActualizar.RES_Nav = ValorNAVActualizado
+                                            RescateActualizar.RES_Nav_CLP = ValorNAV_CLPActualizado
+                                            RescateActualizar.RES_Monto = ValorMontoActualizado
+                                            RescateActualizar.RES_Monto_CLP = ValorMontoCLPActualizado
 
                                             CantidadFijados = CantidadFijados + 1
-                                            NegocioSuscripcion.RecalculoFijacionNAV(SuscripcionActualizar)
+
+                                            ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_TRANSACCIONES_FIJADAS_EXITOSAMENTE)
+
+                                            NegocioRescates.RecalculoFijacionNAV(RescateActualizar)
+                                            negocioMod.UpdateFijacionNav(Fijacion.ID, Fijacion.TipoTransaccion)
+                                        Else
+                                            'Recalcula y Manda a Actualizar cuando Moneda es Diferente a CLP
+                                            ValorNAVActualizado = ValorNAVSeleccionado
+                                            ValorNAV_CLPActualizado = (ValorNAVSeleccionado) * (ValorTcObsSeleccionado)
+                                            ValorMontoActualizado = (CuotasSeleccionado) * (ValorNAVActualizado)
+                                            ValorMontoCLPActualizado = (CuotasSeleccionado) * (ValorNAV_CLPActualizado)
+
+                                            RescateActualizar.RES_ID = TransaccionSeleccionada
+                                            RescateActualizar.RES_Nav = ValorNAVActualizado
+                                            RescateActualizar.RES_Nav_CLP = ValorNAV_CLPActualizado
+                                            RescateActualizar.RES_Monto = ValorMontoActualizado
+                                            RescateActualizar.RES_Monto_CLP = ValorMontoCLPActualizado
+
+                                            CantidadFijados = CantidadFijados + 1
+
+                                            ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_TRANSACCIONES_FIJADAS_EXITOSAMENTE)
+
+                                            NegocioRescates.RecalculoFijacionNAV(RescateActualizar)
                                             negocioMod.UpdateFijacionNav(Fijacion.ID, Fijacion.TipoTransaccion)
                                         End If
-                                    Else
-                                        CantidadNOFijados = CantidadNOFijados + 1
+
                                     End If
                                 End If
-                            Else
-                                'NO Realiza la fijacion
-                                CantidadNOFijados = CantidadNOFijados + 1
+
+                            ElseIf TipoTransaccionSeleccionado = "Canje" Then
+
+                                Dim valorSaliente As VcSerieDTO = New VcSerieDTO
+                                valorSaliente.Fecha = FechaNAVSeleccionada
+                                valorSaliente.FnRut = FondoRUTSeleccionado
+                                valorSaliente.FsNemotecnico = NemotecnicoSeleccionado
+                                Dim valorNavSaliente = NegocioVC.GetValoresCuota(valorSaliente)
+
+                                Dim canje As CanjeDTO = New CanjeDTO()
+                                canje.IdCanje = TransaccionSeleccionada
+
+                                Dim canjeSeleccionado As CanjeDTO = NegocioCanje.GetCanje(canje)
+                                Dim valorEntrante As VcSerieDTO = New VcSerieDTO
+                                valorEntrante.Fecha = canjeSeleccionado.FechaNavEntrante
+                                valorEntrante.FnRut = canjeSeleccionado.RutFondo
+                                valorEntrante.FsNemotecnico = canjeSeleccionado.NemotecnicoEntrante.Trim()
+
+                                Dim valorNavEntrante = NegocioVC.GetValoresCuota(valorEntrante)
+
+                                If valorNavSaliente Is Nothing Or valorNavEntrante Is Nothing Then
+                                    canjeSeleccionado.FijacionNav = "Pendiente"
+                                    ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_ERROR_TRANSACCION_YA_FIJADA)
+                                    CantidadNOFijados = CantidadNOFijados + 1
+                                Else
+
+                                    Dim aportante As AportanteDTO = New AportanteDTO()
+                                    aportante.Rut = canjeSeleccionado.RutAportante
+                                    If canjeSeleccionado.Multifondo = "&nbsp;" Then
+                                        aportante.Multifondo = String.Empty
+                                    Else
+                                        aportante.Multifondo = canjeSeleccionado.Multifondo
+                                    End If
+                                    Dim listaAportante As List(Of AportanteDTO) = NegocioCanje.CompararDatosAportantes(aportante)
+
+                                    Dim serieEntrante As FondoSerieDTO = New FondoSerieDTO()
+                                    serieEntrante.Rut = canjeSeleccionado.RutFondo
+                                    serieEntrante.Nemotecnico = canjeSeleccionado.NemotecnicoEntrante
+                                    Dim listaEntrantes As List(Of FondoSerieDTO) = NegocioCanje.CompararDatosEntrantes(serieEntrante)
+
+                                    Dim Ex As String = ""
+                                    Dim serieSaliente As FondoSerieDTO = New FondoSerieDTO()
+                                    serieSaliente.Rut = canjeSeleccionado.RutFondo
+                                    serieSaliente.Nemotecnico = canjeSeleccionado.NemotecnicoSaliente
+                                    Dim listaSaliente As List(Of FondoSerieDTO) = NegocioCanje.CompararDatosSalientes(serieSaliente)
+
+                                    If listaAportante.Count > 0 Then
+                                        For Each aportantes As AportanteDTO In listaAportante
+                                            Dim razonSocial = aportantes.RazonSocial
+                                            Dim estado = aportantes.Estado
+
+                                            If canjeSeleccionado.NombreAportante <> razonSocial And estado = 1 Or estado = 0 Then
+                                                Mensaje = Mensaje & " No se puede modificar el canje, información del Aportante se modifico"
+                                                Ex = "x"
+                                            ElseIf listaEntrantes.Count > 0 Then
+                                                For Each entrante As FondoSerieDTO In listaEntrantes
+                                                    Dim serie = entrante.Nombrecorto
+                                                    Dim moneda = entrante.Moneda
+                                                    Dim estadoEntrante = entrante.Estado
+                                                    If canjeSeleccionado.NombreSerieEntrante <> serie Or canjeSeleccionado.MonedaEntrante <> moneda And estadoEntrante = 1 Or estadoEntrante = 0 Then
+                                                        Mensaje = Mensaje & (" No se puede modificar el canje, Serie entrante modificada")
+                                                        Ex = "x"
+                                                    ElseIf listaSaliente.Count > 0 Then
+                                                        For Each saliente As FondoSerieDTO In listaSaliente
+                                                            Dim serieSaliente2 = saliente.Nombrecorto
+                                                            Dim monedaSaliente = saliente.Moneda
+                                                            Dim estadoSaliente = saliente.Estado
+                                                            If canjeSeleccionado.NombreSerieSaliente <> serieSaliente2 Or canjeSeleccionado.MonedaSaliente <> monedaSaliente And estadoSaliente = 1 Or estadoSaliente = 0 Then
+                                                                Mensaje = Mensaje & (" No se puede modificar el canje, Serie saliente modificada ")
+                                                                Ex = "x"
+                                                            End If
+                                                        Next
+                                                    End If
+                                                Next
+                                            End If
+                                        Next
+                                    End If
+
+                                    If (canjeSeleccionado IsNot Nothing And Ex <> "x") Then
+                                        Dim cuotaSaliente As Double
+                                        Dim navEntranteUSD As Double
+                                        Dim navEntranteCLP As Double
+                                        Dim montoEntranteUSD As Double
+                                        Dim montoEntranteCLP As Double
+                                        Dim diferencias As Double
+                                        Dim diferenciasCLP As Double
+                                        Dim factor As Double
+                                        Dim cuotaEntrante As Double
+
+                                        Dim navSalienteUSD As Double
+                                        Dim navSalienteCLP As Double
+
+                                        Dim montoSalienteUSD As Double
+                                        Dim montoSalienteCLP As Double
+
+                                        Dim navEntranteCLPConDecimales As Double
+                                        Dim navSalienteCLPConDecimales As Double
+
+                                        cuotaSaliente = canjeSeleccionado.CuotaSaliente
+
+                                        navEntranteUSD = valorNavEntrante.Valor
+                                        navEntranteCLP = Utiles.calcularNAVCLP(canjeSeleccionado.TipoCambio, navEntranteUSD)
+
+                                        navSalienteUSD = valorNavSaliente.Valor '     valorNavSaliente.Valor
+                                        navSalienteCLP = Utiles.calcularNAVCLP(canjeSeleccionado.TipoCambio, navSalienteUSD)  '     canjeSeleccionado.NavCLPSaliente  '     valorNavSaliente.Valor
+
+                                        navSalienteCLPConDecimales = canjeSeleccionado.TipoCambio * navSalienteUSD
+                                        navEntranteCLPConDecimales = canjeSeleccionado.TipoCambio * navEntranteUSD
+
+                                        If navEntranteCLPConDecimales = 0 Then
+                                            factor = 0
+                                        Else
+                                            factor = navSalienteCLPConDecimales / navEntranteCLPConDecimales
+                                        End If
+
+
+                                        cuotaEntrante = Math.Truncate(factor * cuotaSaliente)
+
+                                        montoEntranteUSD = cuotaEntrante * navEntranteUSD
+                                        montoEntranteCLP = Utiles.calcularMontoCLP(cuotaEntrante, navEntranteUSD, canjeSeleccionado.TipoCambio)
+
+                                        montoSalienteUSD = cuotaSaliente * navSalienteUSD
+                                        montoSalienteCLP = Utiles.calcularMontoCLP(cuotaSaliente, navSalienteUSD, canjeSeleccionado.TipoCambio)
+
+                                        diferencias = montoSalienteUSD - montoEntranteUSD
+                                        diferenciasCLP = montoSalienteCLP - montoEntranteCLP
+
+                                        canjeSeleccionado.IdCanje = TransaccionSeleccionada
+                                        canjeSeleccionado.CuotaSaliente = cuotaSaliente
+                                        canjeSeleccionado.CuotaEntrante = cuotaEntrante
+                                        canjeSeleccionado.NavEntrante = navEntranteUSD
+                                        canjeSeleccionado.Factor = factor
+                                        canjeSeleccionado.NavSaliente = navSalienteUSD
+                                        canjeSeleccionado.NavCLPEntrante = navEntranteCLP
+                                        canjeSeleccionado.NavCLPSaliente = navSalienteCLP
+                                        canjeSeleccionado.Diferencia = diferencias
+                                        canjeSeleccionado.DiferenciaCLP = diferenciasCLP
+                                        canjeSeleccionado.MontoEntrante = montoEntranteUSD
+                                        canjeSeleccionado.MontoCLPEntrante = montoEntranteCLP
+                                        canjeSeleccionado.MontoSaliente = montoSalienteUSD
+                                        canjeSeleccionado.MontoCLPSaliente = montoSalienteCLP
+                                        canjeSeleccionado.FijacionNav = "Realizado"
+                                        NegocioCanje.UpdateCanje(canjeSeleccionado)
+                                        negocioMod.UpdateFijacionNav(Fijacion.ID, Fijacion.TipoTransaccion)
+
+                                        ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_TRANSACCIONES_FIJADAS_EXITOSAMENTE)
+
+                                        CantidadFijados = CantidadFijados + 1
+                                    Else
+                                        ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_ERROR_INTERNO)
+                                        CantidadNOFijados = CantidadNOFijados + 1
+
+                                    End If
+                                End If
+                            ElseIf TipoTransaccionSeleccionado = "Suscripcion" Then
+                                ValorNAVSeleccionado = ValoresCuotaSeleccionado.Valor
+                                'Trae los campos necesarios para recalcular
+                                Suscripcion.IdSuscripcion = TransaccionSeleccionada
+                                SuscripcionSeleccionada = NegocioSuscripcion.GetSuscripcion(Suscripcion)
+
+                                If SuscripcionSeleccionada IsNot Nothing Then
+
+                                    Dim Relacion As SuscripcionDTO = NegocioSuscripcion.GetRelaciones(SuscripcionSeleccionada)
+                                    If (Relacion.CountAP > 0) Then
+                                        txtAccionHidden.Value = ""
+                                        Mensaje = Mensaje & " No se pudo modificar la suscripción " & TransaccionSeleccionada & " El aportante fue modificado."
+                                        CantidadNOFijados = CantidadNOFijados + 1
+                                    ElseIf (Relacion.CountFN > 0) Then
+                                        txtAccionHidden.Value = ""
+                                        Mensaje = Mensaje & " No se pudo modificar la suscripción " & TransaccionSeleccionada & " El fondo fue modificado."
+                                        CantidadNOFijados = CantidadNOFijados + 1
+                                    ElseIf (Relacion.CountFS > 0) Then
+                                        txtAccionHidden.Value = ""
+                                        Mensaje = Mensaje & " No se pudo modificar la suscripción " & TransaccionSeleccionada & " La serie fue modificada"
+                                        CantidadNOFijados = CantidadNOFijados + 1
+                                        ' JOVB: R3 
+                                    ElseIf Not EsConfirmada(SuscripcionSeleccionada) Then
+                                        txtAccionHidden.Value = ""
+                                        Mensaje = Mensaje & " No se pudo fijar la suscripción " & TransaccionSeleccionada & ". Transacción en Intención"
+                                        CantidadNOFijados = CantidadNOFijados + 1
+
+                                    Else
+
+                                        CuotasSeleccionado = SuscripcionSeleccionada.CuotasASuscribir
+                                        MonedaSerieSeleccionado = SuscripcionSeleccionada.MonedaSerie
+                                        ValorNAV_CLPSeleccionado = SuscripcionSeleccionada.NAVCLP
+                                        If (SuscripcionSeleccionada.TcObservado.Contains(".")) Then
+                                            ValorTcObsSeleccionado = (SuscripcionSeleccionada.TcObservado.Substring("0", SuscripcionSeleccionada.TcObservado.IndexOf(".")))
+                                        Else
+                                            ValorTcObsSeleccionado = (SuscripcionSeleccionada.TcObservado)
+                                        End If
+
+                                        If MonedaSerieSeleccionado = "CLP" Then
+                                            'Recalcula y Manda a Actualizar cuando Moneda es CLP
+                                            ValorNAVActualizado = ValorNAVSeleccionado
+                                            ValorNAV_CLPActualizado = ValorNAVSeleccionado
+                                            ValorMontoActualizado = (CuotasSeleccionado) * (ValorNAVActualizado)
+                                            ValorMontoCLPActualizado = (CuotasSeleccionado) * (ValorNAV_CLPActualizado)
+
+                                        Else
+                                            'Recalcula y Manda a Actualizar cuando Moneda es Diferente a CLP
+                                            ValorNAVActualizado = ValorNAVSeleccionado
+                                            ValorNAV_CLPActualizado = (ValorNAVSeleccionado) * (ValorTcObsSeleccionado)
+                                            ValorMontoActualizado = (CuotasSeleccionado) * (ValorNAVActualizado)
+                                            ValorMontoCLPActualizado = (CuotasSeleccionado) * (ValorNAV_CLPActualizado)
+
+                                        End If
+
+                                        SuscripcionActualizar.IdSuscripcion = TransaccionSeleccionada
+                                        SuscripcionActualizar.NAV = ValorNAVActualizado
+                                        SuscripcionActualizar.NAVCLP = ValorNAV_CLPActualizado
+                                        SuscripcionActualizar.Monto = ValorMontoActualizado
+                                        SuscripcionActualizar.MontoCLP = ValorMontoCLPActualizado
+
+                                        CantidadFijados = CantidadFijados + 1
+                                        NegocioSuscripcion.RecalculoFijacionNAV(SuscripcionActualizar)
+                                        negocioMod.UpdateFijacionNav(Fijacion.ID, Fijacion.TipoTransaccion)
+
+                                        ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_TRANSACCIONES_FIJADAS_EXITOSAMENTE)
+                                    End If
+                                Else
+                                    ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_ERROR_INTERNO)
+                                    CantidadNOFijados = CantidadNOFijados + 1
+                                End If
                             End If
-                        ElseIf TipoFijacionNAV = "Manual" Then
+                        Else
                             'NO Realiza la fijacion
+                            ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_ERROR_NO_EXISTE_NAV_O_TC, NemotecnicoSeleccionado)
                             CantidadNOFijados = CantidadNOFijados + 1
                         End If
-                    Else
+
+                    ElseIf TipoFijacionNAV = "Manual" Then
+                        'NO Realiza la fijacion
+                        ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_ERROR_TRANSACCION_YA_FIJADA)
                         CantidadNOFijados = CantidadNOFijados + 1
                     End If
+                Else
+                    ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_ERROR_INTERNO)
+                    CantidadNOFijados = CantidadNOFijados + 1
                 End If
             End If
+
         Next
 
-        MostrarMensaje(TransaccionesTotales, TransaccionesExitosas, TransaccionesNoExitosas, CantidadFijados, CantidadNOFijados, Mensaje, listaMensajes)
+        MostrarMensaje(ListaErrores, TransaccionesTotales, TransaccionesExitosas, TransaccionesNoExitosas, CantidadFijados, CantidadNOFijados, Mensaje, listaMensajes)
 
         txtAccionHidden.Value = ""
         FormateoLimpiarForm()
@@ -568,9 +596,13 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         Dim FechaTCObsSeleccionada As Date
         Dim TipoTransaccionSeleccionado As String
         Dim Fijado As String
+        Dim nemotecnicoSel As String
 
         Dim listaMensajes As List(Of String) = New List(Of String)
         'Dim ValorTCObsSeleccionado As Decimal
+
+        Dim ListaErrores As List(Of TErroresFijacion)
+        ListaErrores = CargarListaErroresSoportados()
 
         For Each row As GridViewRow In GrvTabla.Rows
             Dim chk As CheckBox = row.Cells(0).Controls(1)
@@ -583,6 +615,8 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                 FechaTCObsSeleccionada = row.Cells(CONST_COL_FECHATCOBS).Text().Trim()
                 FechaTCObsSeleccionada = FechaTCObsSeleccionada.ToShortDateString()
                 Fijado = row.Cells(CONST_COL_FIJACIONTCOBSERVADO).Text().Trim()
+
+                nemotecnicoSel = row.Cells(CONST_COL_NEMOTECNICO).Text().Trim()
 
                 'Trae valor TC de Tipo Cambio
                 Dim NegocioTC As TipoCambioNegocio = New TipoCambioNegocio
@@ -612,313 +646,306 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
 
                 'Trae los campos necesarios para recalcular
                 If (Fijado = "Realizado") Then
+                    ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_ERROR_TRANSACCION_YA_FIJADA)
                     CantidadNOFijados = CantidadNOFijados + 1
-                Else
-                    If TipoTransaccionSeleccionado = "Rescate" Then
-                        Rescates.RES_ID = TransaccionSeleccionada
-                        RescateSeleccionado = NegocioRescates.GetRescateOne(Rescates)
+                    Continue For
+                End If
 
-                        If RescateSeleccionado IsNot Nothing Then
-                            TipoCambio.Codigo = RescateSeleccionado.FS_Moneda
+                If TipoTransaccionSeleccionado = "Rescate" Then
+                    Rescates.RES_ID = TransaccionSeleccionada
+                    RescateSeleccionado = NegocioRescates.GetRescateOne(Rescates)
 
-                            Dim Relacion As RescatesDTO = NegocioRescate.GetRelaciones(RescateSeleccionado)
+                    If RescateSeleccionado IsNot Nothing Then
+                        TipoCambio.Codigo = RescateSeleccionado.FS_Moneda
 
-                            If (Relacion.CountAP > 0) Then
-                                txtAccionHidden.Value = ""
-                                Mensaje = Mensaje & " No se pudo modificar el rescate " & TransaccionSeleccionada & " El aportante fue modificado."
-                                CantidadNOFijados = CantidadNOFijados + 1
-                            ElseIf (Relacion.CountFN > 0) Then
-                                txtAccionHidden.Value = ""
-                                Mensaje = Mensaje & " No se pudo modificar el rescate " & TransaccionSeleccionada & " El fondo fue modificado."
-                                CantidadNOFijados = CantidadNOFijados + 1
-                            ElseIf (Relacion.CountFS > 0) Then
-                                txtAccionHidden.Value = ""
-                                Mensaje = Mensaje & " No se pudo modificar el rescate " & TransaccionSeleccionada & " La serie fue modificada"
-                                CantidadNOFijados = CantidadNOFijados + 1
-                            Else
-                                TipoCambio.Fecha = FechaTCObsSeleccionada
+                        Dim Relacion As RescatesDTO = NegocioRescate.GetRelaciones(RescateSeleccionado)
 
-                                TipoCambioSeleccionado = NegocioTC.GetTipoCambio(TipoCambio)
+                        If (Relacion.CountAP > 0) Then
+                            txtAccionHidden.Value = ""
+                            Mensaje = Mensaje & " No se pudo modificar el rescate " & TransaccionSeleccionada & " El aportante fue modificado."
+                            CantidadNOFijados = CantidadNOFijados + 1
+                        ElseIf (Relacion.CountFN > 0) Then
+                            txtAccionHidden.Value = ""
+                            Mensaje = Mensaje & " No se pudo modificar el rescate " & TransaccionSeleccionada & " El fondo fue modificado."
+                            CantidadNOFijados = CantidadNOFijados + 1
+                        ElseIf (Relacion.CountFS > 0) Then
+                            txtAccionHidden.Value = ""
+                            Mensaje = Mensaje & " No se pudo modificar el rescate " & TransaccionSeleccionada & " La serie fue modificada"
+                            CantidadNOFijados = CantidadNOFijados + 1
+                        Else
+                            TipoCambio.Fecha = FechaTCObsSeleccionada
 
-                                'Trae el valor TC, Fija y Recalcula 
-                                If TipoCambioSeleccionado IsNot Nothing Then
-                                    ValorTcObsSeleccionado = TipoCambioSeleccionado.Valor
+                            TipoCambioSeleccionado = NegocioTC.GetTipoCambio(TipoCambio)
 
-                                    If RescateSeleccionado IsNot Nothing Then
-                                        CuotasSeleccionado = RescateSeleccionado.RES_Cuotas
-                                        MonedaSerieSeleccionado = RescateSeleccionado.FS_Moneda
-                                        ValorNAVSeleccionado = RescateSeleccionado.RES_Nav
-                                        ValorNAV_CLPSeleccionado = RescateSeleccionado.RES_Nav_CLP
-                                        RescateSeleccionado.TC_Valor = ValorTcObsSeleccionado
+                            'Trae el valor TC, Fija y Recalcula 
+                            If TipoCambioSeleccionado IsNot Nothing Then
+                                ValorTcObsSeleccionado = TipoCambioSeleccionado.Valor
 
-                                        'SI EXCEDE PATRIMONIO GENERAR ALERTA
-                                        If ControlValidacionPatrimonioAutomatico(RescateSeleccionado) Then
-                                            listaMensajes.Add("Los rescates no cumplen con el maximo del patrimonio")
-                                        End If
 
-                                        If MonedaSerieSeleccionado = "CLP" Then
-                                            CantidadFijados = CantidadFijados + 1
-                                            NegocioRescate.RecalculoFijacionTC(RescateSeleccionado)
-                                            negocioMod.UpdateFijacionTC(Fijacion.ID, Fijacion.TipoTransaccion)
-                                        Else
-                                            'Recalcula y Manda a Actualizar cuando Moneda es Diferente a CLP
-                                            ValorNAVActualizado = ValorNAVSeleccionado
-                                            ValorNAV_CLPActualizado = (ValorNAVSeleccionado) * (ValorTcObsSeleccionado)
-                                            ValorMontoActualizado = (CuotasSeleccionado) * (ValorNAVActualizado)
-                                            ValorMontoCLPActualizado = (CuotasSeleccionado) * (ValorNAV_CLPActualizado)
+                                CuotasSeleccionado = RescateSeleccionado.RES_Cuotas
+                                MonedaSerieSeleccionado = RescateSeleccionado.FS_Moneda
+                                ValorNAVSeleccionado = RescateSeleccionado.RES_Nav
+                                ValorNAV_CLPSeleccionado = RescateSeleccionado.RES_Nav_CLP
+                                RescateSeleccionado.TC_Valor = ValorTcObsSeleccionado
 
-                                            RescateActualizar.RES_ID = TransaccionSeleccionada
-                                            RescateActualizar.RES_Nav = ValorNAVActualizado
-                                            RescateActualizar.RES_Nav_CLP = ValorNAV_CLPActualizado
-                                            RescateActualizar.RES_Monto = ValorMontoActualizado
-                                            RescateActualizar.RES_Monto_CLP = ValorMontoCLPActualizado
-                                            RescateActualizar.TC_Valor = ValorTcObsSeleccionado
-
-                                            CantidadFijados = CantidadFijados + 1
-                                            NegocioRescates.RecalculoFijacionTC(RescateActualizar)
-                                            negocioMod.UpdateFijacionTC(Fijacion.ID, Fijacion.TipoTransaccion)
-                                        End If
-                                    Else
-                                        'NO Realiza la fijacion
-                                        CantidadNOFijados = CantidadNOFijados + 1
-                                    End If
-                                Else
-                                    'NO Realiza la fijacion
-                                    CantidadNOFijados = CantidadNOFijados + 1
+                                'SI EXCEDE PATRIMONIO GENERAR ALERTA
+                                If ControlValidacionPatrimonioAutomatico(RescateSeleccionado) Then
+                                    listaMensajes.Add("Los rescates no cumplen con el maximo del patrimonio")
                                 End If
-                            End If
-                        Else
-                            CantidadNOFijados = CantidadNOFijados + 1
-                        End If
 
-                    ElseIf TipoTransaccionSeleccionado = "Canje" Then
+                                If MonedaSerieSeleccionado = "CLP" Then
+                                    CantidadFijados = CantidadFijados + 1
+                                    NegocioRescate.RecalculoFijacionTC(RescateSeleccionado)
+                                    negocioMod.UpdateFijacionTC(Fijacion.ID, Fijacion.TipoTransaccion)
 
-                        Dim tipoCambioCanje As TipoCambioDTO = New TipoCambioDTO()
-                        tipoCambioCanje.Fecha = FechaTCObsSeleccionada
-                        Dim canje As CanjeDTO = New CanjeDTO()
-                        canje.IdCanje = TransaccionSeleccionada
-                        Dim canjeSeleccionado As CanjeDTO = NegocioCanje.GetCanje(canje)
-                        canje.MonedaSaliente = canjeSeleccionado.MonedaSaliente
-                        tipoCambioCanje.Codigo = canje.MonedaSaliente
-                        Dim devolverTipoCambio = NegocioTC.GetTipoCambio(tipoCambioCanje)
+                                    ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_TRANSACCIONES_FIJADAS_EXITOSAMENTE)
 
-                        If devolverTipoCambio Is Nothing Then
-                            canjeSeleccionado.FijacionTC = "Pendiente"
-                            CantidadNOFijados = CantidadNOFijados + 1
-                        Else
+                                Else
+                                    'Recalcula y Manda a Actualizar cuando Moneda es Diferente a CLP
+                                    ValorNAVActualizado = ValorNAVSeleccionado
+                                    ValorNAV_CLPActualizado = (ValorNAVSeleccionado) * (ValorTcObsSeleccionado)
+                                    ValorMontoActualizado = (CuotasSeleccionado) * (ValorNAVActualizado)
+                                    ValorMontoCLPActualizado = (CuotasSeleccionado) * (ValorNAV_CLPActualizado)
 
-                            Dim aportante As AportanteDTO = New AportanteDTO()
-                            aportante.Rut = canjeSeleccionado.RutAportante
-                            If canjeSeleccionado.Multifondo = "&nbsp;" Then
-                                aportante.Multifondo = String.Empty
+                                    RescateActualizar.RES_ID = TransaccionSeleccionada
+                                    RescateActualizar.RES_Nav = ValorNAVActualizado
+                                    RescateActualizar.RES_Nav_CLP = ValorNAV_CLPActualizado
+                                    RescateActualizar.RES_Monto = ValorMontoActualizado
+                                    RescateActualizar.RES_Monto_CLP = ValorMontoCLPActualizado
+                                    RescateActualizar.TC_Valor = ValorTcObsSeleccionado
+
+                                    CantidadFijados = CantidadFijados + 1
+                                    NegocioRescates.RecalculoFijacionTC(RescateActualizar)
+                                    negocioMod.UpdateFijacionTC(Fijacion.ID, Fijacion.TipoTransaccion)
+
+                                    ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_TRANSACCIONES_FIJADAS_EXITOSAMENTE)
+                                End If
+
                             Else
-                                aportante.Multifondo = canjeSeleccionado.Multifondo
+                                'NO Realiza la fijacion
+                                ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_ERROR_NO_EXISTE_NAV_O_TC, nemotecnicoSel)
+                                CantidadNOFijados = CantidadNOFijados + 1
                             End If
+                        End If
+                    Else
+                        ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_ERROR_INTERNO, nemotecnicoSel)
+                        CantidadNOFijados = CantidadNOFijados + 1
+                    End If
 
-                            Dim listaAportante As List(Of AportanteDTO) = NegocioCanje.CompararDatosAportantes(aportante)
+                ElseIf TipoTransaccionSeleccionado = "Canje" Then
 
-                            Dim serieEntrante As FondoSerieDTO = New FondoSerieDTO()
-                            Dim listaEntrantes As List(Of FondoSerieDTO)
+                    Dim tipoCambioCanje As TipoCambioDTO = New TipoCambioDTO()
 
-                            serieEntrante.Rut = canjeSeleccionado.RutFondo
-                            serieEntrante.Nemotecnico = canjeSeleccionado.NemotecnicoEntrante
+                    tipoCambioCanje.Fecha = FechaTCObsSeleccionada
+                    Dim canje As CanjeDTO = New CanjeDTO()
+                    canje.IdCanje = TransaccionSeleccionada
+                    Dim canjeSeleccionado As CanjeDTO = NegocioCanje.GetCanje(canje)
+                    canje.MonedaSaliente = canjeSeleccionado.MonedaSaliente
+                    tipoCambioCanje.Codigo = canje.MonedaSaliente
+                    Dim devolverTipoCambio = NegocioTC.GetTipoCambio(tipoCambioCanje)
 
-                            listaEntrantes = NegocioCanje.CompararDatosEntrantes(serieEntrante)
+                    If devolverTipoCambio Is Nothing Then
+                        ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_ERROR_NO_EXISTE_NAV_O_TC, canjeSeleccionado.NemotecnicoSaliente)
+                        canjeSeleccionado.FijacionTC = "Pendiente"
+                        CantidadNOFijados = CantidadNOFijados + 1
+                        Continue For
+                    End If
 
-                            Dim Ex As String = ""
-                            Dim serieSaliente As FondoSerieDTO = New FondoSerieDTO()
-                            Dim listaSaliente As List(Of FondoSerieDTO)
+                    Dim aportante As AportanteDTO = New AportanteDTO()
+                    aportante.Rut = canjeSeleccionado.RutAportante
+                    If canjeSeleccionado.Multifondo = "&nbsp;" Then
+                        aportante.Multifondo = String.Empty
+                    Else
+                        aportante.Multifondo = canjeSeleccionado.Multifondo
+                    End If
 
-                            serieSaliente.Rut = canjeSeleccionado.RutFondo
-                            serieSaliente.Nemotecnico = canjeSeleccionado.NemotecnicoSaliente
+                    Dim listaAportante As List(Of AportanteDTO) = NegocioCanje.CompararDatosAportantes(aportante)
 
-                            listaSaliente = NegocioCanje.CompararDatosSalientes(serieSaliente)
+                    Dim serieEntrante As FondoSerieDTO = New FondoSerieDTO()
+                    Dim listaEntrantes As List(Of FondoSerieDTO)
 
-                            If listaAportante.Count > 0 Then
-                                For Each aportantes As AportanteDTO In listaAportante
-                                    Dim razonSocial = aportantes.RazonSocial
-                                    Dim estado = aportantes.Estado
-                                    If canjeSeleccionado.NombreAportante <> razonSocial And estado = 1 Or estado = 0 Then
-                                        Mensaje = Mensaje & " No se puede modificar el canje, información del Aportante se modifico"
+                    serieEntrante.Rut = canjeSeleccionado.RutFondo
+                    serieEntrante.Nemotecnico = canjeSeleccionado.NemotecnicoEntrante
+
+                    listaEntrantes = NegocioCanje.CompararDatosEntrantes(serieEntrante)
+
+                    Dim Ex As String = ""
+                    Dim serieSaliente As FondoSerieDTO = New FondoSerieDTO()
+                    Dim listaSaliente As List(Of FondoSerieDTO)
+
+                    serieSaliente.Rut = canjeSeleccionado.RutFondo
+                    serieSaliente.Nemotecnico = canjeSeleccionado.NemotecnicoSaliente
+
+                    listaSaliente = NegocioCanje.CompararDatosSalientes(serieSaliente)
+
+                    If listaAportante.Count > 0 Then
+                        For Each aportantes As AportanteDTO In listaAportante
+                            Dim razonSocial = aportantes.RazonSocial
+                            Dim estado = aportantes.Estado
+                            If canjeSeleccionado.NombreAportante <> razonSocial And estado = 1 Or estado = 0 Then
+                                Mensaje = Mensaje & " No se puede modificar el canje, información del Aportante se modifico"
+                                Ex = "x"
+                            ElseIf listaEntrantes.Count > 0 Then
+                                For Each entrante As FondoSerieDTO In listaEntrantes
+                                    Dim serie = entrante.Nombrecorto
+                                    Dim moneda = entrante.Moneda
+                                    Dim estadoEntrante = entrante.Estado
+                                    If canjeSeleccionado.NombreSerieEntrante <> serie Or canjeSeleccionado.MonedaEntrante <> moneda And estadoEntrante = 1 Or estadoEntrante = 0 Then
+                                        Mensaje = Mensaje & (" No se puede modificar el canje, Serie entrante modificada")
                                         Ex = "x"
-                                    ElseIf listaEntrantes.Count > 0 Then
-                                        For Each entrante As FondoSerieDTO In listaEntrantes
-                                            Dim serie = entrante.Nombrecorto
-                                            Dim moneda = entrante.Moneda
-                                            Dim estadoEntrante = entrante.Estado
-                                            If canjeSeleccionado.NombreSerieEntrante <> serie Or canjeSeleccionado.MonedaEntrante <> moneda And estadoEntrante = 1 Or estadoEntrante = 0 Then
-                                                Mensaje = Mensaje & (" No se puede modificar el canje, Serie entrante modificada")
+                                    ElseIf listaSaliente.Count > 0 Then
+                                        For Each saliente As FondoSerieDTO In listaSaliente
+                                            Dim serieSaliente2 = saliente.Nombrecorto
+                                            Dim monedaSaliente = saliente.Moneda
+                                            Dim estadoSaliente = saliente.Estado
+                                            If canjeSeleccionado.NombreSerieSaliente <> serieSaliente2 Or canjeSeleccionado.MonedaSaliente <> monedaSaliente And estadoSaliente = 1 Or estadoSaliente = 0 Then
+                                                Mensaje = Mensaje & (" No se puede modificar el canje, Serie saliente modificada ")
                                                 Ex = "x"
-                                            ElseIf listaSaliente.Count > 0 Then
-                                                For Each saliente As FondoSerieDTO In listaSaliente
-                                                    Dim serieSaliente2 = saliente.Nombrecorto
-                                                    Dim monedaSaliente = saliente.Moneda
-                                                    Dim estadoSaliente = saliente.Estado
-                                                    If canjeSeleccionado.NombreSerieSaliente <> serieSaliente2 Or canjeSeleccionado.MonedaSaliente <> monedaSaliente And estadoSaliente = 1 Or estadoSaliente = 0 Then
-                                                        Mensaje = Mensaje & (" No se puede modificar el canje, Serie saliente modificada ")
-                                                        Ex = "x"
-                                                    End If
-                                                Next
                                             End If
                                         Next
                                     End If
                                 Next
                             End If
+                        Next
+                    End If
 
-                            If (Ex = "") Then
-                                Dim navCLPSaliente As Decimal
-                                Dim navCLPEntrante As Decimal
-                                Dim montoCLPSaliente As Decimal
-                                Dim montoCLPEntrante As Decimal
+                    If (Ex = "") Then
+                        Dim navCLPSaliente As Decimal
+                        Dim navCLPEntrante As Decimal
+                        Dim montoCLPSaliente As Decimal
+                        Dim montoCLPEntrante As Decimal
 
-                                Dim diferencias As Decimal
-                                Dim tipoCambi As Decimal
+                        Dim diferencias As Decimal
+                        Dim tipoCambi As Decimal
 
-                                tipoCambi = devolverTipoCambio.Valor
+                        tipoCambi = devolverTipoCambio.Valor
 
-                                If canjeSeleccionado.MonedaSaliente <> "CLP" And canjeSeleccionado.MonedaEntrante <> "CLP" Then
+                        If canjeSeleccionado.MonedaSaliente <> "CLP" And canjeSeleccionado.MonedaEntrante <> "CLP" Then
 
-                                    navCLPEntrante = Utiles.calcularNAVCLP(tipoCambi, canjeSeleccionado.NavEntrante)
-                                    navCLPSaliente = Utiles.calcularNAVCLP(tipoCambi, canjeSeleccionado.NavSaliente)
-                                    montoCLPEntrante = Utiles.calcularMontoCLP(canjeSeleccionado.CuotaEntrante, navCLPEntrante)
-                                    montoCLPSaliente = Utiles.calcularMontoCLP(canjeSeleccionado.CuotaSaliente, navCLPSaliente)
+                            navCLPEntrante = Utiles.calcularNAVCLP(tipoCambi, canjeSeleccionado.NavEntrante)
+                            navCLPSaliente = Utiles.calcularNAVCLP(tipoCambi, canjeSeleccionado.NavSaliente)
+                            montoCLPEntrante = Utiles.calcularMontoCLP(canjeSeleccionado.CuotaEntrante, navCLPEntrante)
+                            montoCLPSaliente = Utiles.calcularMontoCLP(canjeSeleccionado.CuotaSaliente, navCLPSaliente)
 
-                                    diferencias = montoCLPSaliente - montoCLPEntrante
+                            diferencias = montoCLPSaliente - montoCLPEntrante
 
-                                    canjeSeleccionado.NavCLPEntrante = navCLPEntrante
-                                    canjeSeleccionado.NavCLPSaliente = navCLPSaliente
-                                    canjeSeleccionado.MontoCLPEntrante = montoCLPEntrante
-                                    canjeSeleccionado.MontoCLPSaliente = montoCLPSaliente
-                                    canjeSeleccionado.DiferenciaCLP = diferencias
-                                    canjeSeleccionado.TipoCambio = tipoCambi
-                                    canjeSeleccionado.FijacionTC = "Realizado"
+                            canjeSeleccionado.NavCLPEntrante = navCLPEntrante
+                            canjeSeleccionado.NavCLPSaliente = navCLPSaliente
+                            canjeSeleccionado.MontoCLPEntrante = montoCLPEntrante
+                            canjeSeleccionado.MontoCLPSaliente = montoCLPSaliente
+                            canjeSeleccionado.DiferenciaCLP = diferencias
+                            canjeSeleccionado.TipoCambio = tipoCambi
+                            canjeSeleccionado.FijacionTC = "Realizado"
 
-                                    NegocioCanje.UpdateCanje(canjeSeleccionado)
-                                    negocioMod.UpdateFijacionTC(Fijacion.ID, Fijacion.TipoTransaccion)
-                                    CantidadFijados = CantidadFijados + 1
+                            NegocioCanje.UpdateCanje(canjeSeleccionado)
+                            negocioMod.UpdateFijacionTC(Fijacion.ID, Fijacion.TipoTransaccion)
+                            CantidadFijados = CantidadFijados + 1
+                            ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_TRANSACCIONES_FIJADAS_EXITOSAMENTE)
 
-                                ElseIf canjeSeleccionado.MonedaSaliente = "CLP" And canjeSeleccionado.MonedaEntrante = "CLP" Then
-                                    canjeSeleccionado.TipoCambio = tipoCambi
-                                    canjeSeleccionado.FijacionTC = "Realizado"
+                        ElseIf canjeSeleccionado.MonedaSaliente = "CLP" And canjeSeleccionado.MonedaEntrante = "CLP" Then
+                            canjeSeleccionado.TipoCambio = tipoCambi
+                            canjeSeleccionado.FijacionTC = "Realizado"
 
-                                    NegocioCanje.UpdateCanje(canjeSeleccionado)
-                                    negocioMod.UpdateFijacionTC(Fijacion.ID, Fijacion.TipoTransaccion)
-                                    CantidadFijados = CantidadFijados + 1
-                                End If
-                            Else
-                                CantidadNOFijados = CantidadNOFijados + 1
-                            End If
-
+                            NegocioCanje.UpdateCanje(canjeSeleccionado)
+                            negocioMod.UpdateFijacionTC(Fijacion.ID, Fijacion.TipoTransaccion)
+                            CantidadFijados = CantidadFijados + 1
+                            ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_TRANSACCIONES_FIJADAS_EXITOSAMENTE)
                         End If
+                    Else
+                        CantidadNOFijados = CantidadNOFijados + 1
+                    End If
 
+                ElseIf TipoTransaccionSeleccionado = "Suscripcion" Then
 
-                    ElseIf TipoTransaccionSeleccionado = "Suscripcion" Then
+                    Suscripcion.IdSuscripcion = TransaccionSeleccionada
+                    SuscripcionSeleccionada = NegocioSuscripcion.GetSuscripcion(Suscripcion)
 
-                        Suscripcion.IdSuscripcion = TransaccionSeleccionada
-                        SuscripcionSeleccionada = NegocioSuscripcion.GetSuscripcion(Suscripcion)
-
-                        If SuscripcionSeleccionada IsNot Nothing Then
-                            TipoCambio.Codigo = SuscripcionSeleccionada.MonedaSerie
-                            Dim Relacion As SuscripcionDTO = NegocioSuscripcion.GetRelaciones(SuscripcionSeleccionada)
-                            If (Relacion.CountAP > 0) Then
-                                txtAccionHidden.Value = ""
-                                Mensaje = Mensaje & " No se pudo modificar la suscripción " & TransaccionSeleccionada & " El aportante fue modificado."
-                                CantidadNOFijados = CantidadNOFijados + 1
-                            ElseIf (Relacion.CountFN > 0) Then
-                                txtAccionHidden.Value = ""
-                                Mensaje = Mensaje & " No se pudo modificar la suscripción " & TransaccionSeleccionada & " El fondo fue modificado."
-                                CantidadNOFijados = CantidadNOFijados + 1
-                            ElseIf (Relacion.CountFS > 0) Then
-                                txtAccionHidden.Value = ""
-                                Mensaje = Mensaje & " No se pudo modificar la suscripción " & TransaccionSeleccionada & " La serie fue modificada"
-                                CantidadNOFijados = CantidadNOFijados + 1
-                                ' JOVB: R3 
-                            ElseIf Not EsConfirmada(SuscripcionSeleccionada) Then
-                                txtAccionHidden.Value = ""
-                                Mensaje = Mensaje & " No se pudo fijar la suscripción " & TransaccionSeleccionada & ". Transacción en Intención"
-                                CantidadNOFijados = CantidadNOFijados + 1
-
-                            Else
-
-                                TipoCambio.Fecha = FechaTCObsSeleccionada
-
-                                TipoCambioSeleccionado = NegocioTC.GetTipoCambio(TipoCambio)
-
-                                If TipoCambioSeleccionado IsNot Nothing Then
-                                    ValorTcObsSeleccionado = TipoCambioSeleccionado.Valor
-
-                                    If SuscripcionSeleccionada IsNot Nothing Then
-                                        CuotasSeleccionado = SuscripcionSeleccionada.CuotasASuscribir
-                                        MonedaSerieSeleccionado = SuscripcionSeleccionada.MonedaSerie
-                                        ValorNAVSeleccionado = SuscripcionSeleccionada.NAV
-                                        ValorNAV_CLPSeleccionado = SuscripcionSeleccionada.NAVCLP
-                                        SuscripcionSeleccionada.TcObservado = ValorTcObsSeleccionado
-
-                                        If MonedaSerieSeleccionado = "CLP" Then
-                                            CantidadFijados = CantidadFijados + 1
-                                            NegocioSuscripcion.RecalculoFijacionTC(SuscripcionSeleccionada)
-                                            negocioMod.UpdateFijacionTC(Fijacion.ID, Fijacion.TipoTransaccion)
-                                        Else
-                                            'Recalcula y Manda a Actualizar cuando Moneda es Diferente a CLP
-                                            ValorNAVActualizado = ValorNAVSeleccionado
-                                            ValorNAV_CLPActualizado = (ValorNAVSeleccionado) * (ValorTcObsSeleccionado)
-                                            ValorMontoActualizado = (CuotasSeleccionado) * (ValorNAVActualizado)
-                                            ValorMontoCLPActualizado = (CuotasSeleccionado) * (ValorNAV_CLPActualizado)
-
-                                            SuscripcionActualizar.IdSuscripcion = TransaccionSeleccionada
-                                            SuscripcionActualizar.NAV = ValorNAVActualizado
-                                            SuscripcionActualizar.NAVCLP = ValorNAV_CLPActualizado
-                                            SuscripcionActualizar.Monto = ValorMontoActualizado
-                                            SuscripcionActualizar.MontoCLP = ValorMontoCLPActualizado
-                                            SuscripcionActualizar.TcObservado = ValorTcObsSeleccionado
-
-                                            CantidadFijados = CantidadFijados + 1
-                                            NegocioSuscripcion.RecalculoFijacionTC(SuscripcionActualizar)
-                                            negocioMod.UpdateFijacionTC(Fijacion.ID, Fijacion.TipoTransaccion)
-                                        End If
-                                    Else
-                                        'NO Realiza la fijacion
-                                        CantidadNOFijados = CantidadNOFijados + 1
-                                    End If
-                                Else
-                                    CantidadNOFijados = CantidadNOFijados + 1
-                                End If
-                            End If
-                        Else
+                    If SuscripcionSeleccionada IsNot Nothing Then
+                        TipoCambio.Codigo = SuscripcionSeleccionada.MonedaSerie
+                        Dim Relacion As SuscripcionDTO = NegocioSuscripcion.GetRelaciones(SuscripcionSeleccionada)
+                        If (Relacion.CountAP > 0) Then
+                            txtAccionHidden.Value = ""
+                            Mensaje = Mensaje & " No se pudo modificar la suscripción " & TransaccionSeleccionada & " El aportante fue modificado."
+                            CantidadNOFijados = CantidadNOFijados + 1
+                        ElseIf (Relacion.CountFN > 0) Then
+                            txtAccionHidden.Value = ""
+                            Mensaje = Mensaje & " No se pudo modificar la suscripción " & TransaccionSeleccionada & " El fondo fue modificado."
+                            CantidadNOFijados = CantidadNOFijados + 1
+                        ElseIf (Relacion.CountFS > 0) Then
+                            txtAccionHidden.Value = ""
+                            Mensaje = Mensaje & " No se pudo modificar la suscripción " & TransaccionSeleccionada & " La serie fue modificada"
                             CantidadNOFijados = CantidadNOFijados + 1
 
+                            ' JOVB: R3 
+                        ElseIf Not EsConfirmada(SuscripcionSeleccionada) Then
+                            txtAccionHidden.Value = ""
+                            Mensaje = Mensaje & " No se pudo fijar la suscripción " & TransaccionSeleccionada & ". Transacción en Intención"
+                            CantidadNOFijados = CantidadNOFijados + 1
+                            ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_TRANSACCIONES_FIJADAS_EXITOSAMENTE, SuscripcionSeleccionada.Nemotecnico)
+
+                        Else
+
+                            TipoCambio.Fecha = FechaTCObsSeleccionada
+
+                            TipoCambioSeleccionado = NegocioTC.GetTipoCambio(TipoCambio)
+
+                            If TipoCambioSeleccionado IsNot Nothing Then
+                                ValorTcObsSeleccionado = TipoCambioSeleccionado.Valor
+
+                                CuotasSeleccionado = SuscripcionSeleccionada.CuotasASuscribir
+                                MonedaSerieSeleccionado = SuscripcionSeleccionada.MonedaSerie
+                                ValorNAVSeleccionado = SuscripcionSeleccionada.NAV
+                                ValorNAV_CLPSeleccionado = SuscripcionSeleccionada.NAVCLP
+                                SuscripcionSeleccionada.TcObservado = ValorTcObsSeleccionado
+
+                                If MonedaSerieSeleccionado = "CLP" Then
+                                    CantidadFijados = CantidadFijados + 1
+                                    NegocioSuscripcion.RecalculoFijacionTC(SuscripcionSeleccionada)
+                                    negocioMod.UpdateFijacionTC(Fijacion.ID, Fijacion.TipoTransaccion)
+                                    ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_TRANSACCIONES_FIJADAS_EXITOSAMENTE)
+
+                                Else
+                                    'Recalcula y Manda a Actualizar cuando Moneda es Diferente a CLP
+                                    ValorNAVActualizado = ValorNAVSeleccionado
+                                    ValorNAV_CLPActualizado = (ValorNAVSeleccionado) * (ValorTcObsSeleccionado)
+                                    ValorMontoActualizado = (CuotasSeleccionado) * (ValorNAVActualizado)
+                                    ValorMontoCLPActualizado = (CuotasSeleccionado) * (ValorNAV_CLPActualizado)
+
+                                    SuscripcionActualizar.IdSuscripcion = TransaccionSeleccionada
+                                    SuscripcionActualizar.NAV = ValorNAVActualizado
+                                    SuscripcionActualizar.NAVCLP = ValorNAV_CLPActualizado
+                                    SuscripcionActualizar.Monto = ValorMontoActualizado
+                                    SuscripcionActualizar.MontoCLP = ValorMontoCLPActualizado
+                                    SuscripcionActualizar.TcObservado = ValorTcObsSeleccionado
+
+                                    CantidadFijados = CantidadFijados + 1
+                                    NegocioSuscripcion.RecalculoFijacionTC(SuscripcionActualizar)
+                                    negocioMod.UpdateFijacionTC(Fijacion.ID, Fijacion.TipoTransaccion)
+                                    ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_TRANSACCIONES_FIJADAS_EXITOSAMENTE)
+
+                                End If
+                            Else
+                                ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_ERROR_NO_EXISTE_NAV_O_TC, SuscripcionSeleccionada.Nemotecnico)
+                                CantidadNOFijados = CantidadNOFijados + 1
+                            End If
                         End If
+                    Else
+                        ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_ERROR_INTERNO)
+                        CantidadNOFijados = CantidadNOFijados + 1
 
                     End If
                 End If
-
             End If
         Next
 
-        MostrarMensaje(TransaccionesTotales, TransaccionesExitosas, TransaccionesNoExitosas, CantidadFijados, CantidadNOFijados, Mensaje, listaMensajes)
+        MostrarMensaje(ListaErrores, TransaccionesTotales, TransaccionesExitosas, TransaccionesNoExitosas, CantidadFijados, CantidadNOFijados, Mensaje, listaMensajes)
+
         txtAccionHidden.Value = ""
         FormateoLimpiarForm()
         Me.GrvTabla.DataSource = Nothing
         GrvTabla.DataBind()
         FindFijacion()
         'ShowMessages(CONST_TITULO_FIJACION, CONST_MODIFICAR_EXITO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_LOGO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_CORRECTO)
-    End Sub
-
-    Private Sub MostrarMensaje(ByRef TransaccionesTotales As Integer, ByRef TransaccionesExitosas As Integer, ByRef TransaccionesNoExitosas As Integer, CantidadFijados As Integer, CantidadNOFijados As Integer, Mensaje As String, listaMensajes As List(Of String))
-        Dim stringMensajes As String = ""
-        Dim stringAux As String = ""
-
-        If listaMensajes.Count() > 0 Then
-            stringAux = "\n\n ADVERTENCIA: Algunas transacciones exceden el patrimonio del fondo."
-        End If
-
-        TransaccionesTotales = CantidadFijados + CantidadNOFijados
-        TransaccionesExitosas = CantidadFijados
-        TransaccionesNoExitosas = CantidadNOFijados
-
-        stringMensajes = String.Format("Transacciones Seleccionadas: {0} \n Transacciones Fijadas: {1} \n Transacciones con error: {2} . {3} {4}", CStr(TransaccionesTotales), CStr(TransaccionesExitosas), CStr(TransaccionesNoExitosas), Mensaje, stringAux)
-
-        ShowAlert(stringMensajes)
     End Sub
 
     Protected Sub btnModificar_Click(sender As Object, e As EventArgs) Handles BtnModificar.Click
@@ -3403,6 +3430,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         End If
 
     End Sub
+
     Protected Sub Cuotaschanged()
         If (IsNumeric(txtNAV.Text) And IsNumeric(txtCuotas.Text)) Then
             'If (txtMonedaSerie.Text <> "CLP") Then
@@ -3425,6 +3453,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             End If
         End If
     End Sub
+
     Public Sub validartcrescates()
         Dim contador As Integer = 0
         If (txtModalTCObservado.Text <> "") Then
@@ -3441,6 +3470,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             txtModalTCObservado.Text = "0"
         End If
     End Sub
+
     Protected Sub TcObservadoChanged()
         validartcobservado()
         If (txtTCObservado.Text <> "" And IsNumeric(txtTCObservado.Text)) Then
@@ -3452,6 +3482,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             End If
         End If
     End Sub
+
     Public Sub validartcobservado()
         Dim contador As Integer = 0
         If (txtTCObservado.Text <> "") Then
@@ -3468,6 +3499,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             txtTCObservado.Text = "0"
         End If
     End Sub
+
     Protected Sub MontoTextChanged()
         Dim NegocioTipoCalculoNav As TipoCalculoNav = New TipoCalculoNav
         Dim TipoCalculoNav As TipoCalculoNavDTO = New TipoCalculoNavDTO()
@@ -3865,10 +3897,10 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
 
         End If
     End Sub
+
     Private Sub Presentacion_Mantenedores_frmFijacion_Maestro_AbortTransaction(sender As Object, e As EventArgs) Handles Me.AbortTransaction
 
     End Sub
-
 
     Private Sub btnImprimir_click(sender As Object, e As EventArgs) Handles btnImprimir.Click
         Dim fijaciones As List(Of FijacionDTO) = New List(Of FijacionDTO)
@@ -4127,4 +4159,88 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             FindFijacion()
         End Try
     End Sub
+
+#Region "SECCION ERRORES DE FIJACION"
+
+    Public Enum TipoErroresFijacion As Integer
+        EF_ERROR_INTERNO
+        EF_ERROR_NO_EXISTE_NAV_O_TC
+        EF_ERROR_TRANSACCION_YA_FIJADA
+        EF_ERROR_TRANSACCION_EN_INTENCION
+        EF_TRANSACCIONES_FIJADAS_EXITOSAMENTE
+    End Enum
+
+    ''' <summary>
+    ''' Creaacion de la lista de Errores Que Cargara el Sistema en la Fijación
+    ''' </summary>
+    ''' <returns></returns>
+    Private Function CargarListaErroresSoportados() As List(Of TErroresFijacion)
+        Dim ListaErrores As List(Of TErroresFijacion) = New List(Of TErroresFijacion)
+
+
+        ListaErrores.Add(New TErroresFijacion(TipoErroresFijacion.EF_TRANSACCIONES_FIJADAS_EXITOSAMENTE, "Transacciones fijadas", 0))
+        ListaErrores.Add(New TErroresFijacion(TipoErroresFijacion.EF_ERROR_INTERNO, "Error de la aplicación (interno)", 0))
+        ListaErrores.Add(New TErroresFijacion(TipoErroresFijacion.EF_ERROR_NO_EXISTE_NAV_O_TC, "No existe NAV o TC", 0))
+        ListaErrores.Add(New TErroresFijacion(TipoErroresFijacion.EF_ERROR_TRANSACCION_YA_FIJADA, "Transacción ya fijada", 0))
+        ListaErrores.Add(New TErroresFijacion(TipoErroresFijacion.EF_ERROR_TRANSACCION_EN_INTENCION, "Transacción en intención", 0))
+
+
+        Return ListaErrores
+    End Function
+
+    Private Function AgregarError(listaErrores As List(Of TErroresFijacion), TipoError As Integer, Optional ByVal InformacionAdicional As String = "") As List(Of TErroresFijacion)
+        Dim tErrorFijacion As TErroresFijacion = New TErroresFijacion()
+
+        tErrorFijacion = listaErrores.Find(Function(l) l.Id = TipoError)
+
+        If tErrorFijacion IsNot Nothing Then
+            Dim posicion As Integer = listaErrores.FindIndex(Function(l) l.Id = TipoError)
+
+            tErrorFijacion.Cantidad = tErrorFijacion.Cantidad + 1
+
+            If Not InformacionAdicional.Equals("") AndAlso tErrorFijacion.InformacionAdicional.IndexOf(InformacionAdicional) < 0 Then
+                tErrorFijacion.InformacionAdicional = tErrorFijacion.InformacionAdicional + InformacionAdicional + ", "
+            End If
+
+            listaErrores.RemoveAt(posicion)
+            listaErrores.Insert(posicion, tErrorFijacion)
+        End If
+
+        Return listaErrores
+    End Function
+
+    Private Sub MostrarMensaje(listaErrores As List(Of TErroresFijacion), ByRef TransaccionesTotales As Integer, ByRef TransaccionesExitosas As Integer, ByRef TransaccionesNoExitosas As Integer, CantidadFijados As Integer, CantidadNOFijados As Integer, Mensaje As String, listaMensajes As List(Of String))
+        Dim stringMensajes As String = ""
+        Dim stringAux As String = ""
+        Dim formato As String = "{0}: {1}\n"
+        Dim maxChars As Integer = 40
+
+        TransaccionesTotales = CantidadFijados + CantidadNOFijados
+        TransaccionesExitosas = CantidadFijados
+        TransaccionesNoExitosas = CantidadNOFijados
+
+        If listaMensajes.Count() > 0 Then
+            stringAux = "\n\n ADVERTENCIA: Algunas transacciones exceden el patrimonio del fondo."
+        End If
+
+        stringMensajes = "RESUMEN\n\n"
+        stringMensajes = stringMensajes & String.Format(formato, "Transacciones Seleccionadas", CStr(TransaccionesTotales))
+
+        For Each errorTxt As TErroresFijacion In listaErrores
+            stringMensajes = stringMensajes + String.Format(formato, errorTxt.MsgError, CStr(errorTxt.Cantidad))
+
+            If Not errorTxt.InformacionAdicional.Trim().Equals("") Then
+                stringMensajes = stringMensajes + "(" + errorTxt.InformacionAdicional.Substring(0, errorTxt.InformacionAdicional.Trim().Length() - 1) + ") \n "
+            End If
+        Next
+
+        stringMensajes = stringMensajes + stringAux
+
+        'stringMensajes = String.Format("Transacciones Seleccionadas: {0} \n Transacciones Fijadas: {1} \n Transacciones con error: {2} . {3} {4}", CStr(TransaccionesTotales), CStr(TransaccionesExitosas), CStr(TransaccionesNoExitosas), Mensaje, stringAux)
+
+        ShowAlert(stringMensajes)
+    End Sub
+
+
+#End Region
 End Class

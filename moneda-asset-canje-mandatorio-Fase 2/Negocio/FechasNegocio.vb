@@ -37,6 +37,7 @@ Public Class FechasNegocio
 
     Public Function getPaisDeLaMoneda(moneda As String) As RelacionMonedaPaisDto
         ' buscar la moneda, sacar el pais y devolverlo
+        Return New RelacionMonedaPaisDto()
     End Function
 
     Public Function SumaDiasAFecha(fecha As FechasDTO) As Date

@@ -106,6 +106,7 @@
     </Compile>
     <Compile Include="ProcesoDTO.vb" />
     <Compile Include="RescatesDTO.vb" />
+    <Compile Include="TErroresFijacion.vb" />
     <Compile Include="TipoCalculoNavDTO.vb" />
     <Compile Include="TipoCambioDTO.vb" />
     <Compile Include="MonedasDTO.vb" />

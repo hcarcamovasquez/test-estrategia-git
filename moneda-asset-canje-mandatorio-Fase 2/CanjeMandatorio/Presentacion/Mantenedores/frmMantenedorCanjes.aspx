@@ -1231,7 +1231,7 @@
 
     <!--PopUp Canjes-->
     <div class="modal fade" id="PopUpCanjes" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-        <div class="modal-dialog" style="max-width: 90%;">
+        <div class="modal-dialog" style="max-width: 60%;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">
