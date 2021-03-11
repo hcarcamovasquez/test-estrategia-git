@@ -2165,22 +2165,24 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
         Dim negocio As ConfigPentahoNegocio = New ConfigPentahoNegocio
 
         Dim parErrores As String = ""
-        'Dim parametros As String
 
         pentaho.ID = CONST_ID_PENTAHO
 
         pentaho = negocio.GetPentahoPorId(pentaho)
 
-        If pentaho.Code = Nothing Then
+        If pentaho.Code = Nothing Or pentaho.API_Url.Equals("") Then
             ShowAlert(Constantes.CONST_NO_SE_ENCUENTRA_CONFIGURACION)
         Else
-            'pentaho.API_Parametros = parametros
-
-            If PentahoUtil.EjecutarETLParametrosAPI(pentaho, parErrores) Then
-                ShowAlert(Constantes.CONST_EJECUTADO_CORRECTAMENTE)
+            If PentahoUtil.IsJobRunning(pentaho, parErrores) Then
+                ShowAlert("El Job está corriendo")
             Else
-                ShowAlert(parErrores)
+                If parErrores.Equals("") AndAlso PentahoUtil.EjecutarETLParametrosAPI(pentaho, parErrores) Then
+                    ShowAlert(Constantes.CONST_EJECUTADO_CORRECTAMENTE)
+                Else
+                    ShowAlert(parErrores)
+                End If
             End If
         End If
     End Sub
+
 End Class
