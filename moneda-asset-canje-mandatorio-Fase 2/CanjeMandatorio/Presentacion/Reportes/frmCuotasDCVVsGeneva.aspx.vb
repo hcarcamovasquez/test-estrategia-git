@@ -93,13 +93,16 @@ Partial Class Presentacion_Reportes_frmCuotasDCVVsGeneva
             Return False
         Else
             pentaho.API_Parametros = parametros
-
-            If PentahoUtil.EjecutarETLParametrosAPI(pentaho, parErrores) Then
-                ShowAlert(Constantes.CONST_EJECUTADO_CORRECTAMENTE)
-                Return True
+            If PentahoUtil.IsJobRunning(pentaho, parErrores) Then
+                ShowAlert("El Proceso " + pentaho.API_JobName + " está ejecutandose. Espere unos momentos y reitentelo nuevamente ")
             Else
-                ShowAlert(parErrores)
-                Return False
+                If parErrores.Equals("") AndAlso PentahoUtil.EjecutarETLParametrosAPI(pentaho, parErrores) Then
+                    ShowAlert(Constantes.CONST_EJECUTADO_CORRECTAMENTE)
+                    Return True
+                Else
+                    ShowAlert(parErrores)
+                    Return False
+                End If
             End If
         End If
 
