@@ -1719,13 +1719,10 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         txtFechaTCHasta.Text = Nothing
     End Sub
 
-
-
 #End Region
 
 #Region "Formateo Datos"
     Private Sub MantenedorSuscripcion(Suscripcion As SuscripcionDTO)
-
         CargaRutAportanteSusc()
         CargarNombreAportanteModalSuscripciones()
         CargarMultifondoModalSuscripciones()
@@ -1799,8 +1796,6 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             'JOVB: R3
             ddlEstadoIntencion.Text = IIf(Suscripcion.EstadoIntencion = "", "Intencion", Suscripcion.EstadoIntencion)
         End If
-
-
     End Sub
 
     Private Sub MantenedorRescate(Rescate As RescatesDTO)
@@ -2190,8 +2185,6 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
 
 #Region "Cargar Datos Modal Rescate"
     Private Sub CargarRutFondoModal()
-
-
         Dim Negocio As FondoSeriesNegocio = New FondoSeriesNegocio
         Dim serie As FondoSerieDTO = New FondoSerieDTO()
 
@@ -2283,7 +2276,6 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
     End Sub
 
     Public Sub CargaNemotecnicoModal()
-
         Dim NegocioFondoSerie As FondoSeriesNegocio = New FondoSeriesNegocio
         Dim fondoSeries As FondoSerieDTO = New FondoSerieDTO()
         Dim fondo As FondoDTO = New FondoDTO()
@@ -2723,7 +2715,6 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         End If
     End Sub
 
-
     Protected Sub CargaFiltroMultifondoAportante1()
         Dim Suscripcion As New SuscripcionDTO()
         Dim Negocio As New SuscripcionNegocio()
@@ -2742,7 +2733,6 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
 
 #Region "Funciones"
     Public Sub CargarMontoModal()
-
         Dim MonedaSerie As String
         Dim Nav As Decimal
         Dim NavCLP As Decimal
@@ -3476,7 +3466,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
     End Sub
 
     Protected Sub TcObservadoChanged()
-        validartcobservado()
+        ValidarTCObservado()
         If (txtTCObservado.Text <> "" And IsNumeric(txtTCObservado.Text)) Then
             If (Double.Parse(txtTCObservado.Text) < 99999999999999) Then
                 llenarCLP()
@@ -3487,7 +3477,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         End If
     End Sub
 
-    Public Sub validartcobservado()
+    Public Sub ValidarTCObservado()
         Dim contador As Integer = 0
         If (txtTCObservado.Text <> "") Then
             For s = 0 To txtTCObservado.Text.Length - 1
@@ -3562,8 +3552,6 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
     End Sub
 
     Protected Sub llenarCLP()
-
-
         If (IsNumeric(txtTCObservado.Text) And IsNumeric(txtNAV.Text)) Then
             'txtNAVCLP.Text = Double.Parse(txtNAV.Text.Replace(".", ",")) * Double.Parse(txtTCObservado.Text.Replace(".", ","))
             txtNAVCLP.Text = Utiles.calcularNAVCLP(txtTCObservado.Text, txtNAV.Text) '  String.Format("{0:N4}", txtNAV.Text * txtTCObservado.Text)
@@ -3601,12 +3589,10 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
     End Sub
 
     'RECALCULAR VALORES EN CANJES 
-
     Public Sub CalcularFactor()
-
-
         replicarNavCLP()
         replicarNavCLPEntrante()
+
         If txtModalNavEntrante.Text = "" Or txtModalNavSaliente.Text = "" Then
             txtModalFactor.Text = ""
             CalcularMontoSaliente()
@@ -4112,6 +4098,8 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         Return fijaciones
     End Function
 
+#Region "******************************* MOVER INTENCION *****************************************************************"
+
     Protected Sub btnMoverIntencion_Click(sender As Object, e As EventArgs) Handles btnMoverIntencion.Click
         Dim fijaciones As List(Of FijacionDTO) = New List(Of FijacionDTO)
         Dim strMensaje As String = CONST_NO_HAY_TRANSACCIONES_SELECCIONADAS
@@ -4139,6 +4127,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                 Exit Sub
             End If
 
+            ' REcalculo de las suscripciones 
 
             For Each fija As FijacionDTO In transaccionesSuscripciones
                 Dim negocio As SuscripcionNegocio = New SuscripcionNegocio()
@@ -4148,6 +4137,14 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                     .FechaSuscripcion = ObtenerFechasSolicitud.ObtenerFechaSuscripcion(.Nemotecnico, .FechaIntencion, .FechaNAV)
                     .FechaNAV = ObtenerFechasSolicitud.ObtenerFechaNav(.Nemotecnico, .FechaSuscripcion, .FechaIntencion)
                     .FechaTC = ObtenerFechasSolicitud.ObtenerFechaTCObservado(.Nemotecnico, .FechaSuscripcion, .FechaNAV, .FechaIntencion)
+
+                    'calculo de valores cuotas y tc 
+                    .TcObservado = MoverIntencion_GetValorTC(fija.ObjSuscripcion)
+                    .NAV = MoverIntencion_GetValorNAV(fija.ObjSuscripcion)
+
+                    .NAVCLP = Utiles.calcularNAVCLP(.TcObservado, .NAV)
+                    .Monto = Utiles.calcularMonto(.CuotasASuscribir, .NAV, .MonedaSerie)
+                    .MontoCLP = Utiles.calcularMontoCLP(.CuotasASuscribir, .NAV, .TcObservado)
 
                 End With
 
@@ -4163,6 +4160,87 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             FindFijacion()
         End Try
     End Sub
+
+    Private Function MoverIntencion_GetValorTC(Suscripcion As SuscripcionDTO) As Double
+        'TRAER VALOR TIPO CAMBIO OBSERVADO
+        Dim TipoCambio As TipoCambioDTO = New TipoCambioDTO()
+        Dim NegocioTipoCambio As TipoCambioNegocio = New TipoCambioNegocio
+        Dim TipoCambioActualizado As TipoCambioDTO = New TipoCambioDTO()
+        Dim ListaTC As List(Of TipoCambioDTO)
+
+        Dim retornoTC As Double
+
+        Try
+            TipoCambio.Fecha = Suscripcion.FechaTC
+            TipoCambio.Codigo = Suscripcion.MonedaSerie
+
+            TipoCambioActualizado = NegocioTipoCambio.GetTipoCambio(TipoCambio)
+
+            If TipoCambioActualizado IsNot Nothing Then
+                retornoTC = TipoCambioActualizado.Valor
+            Else
+                ListaTC = NegocioTipoCambio.UltimoTipoCambioPorCodigo(TipoCambio)
+                If ListaTC IsNot Nothing AndAlso ListaTC.Count() = 0 Then
+                    retornoTC = 0
+                Else
+                    retornoTC = ListaTC(0).Valor
+                End If
+            End If
+        Catch ex As Exception
+            retornoTC = 0
+
+        Finally
+            TipoCambio = Nothing
+            NegocioTipoCambio = Nothing
+            TipoCambioActualizado = Nothing
+            ListaTC = Nothing
+        End Try
+
+        Return retornoTC
+    End Function
+
+    Private Function MoverIntencion_GetValorNAV(Suscripcion As SuscripcionDTO) As Double
+        Dim ValorNavDTO As VcSerieDTO = New VcSerieDTO()
+        Dim negocioValor As ValoresCuotaNegocio = New ValoresCuotaNegocio
+
+        Dim ValorCuotaAlaFecha As VcSerieDTO
+        Dim listaUltimo As List(Of VcSerieDTO)
+
+        Dim valorNav As Double
+
+        Try
+            ValorNavDTO.FsNemotecnico = Suscripcion.Nemotecnico
+            ValorNavDTO.Fecha = Suscripcion.FechaNAV
+            ValorNavDTO.FnRut = Suscripcion.RutFondo
+
+            ValorCuotaAlaFecha = negocioValor.GetValoresCuota(ValorNavDTO)
+
+            If ValorCuotaAlaFecha IsNot Nothing Then
+                valorNav = ValorCuotaAlaFecha.Valor
+            Else
+                listaUltimo = negocioValor.UltimoValorCuota(ValorNavDTO)
+                If listaUltimo IsNot Nothing AndAlso listaUltimo.Count = 0 Then
+                    valorNav = 0
+                Else
+                    valorNav = listaUltimo(0).Valor
+                End If
+            End If
+        Catch ex As Exception
+            valorNav = 0
+
+        Finally
+            ValorNavDTO = Nothing
+            negocioValor = Nothing
+            ValorCuotaAlaFecha = Nothing
+            listaUltimo = Nothing
+        End Try
+
+        Return valorNav
+    End Function
+
+
+#End Region
+
 
 #Region "SECCION ERRORES DE FIJACION"
 
