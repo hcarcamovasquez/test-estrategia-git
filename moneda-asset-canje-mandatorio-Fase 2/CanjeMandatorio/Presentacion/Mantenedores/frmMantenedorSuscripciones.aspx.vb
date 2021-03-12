@@ -131,14 +131,19 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
 
 #Region "Botones modal"
     Private Sub btnModalGuardar_Click(sender As Object, e As EventArgs) Handles btnModalGuardar.Click
+        Dim Suscripcion As SuscripcionDTO = GetSuscripcionModal()
+
         If (Double.Parse(txtNAV.Text) > 99999999999999 Or Double.Parse(txtMonto.Text) > 99999999999999 Or Double.Parse(txtMontoCLP.Text) > 99999999999999 Or Double.Parse(txtCuotas.Text) > 99999999999999 Or Double.Parse(txtNAV.Text) > 99999999999999 Or Double.Parse(txtTCObservado.Text) > 99999999999999) Then
             ShowAlert("Los campos NAV, NAV (CLP), Monto, Monto(CLP), Cuotas y Tc observado no pueden ser mayores a 99999999999999, verifique por favor")
         ElseIf (txtNAV.Text = 0 Or txtMonto.Text = 0 Or txtMontoCLP.Text = 0 Or txtCuotas.Text = 0 Or txtNAV.Text = 0 Or txtTCObservado.Text = 0) Then
             ShowAlert("Los campos NAV, NAV (CLP), Monto, Monto(CLP), Cuotas y Tc observado deben ser mayores a 0, verifique por favor")
         ElseIf (txtCuotas.Text = "0" And txtCuotasEmitidas.Text > 0) Then
             ShowAlert("Debe ingresar un valor mayor a 0 en cuotas")
+        ElseIf ControlDeCuotasEmitidasPorFondo(Suscripcion) Then
+            ShowAlert("La fecha de emisión de cuotas estan vencidas")
+
         Else
-            Dim Suscripcion As SuscripcionDTO = GetSuscripcionModal()
+
             Suscripcion = Negocio.InsertSuscripcion(Suscripcion)
             txtIdSuscripcion.Text = Suscripcion.IdSuscripcion
 
@@ -157,11 +162,37 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
 
 
     End Sub
+
+    Private Function ControlDeCuotasEmitidasPorFondo(suscripcion As SuscripcionDTO) As Boolean
+        Dim fondo As FondoDTO = New FondoDTO()
+        Dim negocioFondo As FondosNegocio = New FondosNegocio
+
+        Try
+            fondo.Rut = suscripcion.RutFondo
+            fondo = negocioFondo.GetFondo(fondo)
+
+            If fondo.ControlCuotas Then
+                Return (suscripcion.FechaSuscripcion > fondo.FechaVencimiento)
+            Else
+                Return False
+            End If
+
+        Catch ex As Exception
+            Return False
+        Finally
+            fondo = Nothing
+            negocioFondo = Nothing
+        End Try
+
+    End Function
+
     Private Sub btnModalCancelar_Click(sender As Object, e As EventArgs) Handles btnModalCancelar.Click
         FormateoLimpiarDatosModal()
         txtAccionHidden.Value = ""
     End Sub
     Private Sub btnModalModificar_Click(sender As Object, e As EventArgs) Handles btnModalModificar.Click
+        Dim Suscripcion As SuscripcionDTO = GetSuscripcionModal()
+
         'MODIFICAR  
         If (Double.Parse(txtNAV.Text) > 99999999999999 Or Double.Parse(txtMonto.Text) > 99999999999999 Or Double.Parse(txtMontoCLP.Text) > 99999999999999 Or Double.Parse(txtCuotas.Text) > 99999999999999 Or Double.Parse(txtNAV.Text) > 99999999999999 Or Double.Parse(txtTCObservado.Text) > 99999999999999) Then
             ShowAlert("Los campos NAV, NAV (CLP), Monto, Monto(CLP), Cuotas y Tc observado no pueden ser mayores a 99999999999999, verifique por favor")
@@ -169,10 +200,13 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
             ShowAlert("Los campos NAV, Monto, Cuotas y Tc observado deben ser mayores a 0, verifique por favor")
         ElseIf (txtCuotas.Text = "0" And txtCuotasEmitidas.Text > 0) Then
             ShowAlert("Debe ingresar un valor mayor a 0 en cuotas")
+
+        ElseIf ControlDeCuotasEmitidasPorFondo(Suscripcion) Then
+            ShowAlert("La fecha de emisión de cuotas estan vencidas")
         Else
 
             Dim negocioMod As SuscripcionNegocio = New SuscripcionNegocio
-            Dim Suscripcion As SuscripcionDTO = GetSuscripcionModal()
+
             Dim solicitudMod As Integer = negocioMod.UpdateSuscripcion(Suscripcion)
 
             If solicitudMod = Constantes.CONST_OPERACION_EXITOSA Then

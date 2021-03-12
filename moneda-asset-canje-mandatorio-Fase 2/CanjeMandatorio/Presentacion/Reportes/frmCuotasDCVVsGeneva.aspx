@@ -72,8 +72,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-md-12 text-center">
-                <asp:Button ID="BtnExportar" class="btn btn-success" Text="Exportar" runat="server" Enabled="false" />
-                
+                <asp:Button ID="BtnExportar" class="btn btn-success" Text="Exportar" runat="server" Enabled="false" />                
             </div>
         </div>
      </div>

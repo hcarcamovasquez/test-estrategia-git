@@ -1260,6 +1260,11 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             txtModalCuotasDVC.Text = "0"
             txtModalFechaDCV.Text = ""
         End If
+
+        'Esta pregunta es para actualizar la Fecha DCV que se utilizara en JS para el boton Guardar 
+        If (txtModalFechaDCV.Text <> "") Then
+            txtHiddenFechaDCVParaCalculo.Value = Utiles.SumaDiasAFechas("CLP", txtModalFechaDCV.Text, 2, Constantes.CONST_SOLO_DIAS_HABILES)
+        End If
     End Sub
 
 #End Region
@@ -2042,6 +2047,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             Return
         End If
 
+
         Dim negocioIns As RescateNegocio = New RescateNegocio
         Dim Rescate As RescatesDTO = GetRescateModal()
 
@@ -2057,9 +2063,10 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             CargaNemotecnicoBuscar()
             ' ShowMesagges(CONST_TITULO_VALORESCUOTA, CONST_INSERTAR_EXITO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_LOGO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_CORRECTO)
 
-            'If FechaDCV < FechaSolicitud Then
+            'If FechaSolicitud > Utiles.SumaDiasAFechas("CLP", FechaDCV, 2, Constantes.CONST_SOLO_DIAS_HABILES) Then
             '    ShowAlert("ADVERTENCIA: La información DCV es menor a la Fecha de Solicitud.")
             'End If
+
             ShowAlert(CONST_INSERTAR_EXITO)
             GenerarPopUp()
         Else

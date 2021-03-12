@@ -13,7 +13,7 @@
             <!-- LISTA Tipo Transaccion-->
             <div class="col-md-4">
                 <asp:label runat="server" id="lblTipoTransaccion">Tipo Transacción</asp:label>
-                <asp:dropdownlist id="ddlListaTipoTransaccion" cssclass="form-control js-select2-rut" runat="server" />
+                <asp:dropdownlist id="ddlListaTipoTransaccion" cssclass="form-control js-select2-rut" runat="server" EnableViewState="True" />
             </div>
 
             <!-- LISTA RUT FONDO-->

@@ -547,7 +547,11 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
 
                     ElseIf TipoFijacionNAV = "Manual" Then
                         'NO Realiza la fijacion
-                        ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_ERROR_TRANSACCION_YA_FIJADA)
+                        ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_CONFIGURACION_MANUAL, NemotecnicoSeleccionado)
+                        CantidadNOFijados = CantidadNOFijados + 1
+                    Else
+                        'NO Realiza la fijacion la transaccion no ES MANUAL ni AUTOMATICA
+                        ListaErrores = AgregarError(ListaErrores, TipoErroresFijacion.EF_ERROR_SERIES_CONFIGURACION, NemotecnicoSeleccionado)
                         CantidadNOFijados = CantidadNOFijados + 1
                     End If
                 Else
@@ -561,7 +565,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         MostrarMensaje(ListaErrores, TransaccionesTotales, TransaccionesExitosas, TransaccionesNoExitosas, CantidadFijados, CantidadNOFijados, Mensaje, listaMensajes)
 
         txtAccionHidden.Value = ""
-        FormateoLimpiarForm()
+        'FormateoLimpiarForm()
         Me.GrvTabla.DataSource = Nothing
         GrvTabla.DataBind()
         FindFijacion()
@@ -941,7 +945,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         MostrarMensaje(ListaErrores, TransaccionesTotales, TransaccionesExitosas, TransaccionesNoExitosas, CantidadFijados, CantidadNOFijados, Mensaje, listaMensajes)
 
         txtAccionHidden.Value = ""
-        FormateoLimpiarForm()
+        'FormateoLimpiarForm()
         Me.GrvTabla.DataSource = Nothing
         GrvTabla.DataBind()
         FindFijacion()
@@ -1202,7 +1206,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                 End If
 
                 txtAccionHidden.Value = ""
-                FormateoLimpiarForm()
+                'FormateoLimpiarForm()
                 Me.GrvTabla.DataSource = Nothing
                 GrvTabla.DataBind()
                 DataInitial()
@@ -2890,7 +2894,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             Fijacion.EstadoIntencion = ddlEstadoConfirmacion.SelectedValue
         End If
 
-
+        GrvTabla.DataSource = Nothing
 
         If ddlFijacionTCObservacion.SelectedValue.Trim() = Nothing And _
             ddlListaTipoTransaccion.SelectedValue.Trim() = Nothing And _
@@ -4168,6 +4172,8 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         EF_ERROR_TRANSACCION_YA_FIJADA
         EF_ERROR_TRANSACCION_EN_INTENCION
         EF_TRANSACCIONES_FIJADAS_EXITOSAMENTE
+        EF_ERROR_SERIES_CONFIGURACION
+        EF_CONFIGURACION_MANUAL
     End Enum
 
     ''' <summary>
@@ -4183,6 +4189,8 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         ListaErrores.Add(New TErroresFijacion(TipoErroresFijacion.EF_ERROR_NO_EXISTE_NAV_O_TC, "No existe NAV o TC", 0))
         ListaErrores.Add(New TErroresFijacion(TipoErroresFijacion.EF_ERROR_TRANSACCION_YA_FIJADA, "Transacción ya fijada", 0))
         ListaErrores.Add(New TErroresFijacion(TipoErroresFijacion.EF_ERROR_TRANSACCION_EN_INTENCION, "Transacción en intención", 0))
+        ListaErrores.Add(New TErroresFijacion(TipoErroresFijacion.EF_CONFIGURACION_MANUAL, "Transaccines Manuales", 0))
+        ListaErrores.Add(New TErroresFijacion(TipoErroresFijacion.EF_ERROR_SERIES_CONFIGURACION, "Errores en configuracion de Transacciones", 0))
 
 
         Return ListaErrores

@@ -133,6 +133,7 @@
 
 
         <asp:HiddenField ID="txtAccionHidden" runat="server" />
+        <asp:HiddenField ID="txtHiddenFechaDCVParaCalculo" runat="server" />
 
         <!-- TABLA DE RESULTADOS -->
         <h5 class="mt-3 text-secondary"><i class="fas fa-file-invoice fa-sm"></i>Resultado de la búsqueda</h5>
@@ -790,6 +791,7 @@
                                                                 <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="1px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" CssClass="cabecera texto-cabecera" />
                                                                 <TodayDayStyle BackColor="#CCCCCC" />
                                                             </asp:Calendar>
+                                                            
                                                         </ContentTemplate>
                                                     </asp:UpdatePanel>
                                                 </div>
@@ -1426,15 +1428,13 @@
                 }
 
                 var mensaje = '¿Confirma que desea Guardar?'
-                var fdcv = $("#<%=txtModalFechaDCV.ClientID%>").val();
+
+                var fdcv = $("#<%=txtHiddenFechaDCVParaCalculo.ClientID %>").val(); 
                 var fSol = $("#<%=txtModalFechaSolicitud.ClientID%>").val();
-                <%--var diasDesplazar = $("#<%=txtModalDiasHabiles.ClientID%>").val();--%>
-                var diasDesplazar = 2;
 
                 if ((fSol != "") && (fdcv != "")) {
                     var fechaSolicitud = new Date(fSol.split('-')[2], fSol.split('-')[1], fSol.split('-')[0]);
-                    var fechaDcv = new Date(fdcv.split('-')[2], fdcv.split('-')[1], fdcv.split('-')[0] + diasDesplazar);
-
+                    var fechaDcv = new Date(fdcv.split('-')[2], fdcv.split('-')[1], fdcv.split('-')[0]);
 
                     if (Date.parse(fechaSolicitud) > Date.parse(fechaDcv)) {
                         mensaje = 'ADVERTENCIA: La información DCV es menor a la Fecha de Solicitud.'
