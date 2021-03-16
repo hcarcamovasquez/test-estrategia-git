@@ -14,6 +14,11 @@ Public Class FondosNegocio
         Return fondoDatos.ConsultarPorRut(fondo)
     End Function
 
+    Public Function ConsultarPorVentana(fondo As DTO.FondoDTO) As List(Of DTO.FondoDTO)
+        Dim fondoDatos As New Datos.FondosDatos
+        Return fondoDatos.ConsultarPorVentana(fondo)
+    End Function
+
     Public Function FondosPorNombre(fondo As DTO.FondoDTO) As List(Of DTO.FondoDTO)
         Dim fondoDatos As New Datos.FondosDatos
         Return fondoDatos.FondoPorNombre(fondo)

@@ -389,21 +389,14 @@
             var ckkDiasHabiles = document.getElementById('<%=chkControlDiasHabiles.ClientID%>');
             var ddlControlTipoControl = document.getElementById('<%=ddlControlTipoControl.ClientID%>');
             var txtControlDiasAVerificar = document.getElementById('<%=txtControlDiasAVerificar.ClientID%>');
-
-            if (ddlControlTipoControl.value != "Ventana") {
-                if (ddl.value == "Prorrata") {
-                    txtCantidadDias.disabled = true;
-                    ckkDiasHabiles.disabled = true;
-                    txtControlDiasAVerificar.disabled = true; 
-                } else {
-                    txtCantidadDias.disabled = false;
-                    ckkDiasHabiles.disabled = false;
-                    txtControlDiasAVerificar.disabled = false; 
-                }
-            } else {
+            // Cambiar las cosas de habilitado a desabiitado cuando es prorrata 
+            if (ddl.value == "Prorrata") {
                 txtCantidadDias.disabled = true;
                 ckkDiasHabiles.disabled = true;
-                txtControlDiasAVerificar.disabled = true; 
+                    
+            } else {
+                txtCantidadDias.disabled = false;
+                ckkDiasHabiles.disabled = false;
             }
             return false;
         }
@@ -416,20 +409,10 @@
 
             if (ddl.value == "Ventana") {
                 txtControlDiasAVerificar.disabled = true;
-                txtControlCantidadDias.disabled = true;
-                ckkDiasHabiles.disabled = true;
             } else {
-                if (ddlControlTipoDeConfiguracion.value == "Prorrata") {
-                    txtControlCantidadDias.disabled = true;
-                    ckkDiasHabiles.disabled = true;
-                    txtControlDiasAVerificar.disabled = true;
-                } else {
-                    txtControlDiasAVerificar.disabled = false;
-                    txtControlCantidadDias.disabled = false;
-                    ckkDiasHabiles.disabled = false;
-                }
-                
+                txtControlDiasAVerificar.disabled = false;
             }
+                
             return false;
         }
 

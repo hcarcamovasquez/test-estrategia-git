@@ -47,7 +47,7 @@ Partial Class Presentacion_Reportes_frmReporteControlCuotasEmitidas
                 grvReporte.DataBind()
 
             Else
-                ShowAlert("No se encontraron Datos")
+                ShowAlert(Constantes.CONST_SIN_RESULTADOS)
             End If
 
         Catch ex As Exception

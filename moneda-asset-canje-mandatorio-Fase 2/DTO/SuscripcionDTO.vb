@@ -36,7 +36,6 @@ Public Class SuscripcionDTO
     Public Property TcObservado As String
     Public Property EstadoSuscripcion As String
 
-    ' TODO: JOVB
     Public Property CuotasEmitidas As Decimal
     Public Property FnAcumulada As Decimal
     Public Property ScActual As Decimal
@@ -113,6 +112,7 @@ Public Class SuscripcionDTO
         Me.CountFN = CountFN
         Me.CountFS = CountFS
     End Sub
+
     Public Sub New()
     End Sub
     Public ReadOnly Property NemotecnicoRead As String

@@ -47,6 +47,9 @@
     Public Property CountFN As Integer
     Public Property CountFS As Integer
 
+    'Variable Utilizada para saber desde donde es la invocacion ( Desde Rescates o Desde Fijacion ) 
+    Public Property DesdeProceso As String = "Rescate"
+
 
     Public Sub New(RES_ID As Integer, RES_Fecha_Solicitud As DateTime, RES_Fecha_Pago As DateTime, AP_RUT As String, AP_Multifondo As String, FS_Nemotecnico As String, RES_Cuotas As Decimal, Res_Fecha_Carga As DateTime, FN_RUT As String,
                    FN_Nombre_Corto As String, RES_Tipo_Transaccion As String, AP_Razon_Social As String, FS_Nombre_Corto As String, RES_Moneda_Pago As String, ADCV_Cantidad As Decimal, RES_Fecha_Nav As DateTime, RES_FechaTCObs As DateTime,

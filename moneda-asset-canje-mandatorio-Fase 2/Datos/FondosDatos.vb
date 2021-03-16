@@ -15,6 +15,9 @@ Public Class FondosDatos
         Return Consultar(fondo, "POR_NOMBRE_RUT")
     End Function
 
+    Public Function ConsultarPorVentana(fondo As DTO.FondoDTO) As List(Of DTO.FondoDTO)
+        Return Consultar(fondo, "POR_VENTANA")
+    End Function
 
     Private Function Consultar(fondo As DTO.FondoDTO, accion As String) As List(Of DTO.FondoDTO)
         Dim listaFondos As New List(Of DTO.FondoDTO)
@@ -26,6 +29,8 @@ Public Class FondosDatos
             listaFondos = Ws.ConsultarPorRazonSocial(fondo)
         ElseIf accion = "POR_NOMBRE_RUT" Then
             listaFondos = Ws.ConsultarPorNombre(fondo)
+        ElseIf accion = "POR_VENTANA" Then
+            listaFondos = Ws.ConsultarPorVentana(fondo)
         End If
         Return listaFondos
     End Function

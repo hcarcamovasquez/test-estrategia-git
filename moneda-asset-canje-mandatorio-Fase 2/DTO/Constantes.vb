@@ -25,10 +25,13 @@
 
     Public Const CONST_SIN_RESULTADOS As String = "No se obtuvieron resultados de la búsqueda"
 
-    Public Const CONST_NO_SE_ENCUENTRA_CONFIGURACION As String = "No se encuentra la configuración de Pentaho"
-    Public Const CONST_EJECUTADO_CORRECTAMENTE As String = "Ejecutado correctamente"
+    Public Const CONST_EXCEL_GUARDADO_EXITO As String = "Excel Guardado de forma Exitosa"
+    Public Const CONST_EXCEL_MENSAJE_ERROR As String = "Error al Guardar Excel"
 
-    Public Const CONST_MENSAJE_EXCEL_GUARDADO As String = "Excel Guardado de forma Exitosa"
-    Public Const CONST_MENSAJE_EXCEL_ERROR As String = "Error al Guardar Excel"
+    Public Const CONST_MENSAJE_NO_CUMPLE_REGLA As String = "No cumple con la regla del patrimonio máximo del fondo.\n"
 
+    Public Const CONST_PENTAHO_EJECUTANDOSE As String = "El Proceso {0} está ejecutandose. Espere unos momentos y reitentelo nuevamente "
+    Public Const CONST_PENTAHO_NO_SE_ENCUENTRA_CONFIGURACION As String = "No se encuentra la configuración de Pentaho"
+    Public Const CONST_PENTAHO_EJECUTADO_CORRECTAMENTE As String = "Ejecutado correctamente"
+    Public Const CONST_ERROR_TC_NAV_MAYOR_A_CERO As String = "Tc observado y NAV deben ser mayores a 0, por favor verifique"
 End Class

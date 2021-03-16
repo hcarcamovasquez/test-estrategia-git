@@ -16,8 +16,6 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
         ValidaPermisosPerfil()
     End Sub
 
-
-
     Private Sub ValidaPermisosPerfil()
 
         If Session("PERFIL") = Constantes.CONST_PERFIL_CONSULTA Then
@@ -35,11 +33,12 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
     Private Sub CargaFiltroNombre()
         Dim fondo As New FondoDTO()
         Dim FondosNegocio As FondosNegocio = New FondosNegocio
-        Dim lista As List(Of FondoDTO) = FondosNegocio.ConsultarPorRut(fondo)
+        Dim lista As List(Of FondoDTO) = FondosNegocio.ConsultarPorVentana(fondo)
 
         If lista.Count = 0 Then
             ddlListaRutFondo.Items.Insert(0, New ListItem("", ""))
         Else
+
             ddlListaRutFondo.DataSource = lista
             ddlListaRutFondo.DataMember = "RutRazonSocial"
             ddlListaRutFondo.DataValueField = "RutRazonSocial"
@@ -60,6 +59,7 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
         ejecucionDto.FechaEjecucion = IIf(txtFechaEjecucion.Text = "", Nothing, txtFechaEjecucion.Text)
 
         lista = negocio.Select(ejecucionDto)
+
         If lista.Count() > 0 Then
             grvEjecuciones.DataSource = lista
             grvEjecuciones.DataBind()
@@ -80,9 +80,21 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
 
         Dim parErrores As String = ""
         Dim strFecha As String
-        Dim parametros As String
+        Dim FechaPatrimonio As String = ""
+        Dim strRutFondo As String = ""
+        Dim parametros As String = ""
+        Dim FormatoParam As String
+
+        Dim strMensajeAlert As String = ""
 
         txtFechaEjecucion.Text = Request.Form(txtFechaEjecucion.UniqueID)
+        txtFechaPatrimonio.Text = Request.Form(txtFechaPatrimonio.UniqueID)
+
+        If txtFechaPatrimonio.Text = "" Then
+            strMensajeAlert = "Debe seleccionar la fecha de Patrimonio"
+        Else
+            FechaPatrimonio = txtFechaPatrimonio.Text
+        End If
 
         If txtFechaEjecucion.Text = "" Then
             strFecha = Date.Now.Date.ToString("yyyy-MM-dd")
@@ -90,23 +102,39 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
             strFecha = CDate(txtFechaEjecucion.Text).ToString("yyyy-MM-dd")
         End If
 
-        'Set Parametros 
-        parametros = "FECHA_PAGO=" & strFecha
-
-        pentaho.ID = CONST_ID_PENTAHO
-        pentaho = negocio.GetPentahoPorId(pentaho)
-
-        If pentaho.Code = Nothing Then
-            ShowAlert(Constantes.CONST_NO_SE_ENCUENTRA_CONFIGURACION)
+        If ddlListaRutFondo.SelectedValue = "" Then
+            strRutFondo = Nothing
         Else
-            pentaho.API_Parametros = parametros
+            strRutFondo = ddlListaRutFondo.SelectedValue
+        End If
 
-            If PentahoUtil.EjecutarETLParametrosAPI(pentaho, parErrores) Then
-                ShowAlert(Constantes.CONST_EJECUTADO_CORRECTAMENTE)
+        If strMensajeAlert = "" Then
+            'Seteo Parametros 
+            FormatoParam = "FECHA_PAGO={0}&FONDO_RUT={1}&FECHA_PATRIMONIO={2}"
+            parametros = String.Format(FormatoParam, strFecha, strRutFondo, FechaPatrimonio)
+
+            pentaho.ID = CONST_ID_PENTAHO
+            pentaho = negocio.GetPentahoPorId(pentaho)
+
+            If pentaho.Code = Nothing Then
+                strMensajeAlert = Constantes.CONST_PENTAHO_NO_SE_ENCUENTRA_CONFIGURACION
             Else
-                ShowAlert(parErrores)
+                pentaho.API_Parametros = parametros
+
+                If PentahoUtil.IsJobRunning(pentaho, parErrores) Then
+                    strMensajeAlert = String.Format(Constantes.CONST_PENTAHO_EJECUTANDOSE, pentaho.API_JobName)
+                Else
+                    If parErrores.Equals("") AndAlso PentahoUtil.EjecutarETLParametrosAPI(pentaho, parErrores) Then
+                        strMensajeAlert = Constantes.CONST_PENTAHO_EJECUTADO_CORRECTAMENTE
+                    Else
+                        strMensajeAlert = parErrores
+                    End If
+                End If
             End If
         End If
+
+        ShowAlert(strMensajeAlert)
+
     End Sub
 
     Protected Sub btnLimpiarFrm_Click(sender As Object, e As EventArgs) Handles btnLimpiarFrm.Click
@@ -115,6 +143,9 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
 
         ddlListaRutFondo.SelectedIndex = -1
         txtFechaEjecucion.Text = ""
+        txtFechaPatrimonio.Text = ""
+        txtFechaDesde.Text = ""
+        txtFechaHasta.Text = ""
         txtAccionHidden.Value = ""
     End Sub
 End Class

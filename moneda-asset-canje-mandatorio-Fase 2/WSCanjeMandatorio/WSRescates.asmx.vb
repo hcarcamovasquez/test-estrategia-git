@@ -158,6 +158,7 @@ Public Class WSRescates
         sp.AgregarParametro("FechaSolucitud", rescate.RES_Fecha_Solicitud, System.Data.SqlDbType.Date)
         sp.AgregarParametro("pais", IIf(rescate.FS_Moneda = "USD", "USA", "CHILE"), System.Data.SqlDbType.VarChar)
         sp.AgregarParametro("monto", rescate.RES_Monto, System.Data.SqlDbType.Decimal)
+        sp.AgregarParametro("DesdeProceso", rescate.DesdeProceso, System.Data.SqlDbType.VarChar)
     End Sub
 
     Private Function ControlfillResultado(dataRow As DataRow) As String

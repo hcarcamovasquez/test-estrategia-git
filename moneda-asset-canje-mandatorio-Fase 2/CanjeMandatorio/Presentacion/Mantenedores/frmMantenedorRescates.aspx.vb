@@ -1804,6 +1804,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         Dim fondo As FondoDTO = New FondoDTO()
         Dim negocioFondo As FondosNegocio = New FondosNegocio
 
+
+
         rescate.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
 
         If (txtAccionHidden.Value.Equals("CREAR")) Then
@@ -1845,11 +1847,12 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                     If FechaRescateVentanaSiguiente <> "" Then
                         txtModalFechaPago.Text = FechaRescateVentanaSiguiente
                     Else
-                        ShowAlert("PORCENTAJE DE RESCATE SUPERADO, NO EXISTE VENTANA SIGUIENTE")
+                        ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA + "No existe la ventana de rescate siguiente.")
                         Return False
                     End If
                 End If
-                ShowAlert("PORCENTAJE DE RESCATE SUPERADO, SE CAMBIO FECHA")
+
+                ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA + "Se cambió la Fecha de Solicitud")
 
                 rescate.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
                 resultado = negocioRescate.ControlMontoRescateVsPatrimonio(rescate, fondo).Split(",")
@@ -1859,7 +1862,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                 txtModalDisponibles.Text = Utiles.SetToCapitalizedNumber(Double.Parse(txtModalRescateMax.Text) - Double.Parse(txtModalUtilizado.Text))
                 Return True
             ElseIf (fondo.ControlTipoDeConfiguracion = "Prorrata") Then
-                ShowAlert("DEBE REALIZAR PRORRATA")
+                ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA + "Se debe realizar el proceso de Prorrata.")
                 Return False
             End If
         End If

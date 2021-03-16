@@ -1152,14 +1152,19 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         Return canje
     End Function
 
+    'TODO: JOVB -> revisar el proceso de Prorrata
+    'TODO: JOVB -> Revisar el Control de Patrimonio
+    'TODO: JOVB
+
     Private Sub btnModalModificarRastreo_Click(sender As Object, e As EventArgs) Handles btnModalModificarRastreo.Click
         'MODIFICAR
         If (IsNumeric(txtModalTCObservado.Text) And IsNumeric(txtModalNAV.Text)) Then
             If (txtModalTCObservado.Text = "0" Or txtModalNAV.Text = "0") Then
-                ShowAlert("Tc observado y NAV deben ser mayores a 0, por favor verifique")
+                ShowAlert(Constantes.CONST_ERROR_TC_NAV_MAYOR_A_CERO)
             Else
                 If ControlValidacionPatrimonioManual() Then
-                    ShowAlert("transacción excede el patrimonio máximo del fondo")
+                    ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA)
+                    Exit Sub
                 End If
 
                 Dim negocioMod As FijacionNegocio = New FijacionNegocio
@@ -1228,6 +1233,9 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         rescate.FN_RUT = ddlModalRutFondoRescate.SelectedValue
         rescate.FS_Moneda = txtModalMonedaSerie.Text
         rescate.RES_Monto = 0
+        rescate.FS_Nemotecnico = ddlModalNemotecnicoRescate.SelectedValue
+
+        rescate.DesdeProceso = "Fijacion"
 
         Return ControlValidacionPatrimonio(rescate)
 
@@ -1251,21 +1259,21 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         fondo.Rut = rescate.FN_RUT
         fondo = negocioFondo.GetFondo(fondo)
 
-        rescate.FN_Nombre_Corto = fondo.RazonSocial
-        rescate.FS_Nemotecnico = "" 'VERIFICAR SI DEBE APLICAR NEMOTECNICO DEL RESCATE A VALIDAR
+        'rescate.FN_Nombre_Corto = fondo.RazonSocial
+        'rescate.FS_Nemotecnico = "" 'VERIFICAR SI DEBE APLICAR NEMOTECNICO DEL RESCATE A VALIDAR
 
-        If negocioRescate.ExisteVentana(rescate) Then
-            fondo.ControlTipoControl = "Ventana"
+        'If negocioRescate.ExisteVentana(rescate) Then
+        'fondo.ControlTipoControl = "Ventana"
 
-            Dim resultadoCalculo As String
+        Dim resultadoCalculo As String
 
-            Dim resultado() As String = negocioRescate.ControlMontoRescateVsPatrimonio(rescate, fondo).Split(",")
-            resultadoCalculo = resultado(0)
+        Dim resultado() As String = negocioRescate.ControlMontoRescateVsPatrimonio(rescate, fondo).Split(",")
+        resultadoCalculo = resultado(0)
 
-            Return resultadoCalculo
-        Else
-            Return False
-        End If
+        Return resultadoCalculo
+        'Else
+        'Return False
+        'End If
     End Function
 
     Protected Sub BtnBuscar_Click(sender As Object, e As EventArgs) Handles BtnBuscar.Click
@@ -1822,9 +1830,9 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
             ShowAlert(" No se pudo modificar el rescate, la serie fue modificada")
             txtAccionHidden.Value = "x"
 
-        ElseIf (fondo.ControlTipoDeConfiguracion = "Prorrata") Then
-            ShowAlert("DEBE REALIZAR PRORRATA")
-            txtAccionHidden.Value = "x"
+            'ElseIf (fondo.ControlTipoDeConfiguracion = "Prorrata") Then
+            '    ShowAlert("DEBE REALIZAR PRORRATA")
+            '    txtAccionHidden.Value = "x"
         Else
 
 

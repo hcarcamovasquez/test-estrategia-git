@@ -23,14 +23,14 @@ Public Class ReporteControlCuotasEmitidasNegocio
         If resultadoExcel Then
 
             If Excel.rutaArchivosExcel Is Nothing Then
-                Return Constantes.CONST_MENSAJE_EXCEL_ERROR
+                Return Constantes.CONST_EXCEL_MENSAJE_ERROR
             Else
                 Me.rutaArchivosExcel = Excel.rutaArchivosExcel
-                Return Constantes.CONST_MENSAJE_EXCEL_GUARDADO
+                Return Constantes.CONST_EXCEL_GUARDADO_EXITO
             End If
 
         Else
-            Return Constantes.CONST_MENSAJE_EXCEL_ERROR
+            Return Constantes.CONST_EXCEL_MENSAJE_ERROR
         End If
 
     End Function

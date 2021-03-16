@@ -63,10 +63,6 @@
                     <asp:BoundField DataField="Diferencia" HeaderText="Diferencia"  ItemStyle-HorizontalAlign="Right" DataFormatString="{0:N2}"/>
                     <asp:BoundField DataField="Observaciones" HeaderText="Observaciones"  ItemStyle-HorizontalAlign="Left"/>
 
-                    <%--<asp:BoundField DataField="Fecha_DCV" HeaderText="Fecha DCV" ItemStyle-HorizontalAlign="Center" DataFormatString="{0:dd/MM/yyyy}"/>
-                    <asp:BoundField DataField="Fecha_VC" HeaderText="Fecha VC" ItemStyle-HorizontalAlign="Center" DataFormatString="{0:dd/MM/yyyy}" />
-                    <asp:BoundField DataField="GNV_Clase" HeaderText="Estado" ItemStyle-HorizontalAlign="Left"/>--%>
-
                 </Columns>
             </asp:GridView>
         </div>

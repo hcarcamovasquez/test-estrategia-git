@@ -27,14 +27,56 @@
                 </div>
             </div>
 
+            <div class="col-md-3">
+                <asp:Label runat="server" ID="Label1">Fecha de Patrimonio</asp:Label>
+                <div class="input-group">
+                    <asp:TextBox ID="txtFechaPatrimonio" runat="server" CssClass="form-control datepicker" ReadOnly="True"></asp:TextBox>
+                    <asp:LinkButton ID="LinkButton1" class="btn btn-moneda" runat="server"
+                        OnClientClick="return clickCalendar('txtFechaPatrimonio')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
+
+                    <asp:LinkButton ID="LinkButton2" Text="" class="btn btn-secondary ml-1" runat="server"
+                        OnClientClick="return limpiarCalendar('txtFechaPatrimonio')"><i class="far fa-trash-alt"></i></asp:LinkButton>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <asp:Label runat="server" ID="Label3">&nbsp;</asp:Label>
+                <div class="input-group">
+                    <asp:Button ID="btnGenerarInforme" Text="Generar Informe" class="btn btn-moneda" runat="server"/>
+                </div>
+            </div>
+
+            <!-- FECHA DESDE -->
+            <div class="col-md-3">
+                <asp:Label runat="server" ID="Label5">Fecha Desde</asp:Label>
+                <div class="input-group">
+                    <asp:TextBox ID="txtFechaDesde" runat="server" CssClass="form-control datepicker" ReadOnly="True"></asp:TextBox>
+                    <asp:LinkButton ID="LinkButton3" class="btn btn-moneda" runat="server"
+                        OnClientClick="return clickCalendar('txtFechaDesde')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
+
+                    <asp:LinkButton ID="LinkButton4" Text="" class="btn btn-secondary ml-1" runat="server"
+                        OnClientClick="return limpiarCalendar('txtFechaDesde')"><i class="far fa-trash-alt"></i></asp:LinkButton>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <asp:Label runat="server" ID="Label6">Fecha de Hasta</asp:Label>
+                <div class="input-group">
+                    <asp:TextBox ID="txtFechaHasta" runat="server" CssClass="form-control datepicker" ReadOnly="True"></asp:TextBox>
+                    <asp:LinkButton ID="LinkButton5" class="btn btn-moneda" runat="server"
+                        OnClientClick="return clickCalendar('txtFechaHasta')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
+
+                    <asp:LinkButton ID="LinkButton6" Text="" class="btn btn-secondary ml-1" runat="server"
+                        OnClientClick="return limpiarCalendar('txtFechaHasta')"><i class="far fa-trash-alt"></i></asp:LinkButton>
+                </div>
+            </div>
         </div>
 
         <!-- BOTONES BUSCAR LIMPIAR Y CREAR -->
         <div class="row text-center mt-5 p-3 border-bottom">
             <div class="col-md-12">
                 <!-- BOTÓN BUSCAR -->
-                <asp:Button ID="BtnBuscar" Text="Buscar" class="btn btn-moneda" runat="server" />
-                <asp:Button ID="btnGenerarInforme" Text="Generar Informe" class="btn btn-moneda" runat="server"/>
+                
+               <asp:Button ID="BtnBuscar" Text="Buscar" class="btn btn-moneda" runat="server" />
                 <asp:Button ID="btnLimpiarFrm" Text="Limpiar" class="btn btn-secondary" runat="server" />
             </div>
         </div>
@@ -85,6 +127,9 @@
         $(document).ready(function () {
 
             $("[id*=txtFechaEjecucion]").datepicker();
+            $("[id*=txtFechaPatrimonio]").datepicker();
+            $("[id*=txtFechaDesde]").datepicker();
+            $("[id*=txtFechaHasta]").datepicker();
 
            
         })

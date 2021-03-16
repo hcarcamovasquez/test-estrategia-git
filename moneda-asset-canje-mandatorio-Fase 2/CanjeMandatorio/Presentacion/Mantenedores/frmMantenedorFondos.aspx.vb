@@ -424,14 +424,21 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
             ddlControlTipoDeConfiguracion.SelectedValue = fondo.ControlTipoDeConfiguracion
         End If
 
+        ' ddlControlTipoControl ( Movil Or Ventana)
+        '       txtControlDiasAVerificar
+
+        ' ddlControlTipoDeConfiguracion ( pAgo o prorrata ) 
+        '       txtControlCantidadDias
+        '       chkControlDiasHabiles
         txtControlCantidadDias.Text = fondo.ControlCantidadDias
         chkControlDiasHabiles.Checked = fondo.ControlDiasHabiles
 
         txtControlCantidadDias.Enabled = (fondo.ControlTipoDeConfiguracion.Equals("Pago"))
         chkControlDiasHabiles.Enabled = (fondo.ControlTipoDeConfiguracion.Equals("Pago"))
-        txtControlDiasAVerificar.Enabled = Not (fondo.ControlTipoControl.Equals("Ventana"))
-        txtControlCantidadDias.Enabled = Not (fondo.ControlTipoControl.Equals("Ventana"))
-        chkControlDiasHabiles.Enabled = Not (fondo.ControlTipoControl.Equals("Ventana"))
+
+        txtControlDiasAVerificar.Enabled = (fondo.ControlTipoControl.Equals("Movil"))
+        'txtControlCantidadDias.Enabled = (fondo.ControlTipoControl.Equals("Movil"))
+        'chkControlDiasHabiles.Enabled = Not (fondo.ControlTipoControl.Equals("Prorrata"))
 
     End Sub
 

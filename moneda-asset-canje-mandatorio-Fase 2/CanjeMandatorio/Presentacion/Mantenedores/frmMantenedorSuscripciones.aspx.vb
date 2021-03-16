@@ -2205,13 +2205,13 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
         pentaho = negocio.GetPentahoPorId(pentaho)
 
         If pentaho.Code = Nothing Or pentaho.API_Url.Equals("") Then
-            ShowAlert(Constantes.CONST_NO_SE_ENCUENTRA_CONFIGURACION)
+            ShowAlert(Constantes.CONST_PENTAHO_NO_SE_ENCUENTRA_CONFIGURACION)
         Else
             If PentahoUtil.IsJobRunning(pentaho, parErrores) Then
                 ShowAlert("El Job está corriendo")
             Else
                 If parErrores.Equals("") AndAlso PentahoUtil.EjecutarETLParametrosAPI(pentaho, parErrores) Then
-                    ShowAlert(Constantes.CONST_EJECUTADO_CORRECTAMENTE)
+                    ShowAlert(Constantes.CONST_PENTAHO_EJECUTADO_CORRECTAMENTE)
                 Else
                     ShowAlert(parErrores)
                 End If

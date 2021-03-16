@@ -56,6 +56,36 @@ Public Class WSFondos
         Return ListaAportantes
     End Function
 
+    Public Function ConsultarPorVentana(fondo As FondoDTO) As List(Of FondoDTO)
+        Dim ListaFondos As List(Of FondoDTO) = New List(Of FondoDTO)
+        Dim sp As New DBSqlServer.SqlServer.StoredProcedure(SP_CRUD)
+        Dim ds As DataSet
+        Dim fondoNew As New FondoDTO
+
+        Try
+            ' ---TODO Data prueba---
+            sp.AgregarParametro("Accion", "CONSULTA_POR_VENTANA", System.Data.SqlDbType.VarChar)
+
+            ds = sp.ReturnDataSet()
+
+            For Each dataRow As DataRow In ds.Tables(0).Rows
+                fondoNew = New FondoDTO
+                With fondoNew
+                    .Rut = dataRow("FN_RUT").ToString().Trim()
+                    .RazonSocial = dataRow("FN_Razon_Social").ToString().Trim()
+                End With
+
+                ListaFondos.Add(fondoNew)
+
+            Next
+
+        Catch ex As Exception
+            Throw
+        End Try
+
+        Return ListaFondos
+    End Function
+
     <WebMethod()>
     <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
     Public Function ConsultarPorRazonSocial(fondo As FondoDTO) As List(Of FondoDTO)

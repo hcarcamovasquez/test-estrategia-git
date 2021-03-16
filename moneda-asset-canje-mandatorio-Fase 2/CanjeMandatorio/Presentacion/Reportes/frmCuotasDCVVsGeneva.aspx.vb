@@ -76,6 +76,9 @@ Partial Class Presentacion_Reportes_frmCuotasDCVVsGeneva
         Dim strFecha As String
         Dim parametros As String
 
+        Dim strMensajeAlert As String = ""
+        Dim retorno As Boolean = False
+
         If txtFechaEjecucion.Text = "" Then
             strFecha = Date.Now.Date.ToString("yyyy-MM-dd")
         Else
@@ -89,23 +92,25 @@ Partial Class Presentacion_Reportes_frmCuotasDCVVsGeneva
         pentaho = negocio.GetPentahoPorId(pentaho)
 
         If pentaho.Code = Nothing Then
-            ShowAlert(Constantes.CONST_NO_SE_ENCUENTRA_CONFIGURACION)
-            Return False
+            strMensajeAlert = Constantes.CONST_PENTAHO_NO_SE_ENCUENTRA_CONFIGURACION
         Else
             pentaho.API_Parametros = parametros
             If PentahoUtil.IsJobRunning(pentaho, parErrores) Then
-                ShowAlert("El Proceso " + pentaho.API_JobName + " está ejecutandose. Espere unos momentos y reitentelo nuevamente ")
+                strMensajeAlert = String.Format(Constantes.CONST_PENTAHO_EJECUTANDOSE, pentaho.API_JobName)
             Else
                 If parErrores.Equals("") AndAlso PentahoUtil.EjecutarETLParametrosAPI(pentaho, parErrores) Then
-                    ShowAlert(Constantes.CONST_EJECUTADO_CORRECTAMENTE)
-                    Return True
+                    strMensajeAlert = Constantes.CONST_PENTAHO_EJECUTADO_CORRECTAMENTE
+                    retorno = True
                 Else
-                    ShowAlert(parErrores)
-                    Return False
+                    strMensajeAlert = parErrores
                 End If
             End If
         End If
+        If Not retorno Then
+            ShowAlert(strMensajeAlert)
+        End If
 
+        Return retorno
     End Function
 
     Private Sub ShowAlert(mesagge As String)
