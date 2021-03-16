@@ -133,7 +133,7 @@
                 <!-- BOTÓN CREAR -->
                 <asp:Button ID="btnCrear" Text="Crear" class="btn btn-info" runat="server" OnClick="btnCrear_Click" />
                 <!-- BOTÓN LLAMADO ETL SUSCRIPCIONES MASIVAS -->
-                <asp:Button ID="btnSuscripcionesMasivas" Text="Carga Suscripciones Masivas" class="btn btn-info" runat="server" style="float:right"  Visible="false"/>
+                <asp:Button ID="btnSuscripcionesMasivas" Text="Carga Suscripciones Masivas" class="btn btn-info" runat="server" style="float:right"  Visible="true" OnClientClick="return validaEjecucion();"/>
             </div>
         </div>
 
@@ -1420,7 +1420,14 @@
                 }
             }
         }
-
+        
+        function validaEjecucion() {
+            if (!confirm('¿ Está seguro que desea Ejecutar la Carga Masiva ?')) {
+                return false;
+            } else {
+                return true;
+            }
+        }
         function formatState(state) {
             if (!state.id) {
                 return state.text;

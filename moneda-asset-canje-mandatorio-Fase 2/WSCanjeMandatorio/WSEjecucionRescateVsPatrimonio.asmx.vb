@@ -63,8 +63,12 @@ Public Class WSEjecucionRescateVsPatrimonio
             sp.AgregarParametro("FechaEjecucion", ejecucionDto.FechaEjecucion, System.Data.SqlDbType.Date)
         End If
 
+
+
         sp.AgregarParametro("Descripcion", ejecucionDto.Descripcion, System.Data.SqlDbType.VarChar)
         sp.AgregarParametro("Estado", ejecucionDto.Estado, System.Data.SqlDbType.VarChar)
+        sp.AgregarParametro("FechaDesde", ejecucionDto.FechaDesde, System.Data.SqlDbType.Date)
+        sp.AgregarParametro("FechaHasta", ejecucionDto.Fechahasta, System.Data.SqlDbType.Date)
     End Sub
 
     Private Function fillObject(dataRow As DataRow) As EjecucionRescateVsPatrimonioDTO

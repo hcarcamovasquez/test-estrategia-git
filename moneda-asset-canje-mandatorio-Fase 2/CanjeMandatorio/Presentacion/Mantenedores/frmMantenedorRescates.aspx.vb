@@ -1821,6 +1821,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         rescate.FS_Moneda = txtModalMonedaSerie.Text
         rescate.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
 
+        rescate.DesdeProceso = "Rescate"
+
         fondo.Rut = rescate.FN_RUT
         fondo = negocioFondo.GetFondo(fondo)
         rescate.FN_Nombre_Corto = fondo.RazonSocial

@@ -6,6 +6,10 @@
     Public Property Estado As String
     Public Property NombreFondo As String
 
+    Public Property FechaDesde As DateTime
+    Public Property Fechahasta As DateTime
+
+
 
     Public Sub New(iD As Integer, fnRut As String, fechaEjecucion As Date, dEscripcion As String, eSTADO As String)
         Me.ID = iD

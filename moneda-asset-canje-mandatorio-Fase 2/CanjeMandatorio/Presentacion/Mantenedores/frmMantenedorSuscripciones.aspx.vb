@@ -2197,26 +2197,30 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
     Protected Sub btnSuscripcionesMasivas_Click(sender As Object, e As EventArgs) Handles btnSuscripcionesMasivas.Click
         Dim pentaho As ConfigPentahoDTO = New ConfigPentahoDTO()
         Dim negocio As ConfigPentahoNegocio = New ConfigPentahoNegocio
-
         Dim parErrores As String = ""
+
+        Dim strMensaje As String = ""
 
         pentaho.ID = CONST_ID_PENTAHO
 
         pentaho = negocio.GetPentahoPorId(pentaho)
 
         If pentaho.Code = Nothing Or pentaho.API_Url.Equals("") Then
-            ShowAlert(Constantes.CONST_PENTAHO_NO_SE_ENCUENTRA_CONFIGURACION)
+            strMensaje = Constantes.CONST_PENTAHO_NO_SE_ENCUENTRA_CONFIGURACION
         Else
             If PentahoUtil.IsJobRunning(pentaho, parErrores) Then
-                ShowAlert("El Job está corriendo")
+                strMensaje = String.Format(Constantes.CONST_PENTAHO_EJECUTANDOSE, pentaho.API_JobName)
             Else
                 If parErrores.Equals("") AndAlso PentahoUtil.EjecutarETLParametrosAPI(pentaho, parErrores) Then
-                    ShowAlert(Constantes.CONST_PENTAHO_EJECUTADO_CORRECTAMENTE)
+                    strMensaje = Constantes.CONST_PENTAHO_EJECUTADO_CORRECTAMENTE
                 Else
-                    ShowAlert(parErrores)
+                    strMensaje = parErrores
                 End If
             End If
         End If
+
+        ShowAlert(strMensaje)
+
     End Sub
 
 End Class

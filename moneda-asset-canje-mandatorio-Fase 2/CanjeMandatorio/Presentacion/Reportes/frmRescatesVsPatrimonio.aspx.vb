@@ -52,19 +52,44 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
         Dim negocio As EjecucionRescateVsPatrimonioNegocio = New EjecucionRescateVsPatrimonioNegocio()
         Dim ejecucionDto As EjecucionRescateVsPatrimonioDTO = New EjecucionRescateVsPatrimonioDTO()
         Dim lista As List(Of EjecucionRescateVsPatrimonioDTO)
+        Dim strMensajeAlert As String = ""
 
         txtFechaEjecucion.Text = Request.Form(txtFechaEjecucion.UniqueID)
+        txtFechaDesde.Text = Request.Form(txtFechaDesde.UniqueID)
+        txtFechaHasta.Text = Request.Form(txtFechaHasta.UniqueID)
 
         ejecucionDto.FnRut = IIf(ddlListaRutFondo.SelectedValue = "", Nothing, ddlListaRutFondo.SelectedValue)
         ejecucionDto.FechaEjecucion = IIf(txtFechaEjecucion.Text = "", Nothing, txtFechaEjecucion.Text)
 
-        lista = negocio.Select(ejecucionDto)
-
-        If lista.Count() > 0 Then
-            grvEjecuciones.DataSource = lista
-            grvEjecuciones.DataBind()
+        If txtFechaHasta.Text = "" Then
+            strMensajeAlert = "Debe Seleccionar la Fecha Hasta"
         Else
-            ShowAlert(Constantes.CONST_SIN_RESULTADOS)
+            ejecucionDto.Fechahasta = txtFechaHasta.Text
+        End If
+
+        If txtFechaDesde.Text = "" Then
+            strMensajeAlert = "Debe Seleccionar la Fecha Desde"
+        Else
+            ejecucionDto.FechaDesde = txtFechaDesde.Text
+        End If
+
+        If strMensajeAlert = "" Then
+            lista = negocio.Select(ejecucionDto)
+
+            If lista.Count() > 0 Then
+                grvEjecuciones.DataSource = lista
+                grvEjecuciones.DataBind()
+                strMensajeAlert = ""
+            Else
+                grvEjecuciones.DataSource = Nothing
+                grvEjecuciones.DataBind()
+                strMensajeAlert = Constantes.CONST_SIN_RESULTADOS
+            End If
+
+        End If
+
+        If strMensajeAlert <> "" Then
+            ShowAlert(strMensajeAlert)
         End If
 
     End Sub
