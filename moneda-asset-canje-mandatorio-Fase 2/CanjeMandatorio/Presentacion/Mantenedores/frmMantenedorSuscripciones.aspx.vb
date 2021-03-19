@@ -167,6 +167,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
         Dim fondo As FondoDTO = New FondoDTO()
         Dim negocioFondo As FondosNegocio = New FondosNegocio
 
+        Return False   ' Solo por Por entrega de R2 
+
         Try
             fondo.Rut = suscripcion.RutFondo
             fondo = negocioFondo.GetFondo(fondo)
@@ -2223,4 +2225,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
 
     End Sub
 
+    Protected Sub GrvTabla_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles GrvTabla.RowDataBound
+
+    End Sub
 End Class

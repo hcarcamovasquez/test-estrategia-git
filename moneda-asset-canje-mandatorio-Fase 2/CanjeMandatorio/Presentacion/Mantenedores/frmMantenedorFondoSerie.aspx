@@ -407,7 +407,7 @@
                                                         </asp:dropdownlist>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <asp:textbox id="txtFechaPatrimonio" maxlength="3" runat="server" cssclass="form-control form-control-sm" onpaste="return false" oncut="return false" oncopy="return false" onkeypress="return soloNumerosNP(event)" onchange="validarRango()"></asp:textbox>
+                                                    <asp:textbox id="ddlNumeroFechaPatrimonio" maxlength="3" runat="server" cssclass="form-control form-control-sm" onpaste="return false" oncut="return false" oncopy="return false" onkeypress="return soloNumerosNP(event)" onchange="validarRango()"></asp:textbox>
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-check">

@@ -28,21 +28,22 @@
             </div>
 
             <div class="col-md-3">
-                <asp:Label runat="server" ID="Label1">Fecha de Patrimonio</asp:Label>
+                <asp:Label runat="server" ID="Label1" Visible="False">Fecha de Patrimonio</asp:Label>
                 <div class="input-group">
-                    <asp:TextBox ID="txtFechaPatrimonio" runat="server" CssClass="form-control datepicker" ReadOnly="True"></asp:TextBox>
+                    <asp:TextBox ID="txtFechaPatrimonio" runat="server" CssClass="form-control datepicker" ReadOnly="True" Visible="False"></asp:TextBox>
                     <asp:LinkButton ID="LinkButton1" class="btn btn-moneda" runat="server"
-                        OnClientClick="return clickCalendar('txtFechaPatrimonio')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
+                        OnClientClick="return clickCalendar('txtFechaPatrimonio')" Visible="False"><i class="far fa-calendar-alt"></i></asp:LinkButton>
 
                     <asp:LinkButton ID="LinkButton2" Text="" class="btn btn-secondary ml-1" runat="server"
-                        OnClientClick="return limpiarCalendar('txtFechaPatrimonio')"><i class="far fa-trash-alt"></i></asp:LinkButton>
+                        OnClientClick="return limpiarCalendar('txtFechaPatrimonio')" Visible="False"><i class="far fa-trash-alt"></i></asp:LinkButton>
                 </div>
-            </div>
-            <div class="col-md-3">
                 <asp:Label runat="server" ID="Label3">&nbsp;</asp:Label>
                 <div class="input-group">
                     <asp:Button ID="btnGenerarInforme" Text="Generar Informe" class="btn btn-moneda" runat="server"/>
                 </div>
+            </div>
+            <div class="col-md-3">
+                
             </div>
 
             <!-- FECHA DESDE -->

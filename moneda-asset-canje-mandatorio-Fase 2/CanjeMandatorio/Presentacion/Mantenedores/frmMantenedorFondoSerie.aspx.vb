@@ -306,6 +306,10 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
         chkDiasHabilesRescate.Checked = False
         chkDiasHabilesSuscipciones.Checked = False
 
+        ddlFechaPatrimonio.SelectedIndex = 0
+        ddlNumeroFechaPatrimonio.Text = ""
+        chkDiasHabilesFechaPatrimonio.Checked = False
+
     End Sub
 
     Protected Sub BtnBuscar_Click(sender As Object, e As EventArgs) Handles BtnBuscar.Click
@@ -530,6 +534,10 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
         ddNumeroFechaNavCanje.Enabled = True
         ddlFijacionNavCanje.Enabled = True
         lblTitleModalCrud.Text = CONST_TITULO_MODAL_MODIFICAR
+
+        ddlFechaPatrimonio.Enabled = True
+
+
     End Sub
 
     ' TODO: Averiguar por que se cae cuando la fecha viene nula 
@@ -598,6 +606,10 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
         Dim estructuraFechaCanje As EstructuraFechasDto = New EstructuraFechasDto
         estructuraFechaCanje = Utiles.splitCharByComma(fondoSerie.FechaCanjeCanje) '.Split(New Char() {","c})
 
+        Dim estructuraFechaPatrimonio As EstructuraFechasDto = New EstructuraFechasDto
+        estructuraFechaPatrimonio = Utiles.splitCharByComma(fondoSerie.FechaPatrimonio) '.Split(New Char() {","c})
+
+
         Dim fondo As FondoDTO = New FondoDTO
         Dim NegocioFondo As FondosNegocio = New FondosNegocio
 
@@ -650,6 +662,12 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
         chkDiasHabilesRescate.Checked = fondoSerie.SoloDiasHabilesFechaNavRescate
         chkDiasHabilesSuscipciones.Checked = fondoSerie.SoloDiasHabilesFechaNavSuscripciones
 
+
+        ddlFechaPatrimonio.SelectedValue = estructuraFechaPatrimonio.DesdeQueFecha
+        ddlNumeroFechaPatrimonio.Text = estructuraFechaPatrimonio.DiasASumar
+        chkDiasHabilesFechaPatrimonio.Checked = fondoSerie.SoloDiasHabilesFechaPatrimonio
+
+
     End Sub
 
     Private Sub FormateoEstiloFormCrear()
@@ -701,6 +719,12 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
         chkDiasHabilesFechaCanje.Checked = False
         chkDiasHabilesRescate.Checked = False
         chkDiasHabilesSuscipciones.Checked = False
+
+        ddlFechaPatrimonio.SelectedValue = True
+
+        chkDiasHabilesFechaPatrimonio.Checked = False
+
+
     End Sub
 
     Private Sub FormateoEstiloFormEliminar()
@@ -751,6 +775,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
         chkDiasHabilesRescate.Enabled = False
         chkDiasHabilesSuscipciones.Enabled = False
 
+        ddlFechaPatrimonio.SelectedValue = True
+
         lblTitleModalCrud.Text = CONST_TITULO_MODAL_ELIMINAR
     End Sub
 
@@ -790,6 +816,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
         fondoSerie.FechaRescate = IIf(ddlFechaRescate.SelectedIndex > 0 And ddNumeroFechaRescate.Text >= "", ddlFechaRescate.SelectedValue.ToString() + "," + ddNumeroFechaRescate.Text.ToString(), " , ")
         fondoSerie.FechaTCObservado = IIf(ddlFechaTC.SelectedIndex > 0 And ddlNumeroFechaTC.Text >= "", ddlFechaTC.SelectedValue.ToString() + "," + ddlNumeroFechaTC.Text.ToString(), " , ")
 
+
         fondoSerie.Patrimonio = ""
 
         If txtPorcentajePatrimonio.Text <> "" Then
@@ -811,6 +838,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
 
         fondoSerie.FechaCanjeCanje = IIf(ddlFechaCanje.SelectedIndex > 0 And txtNumeroFechaCanje.Text >= "", ddlFechaCanje.SelectedValue.ToString() + "," + txtNumeroFechaCanje.Text.ToString(), " , ")
         fondoSerie.DiasHabilesFechaCanje = chkDiasHabilesFechaCanje.Checked
+
+        fondoSerie.FechaPatrimonio = IIf(ddlFechaPatrimonio.SelectedIndex > 0 And ddlNumeroFechaTC.Text >= "", ddlFechaPatrimonio.SelectedValue.ToString() + "," + ddlNumeroFechaPatrimonio.Text.ToString(), " , ")
+        fondoSerie.DiasHabilesFechaPatrimonio = chkDiasHabilesFechaPatrimonio.Checked
 
         Return fondoSerie
     End Function

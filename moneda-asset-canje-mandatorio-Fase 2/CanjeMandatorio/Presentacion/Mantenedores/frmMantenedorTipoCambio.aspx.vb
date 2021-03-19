@@ -440,25 +440,24 @@ Partial Class TipoCambio_Maestro
     Private Sub btnModalEliminar_Click(sender As Object, e As EventArgs) Handles btnModalEliminar.Click
         Dim TipoCambio As TipoCambioDTO = GetTipoCambioModal()
         Dim Negocio As TipoCambioNegocio = New TipoCambioNegocio
-        If Not TipoCambio.Estado = 0 Then
-            Dim solicitud As Integer = Negocio.DeleteTipoCambio(TipoCambio)
-            If solicitud = Constantes.CONST_OPERACION_EXITOSA Then
-                ShowAlert(CONST_ELIMINAR_EXITO)
-                CargaFiltroCodigo()
-                FindTipoCambio()
-                DataInitial()
-            ElseIf solicitud = Constantes.CONST_ERROR_NO_SE_PUEDE_BORRAR Then
-                ShowAlert(CONST_ELIMINAR_ERROR)
-                Exit Sub
-            Else
-                ShowAlert(CONST_ELIMINAR_ERROR)
-                Exit Sub
-            End If
+        'If Not TipoCambio.Estado = 0 Then
+        Dim solicitud As Integer = Negocio.DeleteTipoCambio(TipoCambio)
+        If solicitud = Constantes.CONST_OPERACION_EXITOSA Then
+            ShowAlert(CONST_ELIMINAR_EXITO)
+            CargaFiltroCodigo()
+            FindTipoCambio()
+            DataInitial()
+        ElseIf solicitud = Constantes.CONST_ERROR_NO_SE_PUEDE_BORRAR Then
+            ShowAlert(CONST_ELIMINAR_ERROR)
         Else
-            ShowAlert(CONST_ELIMINAR_ESTADO_CERO)
-            Exit Sub
-
+            ShowAlert(CONST_ELIMINAR_ERROR)
         End If
+        txtHiddenAccion.Value = ""
+        'Else
+        '    ShowAlert(CONST_ELIMINAR_ESTADO_CERO)
+        '    Exit Sub
+
+        'End If
 
 
     End Sub

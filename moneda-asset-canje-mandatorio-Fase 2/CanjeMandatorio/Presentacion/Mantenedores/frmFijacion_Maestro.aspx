@@ -105,8 +105,8 @@
 
         <div class="row mt-2">
             <div class="col-md-3">
-                <asp:label runat="server" id="lblIntencion">Estado de Confirmación</asp:label>
-                <asp:dropdownlist id="ddlEstadoConfirmacion" cssclass="form-control js-select2-rut" runat="server" autopostback="false">
+                <asp:label runat="server" id="lblIntencion" Visible="false">Estado de Confirmación</asp:label>
+                <asp:dropdownlist id="ddlEstadoConfirmacion" cssclass="form-control js-select2-rut" runat="server" autopostback="false" Visible="false">
                     <asp:ListItem Value="&nbsp;">&nbsp;</asp:ListItem>
                     <asp:ListItem Value="Intencion">Intención</asp:ListItem>
                     <asp:ListItem Value="Confirmada">Confirmada</asp:ListItem>
@@ -137,7 +137,7 @@
             </div>
             <!-- BOTÓN TC OBS -->
             <div class="col-md-3 text-center">
-                <asp:button id="btnConfirmar" text="Confirmar" class="btn btn-info mt-4 BtnTCObs" runat="server" enabled="false" visible="true" OnClientClick="return validateBotonConfirmar();" />
+                <asp:button id="btnConfirmar" text="Confirmar" class="btn btn-info mt-4 BtnTCObs" runat="server" enabled="false" visible="false" OnClientClick="return validateBotonConfirmar();" />
             </div>
         </div>
         <div class="row mt-4">
@@ -145,7 +145,7 @@
             <div class="col-md-3"></div>
             <div class="col-md-3"></div>
             <div class="col-md-3 text-center">
-                <asp:button id="btnMoverIntencion" text="Mover Intención" class="btn btn-info mt-4 BtnTCObs" runat="server" enabled="false" visible="true" />
+                <asp:button id="btnMoverIntencion" text="Mover Intención" class="btn btn-info mt-4 BtnTCObs" runat="server" enabled="false" visible="false" />
             </div>
         </div>
 
@@ -218,9 +218,9 @@
         </div>
         <div class="row mt-3">
             <div class="col-md-12 text-center">
-                <asp:button id="BtnModificar" runat="server" class="btn btn-info btnmodificar" text="Fijación Manual" enabled="false"></asp:button>
+                <asp:button id="BtnModificar" runat="server" class="btn btn-info btnmodificar" text="Modificación" enabled="false"></asp:button>
                 <asp:button id="BtnExportar" class="btn btn-success" text="Exportar" runat="server" enabled="false" />
-                <asp:button id="BtnEliminar" class="btn btn-success btnEliminar" text="Eliminar" runat="server" enabled="false" visible="true" />
+                <asp:button id="BtnEliminar" class="btn btn-success btnEliminar" text="Eliminar" runat="server" enabled="false" visible="false" />
             </div>
         </div>
 
@@ -568,8 +568,8 @@
                                          <%-- Estado de Confirmacion  --%>
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label36">Estado de Confirmación</asp:Label>
-                                                <asp:DropDownList ID="ddlEstadoIntencion" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="false">
+                                                <asp:Label runat="server" ID="Label36" Visible="false">Estado de Confirmación</asp:Label>
+                                                <asp:DropDownList ID="ddlEstadoIntencion" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="false" Visible="false">
                                                     <asp:ListItem Value="Intencion">Intención</asp:ListItem>
                                                     <asp:ListItem Value="Confirmada">Confirmada</asp:ListItem>
                                                 </asp:DropDownList>
@@ -2429,6 +2429,7 @@
         $(document).ready(function () {
 
             confNumeros();
+            cfgGrilla(); 
 
             $("[id*=txtNAVDesde]").datepicker();
             $("[id*=txtNAVHasta]").datepicker();
@@ -2472,7 +2473,7 @@
                         $(".BtnFijarNav").prop('disabled', false);
                         $(".BtnTCObs").prop('disabled', false);
                         $(".btnImprimir").prop('disabled', false);
-                        $(".btnEliminar").prop('disabled', false);
+                        //$(".btnEliminar").prop('disabled', false);
                     }
                     else {
                         if (contador == 1) {
@@ -2480,14 +2481,14 @@
                             $(".BtnFijarNav").prop('disabled', false);
                             $(".BtnTCObs").prop('disabled', false);
                             $(".btnImprimir").prop('disabled', false);
-                            $(".btnEliminar").prop('disabled', false);
+                           // $(".btnEliminar").prop('disabled', false);
                         }
                         else {
                             $(".btnmodificar").prop('disabled', true);
                             $(".BtnFijarNav").prop('disabled', true);
                             $(".BtnTCObs").prop('disabled', true);
                             $(".btnImprimir").prop('disabled', true);
-                            $(".btnEliminar").prop('disabled', true);
+                            //$(".btnEliminar").prop('disabled', true);
 
                         }
                     }
@@ -2498,14 +2499,14 @@
                         $(".BtnFijarNav").prop('disabled', false);
                         $(".BtnTCObs").prop('disabled', false);
                         $(".btnImprimir").prop('disabled', false);
-                        $(".btnEliminar").prop('disabled', false);
+                        //$(".btnEliminar").prop('disabled', false);
                     }
                     else {
                         $('.checkFijacion input').prop('checked', false);
                         $(".BtnFijarNav").prop('disabled', true);
                         $(".BtnTCObs").prop('disabled', true);
                         $(".btnImprimir").prop('disabled', true);
-                        $(".btnEliminar").prop('disabled', true);
+                        //$(".btnEliminar").prop('disabled', true);
                     }
 
                 });
@@ -2530,7 +2531,17 @@
 
                 //Sys.WebForms.PageRequestManager.getInstance().add_endRequest(bindDataTable);
             }
+
+            
         });
+
+        function cfgGrilla() {
+            var table = $('#<%=GrvTabla.ClientID%>').DataTable();
+            table.columns([12]).visible(false, false);   // Oculta las columnas Indeseadas
+            console.log( table.columns.length )
+            table.columns.adjust();
+            table.draw(false);    // redibuja la grilla
+        }
 
         function bindDataTable() {
             $(".js-select2-rut").select2({
@@ -2650,13 +2661,13 @@
             var BtnFijarNav = document.getElementById('<%=BtnFijarNav.ClientID%>');
             var BtnTCObs = document.getElementById('<%=BtnTCObs.ClientID%>');
             var btnImprimir = document.getElementById('<%=btnImprimir.ClientID%>');
-            var btnEliminar = document.getElementById('<%=BtnEliminar.ClientID%>');
+            //var btnEliminar = document.getElementById('<%=BtnEliminar.ClientID%>');
 
             btnModificar.disabled = newValue;
             BtnFijarNav.disabled = newValue;
             BtnTCObs.disabled = newValue;
             btnImprimir.disabled = newValue;
-            btnEliminar.disabled = newValue;
+            //btnEliminar.disabled = newValue;
         }
 
         function checkRadioBtn(id) {
@@ -2682,8 +2693,8 @@
             var btnImprimir = document.getElementById('<%=btnImprimir.ClientID%>');
             btnImprimir.disabled = !(flag);
 
-            var btnEliminar= document.getElementById('<%=BtnEliminar.ClientID%>');
-            btnEliminar.disabled = !(flag);
+            //var btnEliminar= document.getElementById('<%=BtnEliminar.ClientID%>');
+            //btnEliminar.disabled = !(flag);
 
         }
 

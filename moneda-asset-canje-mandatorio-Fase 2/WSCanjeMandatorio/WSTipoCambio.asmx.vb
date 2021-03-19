@@ -383,6 +383,9 @@ Public Class WSTipoCambio
             .UsuarioIngreso = dataRow("TC_Usuario_Ingreso").ToString().Trim()
             .FechaModificacion = dataRow("TC_Fecha_Modificacion").ToString().Trim()
             .UsuarioModificacion = dataRow("TC_Usuario_Modificacion").ToString().Trim()
+
+
+
         End With
         Return TipoCambio
     End Function

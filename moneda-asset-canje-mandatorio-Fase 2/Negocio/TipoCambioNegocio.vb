@@ -54,6 +54,9 @@ Public Class TipoCambioNegocio
 
         If TipoCambio.Codigo <> "CLP" Then
             Return TipoCambioRetorno
+        ElseIf TipoCambioRetorno IsNot Nothing Then
+            TipoCambioRetorno.Valor = 1
+            Return TipoCambioRetorno
         Else
             TipoCambio.Valor = 1
             Return TipoCambio

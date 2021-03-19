@@ -909,6 +909,10 @@ Public Class WSSeries
         sp.AgregarParametro("FsDiasHabilesCanje", fondoSerie.DiasHabilesCanje, System.Data.SqlDbType.Int)
         sp.AgregarParametro("FsFechaCanjeCanje", fondoSerie.FechaCanjeCanje, System.Data.SqlDbType.VarChar)
         sp.AgregarParametro("FsDiasHabilesFechaCanje", fondoSerie.DiasHabilesFechaCanje, System.Data.SqlDbType.Int)
+
+        sp.AgregarParametro("FSFechaPatrimonio ", fondoSerie.FechaPatrimonio, System.Data.SqlDbType.VarChar)
+        sp.AgregarParametro("FSDiasHabilesFechaPatrimonio", fondoSerie.DiasHabilesFechaPatrimonio, System.Data.SqlDbType.Int)
+
     End Sub
 
 
@@ -956,6 +960,10 @@ Public Class WSSeries
 
             .FechaCanjeCanje = dataRow("FS_Fecha_Canje_Canje").ToString().Trim()
             .DiasHabilesFechaCanje = dataRow("FS_DiasHabilesFechaCanje").ToString().Trim()
+
+
+            .FechaPatrimonio = dataRow("FS_FechaPatrimonio").ToString().Trim()
+            .DiasHabilesFechaPatrimonio = dataRow("FS_DiasHabilesFechaPatrimonio").ToString().Trim()
 
         End With
         Return fondoSerie

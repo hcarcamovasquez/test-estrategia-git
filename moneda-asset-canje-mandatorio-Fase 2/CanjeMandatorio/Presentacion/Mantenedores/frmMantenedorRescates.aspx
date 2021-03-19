@@ -1429,7 +1429,8 @@
 
                 var mensaje = '¿Confirma que desea Guardar?'
 
-                var fdcv = $("#<%=txtHiddenFechaDCVParaCalculo.ClientID %>").val(); 
+               <%-- var fdcv = $("#<%=txtHiddenFechaDCVParaCalculo.ClientID %>").val(); --%>
+                var fdcv = $("#<%=txtModalCuotasDVC.ClientID %>").val(); 
                 var fSol = $("#<%=txtModalFechaSolicitud.ClientID%>").val();
 
                 if ((fSol != "") && (fdcv != "")) {

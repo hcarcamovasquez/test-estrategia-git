@@ -164,8 +164,8 @@
                                             </div>
                                             <div class="col-md-4 mt-3">
                                                 <div class="form-check">
-                                                    <asp:CheckBox ID="chkControlCuotas" runat="server" Text="" CssClass="form-check-input" />
-                                                    <label class="form-check-label" for="chkControlCuotas">No Aplica</label>
+                                                    <asp:CheckBox ID="chkControlCuotas" runat="server" Text="" CssClass="form-check-input" Visible="false" />
+                                                    <label class="form-check-label" for="chkControlCuotas" style="display: none;">No Aplica</label>
                                                 </div>
                                             </div>
                                         </div>

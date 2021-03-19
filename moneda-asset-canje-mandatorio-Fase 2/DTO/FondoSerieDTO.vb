@@ -39,6 +39,10 @@ Public Class FondoSerieDTO
     Public Property FechaCanjeCanje As String
     Public Property DiasHabilesFechaCanje As Integer
 
+    'Columnas de fecha Patrimonio 
+    Public Property FechaPatrimonio As String
+    Public Property DiasHabilesFechaPatrimonio As Integer
+
 
 
     Public Sub New(rut As String, nemotecnico As String, nombrecorto As String, remuneracion As String, nacionalidad As String, calificado As String, moneda As String, limiteMoneda As String,
@@ -273,7 +277,11 @@ Public Class FondoSerieDTO
             Return (DiasHabilesFechaCanje = -1)
         End Get
     End Property
-
+    Public ReadOnly Property SoloDiasHabilesFechaPatrimonio As Boolean
+        Get
+            Return (DiasHabilesFechaPatrimonio = -1)
+        End Get
+    End Property
     Public Sub New()
     End Sub
 End Class

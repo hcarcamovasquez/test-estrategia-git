@@ -115,8 +115,8 @@
             </div>
 
             <div class="col-md-3">
-                <asp:Label runat="server" ID="lblIntencion">Estado de Confirmación</asp:Label>
-                <asp:DropDownList ID="ddlEstadoConfirmacion" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="false">
+                <asp:Label runat="server" ID="lblIntencion" Visible="false">Estado de Confirmación</asp:Label>
+                <asp:DropDownList ID="ddlEstadoConfirmacion" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="false" Visible="false">
                     <asp:ListItem Value="&nbsp;">&nbsp;</asp:ListItem>
                     <asp:ListItem Value="Intencion">Intención</asp:ListItem>
                     <asp:ListItem Value="Confirmada">Confirmada</asp:ListItem>
@@ -133,7 +133,7 @@
                 <!-- BOTÓN CREAR -->
                 <asp:Button ID="btnCrear" Text="Crear" class="btn btn-info" runat="server" OnClick="btnCrear_Click" />
                 <!-- BOTÓN LLAMADO ETL SUSCRIPCIONES MASIVAS -->
-                <asp:Button ID="btnSuscripcionesMasivas" Text="Carga Suscripciones Masivas" class="btn btn-info" runat="server" style="float:right"  Visible="true" OnClientClick="return validaEjecucion();"/>
+                <asp:Button ID="btnSuscripcionesMasivas" Text="Carga Suscripciones Masivas" class="btn btn-info" runat="server" style="float:right"  Visible="false" OnClientClick="return validaEjecucion();"/>
             </div>
         </div>
 
@@ -193,6 +193,7 @@
                         <asp:BoundField DataField="CanjesTransito" HeaderText="Canjes en tránsito" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right"/>
                         <asp:BoundField DataField="CuotasDisponibles" HeaderText="Cuotas disponibles" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right"/>
                         <asp:BoundField DataField="EstadoIntencion" HeaderText="Estado de Confirmación" ItemStyle-HorizontalAlign="Left"/>
+
                         <asp:BoundField DataField="FijacionNAV" HeaderText="Fijación Nav" />
                         <asp:BoundField DataField="TcObservado" HeaderText="TC observado" />
                         <asp:BoundField DataField="FijacionTC" HeaderText="Fijación TC observado" />
@@ -206,6 +207,7 @@
                         <asp:BoundField DataField="ScUsuarioIngreso" HeaderText="Usuario Ingreso" />
                         <asp:BoundField DataField="ScFechaModificacion" HeaderText="Fecha Modificación" DataFormatString="{0:dd-MM-yyyy}" />
                         <asp:BoundField DataField="ScUsuarioModificacion" HeaderText="Usuario Modificador" />
+
                     </Columns>
                 </asp:GridView>
             </div>
@@ -645,8 +647,8 @@
                                         <%-- Estado de Confirmacion  --%>
                                         <div class="row mt-3">
                                             <div class="col-md-6">
-                                                <asp:Label runat="server" ID="Label36">Estado de Confirmación</asp:Label>
-                                                <asp:DropDownList ID="ddlEstadoIntencion" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="false">
+                                                <asp:Label runat="server" ID="Label36" visible="false">Estado de Confirmación</asp:Label>
+                                                <asp:DropDownList ID="ddlEstadoIntencion" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="false" visible="false">
                                                     <asp:ListItem Value="Intencion">Intención</asp:ListItem>
                                                     <asp:ListItem Value="Confirmada">Confirmada</asp:ListItem>
                                                 </asp:DropDownList>
@@ -1327,9 +1329,17 @@
             }
             Sys.WebForms.PageRequestManager.getInstance().add_endRequest(bindDataTable);
             calendarInitial();
-
+            cfgGrilla();
             
         });
+
+        
+        function cfgGrilla() {
+            var table = $('#<%=GrvTabla.ClientID%>').DataTable();
+            table.columns([30]).visible(false, false);   // Oculta las columnas Indeseadas
+            table.columns.adjust();
+            table.draw(false);    // redibuja la grilla
+        }
 
         function confNumeros() {            
 
@@ -1451,8 +1461,12 @@
             });
             calendarInitial();
             confNumeros();
+
+            cfgGrilla()
         };
 
+
+        
 
         function enableDisableButtons(newValue) {
             var btnModificar = document.getElementById('<%=BtnModificar.ClientID%>');

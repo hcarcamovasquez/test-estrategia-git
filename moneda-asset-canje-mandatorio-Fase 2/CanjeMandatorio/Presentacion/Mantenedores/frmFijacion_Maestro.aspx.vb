@@ -573,12 +573,12 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
     End Sub
 
     Private Function EsConfirmada(suscripcionSeleccionada As SuscripcionDTO) As Boolean
-        If (suscripcionSeleccionada.EstadoIntencion.Equals("Intencion")) Then
-            Return False
-        Else
-            Return True
-        End If
-
+        'If (suscripcionSeleccionada.EstadoIntencion.Equals("Intencion")) Then
+        '    Return False
+        'Else
+        '    Return True
+        'End If
+        Return True
     End Function
 
     Protected Sub BtnTCObs_Click(sender As Object, e As EventArgs) Handles BtnTCObs.Click
@@ -4330,7 +4330,7 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
 
         stringMensajes = stringMensajes + stringAux
 
-        'stringMensajes = String.Format("Transacciones Seleccionadas: {0} \n Transacciones Fijadas: {1} \n Transacciones con error: {2} . {3} {4}", CStr(TransaccionesTotales), CStr(TransaccionesExitosas), CStr(TransaccionesNoExitosas), Mensaje, stringAux)
+        stringMensajes = String.Format("Transacciones Seleccionadas: {0} \n Transacciones Fijadas: {1} \n Transacciones con error: {2} . {3} {4}", CStr(TransaccionesTotales), CStr(TransaccionesExitosas), CStr(TransaccionesNoExitosas), Mensaje, stringAux)
 
         ShowAlert(stringMensajes)
     End Sub

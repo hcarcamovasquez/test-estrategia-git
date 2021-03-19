@@ -51,8 +51,8 @@
                         <a href="<%=ResolveUrl("~/Presentacion/Mantenedores/frmMantenedorVentanasRescate.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-window-restore fa-fw fa-sm"></i> Ventanas Rescate</a>
 
                         <a href="<%=ResolveUrl("~/Presentacion/Reportes/frmRescatesVsPatrimonio.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-window-restore fa-fw fa-sm"></i>Reporte Rescates versus patrimonio</a>
-                        <a href="<%=ResolveUrl("~/Presentacion/Reportes/frmCuotasDCVVsGeneva.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-window-restore fa-fw fa-sm"></i>Reporte Control de Cuotas DCV vs Geneva</a>
-                        <a href="<%=ResolveUrl("~/Presentacion/Reportes/frmReporteControlCuotasEmitidas.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-window-restore fa-fw fa-sm"></i>Reporte control de cuotas emitidas</a>
+                        <%--<a href="<%=ResolveUrl("~/Presentacion/Reportes/frmCuotasDCVVsGeneva.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-window-restore fa-fw fa-sm"></i>Reporte Control de Cuotas DCV vs Geneva</a>--%>
+                        <%--<a href="<%=ResolveUrl("~/Presentacion/Reportes/frmReporteControlCuotasEmitidas.aspx")%>" class="list-group-item list-group-item-action bg-light"><i class="fas fa-window-restore fa-fw fa-sm"></i>Reporte control de cuotas emitidas</a>--%>
 
                     </div>
                 </div>

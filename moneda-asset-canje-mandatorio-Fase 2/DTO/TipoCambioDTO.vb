@@ -1,9 +1,21 @@
 Public Class TipoCambioDTO
-    Public Property Fecha As Date 
+
+    Private _estado As String
+
+    Public Property Fecha As Date
     Public Property Codigo As String
     Public Property Valor As Decimal
-    Public Property Estado As String
-    Public Property FechaIngreso AS Date
+
+    Public Property Estado() As String
+        Get
+            Return _estado
+        End Get
+        Set(value As String)
+            _estado = IIf(value = "", "0", value)
+        End Set
+    End Property
+
+    Public Property FechaIngreso As Date
     Public Property UsuarioIngreso As String
     Public Property FechaModificacion As Date
     Public Property UsuarioModificacion As String
@@ -28,5 +40,5 @@ Public Class TipoCambioDTO
         End Get
     End Property
     Public Sub New()
-    End Sub 
+    End Sub
 End Class

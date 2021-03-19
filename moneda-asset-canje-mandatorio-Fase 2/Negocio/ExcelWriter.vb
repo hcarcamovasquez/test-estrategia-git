@@ -786,99 +786,107 @@ Public Class ExcelWriter
         Dim sheet As ExcelWorksheet = pkg.Workbook.Worksheets.Add("Suscripción")
         Dim fila As Integer = 1
         Dim configurationAppSettings As New System.Configuration.AppSettingsReader()
+        Dim listaColumnas As List(Of String) = New List(Of String)
+
+        listaColumnas.Add("Id Suscripción")
+        listaColumnas.Add("Tipo transacción")
+        listaColumnas.Add("Fecha intención")
+        listaColumnas.Add("Rut aportante")
+        listaColumnas.Add("Nombre aportante")
+        listaColumnas.Add("Multifondo")
+        listaColumnas.Add("Rut fondo")
+        listaColumnas.Add("Nombre fondo")
+        listaColumnas.Add("Nemotécnico")
+        listaColumnas.Add("Serie")
+        listaColumnas.Add("Moneda serie")
+        listaColumnas.Add("Cuotas a suscribir")
+        listaColumnas.Add("Moneda pago")
+        listaColumnas.Add("Fecha NAV")
+        listaColumnas.Add("Fecha Suscripción")
+        listaColumnas.Add("Fecha TC")
+        listaColumnas.Add("NAV")
+        listaColumnas.Add("Monto")
+        listaColumnas.Add("NAV (CLP)")
+        listaColumnas.Add("Monto (CLP)")
+        listaColumnas.Add("Contrato fondo")
+        listaColumnas.Add("Revisión de Poderes")
+        listaColumnas.Add("Observaciones")
+        listaColumnas.Add("Fecha DCV")
+        listaColumnas.Add("Cuotas DCV")
+        listaColumnas.Add("Rescates en tránsito")
+        listaColumnas.Add("Suscripciones en tránsito")
+        listaColumnas.Add("Canjes en tránsito")
+        listaColumnas.Add("Cuotas disponibles")
+        'listaColumnas.Add("Estado de Confirmación")
+        listaColumnas.Add("Fijación Nav")
+        listaColumnas.Add("Tc Observado")
+        listaColumnas.Add("Fijación TC")
+        listaColumnas.Add("Estado")
+        listaColumnas.Add("Cuotas Emitidas")
+        listaColumnas.Add("Acumulada")
+        listaColumnas.Add("Actual")
+        listaColumnas.Add("Utilizado")
+        listaColumnas.Add("Disponible")
+        listaColumnas.Add("Fecha Ingreso")
+        listaColumnas.Add("Usuario Ingreso")
+        listaColumnas.Add("Fecha Modificación")
+        listaColumnas.Add("Usuario Modificador")
 
         Try
-            sheet.Cells(fila, 1).Value = "Id Suscripción"
-            sheet.Cells(fila, 2).Value = "Tipo transacción"
-            sheet.Cells(fila, 3).Value = "Fecha intención"
-            sheet.Cells(fila, 4).Value = "Rut aportante"
-            sheet.Cells(fila, 5).Value = "Nombre aportante"
-            sheet.Cells(fila, 6).Value = "Multifondo"
-            sheet.Cells(fila, 7).Value = "Rut fondo"
-            sheet.Cells(fila, 8).Value = "Nombre fondo"
-            sheet.Cells(fila, 9).Value = "Nemotécnico"
-            sheet.Cells(fila, 10).Value = "Serie"
-            sheet.Cells(fila, 11).Value = "Moneda serie"
-            sheet.Cells(fila, 12).Value = "Cuotas a suscribir"
-            sheet.Cells(fila, 13).Value = "Moneda pago"
-            sheet.Cells(fila, 14).Value = "Fecha NAV"
-            sheet.Cells(fila, 15).Value = "Fecha Suscripción"
-            sheet.Cells(fila, 16).Value = "Fecha TC"
-            sheet.Cells(fila, 17).Value = "NAV"
-            sheet.Cells(fila, 18).Value = "Monto"
-            sheet.Cells(fila, 19).Value = "NAV (CLP)"
-            sheet.Cells(fila, 20).Value = "Monto (CLP)"
-            sheet.Cells(fila, 21).Value = "Contrato fondo"
-            sheet.Cells(fila, 22).Value = "Revisión de Poderes"
-            sheet.Cells(fila, 23).Value = "Observaciones"
-            sheet.Cells(fila, 24).Value = "Fecha DCV"
-            sheet.Cells(fila, 25).Value = "Cuotas DCV"
-            sheet.Cells(fila, 26).Value = "Rescates en tránsito"
-            sheet.Cells(fila, 27).Value = "Suscripciones en tránsito"
-            sheet.Cells(fila, 28).Value = "Canjes en tránsito"
-            sheet.Cells(fila, 29).Value = "Cuotas disponibles"
-            sheet.Cells(fila, 30).Value = "Estado de Confirmación"
-            sheet.Cells(fila, 31).Value = "Fijación Nav"
-            sheet.Cells(fila, 32).Value = "Tc Observado"
-            sheet.Cells(fila, 33).Value = "Fijación TC"
-            sheet.Cells(fila, 34).Value = "Estado"
-            sheet.Cells(fila, 35).Value = "Cuotas Emitidas"
-            sheet.Cells(fila, 36).Value = "Acumulada"
-            sheet.Cells(fila, 37).Value = "Actual"
-            sheet.Cells(fila, 38).Value = "Utilizado"
-            sheet.Cells(fila, 39).Value = "Disponible"
-            sheet.Cells(fila, 40).Value = "Fecha Ingreso"
-            sheet.Cells(fila, 41).Value = "Usuario Ingreso"
-            sheet.Cells(fila, 42).Value = "Fecha Modificación"
-            sheet.Cells(fila, 43).Value = "Usuario Modificador"
+            Dim icol As Integer = 1
+            For Each s As String In listaColumnas
+                sheet.Cells(fila, icol).Value = s
+                icol += 1
+            Next
 
             fila = fila + 1
 
             For Each Suscripcion As SuscripcionDTO In ListaSuscripcion
-
-                sheet.Cells(fila, 1).Value = Suscripcion.IdSuscripcion.ToString()
-                sheet.Cells(fila, 2).Value = Suscripcion.TipoTransaccion.ToString()
-                sheet.Cells(fila, 3).Value = Suscripcion.FechaIntencion.ToString("dd/MM/yyyy")
-                sheet.Cells(fila, 4).Value = Suscripcion.RutAportante.ToString()
-                sheet.Cells(fila, 5).Value = Suscripcion.RazonSocial.ToString()
-                sheet.Cells(fila, 6).Value = Suscripcion.Multifondo.ToString()
-                sheet.Cells(fila, 7).Value = Suscripcion.RutFondo.ToString()
-                sheet.Cells(fila, 8).Value = Suscripcion.FondoNombreCorto.ToString()
-                sheet.Cells(fila, 9).Value = Suscripcion.Nemotecnico.ToString()
-                sheet.Cells(fila, 10).Value = Suscripcion.SerieNombreCorto.ToString()
-                sheet.Cells(fila, 11).Value = Suscripcion.MonedaSerie.ToString()
-                sheet.Cells(fila, 12).Value = Suscripcion.CuotasASuscribir.ToString()
-                sheet.Cells(fila, 13).Value = Suscripcion.Moneda_Pago.ToString()
-                sheet.Cells(fila, 14).Value = Suscripcion.FechaNAV.ToString("dd/MM/yyyy")
-                sheet.Cells(fila, 15).Value = Suscripcion.FechaSuscripcion.ToString("dd/MM/yyyy")
-                sheet.Cells(fila, 16).Value = Suscripcion.FechaTC.ToString("dd/MM/yyyy")
-                sheet.Cells(fila, 17).Value = Suscripcion.NavFormat.ToString()
-                sheet.Cells(fila, 18).Value = Suscripcion.Monto.ToString()
-                sheet.Cells(fila, 19).Value = Suscripcion.NAVCLP.ToString()
-                sheet.Cells(fila, 20).Value = Suscripcion.MontoCLP.ToString()
-                sheet.Cells(fila, 21).Value = Suscripcion.ContratoFondo.ToString()
-                sheet.Cells(fila, 22).Value = Suscripcion.RevisionPoderes.ToString()
-                sheet.Cells(fila, 23).Value = Suscripcion.Observaciones.ToString()
-                sheet.Cells(fila, 24).Value = Suscripcion.FechaDCV.ToString("dd/MM/yyyy")
-                sheet.Cells(fila, 25).Value = Suscripcion.CuotasDCV.ToString()
-                sheet.Cells(fila, 26).Value = Suscripcion.RescatesTransitos.ToString()
-                sheet.Cells(fila, 27).Value = Suscripcion.SuscripcionesTransito.ToString()
-                sheet.Cells(fila, 28).Value = Suscripcion.CanjesTransito.ToString()
-                sheet.Cells(fila, 29).Value = Suscripcion.CuotasDisponibles.ToString()
-                sheet.Cells(fila, 30).Value = Suscripcion.EstadoIntencion.ToString()
-                sheet.Cells(fila, 31).Value = Suscripcion.FijacionNAV.ToString()
-                sheet.Cells(fila, 32).Value = Suscripcion.TcObservado.ToString()
-                sheet.Cells(fila, 33).Value = Suscripcion.FijacionTC.ToString()
-                sheet.Cells(fila, 34).Value = Suscripcion.EstadoSuscripcion.ToString()
-                sheet.Cells(fila, 35).Value = Suscripcion.CuotasEmitidas.ToString()
-                sheet.Cells(fila, 36).Value = Suscripcion.FnAcumulada.ToString()
-                sheet.Cells(fila, 37).Value = Suscripcion.ScActual.ToString()
-                sheet.Cells(fila, 38).Value = Suscripcion.ScUtilizado.ToString()
-                sheet.Cells(fila, 39).Value = Suscripcion.ScDisponibles.ToString()
-                sheet.Cells(fila, 40).Value = Suscripcion.ScFechaIngreso.ToString()
-                sheet.Cells(fila, 41).Value = Suscripcion.ScUsuarioIngreso.ToString()
-                sheet.Cells(fila, 42).Value = Suscripcion.ScFechaModificacion.ToString()
-                sheet.Cells(fila, 43).Value = Suscripcion.ScUsuarioModificacion.ToString()
+                icol = 0
+                sheet.Cells(fila, icol + 1).Value = Suscripcion.IdSuscripcion.ToString()
+                sheet.Cells(fila, icol + 2).Value = Suscripcion.TipoTransaccion.ToString()
+                sheet.Cells(fila, icol + 3).Value = Suscripcion.FechaIntencion.ToString("dd/MM/yyyy")
+                sheet.Cells(fila, icol + 4).Value = Suscripcion.RutAportante.ToString()
+                sheet.Cells(fila, icol + 5).Value = Suscripcion.RazonSocial.ToString()
+                sheet.Cells(fila, icol + 6).Value = Suscripcion.Multifondo.ToString()
+                sheet.Cells(fila, icol + 7).Value = Suscripcion.RutFondo.ToString()
+                sheet.Cells(fila, icol + 8).Value = Suscripcion.FondoNombreCorto.ToString()
+                sheet.Cells(fila, icol + 9).Value = Suscripcion.Nemotecnico.ToString()
+                sheet.Cells(fila, icol + 10).Value = Suscripcion.SerieNombreCorto.ToString()
+                sheet.Cells(fila, icol + 11).Value = Suscripcion.MonedaSerie.ToString()
+                sheet.Cells(fila, icol + 12).Value = Suscripcion.CuotasASuscribir.ToString()
+                sheet.Cells(fila, icol + 13).Value = Suscripcion.Moneda_Pago.ToString()
+                sheet.Cells(fila, icol + 14).Value = Suscripcion.FechaNAV.ToString("dd/MM/yyyy")
+                sheet.Cells(fila, icol + 15).Value = Suscripcion.FechaSuscripcion.ToString("dd/MM/yyyy")
+                sheet.Cells(fila, icol + 16).Value = Suscripcion.FechaTC.ToString("dd/MM/yyyy")
+                sheet.Cells(fila, icol + 17).Value = Suscripcion.NavFormat.ToString()
+                sheet.Cells(fila, icol + 18).Value = Suscripcion.Monto.ToString()
+                sheet.Cells(fila, icol + 19).Value = Suscripcion.NAVCLP.ToString()
+                sheet.Cells(fila, icol + 20).Value = Suscripcion.MontoCLP.ToString()
+                sheet.Cells(fila, icol + 21).Value = Suscripcion.ContratoFondo.ToString()
+                sheet.Cells(fila, icol + 22).Value = Suscripcion.RevisionPoderes.ToString()
+                sheet.Cells(fila, icol + 23).Value = Suscripcion.Observaciones.ToString()
+                sheet.Cells(fila, icol + 24).Value = Suscripcion.FechaDCV.ToString("dd/MM/yyyy")
+                sheet.Cells(fila, icol + 25).Value = Suscripcion.CuotasDCV.ToString()
+                sheet.Cells(fila, icol + 26).Value = Suscripcion.RescatesTransitos.ToString()
+                sheet.Cells(fila, icol + 27).Value = Suscripcion.SuscripcionesTransito.ToString()
+                sheet.Cells(fila, icol + 28).Value = Suscripcion.CanjesTransito.ToString()
+                sheet.Cells(fila, icol + 29).Value = Suscripcion.CuotasDisponibles.ToString()
+                'sheet.Cells(fila, icol + 30).Value = Suscripcion.EstadoIntencion.ToString()
+                icol -= 1
+                sheet.Cells(fila, icol + 31).Value = Suscripcion.FijacionNAV.ToString()
+                sheet.Cells(fila, icol + 32).Value = Suscripcion.TcObservado.ToString()
+                sheet.Cells(fila, icol + 33).Value = Suscripcion.FijacionTC.ToString()
+                sheet.Cells(fila, icol + 34).Value = Suscripcion.EstadoSuscripcion.ToString()
+                sheet.Cells(fila, icol + 35).Value = Suscripcion.CuotasEmitidas.ToString()
+                sheet.Cells(fila, icol + 36).Value = Suscripcion.FnAcumulada.ToString()
+                sheet.Cells(fila, icol + 37).Value = Suscripcion.ScActual.ToString()
+                sheet.Cells(fila, icol + 38).Value = Suscripcion.ScUtilizado.ToString()
+                sheet.Cells(fila, icol + 39).Value = Suscripcion.ScDisponibles.ToString()
+                sheet.Cells(fila, icol + 40).Value = Suscripcion.ScFechaIngreso.ToString()
+                sheet.Cells(fila, icol + 41).Value = Suscripcion.ScUsuarioIngreso.ToString()
+                sheet.Cells(fila, icol + 42).Value = Suscripcion.ScFechaModificacion.ToString()
+                sheet.Cells(fila, icol + 43).Value = Suscripcion.ScUsuarioModificacion.ToString()
                 fila = fila + 1
             Next
 
@@ -1241,41 +1249,53 @@ Public Class ExcelWriter
         Dim sheet As ExcelWorksheet = pkg.Workbook.Worksheets.Add("Fijacion")
         Dim fila As Integer = 1
         Dim configurationAppSettings As New System.Configuration.AppSettingsReader()
+
+        Dim columnas As List(Of String) = New List(Of String)
+        columnas.Add("ID")
+        columnas.Add("Tipo de Transacción")
+        columnas.Add("RUT Aportante")
+        columnas.Add("Nombre/Razón Social")
+        columnas.Add("RUT del Fondo")
+        columnas.Add("Nombre del Fondo")
+        columnas.Add("Fecha NAV")
+        columnas.Add("Fecha TC Observado")
+        columnas.Add("Fecha de Pago")
+        columnas.Add("Nav Fijado")
+        columnas.Add("Tc Observado")
+        columnas.Add("Estado de Confirmación")
+        columnas.Add("Fijación NAV")
+        columnas.Add("Fijación TC Observado")
+        columnas.Add("Nemotécnico")
+
         Try
-            sheet.Cells(fila, 1).Value = "ID"
-            sheet.Cells(fila, 2).Value = "Tipo de Transacción"
-            sheet.Cells(fila, 3).Value = "RUT Aportante"
-            sheet.Cells(fila, 4).Value = "Nombre/Razón Social"
-            sheet.Cells(fila, 5).Value = "RUT del Fondo"
-            sheet.Cells(fila, 6).Value = "Nombre del Fondo"
-            sheet.Cells(fila, 7).Value = "Fecha NAV"
-            sheet.Cells(fila, 8).Value = "Fecha TC Observado"
-            sheet.Cells(fila, 9).Value = "Fecha de Pago"
-            sheet.Cells(fila, 10).Value = "Nav Fijado"
-            sheet.Cells(fila, 11).Value = "Tc Observado"
-            sheet.Cells(fila, 12).Value = "Estado de Confirmación"
-            sheet.Cells(fila, 13).Value = "Fijación NAV"
-            sheet.Cells(fila, 14).Value = "Fijación TC Observado"
-            sheet.Cells(fila, 15).Value = "Nemotécnico"
+            Dim icol As Integer = 1
+
+            For Each s As String In columnas
+                sheet.Cells(fila, icol).Value = s
+                icol += 1
+            Next
+
             fila = fila + 1
 
             For Each Fijacion As FijacionDTO In ListaFijacion
+                icol = 0
+                sheet.Cells(fila, icol + 1).Value = Fijacion.ID.ToString()
+                sheet.Cells(fila, icol + 2).Value = Fijacion.TipoTransaccion.ToString()
+                sheet.Cells(fila, icol + 3).Value = Fijacion.ApRut.ToString()
+                sheet.Cells(fila, icol + 4).Value = Fijacion.RazonSocial.ToString()
+                sheet.Cells(fila, icol + 5).Value = Fijacion.Rut.ToString()
+                sheet.Cells(fila, icol + 6).Value = Fijacion.FnNombreCorto.ToString()
+                sheet.Cells(fila, icol + 7).Value = Fijacion.FechaNav.ToShortDateString()
+                sheet.Cells(fila, icol + 8).Value = Fijacion.FechaTCObs.ToShortDateString()
+                sheet.Cells(fila, icol + 9).Value = Fijacion.fechaPago.ToShortDateString()
+                sheet.Cells(fila, icol + 10).Value = Fijacion.NAV_FIJADO.ToString()
+                sheet.Cells(fila, icol + 11).Value = Fijacion.TC_OBSERVADO.ToString()
+                'sheet.Cells(fila, icol + 12).Value = Fijacion.EstadoIntencion.ToString()
 
-                sheet.Cells(fila, 1).Value = Fijacion.ID.ToString()
-                sheet.Cells(fila, 2).Value = Fijacion.TipoTransaccion.ToString()
-                sheet.Cells(fila, 3).Value = Fijacion.ApRut.ToString()
-                sheet.Cells(fila, 4).Value = Fijacion.RazonSocial.ToString()
-                sheet.Cells(fila, 5).Value = Fijacion.Rut.ToString()
-                sheet.Cells(fila, 6).Value = Fijacion.FnNombreCorto.ToString()
-                sheet.Cells(fila, 7).Value = Fijacion.FechaNav.ToShortDateString()
-                sheet.Cells(fila, 8).Value = Fijacion.FechaTCObs.ToShortDateString()
-                sheet.Cells(fila, 9).Value = Fijacion.fechaPago.ToShortDateString()
-                sheet.Cells(fila, 10).Value = Fijacion.NAV_FIJADO.ToString()
-                sheet.Cells(fila, 11).Value = Fijacion.TC_OBSERVADO.ToString()
-                sheet.Cells(fila, 12).Value = Fijacion.EstadoIntencion.ToString()
-                sheet.Cells(fila, 13).Value = Fijacion.FijacionNAV.ToString()
-                sheet.Cells(fila, 14).Value = Fijacion.FijacionTCObservado.ToString()
-                sheet.Cells(fila, 15).Value = Fijacion.Nemotecnico.ToString()
+                icol -= 1
+                sheet.Cells(fila, icol + 13).Value = Fijacion.FijacionNAV.ToString()
+                sheet.Cells(fila, icol + 14).Value = Fijacion.FijacionTCObservado.ToString()
+                sheet.Cells(fila, icol + 15).Value = Fijacion.Nemotecnico.ToString()
 
                 fila = fila + 1
             Next

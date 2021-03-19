@@ -115,11 +115,6 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
         txtFechaEjecucion.Text = Request.Form(txtFechaEjecucion.UniqueID)
         txtFechaPatrimonio.Text = Request.Form(txtFechaPatrimonio.UniqueID)
 
-        If txtFechaPatrimonio.Text = "" Then
-            strMensajeAlert = "Debe seleccionar la fecha de Patrimonio"
-        Else
-            FechaPatrimonio = txtFechaPatrimonio.Text
-        End If
 
         If txtFechaEjecucion.Text = "" Then
             strFecha = Date.Now.Date.ToString("yyyy-MM-dd")
@@ -130,7 +125,7 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
         If ddlListaRutFondo.SelectedValue = "" Then
             strRutFondo = Nothing
         Else
-            strRutFondo = ddlListaRutFondo.SelectedValue
+            strRutFondo = ddlListaRutFondo.SelectedValue.Split("/")(0)
         End If
 
         If strMensajeAlert = "" Then
