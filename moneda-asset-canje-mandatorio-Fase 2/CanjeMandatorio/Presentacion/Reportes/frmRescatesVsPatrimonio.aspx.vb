@@ -58,19 +58,26 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
         txtFechaDesde.Text = Request.Form(txtFechaDesde.UniqueID)
         txtFechaHasta.Text = Request.Form(txtFechaHasta.UniqueID)
 
-        ejecucionDto.FnRut = IIf(ddlListaRutFondo.SelectedValue = "", Nothing, ddlListaRutFondo.SelectedValue)
         ejecucionDto.FechaEjecucion = IIf(txtFechaEjecucion.Text = "", Nothing, txtFechaEjecucion.Text)
+
+        If ddlListaRutFondo.SelectedValue = "" Then
+            ejecucionDto.FnRut = Nothing
+        Else
+            ejecucionDto.FnRut = ddlListaRutFondo.SelectedValue.Split("/")(0)
+        End If
+
 
         If txtFechaHasta.Text = "" Then
             strMensajeAlert = "Debe Seleccionar la Fecha Hasta"
         Else
-            ejecucionDto.Fechahasta = txtFechaHasta.Text
+            ejecucionDto.Fechahasta = CDate(txtFechaHasta.Text).ToString("yyyy-MM-dd")
         End If
 
         If txtFechaDesde.Text = "" Then
             strMensajeAlert = "Debe Seleccionar la Fecha Desde"
         Else
-            ejecucionDto.FechaDesde = txtFechaDesde.Text
+            ejecucionDto.FechaDesde = CDate(txtFechaDesde.Text).ToString("yyyy-MM-dd")
+
         End If
 
         If strMensajeAlert = "" Then
@@ -105,7 +112,8 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
 
         Dim parErrores As String = ""
         Dim strFecha As String
-        Dim FechaPatrimonio As String = ""
+        Dim strFechaPatrimonio As String = ""
+        Dim strFechaNav As String = ""
         Dim strRutFondo As String = ""
         Dim parametros As String = ""
         Dim FormatoParam As String
@@ -114,6 +122,7 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
 
         txtFechaEjecucion.Text = Request.Form(txtFechaEjecucion.UniqueID)
         txtFechaPatrimonio.Text = Request.Form(txtFechaPatrimonio.UniqueID)
+        txtFechaNav.Text = Request.Form(txtFechaNav.UniqueID)
 
 
         If txtFechaEjecucion.Text = "" Then
@@ -121,6 +130,15 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
         Else
             strFecha = CDate(txtFechaEjecucion.Text).ToString("yyyy-MM-dd")
         End If
+
+        If txtFechaPatrimonio.Text <> "" Then
+            strFechaPatrimonio = CDate(txtFechaPatrimonio.Text).ToString("yyyy-MM-dd")
+        End If
+
+        If txtFechaNav.Text <> "" Then
+            strFechaNav = CDate(txtFechaNav.Text).ToString("yyyy-MM-dd")
+        End If
+
 
         If ddlListaRutFondo.SelectedValue = "" Then
             strRutFondo = Nothing
@@ -130,8 +148,8 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
 
         If strMensajeAlert = "" Then
             'Seteo Parametros 
-            FormatoParam = "FECHA_PAGO={0}&FONDO_RUT={1}&FECHA_PATRIMONIO={2}"
-            parametros = String.Format(FormatoParam, strFecha, strRutFondo, FechaPatrimonio)
+            FormatoParam = "FECHA_PAGO={0}&FONDO_RUT={1}&FECHA_PATRIMONIO={2}&FECHA_NAV={3}"
+            parametros = String.Format(FormatoParam, strFecha, strRutFondo, strFechaPatrimonio, strFechaNav)
 
             pentaho.ID = CONST_ID_PENTAHO
             pentaho = negocio.GetPentahoPorId(pentaho)
