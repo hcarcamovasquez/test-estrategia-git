@@ -132,8 +132,7 @@
         </div>
 
 
-        <asp:HiddenField ID="txtAccionHidden" runat="server" />
-        <asp:HiddenField ID="txtHiddenFechaDCVParaCalculo" runat="server" />
+        <asp:HiddenField ID="txtAccionHidden" runat="server" />        
 
         <!-- TABLA DE RESULTADOS -->
         <h5 class="mt-3 text-secondary"><i class="fas fa-file-invoice fa-sm"></i>Resultado de la búsqueda</h5>
@@ -792,6 +791,8 @@
                                                                 <TodayDayStyle BackColor="#CCCCCC" />
                                                             </asp:Calendar>
                                                             
+                                                            <asp:HiddenField ID="txtHiddenFechaDCVParaCalculo" runat="server" />
+
                                                         </ContentTemplate>
                                                     </asp:UpdatePanel>
                                                 </div>
@@ -1415,7 +1416,27 @@
                         enableDisableButtonsProrrotear(true);
                     }
 
-                });
+        });
+
+        //Valida que la fecha DCV sea menor en 2 días hábiles respecto a la Fecha de solicitud
+        function validaDCV() {
+            var mensaje = '';
+            //var fdcv = $("#<%=txtHiddenFechaDCVParaCalculo.ClientID %>").val();
+            var fdcv = $("#<%=txtModalFechaDCV.ClientID %>").val();
+            var fSol = $("#<%=txtModalFechaSolicitud.ClientID%>").val();
+
+            if ((fSol != "") && (fdcv != "")) {
+                var fechaSolicitud = new Date(fSol.split('-')[2], fSol.split('-')[1], fSol.split('-')[0]);
+                var fechaDcv = new Date(fdcv.split('-')[2], fdcv.split('-')[1], fdcv.split('-')[0]);
+
+                if (Date.parse(fechaSolicitud) > Date.parse(fechaDcv)) {
+                    mensaje = 'ADVERTENCIA: La información DCV es menor a la Fecha de Solicitud.'
+
+                    alert(mensaje);
+                }
+            }
+            return mensaje;
+        }
 
         function seteaBotonGuardar() {
             $("#<%=btnModalGuardar.ClientID %>").unbind("click");
@@ -1429,19 +1450,7 @@
 
                 var mensaje = '¿Confirma que desea Guardar?'
 
-               <%-- var fdcv = $("#<%=txtHiddenFechaDCVParaCalculo.ClientID %>").val(); --%>
-                var fdcv = $("#<%=txtModalCuotasDVC.ClientID %>").val(); 
-                var fSol = $("#<%=txtModalFechaSolicitud.ClientID%>").val();
-
-                if ((fSol != "") && (fdcv != "")) {
-                    var fechaSolicitud = new Date(fSol.split('-')[2], fSol.split('-')[1], fSol.split('-')[0]);
-                    var fechaDcv = new Date(fdcv.split('-')[2], fdcv.split('-')[1], fdcv.split('-')[0]);
-
-                    if (Date.parse(fechaSolicitud) > Date.parse(fechaDcv)) {
-                        mensaje = 'ADVERTENCIA: La información DCV es menor a la Fecha de Solicitud.'
-                    }
-                }
-
+                validaDCV();               
 
                 if (!confirm(mensaje)) {
                     return false;
@@ -1461,6 +1470,8 @@
                     alert("El rescate debe poseer cuotas DCV.")
                     return false;
                 }
+
+                validaDCV(); 
 
                 if (!confirm('¿Confirma que desea Modificar?')) {
                     return false;
