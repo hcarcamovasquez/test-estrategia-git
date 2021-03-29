@@ -118,6 +118,40 @@
             </div>
         </div>
 
+        <!-- Fila de Prorrata --> 
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <asp:Label runat="server" ID="Label9" Visible="true">Fecha de Patrimonio</asp:Label>
+                <div class="input-group">
+                    <asp:TextBox ID="txtFechaPatrimonio" runat="server" CssClass="form-control" ReadOnly="True" Visible="true"></asp:TextBox>
+                    <asp:LinkButton ID="lnkFechaPatrimonio" class="btn btn-moneda" runat="server"
+                        OnClientClick="return clickCalendar('txtFechaPatrimonio')" Visible="true"><i class="far fa-calendar-alt"></i></asp:LinkButton>
+                    <asp:LinkButton ID="lnkLimpiarFechaPatrimonio" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtFechaPatrimonio')" runat="server" Visible="true">
+                        <i class="far fa-trash-alt"></i>
+                    </asp:LinkButton>
+
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <asp:Label runat="server" ID="Label10">Fecha Nav</asp:Label>
+                <div class="input-group">
+                    <asp:TextBox ID="txtFechaNav" runat="server" CssClass="form-control" ReadOnly="True" Visible="true"></asp:TextBox>
+                    <asp:LinkButton ID="lnkFechaNav" class="btn btn-moneda" runat="server"
+                        OnClientClick="return clickCalendar('txtFechaNav')" Visible="true"><i class="far fa-calendar-alt"></i></asp:LinkButton>
+                    <asp:LinkButton ID="lnkLimpiarFechaNav" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtFechaNav')" runat="server" Visible="true">
+                        <i class="far fa-trash-alt"></i>
+                    </asp:LinkButton>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <asp:Label runat="server" ID="Label11">&nbsp;</asp:Label>
+                <div class="input-group">
+                    <asp:Button ID="btnProrrotear" Text="Prorratear" class="btn btn-info" runat="server" />
+                </div>
+            </div>
+        </div>
+        <!-- Fila de Prorrata --> 
 
         <!-- BOTONES BUSCAR LIMPIAR Y CREAR -->
         <div class="row text-center mt-5 p-3 border-bottom">
@@ -126,8 +160,7 @@
                 <asp:Button ID="BtnBuscar" Text="Buscar" class="btn btn-moneda" runat="server" OnClick="BtnBuscar_Click" />
                 <asp:Button ID="btnLimpiarFrm" Text="Borrar" class="btn btn-secondary" runat="server" OnClick="btnLimpiarFrm_Click" />
                 <!-- BOTÓN CREAR -->
-                <asp:Button ID="btnCrear" Text="Crear" class="btn btn-info" runat="server" />
-                <asp:Button ID="btnProrrotear" Text="Prorratear" class="btn btn-info" runat="server" />
+                <asp:Button ID="btnCrear" Text="Crear" class="btn btn-info" runat="server" />                
             </div>
         </div>
 

@@ -130,17 +130,20 @@ Public Class WSRescates
 
     <WebMethod()>
     <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
-    Public Function Prorrata(stringID As String, ByRef stringError As String) As String
+    Public Function Prorrata(stringID As String, fechaPatrimonio As String, fechaNav As String, ByRef stringError As String) As String
         Dim sp As New DBSqlServer.SqlServer.StoredProcedure("PRC_RescatesProrrata")
         Dim ds As DataSet
 
         Try
             sp.AgregarParametro("ListaIDFondo", stringID, System.Data.SqlDbType.VarChar)
+            sp.AgregarParametro("fechaPatrimonio", fechaPatrimonio, System.Data.SqlDbType.Date)
+            sp.AgregarParametro("fechaNav", fechaNav, System.Data.SqlDbType.Date)
+
             ds = sp.ReturnDataSet()
 
             If ds.Tables.Count > 0 AndAlso ds.Tables(0).Rows.Count > 0 Then
                 Dim DataRow As DataRow = ds.Tables(0).Rows(0)
-                stringError = ""
+                stringError = DataRow("msgError")
                 Return DataRow("Resultado")
             Else
                 stringError = "Error no se encontraron datos para el prorroteo"

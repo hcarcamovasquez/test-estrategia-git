@@ -4029,7 +4029,11 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         Dim rescateNegocio As RescateNegocio = New RescateNegocio()
         Dim resultadoProceso As String
         Dim stringError As String = ""
+        Dim strFechaPatrimonio As String = ""
+        Dim strFechaNav As String = ""
 
+        txtFechaNav.Text = Request.Form(txtFechaNav.UniqueID)
+        txtFechaPatrimonio.Text = Request.Form(txtFechaPatrimonio.UniqueID)
 
         listaRescates = GetListaRescateSelecionados()
 
@@ -4040,12 +4044,23 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             Next
             stringID = Left(stringID, Len(stringID) - 1)
 
-            resultadoProceso = rescateNegocio.Prorrata(stringID, stringError)
-            If resultadoProceso = "OK" Then
-                ShowAlert("Prorrateo ejecutado exitosamente")
+            If txtFechaPatrimonio.Text = "" Then
+                strFechaPatrimonio = Nothing
             Else
-                ShowAlert(stringError)
+                strFechaPatrimonio = CDate(txtFechaPatrimonio.Text).ToString("yyyy-MM-dd")
             End If
+
+            If txtFechaNav.Text = "" Then
+                strFechaNav = Nothing
+            Else
+                strFechaNav = CDate(txtFechaNav.Text).ToString("yyyy-MM-dd")
+            End If
+
+
+            resultadoProceso = rescateNegocio.Prorrata(stringID, strFechaPatrimonio, strFechaNav, stringError)
+
+            ShowAlert(stringError)
+
         End If
 
         btnProrrotear.Enabled = (GrvTabla.Rows.Count <> 0)
