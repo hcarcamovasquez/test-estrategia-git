@@ -50,13 +50,19 @@
     <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
+    <Reference Include="Rackspace.Threading, Version=2.0.0.0, Culture=neutral, PublicKeyToken=bb62785d398726f0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Rackspace.Threading.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http">
-      <HintPath>..\..\..\..\..\Basura\dotnet-httpclient35-1.0.0-beta003\System.Net.Http\bin\Debug\System.Net.Http.dll</HintPath>
+    <Reference Include="System.Net.Http, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c2814533e73a79ce, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\System.Net.Http.dll</HintPath>
     </Reference>
-    <Reference Include="System.Threading">
-      <HintPath>..\..\..\..\..\Basura\dotnet-httpclient35-1.0.0-beta003\System.Net.Http\bin\Debug\System.Threading.dll</HintPath>
+    <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\System.Threading.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />

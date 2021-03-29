@@ -14,8 +14,7 @@ Public Class Utiles
 
 
     Public Shared Function Version() As String
-        Const CONST_VERSION As String = "R2 - "
-        Return CONST_VERSION + Assembly.GetExecutingAssembly().GetName().Version.ToString()
+        Return Constantes.CONST_VERSION + Assembly.GetExecutingAssembly().GetName().Version.ToString()
     End Function
 
     Public Shared Sub CargarMonedas(ddl As DropDownList, Optional sTexto As String = "Seleccione una opción")

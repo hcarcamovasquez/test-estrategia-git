@@ -1,4 +1,5 @@
 ﻿Public Class Constantes
+    Public Const CONST_VERSION As String = "R2 - "
     Public Const CONST_ERROR_BBDD As Integer = -99
     Public Const CONST_ERROR_NO_SE_PUEDE_BORRAR As Integer = 1
     Public Const CONST_OPERACION_EXITOSA As Integer = 0
