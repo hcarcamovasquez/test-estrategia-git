@@ -182,6 +182,7 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
         ddlListaRutFondo.SelectedIndex = -1
         txtFechaEjecucion.Text = ""
         txtFechaPatrimonio.Text = ""
+        txtFechaNav.Text = ""
         txtFechaDesde.Text = ""
         txtFechaHasta.Text = ""
         txtAccionHidden.Value = ""
