@@ -55,6 +55,7 @@ Partial Class Presentacion_Mantenedores_frmRescatesVsPatrimonio
         Dim strMensajeAlert As String = ""
 
         txtFechaEjecucion.Text = Request.Form(txtFechaEjecucion.UniqueID)
+        txtFechaNav.Text = Request.Form(txtFechaNav.UniqueID)
         txtFechaDesde.Text = Request.Form(txtFechaDesde.UniqueID)
         txtFechaHasta.Text = Request.Form(txtFechaHasta.UniqueID)
 
