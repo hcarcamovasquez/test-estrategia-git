@@ -3957,13 +3957,15 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         Dim strMensaje As String = CONST_NO_HAY_TRANSACCIONES_SELECCIONADAS
         Dim strMensajeAux As String = ""
 
-        If (fijaciones.Count() < 1) Then
-            ShowAlert(strMensaje)
+        If listaQueNoSeImprimen.Count() > 0 Then
+            strMensajeAux = "No se pueden imprimir transacciones que no estan fijadas"
+            ShowAlert(strMensajeAux)
             Exit Sub
         End If
 
-        If listaQueNoSeImprimen.Count() > 0 Then
-            strMensajeAux = "No se pueden imprimir transacciones que no estan fijadas"
+        If (fijaciones.Count() < 1) Then
+            ShowAlert(strMensaje)
+            Exit Sub
         End If
 
         strMensaje = String.Format("{0}<BR>{1}", "Archivo Generado correctamente ", strMensajeAux)
