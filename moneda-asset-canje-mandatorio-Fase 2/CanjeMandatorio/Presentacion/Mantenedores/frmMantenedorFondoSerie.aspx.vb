@@ -59,7 +59,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
     Public Const CONST_COL_FECHATC_CANJE As Integer = 31
     Public Const CONST_COL_FIJACION_CANJE As Integer = 32
 
-
     Private Sub Presentacion_Mantenedores_frmMantenedorFondoSerie_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Not IsPostBack Then
             DataInitial()
@@ -67,7 +66,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
     End Sub
 
     Private Sub DataInitial()
-
         cargaFiltroRut()
         cargaFiltroNemotecnico()
         cargaFiltroAgrupacion()
@@ -82,7 +80,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
 
         Utiles.cargarMonedas(ddlMonedaSerie)
         Utiles.CargarMonedas(ddlMonedaDeLimite)
-
 
     End Sub
 
@@ -481,10 +478,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
                 fondoserie.Rut = row.Cells(CONST_COL_FONDO).Text.Trim()
                 fondoserie.Nemotecnico = row.Cells(CONST_COL_NEMOTECNICO).Text.Trim()
                 Exit For
-
-
             End If
-
         Next
 
         Return fondoserie
@@ -537,11 +531,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
 
         ddlFechaPatrimonio.Enabled = True
 
-
     End Sub
 
     ' TODO: Averiguar por que se cae cuando la fecha viene nula 
-
     Private Sub FormateoFormDatos(fondoSerie As FondoSerieDTO)
         Dim estructuraFechas As EstructuraFechasDto
 
@@ -662,11 +654,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
         chkDiasHabilesRescate.Checked = fondoSerie.SoloDiasHabilesFechaNavRescate
         chkDiasHabilesSuscipciones.Checked = fondoSerie.SoloDiasHabilesFechaNavSuscripciones
 
-
         ddlFechaPatrimonio.SelectedValue = estructuraFechaPatrimonio.DesdeQueFecha
         ddlNumeroFechaPatrimonio.Text = estructuraFechaPatrimonio.DiasASumar
         chkDiasHabilesFechaPatrimonio.Checked = fondoSerie.SoloDiasHabilesFechaPatrimonio
-
 
     End Sub
 
@@ -816,7 +806,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
         fondoSerie.FechaRescate = IIf(ddlFechaRescate.SelectedIndex > 0 And ddNumeroFechaRescate.Text >= "", ddlFechaRescate.SelectedValue.ToString() + "," + ddNumeroFechaRescate.Text.ToString(), " , ")
         fondoSerie.FechaTCObservado = IIf(ddlFechaTC.SelectedIndex > 0 And ddlNumeroFechaTC.Text >= "", ddlFechaTC.SelectedValue.ToString() + "," + ddlNumeroFechaTC.Text.ToString(), " , ")
 
-
         fondoSerie.Patrimonio = ""
 
         If txtPorcentajePatrimonio.Text <> "" Then
@@ -947,5 +936,4 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondoSerie
         End If
 
     End Sub
-
 End Class
