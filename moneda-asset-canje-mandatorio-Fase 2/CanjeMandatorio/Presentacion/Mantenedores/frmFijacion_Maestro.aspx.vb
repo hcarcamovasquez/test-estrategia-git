@@ -165,6 +165,26 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
 
         Dim listaMensajes As List(Of String) = New List(Of String)
 
+        '---------------------------------------------------------------
+        ' Validacion pre fijacion de control de Patrimonio 
+        '-----------------------------------------------------------------
+        Dim listaSeleccionados As List(Of FijacionDTO) = getTransaccionesSeleccionadas()
+
+        For Each fija As FijacionDTO In listaSeleccionados
+            If fija.TipoTransaccion.ToLower().Equals("rescate") Then
+                'SI EXCEDE; GENERAR ADVERTENCIA
+                If ControlValidacionPatrimonioAutomatico(fija.ObjRescate) Then
+                    If listaMensajes.Count() = 0 Then
+                        listaMensajes.Add("Los rescates no cumplen con el maximo del patrimonio")
+                    End If
+                End If
+
+            End If
+        Next
+
+        Dim fijarRescates As Boolean = (listaMensajes.Count() < 1)
+
+
         For Each row As GridViewRow In GrvTabla.Rows
             Dim chk As CheckBox = row.Cells(0).Controls(1)
 
@@ -239,6 +259,12 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                         If ValoresCuotaSeleccionado IsNot Nothing Then
                             'Trae el valor NAV, Fija y Recalcula 
                             If TipoTransaccionSeleccionado = "Rescate" Then
+
+                                If Not fijarRescates Then
+                                    CantidadNOFijados = CantidadNOFijados + 1
+                                    Continue For
+                                End If
+
                                 ValorNAVSeleccionado = ValoresCuotaSeleccionado.Valor
                                 'Trae los campos necesarios para recalcular
                                 Rescates.RES_ID = TransaccionSeleccionada
@@ -267,10 +293,10 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                                         CantidadNOFijados = CantidadNOFijados + 1
                                     Else
 
-                                        'SI EXCEDE; GENERAR ADVERTENCIA
-                                        If ControlValidacionPatrimonioAutomatico(RescateSeleccionado) Then
-                                            listaMensajes.Add("Los rescates no cumplen con el maximo del patrimonio")
-                                        End If
+                                        ''SI EXCEDE; GENERAR ADVERTENCIA
+                                        'If ControlValidacionPatrimonioAutomatico(RescateSeleccionado) Then
+                                        '    listaMensajes.Add("Los rescates no cumplen con el maximo del patrimonio")
+                                        'End If
 
                                         If MonedaSerieSeleccionado = "CLP" Then
                                             'Recalcula y Manda a Actualizar cuando Moneda es CLP
@@ -605,6 +631,25 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         Dim listaMensajes As List(Of String) = New List(Of String)
         'Dim ValorTCObsSeleccionado As Decimal
 
+        '---------------------------------------------------------------
+        ' Validacion pre fijacion de control de Patrimonio 
+        '-----------------------------------------------------------------
+        Dim listaSeleccionados As List(Of FijacionDTO) = getTransaccionesSeleccionadas()
+
+        For Each fija As FijacionDTO In listaSeleccionados
+            If fija.TipoTransaccion.ToLower().Equals("rescate") Then
+                'SI EXCEDE; GENERAR ADVERTENCIA
+                If ControlValidacionPatrimonioAutomatico(fija.ObjRescate) Then
+                    If listaMensajes.Count() = 0 Then
+                        listaMensajes.Add("Los rescates no cumplen con el maximo del patrimonio")
+                    End If
+                End If
+
+            End If
+        Next
+
+        Dim fijarRescates As Boolean = (listaMensajes.Count() < 1)
+
         Dim ListaErrores As List(Of TErroresFijacion)
         ListaErrores = CargarListaErroresSoportados()
 
@@ -656,6 +701,12 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                 End If
 
                 If TipoTransaccionSeleccionado = "Rescate" Then
+
+                    If Not fijarRescates Then
+                        CantidadNOFijados = CantidadNOFijados + 1
+                        Continue For
+                    End If
+
                     Rescates.RES_ID = TransaccionSeleccionada
                     RescateSeleccionado = NegocioRescates.GetRescateOne(Rescates)
 
@@ -692,10 +743,6 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
                                 ValorNAV_CLPSeleccionado = RescateSeleccionado.RES_Nav_CLP
                                 RescateSeleccionado.TC_Valor = ValorTcObsSeleccionado
 
-                                'SI EXCEDE PATRIMONIO GENERAR ALERTA
-                                If ControlValidacionPatrimonioAutomatico(RescateSeleccionado) Then
-                                    listaMensajes.Add("Los rescates no cumplen con el maximo del patrimonio")
-                                End If
 
                                 If MonedaSerieSeleccionado = "CLP" Then
                                     CantidadFijados = CantidadFijados + 1
@@ -1255,26 +1302,32 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         Dim negocioRescate As RescateNegocio = New RescateNegocio
         Dim fondo As FondoDTO = New FondoDTO()
         Dim negocioFondo As FondosNegocio = New FondosNegocio
+        Try
+            fondo.Rut = rescate.FN_RUT
+            fondo = negocioFondo.GetFondo(fondo)
 
-        fondo.Rut = rescate.FN_RUT
-        fondo = negocioFondo.GetFondo(fondo)
+            If fondo.ControlTipoControl.ToLower().Equals("ventana") AndAlso fondo.ControlTipoDeConfiguracion.ToLower().Equals("prorrata") Then
+                rescate.DesdeProceso = "Fijacion"
 
-        'rescate.FN_Nombre_Corto = fondo.RazonSocial
-        'rescate.FS_Nemotecnico = "" 'VERIFICAR SI DEBE APLICAR NEMOTECNICO DEL RESCATE A VALIDAR
+                Dim resultadoCalculo As String
+                Dim resultado() As String = negocioRescate.ControlMontoRescateVsPatrimonio(rescate, fondo).Split(",")
 
-        'If negocioRescate.ExisteVentana(rescate) Then
-        'fondo.ControlTipoControl = "Ventana"
+                resultadoCalculo = resultado(0)
 
-        Dim resultadoCalculo As String
+                Return resultadoCalculo
+            Else
+                Return False
+            End If
 
-        Dim resultado() As String = negocioRescate.ControlMontoRescateVsPatrimonio(rescate, fondo).Split(",")
-        resultadoCalculo = resultado(0)
-
-        Return resultadoCalculo
-        'Else
-        'Return False
-        'End If
+        Catch ex As Exception
+            Return False
+        Finally
+            negocioRescate = Nothing
+            fondo = Nothing
+            negocioFondo = Nothing
+        End Try
     End Function
+
 
     Protected Sub BtnBuscar_Click(sender As Object, e As EventArgs) Handles BtnBuscar.Click
         FindFijacion()

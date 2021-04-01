@@ -1776,7 +1776,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
         CalcularMontos()
 
-        If ((Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalRescateMax.Text))) Then
+        'If ((Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalRescateMax.Text))) Then
+        ' JOVB y JM : 
+        If ((Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalUtilizado.Text))) Then
             ShowAlert("El monto de rescate debe ser menor o igual a máximo disponible")
             txtModalCuota.Text = "0"
             txtModalMonto.Text = "0"
@@ -1892,7 +1894,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
                 CalcularMontos()
 
-                If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalRescateMax.Text)) Then
+                'If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalRescateMax.Text)) Then
+                If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalUtilizado.Text)) Then
                     ShowAlert("El monto de rescate debe ser menor o igual a máximo disponible")
                     txtModalCuota.Text = "0"
                     Return
