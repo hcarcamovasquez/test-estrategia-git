@@ -1314,6 +1314,9 @@
             $("[id*=txtFechaPagoDesde]").datepicker();
             $("[id*=txtFechaPagoHasta]").datepicker();
 
+            $("[id*=txtFechaPatrimonio]").datepicker();
+            $("[id*=txtFechaNav]").datepicker();
+
             $("[id*=txtModalFechaSolicitud]").datepicker();
             $("[id*=txtModalFechaSolicitud]").datepicker({
                 container: '#myModal modal-body'
@@ -1397,7 +1400,7 @@
             $(".ConDecimales").val(function (index, value) {
 
                 var arrayDeCadenas = value.split(",")
-                console.log("lkasdlkja");
+                
                 valEnetero = arrayDeCadenas[0].replace(/\D/g, "")
                     .replace(/([0-9])([0-9]{3})$/g, '$1.$2')
                     .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
