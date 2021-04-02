@@ -912,17 +912,12 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             lnkBtnModalFechaPago.Visible = True
             lnkBtnModalFechaTCObs.Visible = True
 
-            Dim VentanasRescate As VentanasRescateDTO = New VentanasRescateDTO()
-            Dim NegocioVentanasRescate As VentanasRescateNegocio = New VentanasRescateNegocio
-            Dim VentanasRescateActualizado As VentanasRescateDTO = New VentanasRescateDTO()
-            VentanasRescateActualizado = Nothing
 
-            If ddlModalNombreFondo.Text <> "" And ddlModalNemotecnico.Text <> "" And txtModalFechaSolicitud.Text <> "" Then
-                VentanasRescate.FN_Nombre_Corto = ddlModalNombreFondo.SelectedValue
-                VentanasRescate.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
-                VentanasRescate.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
-                VentanasRescateActualizado = NegocioVentanasRescate.SelectFechasNORescatable(VentanasRescate)
-            End If
+            Dim VentanasRescateActualizado As VentanasRescateDTO = New VentanasRescateDTO()
+            ' Correo : Corrección ventana de rescates
+            ' El sistema no está considerando la configuración del fondo para las ventanas de rescate
+
+            VentanasRescateActualizado = GetTraerVentanaDeRescate()  ' ¡ refactorizacion !
 
             If VentanasRescateActualizado IsNot Nothing Then
                 txtModalFechaNAV.Text = ""
@@ -1072,6 +1067,53 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         resetValores(FondoRescatable)
 
     End Sub
+
+    Private Function GetTraerVentanaDeRescate() As VentanasRescateDTO
+        Dim VentanasRescateActualizado As VentanasRescateDTO
+        Dim VentanasRescate As VentanasRescateDTO
+        Dim NegocioVentanasRescate As VentanasRescateNegocio
+
+        Try
+
+            VentanasRescateActualizado = New VentanasRescateDTO()
+            VentanasRescate = New VentanasRescateDTO()
+            NegocioVentanasRescate = New VentanasRescateNegocio
+
+            VentanasRescateActualizado = Nothing
+
+            If ddlModalNombreFondo.Text <> "" And ddlModalNemotecnico.Text <> "" And txtModalFechaSolicitud.Text <> "" Then
+                ' Averigua si el fondo tiene "ventana por Fondo"
+                '
+                VentanasRescate.FN_Nombre_Corto = ddlModalNombreFondo.SelectedValue
+                VentanasRescate.FS_Nemotecnico = ""
+                VentanasRescate.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
+
+                VentanasRescateActualizado = NegocioVentanasRescate.SelectFechasNORescatable(VentanasRescate)
+
+                ' Si no tiene Ventana por fondo Buscará si tiene ventana por nemotecnico y  fondo. 
+                If VentanasRescateActualizado Is Nothing Then
+                    VentanasRescate.FN_Nombre_Corto = ddlModalNombreFondo.SelectedValue
+                    VentanasRescate.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
+                    VentanasRescate.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
+
+                    VentanasRescateActualizado = NegocioVentanasRescate.SelectFechasNORescatable(VentanasRescate)
+                End If
+            End If
+
+            Return VentanasRescateActualizado
+
+        Catch ex As Exception
+            Return Nothing
+
+        Finally
+            VentanasRescateActualizado = Nothing
+            VentanasRescate = Nothing
+            NegocioVentanasRescate = Nothing
+        End Try
+
+        Return VentanasRescateActualizado
+
+    End Function
 
     Private Function getFechaParaCalculo(ByVal TipoFechaAñadirPago As String, ByVal FechaSolicitud As Date, ByVal FechaPago As Date, ByVal FechaNAV As Date, ByVal FechaTC As Date) As Date
         Dim FechaCalculo As Date
@@ -1778,7 +1820,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
         'If ((Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalRescateMax.Text))) Then
         ' JOVB y JM : 
-        If ((Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalUtilizado.Text))) Then
+        If ((Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalDisponibles.Text))) Then
             ShowAlert("El monto de rescate debe ser menor o igual a máximo disponible")
             txtModalCuota.Text = "0"
             txtModalMonto.Text = "0"
@@ -1895,7 +1937,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                 CalcularMontos()
 
                 'If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalRescateMax.Text)) Then
-                If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalUtilizado.Text)) Then
+                If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalDisponibles.Text)) Then
                     ShowAlert("El monto de rescate debe ser menor o igual a máximo disponible")
                     txtModalCuota.Text = "0"
                     Return
@@ -3288,17 +3330,19 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             lnkBtnModalFechaPago.Visible = True
             lnkBtnModalFechaTCObs.Visible = True
 
-            Dim VentanasRescate As VentanasRescateDTO = New VentanasRescateDTO()
-            Dim NegocioVentanasRescate As VentanasRescateNegocio = New VentanasRescateNegocio
+            'Dim VentanasRescate As VentanasRescateDTO = New VentanasRescateDTO()
+            'Dim NegocioVentanasRescate As VentanasRescateNegocio = New VentanasRescateNegocio
             Dim VentanasRescateActualizado As VentanasRescateDTO = New VentanasRescateDTO()
             VentanasRescateActualizado = Nothing
 
-            If ddlModalNombreFondo.Text <> "" And ddlModalNemotecnico.Text <> "" And txtModalFechaSolicitud.Text <> "" Then
-                VentanasRescate.FN_Nombre_Corto = ddlModalNombreFondo.SelectedValue
-                VentanasRescate.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
-                VentanasRescate.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
-                VentanasRescateActualizado = NegocioVentanasRescate.SelectFechasNORescatable(VentanasRescate)
-            End If
+            VentanasRescateActualizado = GetTraerVentanaDeRescate()
+
+            'If ddlModalNombreFondo.Text <> "" And ddlModalNemotecnico.Text <> "" And txtModalFechaSolicitud.Text <> "" Then
+            '    VentanasRescate.FN_Nombre_Corto = ddlModalNombreFondo.SelectedValue
+            '    VentanasRescate.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
+            '    VentanasRescate.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
+            '    VentanasRescateActualizado = NegocioVentanasRescate.SelectFechasNORescatable(VentanasRescate)
+            'End If
 
             If VentanasRescateActualizado IsNot Nothing Then
                 txtModalFechaNAV.Text = ""
