@@ -236,22 +236,20 @@ Public Class exportarWord
 
         If bPrimero Then
             bPrimero = False
-            document.ReplaceText("[COLUMNA B]", Utiles.FormatodeFecha(Date.Now())) ' Fecha generacion del documento 
-            document.ReplaceText("[COLUMNA I]", transaccion.FnNombreCorto)
-            document.ReplaceText("[COLUMNA J]", transaccion.ObjCanje.NombreSerieEntrante)       ' Nombre del Fondo.
-            document.ReplaceText("[COLUMNA P]", transaccion.ObjCanje.NombreSerieSaliente)        ' Nombre de la serie
-            document.ReplaceText("[COLUMNA H]", transaccion.ObjCanje.NombreFondo)        ' Rut del fondo
+            document.ReplaceText("[COLUMNA D]", Utiles.FormatodeFecha(Date.Now()))         ' Fecha generacion del documento 
+            document.ReplaceText("[COLUMNA G]", transaccion.FnNombreCorto)                 ' Nombre aportante
+            document.ReplaceText("[COLUMNA L]", transaccion.ObjCanje.NombreSerieSaliente)  ' Nombre de la serie Saliente
+            document.ReplaceText("[COLUMNA R]", transaccion.ObjCanje.NombreSerieEntrante)  ' Nombre de la serie Entrante
+            document.ReplaceText("[COLUMNA K]", transaccion.ObjCanje.NombreFondo)          ' Rut del fondo
+            document.ReplaceText("[COLUMNA J]", transaccion.Nemotecnico)                   ' Nemotecnico
         End If
 
-        newRow.ReplaceText("[COLUMNA J]", transaccion.ObjCanje.NombreSerieEntrante)       ' Nombre del Fondo.
-        newRow.ReplaceText("[COLUMNA P]", transaccion.ObjCanje.NombreSerieSaliente)        ' Nombre de la ser
-        newRow.ReplaceText("[COLUMNA E]", transaccion.RazonSocial)   ' nombreAportante 
-        newRow.ReplaceText("[COLUMNA F]", transaccion.ApRut)         ' rut del aportante
-        newRow.ReplaceText("[COLUMNA K]", transaccion.ObjCanje.CuotaEntrante)            ' cantidad de cuotas
-        newRow.ReplaceText("[COLUMNA M]", transaccion.ObjCanje.NavCLPEntrante)            ' cantidad de cuotas
-        newRow.ReplaceText("[COLUMNA T]", transaccion.ObjCanje.CuotaEntrante)            ' cantidad de cuotas
-        newRow.ReplaceText("[COLUMNA R]", transaccion.ObjCanje.NavEntrante)            ' cantidad de cuotas
-        newRow.ReplaceText("[COLUMNA S]", transaccion.ObjCanje.Factor)            ' cantidad de cuotas
+        newRow.ReplaceText("[COLUMNA H]", transaccion.ApRut)                               ' Rut del aportante
+        newRow.ReplaceText("[COLUMNA M]", Utiles.formateConSeparadorDeMiles(transaccion.ObjCanje.CuotaSaliente, 0))  ' Cuotas Salientes
+        newRow.ReplaceText("[COLUMNA O]", Utiles.formateConSeparadorDeMiles(transaccion.ObjCanje.NavCLPSaliente, 4)) ' Nav Saliente en CLP  --TODO (Cesar): validar si lleva 4 decimales (asi aparece en el mantenedor de Canje)
+        newRow.ReplaceText("[COLUMNA V]", Utiles.formateConSeparadorDeMiles(transaccion.ObjCanje.CuotaEntrante, 0))  ' Cuotas Entrante
+        newRow.ReplaceText("[COLUMNA T]", Utiles.formateConSeparadorDeMiles(transaccion.ObjCanje.NavCLPEntrante, 4)) ' Nav Entrante en CLP  --TODO (Cesar): validar si lleva 4 decimales (asi aparece en el mantenedor de Canje)
+        newRow.ReplaceText("[COLUMNA U]", transaccion.ObjCanje.Factor)                     ' Factor  --TODO (Cesar): validar cuantos numeros despues de la coma debe llevar (aparece entero)
 
         Return bPrimero
     End Function
@@ -259,20 +257,25 @@ Public Class exportarWord
     Private Shared Function setColumnasDCVAporte(bPrimero As Boolean, document As DocX, newRow As Row, fijacion As FijacionDTO) As Boolean
         If bPrimero Then
             bPrimero = False
-            document.ReplaceText("[COLUMNA C]", "APORTE")
-            document.ReplaceText("[COLUMNA B]", Utiles.FormatodeFecha(Date.Now)) ' Fecha generacion del documento 
-            document.ReplaceText("[COLUMNA E]", fijacion.FnNombreCorto)
-            document.ReplaceText("[COLUMNA D]", fijacion.Nemotecnico)        ' Nombre de la serie
-            document.ReplaceText("[COLUMNA G]", fijacion.Rut)        ' Rut del fondo
-            document.ReplaceText("[COLUMNA N]", Utiles.FormatodeFecha(Date.Now)) ' Fecha generacion del documento 
-            document.ReplaceText("[COLUMNA M]", Utiles.formatearMonto(fijacion.NAV_FIJADO, fijacion.MonedaPago))    ' Valor Cuota Nav 
+            If fijacion.TipoTransaccion = "Suscripcion" Then
+                document.ReplaceText("[COLUMNA D]", "APORTE")
+                document.ReplaceText("[COLUMNA N]", Utiles.formateConSeparadorDeMiles(fijacion.ObjSuscripcion.NAVCLP, 0))     ' Valor Cuota Nav CLP siempre
+            Else
+                document.ReplaceText("[COLUMNA D]", "RESCATE")
+                document.ReplaceText("[COLUMNA N]", Utiles.formateConSeparadorDeMiles(fijacion.ObjRescate.RES_Nav_CLP, 0))    ' Valor Cuota Nav CLP siempre
+            End If
+
+            document.ReplaceText("[COLUMNA C]", Utiles.FormatodeFecha(Date.Now))         ' Fecha generacion del documento 
+            document.ReplaceText("[COLUMNA F]", fijacion.FnNombreCorto)                  ' Nombre de Fondo
+            document.ReplaceText("[COLUMNA E]", fijacion.Nemotecnico)                    ' Nombre de la serie
+            document.ReplaceText("[COLUMNA H]", fijacion.Rut)                            ' Rut del fondo                        
         End If
 
-        newRow.ReplaceText("[COLUMNA I]", fijacion.RazonSocial)   ' nombreAportante 
-        newRow.ReplaceText("[COLUMNA J]", fijacion.ApRut)         ' rut del aportante
-        document.ReplaceText("[COLUMNA K]", fijacion.Monto)            ' cantidad de cuotas
-        newRow.ReplaceText("[COLUMNA N]", Utiles.FormatodeFecha(Date.Now))             ' monto en la moneda de la transaccion 
-        document.ReplaceText("[COLUMNA P]", Utiles.formateConSeparadorDeMiles(fijacion.Cuotas, 0))             ' monto en la moneda de la transaccion 
+        newRow.ReplaceText("[COLUMNA J]", fijacion.RazonSocial)                          ' nombreAportante 
+        newRow.ReplaceText("[COLUMNA K]", fijacion.ApRut)                                ' rut del aportante
+        document.ReplaceText("[COLUMNA L]", fijacion.Cuotas)                             ' cantidad de cuotas
+        newRow.ReplaceText("[COLUMNA O]", Utiles.FormatodeFecha(Date.Now))               ' monto en la moneda de la transaccion --TODO (Cesar): que fecha es O ?
+        'document.ReplaceText("[COLUMNA P]", Utiles.formateConSeparadorDeMiles(fijacion.Cuotas, 0))             ' monto en la moneda de la transaccion 
 
         Return bPrimero
     End Function
@@ -338,26 +341,34 @@ Public Class exportarWord
     End Function
 
     Private Shared Sub setColumnasCanje(document As DocX, fijacion As FijacionDTO)
+        Dim fechaDocumento As String
+        fechaDocumento = Date.Now().ToString("yyyy-MM-dd HH:mm")
 
-        document.ReplaceText("[Columna D]", Utiles.FormatodeFecha(Date.Now())) ' Fecha generacion del documento 
-        document.ReplaceText("[Columna K]", fijacion.ObjCanje.NombreFondo)   ' Nombre del fondo
-        document.ReplaceText("[Columna L]", fijacion.ObjCanje.NombreSerieEntrante) ' Serie entrante
-        document.ReplaceText("[Columna R]", fijacion.ObjCanje.NombreSerieSaliente)             ' serie saliente 
-        document.ReplaceText("[Columna G]", fijacion.RazonSocial)   ' nombreAportante 
-        document.ReplaceText("[Columna H]", fijacion.ApRut)         ' rut del aportante
+        document.ReplaceText("[Columna D]", fechaDocumento)                                 ' Fecha generacion del documento ' TODO (cesar): fecha y hora pide
+        document.ReplaceText("[Columna K]", fijacion.ObjCanje.NombreFondo)                  ' Nombre del fondo
+        document.ReplaceText("[Columna L]", fijacion.ObjCanje.NombreSerieSaliente)          ' serie saliente 
+        document.ReplaceText("[Columna R]", fijacion.ObjCanje.NombreSerieEntrante)          ' Serie entrante
+        document.ReplaceText("[Columna G]", fijacion.RazonSocial)                           ' nombreAportante 
+        document.ReplaceText("[Columna H]", fijacion.ApRut)                                 ' rut del aportante
 
-        document.ReplaceText("[Columna AB]", fijacion.ObjCanje.Cuotas)         ' Cuotas Entrante
-        document.ReplaceText("[Columna N]", fijacion.ObjCanje.MontoCLPEntrante) ' Monto Clp Entrante 
-        document.ReplaceText("[Columna AA]", fijacion.ObjCanje.CuotaEntrante)         ' Cuotas Entrante
-        document.ReplaceText("[Columna S]", fijacion.ObjCanje.MontoCLPSaliente)         ' Monto CLP SALiente
-        document.ReplaceText("[Columna U]", fijacion.ObjCanje.Factor)         ' Factor
+        document.ReplaceText("[Columna AA]", fijacion.ObjCanje.MonedaSaliente)              ' Moneda del fondo Saliente
+        document.ReplaceText("[Columna AB]", fijacion.ObjCanje.MonedaEntrante)              ' Moneda del fondo Entrante
 
-        document.ReplaceText("[Columna M]", fijacion.ObjCanje.Cuotas)     ' 
-        document.ReplaceText("[Columna V]", fijacion.ObjCanje.CuotaSaliente)     ' 
+        If fijacion.MonedaPago = "CLP" Then
+            document.ReplaceText("[Columna MNO]", Utiles.formatearMonto(fijacion.ObjCanje.NavCLPSaliente, fijacion.MonedaPago))     ' TODO (cesar): validar valor Cuota Nav Saliente para CLP             
+            document.ReplaceText("[Columna ST]", Utiles.formatearMonto(fijacion.ObjCanje.NavCLPEntrante, fijacion.MonedaPago))      ' TODO (cesar): validar valor Cuota Nav Entrante para CLP
+        ElseIf fijacion.MonedaPago = "USD" Then
+            document.ReplaceText("[Columna MNO]", Utiles.formatearMonto(fijacion.ObjCanje.NavSaliente, fijacion.MonedaPago))        ' TODO (cesar): validar redondeo en 2 digitos despues de la coma
+            document.ReplaceText("[Columna ST]", Utiles.formatearMonto(fijacion.ObjCanje.NavEntrante, fijacion.MonedaPago))         ' TODO (cesar): validar redondeo en 2 digitos despues de la coma
+        Else
+            document.ReplaceText("[Columna MNO]", Utiles.formatearMonto(fijacion.ObjCanje.NavSaliente, fijacion.MonedaPago))        ' TODO (cesar): validar redondeo en 2 digitos despues de la coma
+            document.ReplaceText("[Columna ST]", Utiles.formatearMonto(fijacion.ObjCanje.NavEntrante, fijacion.MonedaPago))         ' TODO (cesar): validar redondeo en 2 digitos despues de la coma
+        End If
 
-        document.ReplaceText("[Columna O]", fijacion.ObjCanje.MontoEntrante)     ' 
-        document.ReplaceText("[Columna Q]", fijacion.ObjCanje.MontoSaliente)     ' 
-
+        document.ReplaceText("[Columna U]", fijacion.ObjCanje.Factor)                                                ' Factor  --TODO (Cesar): validar cuantos numeros despues de la coma debe llevar (aparece entero)
+        document.ReplaceText("[Columna M]", Utiles.formateConSeparadorDeMiles(fijacion.ObjCanje.CuotaSaliente, 0))   ' Cuotas Salientes
+        document.ReplaceText("[Columna V]", Utiles.formateConSeparadorDeMiles(fijacion.ObjCanje.CuotaEntrante, 0))   ' Cuotas Entrantes
+        document.ReplaceText("[Columna Q]", "")                                                                      ' TODO (cesar): NO ESPECIFICA QUE ES Q
     End Sub
 
     Private Shared Sub setColumnasAporte(document As DocX, fijacion As FijacionDTO)
@@ -367,26 +378,62 @@ Public Class exportarWord
         If fijacion.TipoTransaccion = "Rescate" Then
             fechaPago = "" + fijacion.ObjRescate.RES_Fecha_Pago
             horaPago = "" + fijacion.ObjRescate.RES_Fecha_Pago.ToString("HH:mm")
+            document.ReplaceText("[Columna D]", "RESCATE")
+
+            If fijacion.MonedaPago = "CLP" Then
+                document.ReplaceText("[Columna MNO]", Utiles.formatearMonto(fijacion.ObjRescate.RES_Nav_CLP, fijacion.MonedaPago))    ' Valor Cuota Nav para CLP     
+                document.ReplaceText("[Columna QRS]", Utiles.formatearMonto(fijacion.ObjRescate.RES_Monto_CLP, fijacion.MonedaPago))  ' Monto en la moneda de la transaccion
+
+            ElseIf fijacion.MonedaPago = "USD" Then
+                document.ReplaceText("[Columna MNO]", Utiles.formatearMonto(fijacion.ObjRescate.RES_Nav, fijacion.MonedaPago))        ' Valor Cuota Nav para USD                
+                document.ReplaceText("[Columna QRS]", Utiles.formatearMonto(fijacion.Monto, fijacion.MonedaPago))                     ' Monto en la moneda de la transaccion
+            Else
+                document.ReplaceText("[Columna MNO]", Utiles.formatearMonto(fijacion.ObjRescate.RES_Nav, fijacion.MonedaPago))        ' Valor Cuota Nav para EUR                
+                document.ReplaceText("[Columna QRS]", Utiles.formatearMonto(fijacion.Monto, fijacion.MonedaPago))                     ' Monto en la moneda de la transaccion
+            End If
+
+            document.ReplaceText("[Columna L]", Utiles.formateConSeparadorDeMiles(fijacion.ObjRescate.RES_Cuotas, 0))                 ' cantidad de cuotas
         Else
             fechaPago = "" + fijacion.ObjSuscripcion.FechaSuscripcion
             horaPago = "" + fijacion.ObjSuscripcion.FechaSuscripcion.ToString("HH:mm")
+            document.ReplaceText("[Columna D]", "APORTE")
+
+            If fijacion.MonedaPago = "CLP" Then
+                document.ReplaceText("[Columna MNO]", Utiles.formatearMonto(fijacion.ObjSuscripcion.NAVCLP, fijacion.MonedaPago))     ' Valor Cuota Nav para CLP     
+                document.ReplaceText("[Columna QRS]", Utiles.formatearMonto(fijacion.ObjSuscripcion.MontoCLP, fijacion.MonedaPago))   ' Monto en la moneda de la transaccion para CLP
+            ElseIf fijacion.MonedaPago = "USD" Then
+                document.ReplaceText("[Columna MNO]", Utiles.formatearMonto(fijacion.ObjSuscripcion.NAV, fijacion.MonedaPago))        ' Valor Cuota Nav para USD
+                document.ReplaceText("[Columna QRS]", Utiles.formatearMonto(fijacion.ObjSuscripcion.Monto, fijacion.MonedaPago))      ' Monto en la moneda de la transaccion para USD
+            Else
+                document.ReplaceText("[Columna MNO]", Utiles.formatearMonto(fijacion.ObjSuscripcion.NAV, fijacion.MonedaPago))        ' Valor Cuota Nav para EUR
+                document.ReplaceText("[Columna QRS]", Utiles.formatearMonto(fijacion.ObjSuscripcion.Monto, fijacion.MonedaPago))      ' Monto en la moneda de la transaccion para EUR
+            End If
+
+            document.ReplaceText("[Columna L]", Utiles.formateConSeparadorDeMiles(fijacion.ObjSuscripcion.CuotasEmitidas, 0))                 ' cantidad de cuotas
         End If
 
-        document.ReplaceText("[Columna D]", "APORTE")
         document.ReplaceText("[Columna C]", Utiles.FormatodeFecha(Date.Now())) ' Fecha generacion del documento 
+        document.ReplaceText("[Columna X]", fechaPago)                         ' Fecha de Solicitud
+        document.ReplaceText("[Columna Y]", horaPago)                          ' Hora Solicitud
 
-        document.ReplaceText("[Columna X]", fechaPago)  ' Fecha de Solicitud
-        document.ReplaceText("[Columna Y]", horaPago)   ' Hora Solicitud
+        document.ReplaceText("[Columna F]", fijacion.FnNombreCorto)            ' Nombre del Fondo.
+        document.ReplaceText("[Columna G]", fijacion.Nemotecnico)              ' Nombre de la serie
+        document.ReplaceText("[Columna J]", fijacion.RazonSocial)              ' nombreAportante 
+        document.ReplaceText("[Columna K]", fijacion.ApRut)                    ' rut del aportante
 
-        document.ReplaceText("[Columna F]", fijacion.FnNombreCorto)       ' Nombre del Fondo.
-        document.ReplaceText("[Columna G]", fijacion.Nemotecnico)        ' Nombre de la serie
-        document.ReplaceText("[Columna J]", fijacion.RazonSocial)   ' nombreAportante 
-        document.ReplaceText("[Columna K]", fijacion.ApRut)         ' rut del aportante
-        document.ReplaceText("[Columna N]", fijacion.MonedaPago)    'Moneda pago
-        document.ReplaceText("[Columna M]", Utiles.formatearMonto(fijacion.NAV_FIJADO, fijacion.MonedaPago))    ' Valor Cuota Nav  
-        document.ReplaceText("[Columna O]", fijacion.TipoTransaccion)   ' 
-        document.ReplaceText("[Columna L]", Utiles.formateConSeparadorDeMiles(fijacion.Cuotas, 0))             ' cantidad de cuotas
-        document.ReplaceText("[Columna P]", Utiles.formatearMonto(fijacion.Monto, fijacion.MonedaPago))             ' monto en la moneda de la transaccion 
+        document.ReplaceText("[Columna N]", fijacion.MonedaPago)               ' Moneda pago
+
+        'If fijacion.MonedaPago = "CLP" Then
+        '    document.ReplaceText("[Columna MNO]", Utiles.formatearMonto(fijacion.NavCLP, fijacion.MonedaPago))        ' Valor Cuota Nav para CLP     
+        '    document.ReplaceText("[Columna QRS]", Utiles.formatearMonto(fijacion.MontoCLP, fijacion.MonedaPago))      ' Monto en la moneda de la transaccion para CLP
+        'ElseIf fijacion.MonedaPago = "USD" Then
+        '    document.ReplaceText("[Columna MNO]", Utiles.formatearMonto(fijacion.NAV_FIJADO, fijacion.MonedaPago))    ' Valor Cuota Nav para USD
+        '    document.ReplaceText("[Columna QRS]", Utiles.formatearMonto(fijacion.Monto, fijacion.MonedaPago))         ' Monto en la moneda de la transaccion para USD
+        'Else
+        '    document.ReplaceText("[Columna MNO]", Utiles.formatearMonto(fijacion.NAV_FIJADO, fijacion.MonedaPago))    ' Valor Cuota Nav para EUR
+        '    document.ReplaceText("[Columna QRS]", Utiles.formatearMonto(fijacion.Monto, fijacion.MonedaPago))         ' Monto en la moneda de la transaccion para EUR
+        'End If        
+
     End Sub
 
     Private Shared Function getNombreArchivoOutput(fijacion As FijacionDTO) As String
