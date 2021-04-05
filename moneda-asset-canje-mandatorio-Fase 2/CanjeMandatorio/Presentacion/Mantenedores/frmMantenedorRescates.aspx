@@ -1379,10 +1379,9 @@
             if ((txtAccionHidden == "MODIFICAR") || (txtAccionHidden == "ELIMINAR") || (txtAccionHidden == "CREAR")) {
                 $('#myModal').modal('show');
             }
-            else {
-                if (txtAccionHidden == "POPUPRESCATE") {
-                    $('#PopUpRescate').modal('show');
-                }
+            else if (txtAccionHidden == "POPUPRESCATE") {
+                $('#PopUpRescate').modal('show');
+                $('#<%=txtAccionHidden.ClientID %>').val("");
             }
 
             $("body").on("click", "#btnXCerrar", function () {

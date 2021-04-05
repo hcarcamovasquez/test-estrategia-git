@@ -1571,6 +1571,7 @@
                 $('#myModalmg').modal();
             } else if (txtAccionHidden == "POPUPCANJES") {
                 $('#PopUpCanjes').modal('show');
+                $('#<%=txtAccionHidden.ClientID %>').val("");
             } else {
                 checkRadioBtn("");
             }

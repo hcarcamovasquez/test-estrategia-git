@@ -302,27 +302,24 @@ Public Class exportarWord
             document.ReplaceText("[Columna AB]", .ObjCanje.MonedaEntrante)              ' Moneda del fondo Entrante
 
             If fijacion.MonedaPago = "CLP" Then
-                document.ReplaceText("[Columna MNO]", Utiles.formatearNAVCLP(.ObjCanje.NavCLPSaliente))     ' TODO (cesar): validar valor Cuota Nav Saliente para CLP             
-                document.ReplaceText("[Columna ST]", Utiles.formatearNAVCLP(.ObjCanje.NavCLPEntrante))      ' TODO (cesar): validar valor Cuota Nav Entrante para CLP
-                document.ReplaceText("[Columna Q]", "")
-
-                'ElseIf fijacion.MonedaPago = "USD" Then
-                '   document.ReplaceText("[Columna MNO]", Utiles.formatearMonto(fijacion.ObjCanje.NavSaliente, fijacion.MonedaPago))        ' TODO (cesar): validar redondeo en 2 digitos despues de la coma
-                '   document.ReplaceText("[Columna ST]", Utiles.formatearMonto(fijacion.ObjCanje.NavEntrante, fijacion.MonedaPago))         ' TODO (cesar): validar redondeo en 2 digitos despues de la coma
+                document.ReplaceText("[Columna MNO]", Utiles.formatearNAVCLP(.ObjCanje.NavCLPSaliente))
+                document.ReplaceText("[Columna ST]", Utiles.formatearNAVCLP(.ObjCanje.NavCLPEntrante))
+                document.ReplaceText("[Columna Q]", Utiles.formatearMontoCLP(.ObjCanje.MontoCLPSaliente))
             Else
-                document.ReplaceText("[Columna MNO]", Utiles.formatearNAV(.ObjCanje.NavSaliente))        ' TODO (cesar): validar redondeo en 2 digitos despues de la coma
-                document.ReplaceText("[Columna ST]", Utiles.formatearNAV(.ObjCanje.NavEntrante))         ' TODO (cesar): validar redondeo en 2 digitos despues de la coma
-                document.ReplaceText("[Columna Q]", "")
+                document.ReplaceText("[Columna MNO]", Utiles.formatearNAV(.ObjCanje.NavSaliente))
+                document.ReplaceText("[Columna ST]", Utiles.formatearNAV(.ObjCanje.NavEntrante))
+                document.ReplaceText("[Columna Q]", Utiles.formatearMonto(.ObjCanje.MontoSaliente, fijacion.MonedaPago))
+
             End If
 
-            document.ReplaceText("[Columna U]", .ObjCanje.Factor)                                                ' Factor  --TODO (Cesar): validar cuantos numeros despues de la coma debe llevar (aparece entero)
+
+            document.ReplaceText("[Columna U]", .ObjCanje.Factor)
             document.ReplaceText("[Columna M]", Utiles.formateConSeparadorDeMiles(.ObjCanje.CuotaSaliente, 0))   ' Cuotas Salientes
             document.ReplaceText("[Columna V]", Utiles.formateConSeparadorDeMiles(.ObjCanje.CuotaEntrante, 0))   ' Cuotas Entrantes
+
+
         End With
 
-
-
-        ' TODO (cesar): NO ESPECIFICA QUE ES Q
     End Sub
 
     Private Shared Sub setColumnasAporte(document As DocX, fijacion As FijacionDTO)
@@ -434,11 +431,12 @@ Public Class exportarWord
 
         Dim fechaAImprimir As String
 
-        If fijacion.TipoTransaccion.ToLower().Equals("rescate") Then
-            fechaAImprimir = fijacion.ObjRescate.RES_Fecha_Solicitud
-        Else
-            fechaAImprimir = fijacion.ObjSuscripcion.FechaSuscripcion
-        End If
+        'If fijacion.TipoTransaccion.ToLower().Equals("rescate") Then
+        '    fechaAImprimir = fijacion.ObjRescate.RES_Fecha_Solicitud
+        'Else
+        '    fechaAImprimir = fijacion.ObjSuscripcion.FechaSuscripcion
+        'End If
+        fechaAImprimir = Utiles.FormatodeFecha(Date.Now)
         newRow.ReplaceText("[COLUMNA O]", Utiles.FormatodeFecha(fechaAImprimir))               ' monto en la moneda de la transaccion --TODO (Cesar): que fecha es O ?
         'document.ReplaceText("[COLUMNA P]", Utiles.formateConSeparadorDeMiles(fijacion.Cuotas, 0))             ' monto en la moneda de la transaccion 
 
