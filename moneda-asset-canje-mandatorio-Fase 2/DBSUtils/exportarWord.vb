@@ -7,8 +7,6 @@ Imports DTO
 Imports Ionic.Zip
 
 Public Class exportarWord
-
-
     Private Shared Property Documentos As DocumentosEstructura
 
     Public Shared Function GenerarCartas(fijaciones As List(Of FijacionDTO)) As String
@@ -37,9 +35,6 @@ Public Class exportarWord
 
         dirOutputExcel = DirectCast(configurationAppSettings.GetValue("CarpetaGeneracionExcel", GetType(System.String)), String)
 
-
-
-
         nombreArchivoDestino = CartaComprobanteDePagoAportes(FijacionesAportes)
         If FijacionesAportes.Count > 0 Then
             listaDeArchivos.Add(nombreArchivoDestino)
@@ -66,6 +61,22 @@ Public Class exportarWord
 
     End Function
 
+
+    Private Shared Function InstrucionAlDCVdeCanjes(fijacionesCanje As List(Of FijacionDTO)) As String
+        Return HacerInstrucionAlDCVdeAportes("canje", fijacionesCanje)
+    End Function
+
+    Private Shared Function InstrucionAlDCVdeAportes(fijacionesAportes As List(Of FijacionDTO)) As String
+        Return HacerInstrucionAlDCVdeAportes("aporte", fijacionesAportes)
+    End Function
+
+    Private Shared Function CartaComprobanteDePagoAportes(fijaciones As List(Of FijacionDTO)) As String
+        Return HacerCartaComprobanteDePago("aporte", fijaciones)
+    End Function
+
+    Private Shared Function CartaComprobanteDePagoCanje(fijaciones As List(Of FijacionDTO)) As String
+        Return HacerCartaComprobanteDePago("canje", fijaciones)
+    End Function
     Private Shared Function HacerZip(listadearchivos As List(Of String)) As String
         Const CONST_EXTENSION As String = ".zip"
         Const CONST_NOMBRE_ARCHIVO As String = "Cartas_"
@@ -96,22 +107,6 @@ Public Class exportarWord
 
         Return nombreZip
 
-    End Function
-
-    Private Shared Function InstrucionAlDCVdeCanjes(fijacionesCanje As List(Of FijacionDTO)) As String
-        Return HacerInstrucionAlDCVdeAportes("canje", fijacionesCanje)
-    End Function
-
-    Private Shared Function InstrucionAlDCVdeAportes(fijacionesAportes As List(Of FijacionDTO)) As String
-        Return HacerInstrucionAlDCVdeAportes("aporte", fijacionesAportes)
-    End Function
-
-    Private Shared Function CartaComprobanteDePagoAportes(fijaciones As List(Of FijacionDTO)) As String
-        Return HacerCartaComprobanteDePago("aporte", fijaciones)
-    End Function
-
-    Private Shared Function CartaComprobanteDePagoCanje(fijaciones As List(Of FijacionDTO)) As String
-        Return HacerCartaComprobanteDePago("canje", fijaciones)
     End Function
 
     Private Shared Function HacerInstrucionAlDCVdeAportes(ByVal tipoDeComprobante As String, listaDeTransacciones As List(Of FijacionDTO)) As String
@@ -197,7 +192,6 @@ Public Class exportarWord
 
                     For Each transaccion As FijacionDTO In pair.Value
 
-
                         PatronDeFila = t.Rows(t.Rows.Count() - 1)
                         NewRow = t.InsertRow(PatronDeFila, t.RowCount - 1)
 
@@ -214,7 +208,6 @@ Public Class exportarWord
 
                 End If
             Next
-
 
             If File.Exists(nombreOutput) Then
                 File.Delete(nombreOutput)
@@ -235,8 +228,6 @@ Public Class exportarWord
         End If
         Return firstTime
     End Function
-
-
 
     Private Shared Function HacerCartaComprobanteDePago(ByVal tipoDeCarta As String, fijaciones As List(Of FijacionDTO)) As String
         Dim nombreOutput As String
@@ -262,15 +253,12 @@ Public Class exportarWord
             nombreOutput = Documentos.dirOutputDoc & "COMPROBANTE DE PAGO CANJE"
         End If
 
-
         'TODO: Borrar archivo generado anteriormente
         If File.Exists(nombreOutput) Then
             File.Delete(nombreOutput)
         End If
 
-
         If fijaciones.Count > 0 Then
-
             Dim document = DocX.Create(nombreOutput)
             Dim firstTime As Boolean = True
 
@@ -302,31 +290,39 @@ Public Class exportarWord
         Dim fechaDocumento As String
         fechaDocumento = Date.Now().ToString("yyyy-MM-dd HH:mm")
 
-        document.ReplaceText("[Columna D]", fechaDocumento)                                 ' Fecha generacion del documento ' TODO (cesar): fecha y hora pide
-        document.ReplaceText("[Columna K]", fijacion.ObjCanje.NombreFondo)                  ' Nombre del fondo
-        document.ReplaceText("[Columna L]", fijacion.ObjCanje.NombreSerieSaliente)          ' serie saliente 
-        document.ReplaceText("[Columna R]", fijacion.ObjCanje.NombreSerieEntrante)          ' Serie entrante
-        document.ReplaceText("[Columna G]", fijacion.RazonSocial)                           ' nombreAportante 
-        document.ReplaceText("[Columna H]", fijacion.ApRut)                                 ' rut del aportante
+        With fijacion
+            document.ReplaceText("[Columna D]", fechaDocumento)                                 ' Fecha generacion del documento ' TODO (cesar): fecha y hora pide
+            document.ReplaceText("[Columna K]", .ObjCanje.NombreFondo)                  ' Nombre del fondo
+            document.ReplaceText("[Columna L]", .ObjCanje.NombreSerieSaliente)          ' serie saliente 
+            document.ReplaceText("[Columna R]", .ObjCanje.NombreSerieEntrante)          ' Serie entrante
+            document.ReplaceText("[Columna G]", .RazonSocial)                           ' nombreAportante 
+            document.ReplaceText("[Columna H]", .ApRut)                                 ' rut del aportante
 
-        document.ReplaceText("[Columna AA]", fijacion.ObjCanje.MonedaSaliente)              ' Moneda del fondo Saliente
-        document.ReplaceText("[Columna AB]", fijacion.ObjCanje.MonedaEntrante)              ' Moneda del fondo Entrante
+            document.ReplaceText("[Columna AA]", .ObjCanje.MonedaSaliente)              ' Moneda del fondo Saliente
+            document.ReplaceText("[Columna AB]", .ObjCanje.MonedaEntrante)              ' Moneda del fondo Entrante
 
-        If fijacion.MonedaPago = "CLP" Then
-            document.ReplaceText("[Columna MNO]", Utiles.formatearNAVCLP(fijacion.ObjCanje.NavCLPSaliente))     ' TODO (cesar): validar valor Cuota Nav Saliente para CLP             
-            document.ReplaceText("[Columna ST]", Utiles.formatearNAVCLP(fijacion.ObjCanje.NavCLPEntrante))      ' TODO (cesar): validar valor Cuota Nav Entrante para CLP
-            'ElseIf fijacion.MonedaPago = "USD" Then
-            '   document.ReplaceText("[Columna MNO]", Utiles.formatearMonto(fijacion.ObjCanje.NavSaliente, fijacion.MonedaPago))        ' TODO (cesar): validar redondeo en 2 digitos despues de la coma
-            '   document.ReplaceText("[Columna ST]", Utiles.formatearMonto(fijacion.ObjCanje.NavEntrante, fijacion.MonedaPago))         ' TODO (cesar): validar redondeo en 2 digitos despues de la coma
-        Else
-            document.ReplaceText("[Columna MNO]", Utiles.formatearNAV(fijacion.ObjCanje.NavSaliente))        ' TODO (cesar): validar redondeo en 2 digitos despues de la coma
-            document.ReplaceText("[Columna ST]", Utiles.formatearNAV(fijacion.ObjCanje.NavEntrante))         ' TODO (cesar): validar redondeo en 2 digitos despues de la coma
-        End If
+            If fijacion.MonedaPago = "CLP" Then
+                document.ReplaceText("[Columna MNO]", Utiles.formatearNAVCLP(.ObjCanje.NavCLPSaliente))     ' TODO (cesar): validar valor Cuota Nav Saliente para CLP             
+                document.ReplaceText("[Columna ST]", Utiles.formatearNAVCLP(.ObjCanje.NavCLPEntrante))      ' TODO (cesar): validar valor Cuota Nav Entrante para CLP
+                document.ReplaceText("[Columna Q]", "")
 
-        document.ReplaceText("[Columna U]", fijacion.ObjCanje.Factor)                                                ' Factor  --TODO (Cesar): validar cuantos numeros despues de la coma debe llevar (aparece entero)
-        document.ReplaceText("[Columna M]", Utiles.formateConSeparadorDeMiles(fijacion.ObjCanje.CuotaSaliente, 0))   ' Cuotas Salientes
-        document.ReplaceText("[Columna V]", Utiles.formateConSeparadorDeMiles(fijacion.ObjCanje.CuotaEntrante, 0))   ' Cuotas Entrantes
-        document.ReplaceText("[Columna Q]", "")                                                                      ' TODO (cesar): NO ESPECIFICA QUE ES Q
+                'ElseIf fijacion.MonedaPago = "USD" Then
+                '   document.ReplaceText("[Columna MNO]", Utiles.formatearMonto(fijacion.ObjCanje.NavSaliente, fijacion.MonedaPago))        ' TODO (cesar): validar redondeo en 2 digitos despues de la coma
+                '   document.ReplaceText("[Columna ST]", Utiles.formatearMonto(fijacion.ObjCanje.NavEntrante, fijacion.MonedaPago))         ' TODO (cesar): validar redondeo en 2 digitos despues de la coma
+            Else
+                document.ReplaceText("[Columna MNO]", Utiles.formatearNAV(.ObjCanje.NavSaliente))        ' TODO (cesar): validar redondeo en 2 digitos despues de la coma
+                document.ReplaceText("[Columna ST]", Utiles.formatearNAV(.ObjCanje.NavEntrante))         ' TODO (cesar): validar redondeo en 2 digitos despues de la coma
+                document.ReplaceText("[Columna Q]", "")
+            End If
+
+            document.ReplaceText("[Columna U]", .ObjCanje.Factor)                                                ' Factor  --TODO (Cesar): validar cuantos numeros despues de la coma debe llevar (aparece entero)
+            document.ReplaceText("[Columna M]", Utiles.formateConSeparadorDeMiles(.ObjCanje.CuotaSaliente, 0))   ' Cuotas Salientes
+            document.ReplaceText("[Columna V]", Utiles.formateConSeparadorDeMiles(.ObjCanje.CuotaEntrante, 0))   ' Cuotas Entrantes
+        End With
+
+
+
+        ' TODO (cesar): NO ESPECIFICA QUE ES Q
     End Sub
 
     Private Shared Sub setColumnasAporte(document As DocX, fijacion As FijacionDTO)

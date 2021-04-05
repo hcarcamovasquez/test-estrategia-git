@@ -144,6 +144,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         cargaFiltroNemotecnicoSalienteEntranteModal()
         cargaFiltroNombreSerieSalienteEntranteModal()
         cargaFiltroMonedaSerieSalienteEntranteModal()
+
         ddlModalNombreAportante.SelectedIndex = 0
         ddlModalMultifondo.SelectedIndex = 0
         ddlModalFondo.Text = ""
@@ -786,9 +787,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
             ddlModalNemotecnicoSaliente.DataSource = lista
             ddlModalNemotecnicoSaliente.DataMember = "Nemotecnico"
             ddlModalNemotecnicoSaliente.DataValueField = "Nemotecnico"
-
-            ddlModalNemotecnicoSaliente.Items.Insert(0, New ListItem("", ""))
             ddlModalNemotecnicoSaliente.DataBind()
+            ddlModalNemotecnicoSaliente.Items.Insert(0, New ListItem("", ""))
+
             ddlModalNemotecnicoEntrante.DataSource = lista
             ddlModalNemotecnicoEntrante.DataMember = "Nemotecnico"
             ddlModalNemotecnicoEntrante.DataValueField = "Nemotecnico"

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Canjes" Language="VB" MasterPageFile="~/Site.master" AutoEventWireup="false" CodeFile="frmMantenedorCanjes.aspx.vb" Inherits="Presentacion_Mantenedores_frmMantenedorCanjes" %>
+﻿<%@ Page Title="Maestro de Canjes" Language="VB" MasterPageFile="~/Site.master" AutoEventWireup="false" CodeFile="frmMantenedorCanjes.aspx.vb" Inherits="Presentacion_Mantenedores_frmMantenedorCanjes" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
@@ -157,7 +157,7 @@
                     <asp:BoundField DataField="NemotecnicoEntrante" HeaderText="Nemotécnico Entrante" />
                     <asp:BoundField DataField="NombreSerieEntrante" HeaderText="Serie Entrante" />
                     <asp:BoundField DataField="MonedaEntrante" HeaderText="Moneda Serie Entrante" />
-                    <asp:BoundField DataField="cuotaEntrantePaso" HeaderText="Cuotas Entrantes" DataFormatString="{0:N6}" ItemStyle-HorizontalAlign="Right" />
+                    <asp:BoundField DataField="cuotaEntrantePaso" HeaderText="Cuotas Entrantes" DataFormatString="{0:N0}" ItemStyle-HorizontalAlign="Right" />
                     <asp:BoundField DataField="NavEntranteFormat" HeaderText="Nav Entrante" DataFormatString="{0:N6}" ItemStyle-HorizontalAlign="Right" />
                     <asp:BoundField DataField="MontoEntrantePaso" HeaderText="Monto Entrante" DataFormatString="{0:N2}" ItemStyle-HorizontalAlign="Right" />
                     <asp:BoundField DataField="NavCLPEntranteFormat" HeaderText="Nav CLP Entrante" DataFormatString="{0:N4}" ItemStyle-HorizontalAlign="Right" />

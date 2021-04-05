@@ -1,11 +1,10 @@
-﻿<%@ Page Title="" Language="VB" MasterPageFile="~/Site.master" AutoEventWireup="false" CodeFile="frmMantenedorRescates.aspx.vb" Inherits="Presentacion_Mantenedores_frmMantenedorRescates" %>
+﻿<%@ Page Title="Maestro de Rescates" Language="VB" MasterPageFile="~/Site.master" AutoEventWireup="false" CodeFile="frmMantenedorRescates.aspx.vb" Inherits="Presentacion_Mantenedores_frmMantenedorRescates" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
     <h2 class="TdRedondeado titleMant">Maestro de <strong>Rescates</strong></h2>
-
 
     <div class="card p-4 jumbotron">
 
