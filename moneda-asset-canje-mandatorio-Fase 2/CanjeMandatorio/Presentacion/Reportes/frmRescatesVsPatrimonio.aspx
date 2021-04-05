@@ -51,7 +51,8 @@
                 </div> 
                 <asp:Label runat="server" ID="Label3">&nbsp;</asp:Label>
                 <div class="input-group">
-                    <asp:Button ID="btnGenerarInforme" Text="Generar Informe" class="btn btn-moneda" runat="server"/>
+                    <asp:Button ID="btnGenerarInforme" Text="Generar Informe" class="btn btn-moneda" runat="server"
+                        OnClientClick="return deshabilitaBoton();" />
                 </div>
 
             </div>
@@ -159,7 +160,15 @@
          $(".js-select2-rut").select2({
                 templateResult: formatState,
                 placeholder: 'Selecciona una opción'
-            });
+        });
+
+        function deshabilitaBoton() {
+            var btn = $("#<%=btnGenerarInforme.ClientID %>");
+            btn.hide(); 
+
+            return true; 
+        }
+
     </script>
 
 </asp:Content>
