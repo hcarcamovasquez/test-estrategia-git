@@ -1322,7 +1322,6 @@
                 $('#myModal').modal('show');
             } else if (txtHiddenAccion == "POPUPSUSCRIPCIONES") {
                 $('#PopUpSuscripciones').modal('show');
-                $('#<%=txtAccionHidden.ClientID %>').val("");
             }else if (txtHiddenAccion == "MOSTRAR_DIALOGO") {
                 $('#myModalmg').modal();
             } else {
