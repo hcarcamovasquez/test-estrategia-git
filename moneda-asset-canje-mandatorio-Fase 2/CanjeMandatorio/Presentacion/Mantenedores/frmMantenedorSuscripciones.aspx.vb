@@ -149,8 +149,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
 
             If txtIdSuscripcion.Text > 0 Then
                 'Ingresado con éxito
-                ShowAlert(CONST_EXITO_AL_GUARDAR)
+
                 GenerarPopUp()
+                ShowAlert(CONST_EXITO_AL_GUARDAR)
             Else
                 'Error en la BBDD
                 ShowAlert(CONST_ERROR_AL_GUARDAR)

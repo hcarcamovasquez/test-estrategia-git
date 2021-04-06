@@ -418,7 +418,15 @@ Public Class WSFijacion
             .ID = dataRow("ID")
             .FechaNav = dataRow("Fecha_Nav").ToString().Trim()
             .FechaTCObs = dataRow("FechaTC").ToString().Trim()
-            .fechaPago = dataRow("Fecha_Pago").ToString().Trim()
+
+            '.fechaPago = dataRow("Fecha_Pago").ToString().Trim()
+
+            If dataRow("fecha_pago").ToString().Trim() = "" Then
+                .fechaPago = Nothing
+            Else
+                .fechaPago = dataRow("fecha_pago").ToString().Trim()
+            End If
+
             .ApRut = dataRow("AP_RUT")
             .ApMultifondo = dataRow("AP_Multifondo").ToString().Trim()
             .Nemotecnico = dataRow("Nemotecnico").ToString().Trim()
@@ -441,7 +449,11 @@ Public Class WSFijacion
             .FijacionTCObservado = dataRow("Fijacion_TCObservado").ToString().Trim()
             .Observaciones = dataRow("Observaciones").ToString().Trim()
             .Estados = dataRow("Estados").ToString().Trim()
-            .fechaPago = dataRow("fecha_pago").ToString().Trim()
+            If dataRow("fecha_pago").ToString().Trim() = "" Then
+                '.fechaPago = Nothing
+            Else
+                .fechaPago = dataRow("fecha_pago").ToString().Trim()
+            End If
             .TC_OBSERVADO = dataRow("tc_observado").ToString().Trim()
             .NAV_FIJADO = dataRow("NAV_FIJADO").ToString().Trim()
             .MonedaPago = dataRow("Moneda_Pago").ToString().Trim()
