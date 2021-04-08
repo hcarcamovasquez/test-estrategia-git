@@ -150,8 +150,9 @@ Public Class WSVentanasRescate
 
         Try
             ' ---TODO Data prueba---
-            sp.AgregarParametro("Accion", "SELECT_BY_NOM_NEMO", System.Data.SqlDbType.VarChar)
+            sp.AgregarParametro("Accion", "TRAER_MONEDA_FONDO", System.Data.SqlDbType.VarChar)
             sp.AgregarParametro("FN_Nombre_Corto", ventanaRescate.FN_Nombre_Corto, System.Data.SqlDbType.VarChar)
+            sp.AgregarParametro("FS_Nemotecnico", ventanaRescate.FS_Nemotecnico, System.Data.SqlDbType.VarChar)
 
             ds = sp.ReturnDataSet()
 

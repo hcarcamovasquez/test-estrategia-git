@@ -62,19 +62,29 @@ Public Class AportanteNegocio
     End Function
 
     Public Function UpdateAportante(Aportante As AportanteDTO) As Integer
-        Dim RelacionExite As Boolean = BuscarRelacionAportante(Aportante)
+        ' Se elimnina la verificacion de que el aportante se encuentre en la tabla Grupo De Aportantes para modificar
+        'Dim RelacionExite As Boolean = BuscarRelacionAportante(Aportante)
+        'Dim Result As Integer
+        'If RelacionExite Then
+        '    Return 1
+        'Else
+        '    Result = Datos.UpdateAportante(Aportante)
+        'End If
         Dim Result As Integer
-        If RelacionExite Then
-            Return 1
-        Else
+        Try
             Result = Datos.UpdateAportante(Aportante)
-        End If
 
-        If Result = Constantes.CONST_OPERACION_EXITOSA Then
-            Return Constantes.CONST_OPERACION_EXITOSA
-        Else
-            Return Constantes.CONST_ERROR_BBDD
-        End If
+            If Result = Constantes.CONST_OPERACION_EXITOSA Then
+                Return Constantes.CONST_OPERACION_EXITOSA
+            Else
+                Return Constantes.CONST_ERROR_BBDD
+            End If
+        Catch
+            Return -1
+        Finally
+
+        End Try
+
         Return (Result >= 0)
     End Function
 

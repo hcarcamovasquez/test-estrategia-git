@@ -1150,6 +1150,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
         txtModalFechaPago.Text = Request.Form(txtModalFechaPago.UniqueID)
 
         ventanaRescate.FN_Nombre_Corto = ddlModalNombreFondo.SelectedValue
+        ventanaRescate.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
 
         monedaFondo = Negocio.TraerMonedaDelFondo(ventanaRescate)
         boolEsHabil = Utiles.esFechaHabil(monedaFondo, txtModalFechaPago.Text)
