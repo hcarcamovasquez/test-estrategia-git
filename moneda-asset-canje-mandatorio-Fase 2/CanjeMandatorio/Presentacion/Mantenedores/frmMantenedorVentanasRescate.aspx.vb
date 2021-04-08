@@ -2,6 +2,8 @@
 Imports System.Reflection
 Imports DTO
 Imports Negocio
+Imports DBSUtils
+
 Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
     Inherits System.Web.UI.Page
     Private listaCarga As Object
@@ -143,6 +145,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
         GrvTabla.DataSource = Nothing
         GrvTabla.DataBind()
         Session("lista") = Nothing
+
+        lblMensaje.Text = ""
+
     End Sub
 #End Region
 
@@ -763,6 +768,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
         lnkBtnModalBorrarFechaNAV.Visible = True
         lnkBtnModalFechaPago.Visible = True
         lnkBtnModalBorrarFechaPago.Visible = True
+        lblMensaje.Text = ""
 
         lblModalTitle.Text = CONST_TITULO_MODAL_MODIFICAR
     End Sub
@@ -1136,25 +1142,45 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
 #End Region
     Protected Sub txtModalFechaPago_TextChanged(sender As Object, e As EventArgs) Handles txtModalFechaPago.TextChanged
         Dim Negocio As VentanasRescateNegocio = New VentanasRescateNegocio
-        Dim FechaValidar As String
+        Dim ventanaRescate As VentanasRescateDTO = New VentanasRescateDTO()
+
+        Dim monedaFondo As String
+        Dim boolEsHabil As Boolean
 
         txtModalFechaPago.Text = Request.Form(txtModalFechaPago.UniqueID)
-        FechaValidar = Negocio.ValidaDiaHabil(txtModalFechaPago.Text)
 
-        If FechaValidar = "Festivo" Then
+        ventanaRescate.FN_Nombre_Corto = ddlModalNombreFondo.SelectedValue
+
+        monedaFondo = Negocio.TraerMonedaDelFondo(ventanaRescate)
+        boolEsHabil = Utiles.esFechaHabil(monedaFondo, txtModalFechaPago.Text)
+
+        If Not boolEsHabil Then
             txtModalFechaPago.Text = ""
+            lblMensaje.Text = "El día seleccionado es No Hábil"
             ShowAlert("El día seleccionado es No Hábil")
-            txtModalFechaPago.Text = ""
-            Return
+        Else
+            lblMensaje.Text = ""
         End If
 
-        If FechaValidar = "No_Habil" Then
-            txtModalFechaPago.Text = ""
-            ShowAlert("El día seleccionado es No Hábil")
-            txtModalFechaPago.Text = ""
-            Return
-        End If
+
+
+        'FechaValidar = Negocio.ValidaDiaHabil(txtModalFechaPago.Text)
+
+        'If FechaValidar = "Festivo" Then
+        '    txtModalFechaPago.Text = ""
+        '    ShowAlert("El día seleccionado es No Hábil")
+        '    txtModalFechaPago.Text = ""
+        '    Return
+        'End If
+
+        'If FechaValidar = "No_Habil" Then
+        '    txtModalFechaPago.Text = ""
+        '    ShowAlert("El día seleccionado es No Hábil")
+        '    txtModalFechaPago.Text = ""
+        '    Return
+        'End If
     End Sub
+
     Protected Sub txtModalFechaNAV_TextChanged(sender As Object, e As EventArgs) Handles txtModalFechaNAV.TextChanged
         Dim Negocio As VentanasRescateNegocio = New VentanasRescateNegocio
         txtModalFechaNAV.Text = Request.Form(txtModalFechaNAV.UniqueID)

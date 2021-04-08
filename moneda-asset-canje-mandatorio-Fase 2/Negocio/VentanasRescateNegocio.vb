@@ -14,6 +14,8 @@ Public Class VentanasRescateNegocio
     Public Const CONST_MENSAJE_EXCEL_GUARDADO As String = "Excel Guardado de forma Exitosa"
     Public Const CONST_MENSAJE_EXCEL_ERROR As String = "Error al Guardar Excel"
 
+
+
     Public Function ConsultarNombreFondo(VentanasRescate As VentanasRescateDTO) As List(Of VentanasRescateDTO)
         Return Datos.ConsultarNombreFondo(VentanasRescate)
     End Function
@@ -206,5 +208,10 @@ Public Class VentanasRescateNegocio
             Return True
         End If
         Return False
+    End Function
+
+    Public Function TraerMonedaDelFondo(ventanaRescate As VentanasRescateDTO) As String
+        Dim VentanasRescateDatos As New Datos.VentanasRescateDatos
+        Return VentanasRescateDatos.TraerMonedaDelFondo(ventanaRescate)
     End Function
 End Class

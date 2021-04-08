@@ -202,28 +202,36 @@
                                             </asp:UpdatePanel>
                                         </div>
                                     </div>
-
-                                    <div class="row mt-3">
-                                        <div class="col-md-5">
-                                            <label class="form-control-label">Fecha Pago</label>
-                                        </div>
-                                        <div class="col-md-7">
-                                            <asp:UpdatePanel runat="server" ID="UpdatePanel4" UpdateMode="Conditional">
-                                                <Triggers>
-                                                    <asp:AsyncPostBackTrigger ControlID="lnkBtnModalFechaPago" EventName="Click" />
-                                                    <%--<asp:AsyncPostBackTrigger ControlID="RowSelector" EventName="OnCheckedChanged" />--%>
-                                                </Triggers>
-                                                <ContentTemplate>
-                                                    <div class="input-group">
-                                                    <asp:TextBox ID="txtModalFechaPago" runat="server" CssClass="form-control datepicker" enabled="false"></asp:TextBox>
-                                                    <asp:LinkButton ID="lnkBtnModalFechaPago" Class="btn btn-moneda" runat="server" OnClientClick="return clickCalendar('txtModalFechaPago')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
-                                                    <asp:LinkButton ID="lnkBtnModalBorrarFechaPago" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtModalFechaPago')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
-                                                  
+                                    <asp:UpdatePanel runat="server" ID="UpdatePanel4" UpdateMode="Conditional">
+                                        <Triggers>
+                                            <asp:AsyncPostBackTrigger ControlID="lnkBtnModalFechaPago" EventName="Click" />
+                                            <%--<asp:AsyncPostBackTrigger ControlID="RowSelector" EventName="OnCheckedChanged" />--%>
+                                        </Triggers>
+                                        <ContentTemplate>
+                                            <div class="row mt-3">
+                                                <div class="col-md-5">
+                                                    <label class="form-control-label">Fecha Pago</label>
                                                 </div>
-                                                </ContentTemplate>
-                                            </asp:UpdatePanel>
-                                        </div>
-                                    </div>
+                                                <div class="col-md-7">
+
+                                                    <div class="input-group">
+                                                        <asp:TextBox ID="txtModalFechaPago" runat="server" CssClass="form-control datepicker" Enabled="false" AutoPostBack="true" onchange="textoCambia();"></asp:TextBox>
+                                                        <asp:LinkButton ID="lnkBtnModalFechaPago" Class="btn btn-moneda" runat="server" OnClientClick="return clickCalendar('txtModalFechaPago')"><i class="far fa-calendar-alt"></i></asp:LinkButton>
+                                                        <asp:LinkButton ID="lnkBtnModalBorrarFechaPago" Text="" class="btn btn-secondary ml-1" OnClientClick="return limpiarCalendar('txtModalFechaPago')" runat="server"><i class="far fa-trash-alt"></i></asp:LinkButton>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-5">
+                                                    <label class="form-control-label"></label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <asp:Label ID="lblMensaje" CssClass="" runat="server" ForeColor="Red"></asp:Label>
+                                                </div>
+                                            </div>
+
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
                                     <!-- FIN FORMULARIO -->
                                     <asp:HiddenField ID="txtEstadoCambio" runat="server"></asp:HiddenField>
                                     <asp:HiddenField ID="txtControlesHidden" runat="server" />
@@ -375,9 +383,13 @@
             $("[id*=txtModalFechaPago]").datepicker({
                 container: '#myModal modal-body'
                 , showOn: "none"
+                
             });
         };
-
+        function textoCambia() {
+             var table = $('.dataTable').DataTable(); 
+                table.destroy();
+        }
 
         $(document).ready(function () {
             //checkGrilla();

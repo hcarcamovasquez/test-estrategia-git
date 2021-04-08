@@ -138,4 +138,9 @@ Public Class VentanasRescateDatos
         End If
 
     End Function
+
+    Public Function TraerMonedaDelFondo(ventanaRescate As VentanasRescateDTO) As String
+        Dim Ws = New WSCanjeMandatorio.WSVentanasRescate()
+        Return Ws.TraerMonedaDelFondo(ventanaRescate)
+    End Function
 End Class

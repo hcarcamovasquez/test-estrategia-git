@@ -142,6 +142,34 @@ Public Class WSVentanasRescate
 
     <WebMethod()>
     <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
+    Public Function TraerMonedaDelFondo(ventanaRescate As VentanasRescateDTO) As String
+        Dim returnMoneda As String = ""
+
+        Dim sp As New DBSqlServer.SqlServer.StoredProcedure(SP_CRUD)
+        Dim ds As DataSet
+
+        Try
+            ' ---TODO Data prueba---
+            sp.AgregarParametro("Accion", "SELECT_BY_NOM_NEMO", System.Data.SqlDbType.VarChar)
+            sp.AgregarParametro("FN_Nombre_Corto", ventanaRescate.FN_Nombre_Corto, System.Data.SqlDbType.VarChar)
+
+            ds = sp.ReturnDataSet()
+
+            If ds.Tables.Count() > 0 AndAlso ds.Tables(0).Rows.Count() > 0 Then
+                Dim dataRow As DataRow
+                dataRow = ds.Tables(0).Rows(0)
+                returnMoneda = dataRow("FS_MONEDA")
+            End If
+
+        Catch ex As Exception
+            Return returnMoneda
+        End Try
+
+        Return returnMoneda
+    End Function
+
+    <WebMethod()>
+    <ScriptMethod(UseHttpGet:=False, ResponseFormat:=ResponseFormat.Json)>
     Public Function ConsultarPorNombreFondo_Nemotecnico(VentanasRescate As VentanasRescateDTO) As List(Of VentanasRescateDTO)
         Dim listaVentanasRescate As List(Of VentanasRescateDTO) = New List(Of VentanasRescateDTO)
         Dim sp As New DBSqlServer.SqlServer.StoredProcedure(SP_CRUD)
