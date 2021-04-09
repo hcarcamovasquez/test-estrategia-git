@@ -592,6 +592,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
                 FechaNAV = row.Cells(5).Text.Trim()
                 FechaPago = row.Cells(6).Text.Trim()
 
+                VentanasRescateModif = New VentanasRescateDTO()
+
                 VentanasRescateModif.VTRES_ID = ID
                 VentanasRescateModif.FN_Nombre_Corto = Fondo
                 VentanasRescateModif.FS_Nemotecnico = Nemotecnico
@@ -1163,23 +1165,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorVentanasRescate
             lblMensaje.Text = ""
         End If
 
-
-
-        'FechaValidar = Negocio.ValidaDiaHabil(txtModalFechaPago.Text)
-
-        'If FechaValidar = "Festivo" Then
-        '    txtModalFechaPago.Text = ""
-        '    ShowAlert("El día seleccionado es No Hábil")
-        '    txtModalFechaPago.Text = ""
-        '    Return
-        'End If
-
-        'If FechaValidar = "No_Habil" Then
-        '    txtModalFechaPago.Text = ""
-        '    ShowAlert("El día seleccionado es No Hábil")
-        '    txtModalFechaPago.Text = ""
-        '    Return
-        'End If
     End Sub
 
     Protected Sub txtModalFechaNAV_TextChanged(sender As Object, e As EventArgs) Handles txtModalFechaNAV.TextChanged
