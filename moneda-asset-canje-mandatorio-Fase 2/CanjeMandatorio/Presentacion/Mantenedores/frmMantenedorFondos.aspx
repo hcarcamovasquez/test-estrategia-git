@@ -45,11 +45,11 @@
         <!-- BOTÓN BUSCAR -->
         <div class="row text-center mt-5 p-3 border-bottom">
             <div class="col-md-12">
-                <asp:Button ID="BtnBuscar" Text="Buscar" class="btn btn-moneda" runat="server" OnClick="BtnBuscar_Click" />
-                <asp:Button ID="btnLimpiarFrm" Text="Borrar" class="btn btn-secondary" runat="server" OnClick="btnLimpiarFrm_Click" />
+                <asp:Button ID="BtnBuscar" Text="Buscar" class="btn btn-moneda" runat="server" OnClick="BtnBuscar_Click" CausesValidation="false" />
+                <asp:Button ID="btnLimpiarFrm" Text="Borrar" class="btn btn-secondary" runat="server" OnClick="btnLimpiarFrm_Click" CausesValidation="false" />
 
                 <!-- BOTÓN CREAR -->
-                <asp:Button ID="btnCrear" Text="Crear" class="btn btn-info" runat="server" />
+                <asp:Button ID="btnCrear" Text="Crear" class="btn btn-info" runat="server" CausesValidation="false" />
             </div>
         </div>
 
@@ -94,9 +94,9 @@
 
         <div class="row mt-4">
             <div class="col-md-12 text-center">
-                <asp:Button ID="BtnModificar" runat="server" class="btn btn-info btn-primary" Text="Modificar" OnClick="BtnModificar_Click" Enabled="false"></asp:Button>
-                <asp:Button ID="BtnEliminar" runat="server" class="btn btn-danger" Text="Eliminar" OnClientClick="if (!confirm('¿Seguro que desea Eliminar los elementos seleccionados?')) return false;" Enabled="false"></asp:Button>
-                <asp:Button ID="BtnExportar" class="btn btn-success" Text="Exportar" runat="server" Enabled="false" />
+                <asp:Button ID="BtnModificar" runat="server" class="btn btn-info btn-primary" Text="Modificar" OnClick="BtnModificar_Click" Enabled="false" CausesValidation="false"></asp:Button>
+                <asp:Button ID="BtnEliminar" runat="server" class="btn btn-danger" Text="Eliminar" OnClientClick="if (!confirm('¿Seguro que desea Eliminar los elementos seleccionados?')) return false;" Enabled="false" CausesValidation="false"></asp:Button>
+                <asp:Button ID="BtnExportar" class="btn btn-success" Text="Exportar" runat="server" Enabled="false" CausesValidation="false" />
             </div>
             <div class="col-md-2">
                 <asp:Button ID="btnVolver" runat="server" Width="125px" class="btn btn-secondary" Text="Volver" OnClientClick="return volver();" Visible="False"></asp:Button>
@@ -223,7 +223,7 @@
                                 </div>
                                 <div class="col-xs-2 col-md-2">
                                     <div class="input-group">
-                                        <asp:TextBox ID="txtControlDiasAVerificar" runat="server" MaxLength="2" CssClass="form-control dbs-entero"></asp:TextBox>
+                                        <asp:TextBox ID="txtControlDiasAVerificar" runat="server" MaxLength="2" CssClass="form-control dbs-entero" ></asp:TextBox>
                                         <asp:RangeValidator ID="rangeDiasAVerificar" runat="server" ControlToValidate="txtControlDiasAVerificar" ErrorMessage="El valor debe estar entre 0 y 30 días" MaximumValue="30" MinimumValue="0" Type="Integer"></asp:RangeValidator>
                                     </div>
                                 </div>
@@ -252,8 +252,8 @@
                                 <div class="col-md-offset-1">
                                     <asp:Button ID="btnModalGuardarModificar" Text="Guardar" CssClass="btn btn-info" runat="server" OnClientClick="return validateBtn();"></asp:Button>
                                     <asp:Button ID="btnModalGuardarCrear" Text="Guardar" CssClass="btn btn-info" runat="server" OnClientClick="return validateBtn();"></asp:Button>
-                                    <asp:Button ID="btnModalCancelar" Text="Cancelar" CssClass="btn btn-secondary" runat="server" OnClientClick="if (!confirm('¿Seguro que desea Cancelar?')) return false;"></asp:Button>
-                                    <asp:Button ID="btnModalEliminarGrupo" Text="Eliminar" runat="server" class="btn btn-danger" Width="15%" OnClientClick="if (!confirm('¿Seguro que desea Eliminar los elementos seleccionados?')) return false;"></asp:Button>
+                                    <asp:Button ID="btnModalCancelar" Text="Cancelar" CssClass="btn btn-secondary" runat="server" CausesValidation="false"></asp:Button>
+                                    <asp:Button ID="btnModalEliminarGrupo" Text="Eliminar" runat="server" class="btn btn-danger" Width="15%" OnClientClick="if (!confirm('¿Seguro que desea Eliminar los elementos seleccionados?')) return false;" CausesValidation="false"></asp:Button>
                                 </div>
                             </div>
                             <!-- FIN GRUPO DE BOTONES 2 -->
@@ -379,20 +379,33 @@
                 , showOn: "none"
             });
 
-
+            seteaBotonCancelar();
 
         });
+
+        function seteaBotonCancelar() {
+            $("#<%=btnModalCancelar.ClientID %>").unbind("click");
+            $("#<%=btnModalCancelar.ClientID %>").click(function () {
+   
+                if (!confirm('¿Seguro que desea Cancelar?')) {
+                    return false;
+                }
+                else {
+                    //Presiona boton aceptar
+                    return true;
+                }
+            });
+        }
 
 
         function CambiaEstadosConfiguracion(ddl) {
             var txtCantidadDias = document.getElementById('<%=txtControlCantidadDias.ClientID%>');
             var ckkDiasHabiles = document.getElementById('<%=chkControlDiasHabiles.ClientID%>');
-            var ddlControlTipoControl = document.getElementById('<%=ddlControlTipoControl.ClientID%>');
-            var txtControlDiasAVerificar = document.getElementById('<%=txtControlDiasAVerificar.ClientID%>');
             // Cambiar las cosas de habilitado a desabiitado cuando es prorrata 
             if (ddl.value == "Prorrata") {
+                txtCantidadDias.value = 0
                 txtCantidadDias.disabled = true;
-                ckkDiasHabiles.disabled = true;
+                ckkDiasHabiles.disabled = true;                
                     
             } else {
                 txtCantidadDias.disabled = false;
@@ -403,11 +416,11 @@
 
         function CambiaEstadosTipoControl(ddl) {
             var txtControlDiasAVerificar = document.getElementById('<%=txtControlDiasAVerificar.ClientID%>');
-            var txtControlCantidadDias = document.getElementById('<%=txtControlCantidadDias.ClientID%>');
-            var ckkDiasHabiles = document.getElementById('<%=chkControlDiasHabiles.ClientID%>');
-            var ddlControlTipoDeConfiguracion = document.getElementById('<%=ddlControlTipoDeConfiguracion.ClientID%>');
+            var rangeDiasAVerificar = document.getElementById('<%=rangeDiasAVerificar.ClientID%>');
 
             if (ddl.value == "Ventana") {
+                txtControlDiasAVerificar.value = 0;
+                rangeDiasAVerificar.IsValid = false;
                 txtControlDiasAVerificar.disabled = true;
             } else {
                 txtControlDiasAVerificar.disabled = false;
@@ -545,6 +558,24 @@
                 }
             }
 
+            var dias = ""
+
+            if ($('#<%=txtControlDiasAVerificar.ClientID %>').val() != "") {
+                dias = $('#<%=txtControlDiasAVerificar.ClientID %>').val();
+
+                if (rangoErroneoDeDias(dias)) {
+                    return false;
+                }
+            }
+
+            if ($('#<%=txtControlCantidadDias.ClientID %>').val() != "") {
+                dias = $('#<%=txtControlCantidadDias.ClientID %>').val();
+
+                if (rangoErroneoDeDias(dias)) {
+                    return false;
+                }
+            } 
+
             if ($('#<%=Textbox4.ClientID %>').val() != "") {
                 if (validarValorAcumulado()) {
                     return true;
@@ -584,6 +615,15 @@
             } else {
                 alert('El campo acumulado debe tener el siguiente formato (12 enteros , 6 decimales)');
                 return false;
+            }
+        }
+
+        function rangoErroneoDeDias(diasAVerificar) {            
+            if (diasAVerificar < 0 || diasAVerificar > 30) {
+                msgAlert('El valor de los días Móviles o de Pago debe estar entre 0 y 30 días.');
+                return true;
+            } else {
+                return false;                
             }
         }
 
@@ -706,6 +746,16 @@
             }
             texto.value = valor;
             return true;
+        }
+
+        function validateRange(sender, args) {
+            var cant = document.getElementById('<%=txtControlDiasAVerificar.ClientID%>');
+            if (cant < 0 || cant > 30) {
+                args.IsValid = true;
+            } else {
+                closeLoading();
+                args.IsValid = false;
+            }
         }
 
     </script>

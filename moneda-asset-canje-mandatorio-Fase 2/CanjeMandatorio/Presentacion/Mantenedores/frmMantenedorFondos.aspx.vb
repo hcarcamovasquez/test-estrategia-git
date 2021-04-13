@@ -47,6 +47,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
 
         If Not IsPostBack Then
             DataInitial()
+        Else
+            rangeDiasAVerificar.IsValid = True
+            rangeMessageCantDias.IsValid = True
         End If
 
         ValidaPermisosPerfil()
@@ -217,6 +220,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
         Dim FechaHasta As Nullable(Of Date)
         Dim arrCadena As String() = ddlRutFondo.SelectedItem.Text().Split(New Char() {"/"c})
 
+        rangeDiasAVerificar.IsValid = True
+        rangeMessageCantDias.IsValid = True
+
         If ddlRutFondo.SelectedIndex > 0 Then
             fondo.Rut = arrCadena(0).Trim()
             fondo.RazonSocial = arrCadena(1).Trim()
@@ -249,6 +255,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
 
         ShowMesagges(CONST_TITULO_FONDO, mensaje, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_LOGO, Constantes.CONST_RUTA_IMG + Constantes.CONST_IMG_INFO, False)
     End Sub
+
     Private Function ValidaDatos() As Boolean
         Dim retorno As Boolean = False
 
@@ -412,6 +419,10 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
         End If
 
         chkControlCuotas.Checked = fondo.ControlCuotas
+        chkControlCuotas.Enabled = True
+        ddlControlTipoDeConfiguracion.Enabled = True
+        ddlControlTipoControl.Enabled = True
+
 
         If fondo.ControlTipoControl <> "" Then
             ddlControlTipoControl.SelectedValue = fondo.ControlTipoControl
@@ -424,12 +435,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
             ddlControlTipoDeConfiguracion.SelectedValue = fondo.ControlTipoDeConfiguracion
         End If
 
-        ' ddlControlTipoControl ( Movil Or Ventana)
-        '       txtControlDiasAVerificar
-
-        ' ddlControlTipoDeConfiguracion ( pAgo o prorrata ) 
-        '       txtControlCantidadDias
-        '       chkControlDiasHabiles
         txtControlCantidadDias.Text = fondo.ControlCantidadDias
         chkControlDiasHabiles.Checked = fondo.ControlDiasHabiles
 
@@ -437,8 +442,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
         chkControlDiasHabiles.Enabled = (fondo.ControlTipoDeConfiguracion.Equals("Pago"))
 
         txtControlDiasAVerificar.Enabled = (fondo.ControlTipoControl.Equals("Movil"))
-        'txtControlCantidadDias.Enabled = (fondo.ControlTipoControl.Equals("Movil"))
-        'chkControlDiasHabiles.Enabled = Not (fondo.ControlTipoControl.Equals("Prorrata"))
+
+        rangeDiasAVerificar.IsValid = True
+        rangeMessageCantDias.IsValid = True
 
     End Sub
 
@@ -486,6 +492,12 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
         LinkButton5.Enabled = False
         Linkbutton6.Enabled = False
 
+        ddlControlTipoControl.Enabled = False
+        txtControlDiasAVerificar.Enabled = False
+        ddlControlTipoDeConfiguracion.Enabled = False
+        txtControlCantidadDias.Enabled = False
+        chkControlDiasHabiles.Enabled = False
+
         lblModalTitulo.Text = CONST_TITULO_MODAL_ElIMINAR
     End Sub
 
@@ -530,6 +542,13 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
         ddlControlTipoDeConfiguracion.SelectedValue = ""
         txtControlCantidadDias.Text = ""
         chkControlDiasHabiles.Checked = False
+
+        rangeDiasAVerificar.IsValid = True
+        rangeMessageCantDias.IsValid = True
+
+        chkControlCuotas.Enabled = True
+        ddlControlTipoDeConfiguracion.Enabled = True
+        ddlControlTipoControl.Enabled = True
 
     End Sub
 
@@ -581,10 +600,16 @@ Partial Class Presentacion_Mantenedores_frmMantenedorFondos
 
     Protected Sub btnVolver_Click(sender As Object, e As EventArgs) Handles btnVolver.Click
         Response.Redirect("~/blank.aspx")
+
+        rangeDiasAVerificar.IsValid = True
+        rangeMessageCantDias.IsValid = True
     End Sub
 
     Private Sub btnModalCancelar_Click(sender As Object, e As EventArgs) Handles btnModalCancelar.Click
         txtHiddenAccion.Value = ""
+
+        rangeDiasAVerificar.IsValid = True
+        rangeMessageCantDias.IsValid = True
     End Sub
 
     Private Sub ShowAlert(mesagge As String)
