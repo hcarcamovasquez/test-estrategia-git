@@ -839,7 +839,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                 'txtModalFechaPago.Text = NegocioRescate.SelectFechaPagoSIRescatable(FechaPagoFondoRescatableINT, FechaCalculo, 0)
                 txtModalFechaPago.Text = Utiles.SumaDiasAFechas(ddlModalMonedaPago.Text, FechaCalculo, FechaPagoFondoRescatableINT, Constantes.CONST_SOLO_DIAS_HABILES)
 
-                'txtModalFechaPago.Text = Utiles.getDiaHabilSiguiente(txtModalFechaPago.Text, ddlModalMonedaPago.Text)
+                'tModalFechaPago.Text = Utiles.getDiaHabilSiguiente(txtModalFechaPago.Text, ddlModalMonedaPago.Text)
 
                 txtModalFechaPago.Text = CDate(txtModalFechaPago.Text).ToString("dd/MM/yyyy")
                 FechaPago = txtModalFechaPago.Text
@@ -1893,8 +1893,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         If (resultadoCalculo) Then
             If (fondo.ControlTipoDeConfiguracion = "Pago") Then
                 If (fondo.ControlTipoControl = "Movil") Then
-                    txtModalFechaSolicitud.Text = Utiles.SumaDiasAFechas(rescate.FS_Moneda, rescate.RES_Fecha_Solicitud, fondo.ControlCantidadDias, IIf(fondo.ControlDiasHabiles = 0, 0, 1)).ToString("dd/MM/yyyy")
-                    CargarTodoCuandoCambiaFechaSolicitud()
+                    txtModalFechaPago.Text = Utiles.SumaDiasAFechas(rescate.FS_Moneda, txtModalFechaPago.Text, fondo.ControlCantidadDias, IIf(fondo.ControlDiasHabiles = 0, 0, 1)).ToString("dd/MM/yyyy")
+                    CargarTodoCuandoCambiaFechaSolicitud(False) ' al enviar False no recalcula fecha de pago
                 ElseIf (fondo.ControlTipoControl = "Ventana") Then
                     'TODO: OBTENER FECHA SOLICITUD DE LA SIGUIETNE VENTANA
                     'Y ESTABLECERLO COMO FECHA DE SOLICITUD EN TextBoxFechaSolicitud Y REALIZAR TODOS LOS CAMBIOS QUE IMPLICA EL CHANGE DE CAMBIO DE FECHA DE SOLICITUD
@@ -1908,7 +1908,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                     End If
                 End If
 
-                ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA + "Se cambió la Fecha de Solicitud")
+                ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA + "Se cambió la Fecha de Pago")
 
                 rescate.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
                 resultado = negocioRescate.ControlMontoRescateVsPatrimonio(rescate, fondo).Split(",")
@@ -3061,7 +3061,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
     End Sub
 
-    Public Sub CargarTodoCuandoCambiaFechaSolicitud()
+    Public Sub CargarTodoCuandoCambiaFechaSolicitud(Optional recalcularFechaPago As Boolean = True)
         Session("TipodeCalculoTC") = "ActivaRutNombreNemotecnico"
         Dim NegocioFondoSerie As FondoSeriesNegocio = New FondoSeriesNegocio
         Dim NegocioRescate As RescateNegocio = New RescateNegocio
@@ -3307,8 +3307,15 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             If FechaPagoFondoRescatable.Length > 1 Then
                 TipoFechaAñadirPago = FechaPagoFondoRescatable.Substring(5, 2)
 
-                FechaCalculo = getFechaParaCalculo(TipoFechaAñadirPago, FechaSolicitud, FechaPago, FechaNAV, FechaTC)
-                FechaPagoFondoRescatableINT = getDiasParaDesplazar(FechaPagoFondoRescatable)
+                If recalcularFechaPago Then
+                    FechaCalculo = getFechaParaCalculo(TipoFechaAñadirPago, FechaSolicitud, FechaPago, FechaNAV, FechaTC)
+                    FechaPagoFondoRescatableINT = getDiasParaDesplazar(FechaPagoFondoRescatable)
+                Else
+                    FechaCalculo = FechaPago
+                    FechaPagoFondoRescatableINT = 0
+                End If
+
+
 
                 'FECHA PAGO DIAS HABILES
 
@@ -3381,19 +3388,19 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                 End If
             End If
         ElseIf FondoRescatable = "N/A" Then
-                txtModalFechaNAV.Text = ""
-                txtModalFechaPago.Text = ""
-                txtModalFechaTCObs.Text = ""
+            txtModalFechaNAV.Text = ""
+            txtModalFechaPago.Text = ""
+            txtModalFechaTCObs.Text = ""
 
-                txtModalFechaNAV.Enabled = False
-                txtModalFechaTCObs.Enabled = False
-                txtModalFechaPago.Enabled = False
-                lnkBtnModalFechaNAV.Visible = True
-                lnkModalFechaSolicitud.Visible = True
-                lnkBtnModalFechaPago.Visible = True
-                lnkBtnModalFechaTCObs.Enabled = True
-            Else
-                txtModalFechaNAV.Text = ""
+            txtModalFechaNAV.Enabled = False
+            txtModalFechaTCObs.Enabled = False
+            txtModalFechaPago.Enabled = False
+            lnkBtnModalFechaNAV.Visible = True
+            lnkModalFechaSolicitud.Visible = True
+            lnkBtnModalFechaPago.Visible = True
+            lnkBtnModalFechaTCObs.Enabled = True
+        Else
+            txtModalFechaNAV.Text = ""
             txtModalFechaPago.Text = ""
 
             txtModalFechaNAV.Enabled = False

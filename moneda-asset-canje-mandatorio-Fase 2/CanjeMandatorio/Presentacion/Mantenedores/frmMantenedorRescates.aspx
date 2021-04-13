@@ -293,6 +293,7 @@
                                                         <Triggers>
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutAportante" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalMultifondo" EventName="SelectedIndexChanged" />
+                                                            
                                                         </Triggers>
                                                         <ContentTemplate>
                                                             <asp:DropDownList ID="ddlModalNombreAportante" CssClass="form-control js-select2-rut" runat="server" OnSelectedIndexChanged="CargarRutAportanteNemotecnicoPorNombreAportanteModal" AutoPostBack="true" />
@@ -366,6 +367,8 @@
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalRutFondo" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNombreFondo" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalNemotecnico" EventName="SelectedIndexChanged" />
+                                                            <asp:AsyncPostBackTrigger ControlID="txtModalFechaPago" EventName="TextChanged" />
+                                                            
                                                         </Triggers>
                                                         <ContentTemplate>
                                                             <asp:DropDownList ID="ddlModalMonedaPago" CssClass="form-control js-select2-rut" runat="server" AutoPostBack="true">
@@ -466,6 +469,11 @@
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalFechaSolicitud" EventName="TextChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="ddlModalMonedaPago" EventName="SelectedIndexChanged" />
                                                             <asp:AsyncPostBackTrigger ControlID="txtModalCuota" EventName="TextChanged" />
+                                                            <asp:AsyncPostBackTrigger ControlID="ddlModalRutAportante" EventName="SelectedIndexChanged" />
+                                                            <asp:AsyncPostBackTrigger ControlID="ddlModalNombreAportante" EventName="SelectedIndexChanged" />
+                                                            <asp:AsyncPostBackTrigger ControlID="txtModalMonto" EventName="TextChanged" />
+                                                            
+                                                            
                                                         </Triggers>
                                                         <ContentTemplate>
                                                             <div class="input-group">
