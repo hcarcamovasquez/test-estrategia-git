@@ -1852,7 +1852,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         End If
     End Sub
 
-    Private Function ControlMontoRescateVsPatrimonio() As Boolean
+    Private Function ControlMontoRescateVsPatrimonio(Optional button As Boolean = False) As Boolean
         Dim rescate As RescatesDTO = New RescatesDTO()
         Dim negocioRescate As RescateNegocio = New RescateNegocio
         Dim fondo As FondoDTO = New FondoDTO()
@@ -1908,7 +1908,10 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                     End If
                 End If
 
-                ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA + "Se cambió la Fecha de Pago")
+                If Not button Then
+                    ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA + "Se cambió la Fecha de Pago")
+                End If
+
 
                 rescate.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
                 resultado = negocioRescate.ControlMontoRescateVsPatrimonio(rescate, fondo).Split(",")
@@ -2107,7 +2110,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             Return
         End If
 
-        ControlMontoRescateVsPatrimonio()
+        ControlMontoRescateVsPatrimonio(True) 'presionado dede boton, no muestra alerta
 
         Dim negocioIns As RescateNegocio = New RescateNegocio
         Dim Rescate As RescatesDTO = GetRescateModal()
@@ -2653,7 +2656,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             Return
         End If
 
-        ControlMontoRescateVsPatrimonio()
+        ControlMontoRescateVsPatrimonio(True) 'presionado dede boton, no muestra alerta
 
         'MODIFICAR
         Dim negocioMod As RescateNegocio = New RescateNegocio
