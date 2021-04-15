@@ -288,7 +288,7 @@ Public Class exportarWord
 
     Private Shared Sub setColumnasCanje(document As DocX, fijacion As FijacionDTO)
         Dim fechaDocumento As String
-        fechaDocumento = Date.Now().ToString("yyyy-MM-dd HH:mm")
+        fechaDocumento = Date.Now().ToString("yyyy-MM-dd HH:mm") 'TODO:cambiar por el objeto
 
         With fijacion
             document.ReplaceText("[Columna D]", fechaDocumento)                                 ' Fecha generacion del documento ' TODO (cesar): fecha y hora pide
@@ -332,35 +332,36 @@ Public Class exportarWord
             document.ReplaceText("[Columna D]", "RESCATE")
 
             If fijacion.MonedaPago = "CLP" Then
-                document.ReplaceText("[Columna MNO]", Utiles.formatearNAVCLP(fijacion.ObjRescate.RES_Nav_CLP))    ' Valor Cuota Nav para CLP     
-                document.ReplaceText("[Columna QRS]", Utiles.formatearMontoCLP(fijacion.ObjRescate.RES_Monto_CLP))  ' Monto en la moneda de la transaccion
+                document.ReplaceText("[Columna MNO]", Utiles.formatearNAVCLP(fijacion.NAV_FIJADO))    ' Valor Cuota Nav para CLP     
+                document.ReplaceText("[Columna QRS]", Utiles.formatearMontoCLP(fijacion.Monto))  ' Monto en la moneda de la transaccion
 
                 'ElseIf fijacion.MonedaPago = "USD" Then
                 '   document.ReplaceText("[Columna MNO]", Utiles.formatearMonto(fijacion.ObjRescate.RES_Nav, fijacion.MonedaPago))        ' Valor Cuota Nav para USD                
                 '  document.ReplaceText("[Columna QRS]", Utiles.formatearMonto(fijacion.Monto, fijacion.MonedaPago))                     ' Monto en la moneda de la transaccion
             Else
-                document.ReplaceText("[Columna MNO]", Utiles.formatearNAV(fijacion.ObjRescate.RES_Nav))        ' Valor Cuota Nav para EUR                
+                document.ReplaceText("[Columna MNO]", Utiles.formatearNAV(fijacion.NAV_FIJADO
+                                                                          ))        ' Valor Cuota Nav para EUR                
                 document.ReplaceText("[Columna QRS]", Utiles.formatearMonto(fijacion.Monto, fijacion.MonedaPago))                     ' Monto en la moneda de la transaccion
             End If
 
-            document.ReplaceText("[Columna L]", Utiles.formateConSeparadorDeMiles(fijacion.ObjRescate.RES_Cuotas, 0))                 ' cantidad de cuotas
+            document.ReplaceText("[Columna L]", Utiles.formateConSeparadorDeMiles(fijacion.Cuotas, 0))                 ' cantidad de cuotas
         Else
             fechaPago = "" + fijacion.ObjSuscripcion.FechaSuscripcion
             horaPago = "" + fijacion.ObjSuscripcion.FechaSuscripcion.ToString("HH:mm")
             document.ReplaceText("[Columna D]", "APORTE")
 
             If fijacion.MonedaPago = "CLP" Then
-                document.ReplaceText("[Columna MNO]", Utiles.formatearNAVCLP(fijacion.ObjSuscripcion.NAVCLP))     ' Valor Cuota Nav para CLP     
-                document.ReplaceText("[Columna QRS]", Utiles.formatearMontoCLP(fijacion.ObjSuscripcion.MontoCLP))   ' Monto en la moneda de la transaccion para CLP
+                document.ReplaceText("[Columna MNO]", Utiles.formatearNAVCLP(fijacion.NAV_FIJADO))     ' Valor Cuota Nav para CLP     
+                document.ReplaceText("[Columna QRS]", Utiles.formatearMontoCLP(fijacion.Monto))   ' Monto en la moneda de la transaccion para CLP
                 'ElseIf fijacion.MonedaPago = "USD" Then
                 '   document.ReplaceText("[Columna MNO]", Utiles.formatearMonto(fijacion.ObjSuscripcion.NAV, fijacion.MonedaPago))        ' Valor Cuota Nav para USD
                 '  document.ReplaceText("[Columna QRS]", Utiles.formatearMonto(fijacion.ObjSuscripcion.Monto, fijacion.MonedaPago))      ' Monto en la moneda de la transaccion para USD
             Else
-                document.ReplaceText("[Columna MNO]", Utiles.formatearNAV(fijacion.ObjSuscripcion.NAV))        ' Valor Cuota Nav para EUR
-                document.ReplaceText("[Columna QRS]", Utiles.formatearMonto(fijacion.ObjSuscripcion.Monto, fijacion.MonedaPago))      ' Monto en la moneda de la transaccion para EUR
+                document.ReplaceText("[Columna MNO]", Utiles.formatearNAV(fijacion.NAV_FIJADO))        ' Valor Cuota Nav para EUR
+                document.ReplaceText("[Columna QRS]", Utiles.formatearMonto(fijacion.Monto, fijacion.MonedaPago))      ' Monto en la moneda de la transaccion para EUR
             End If
 
-            document.ReplaceText("[Columna L]", Utiles.formateConSeparadorDeMiles(fijacion.ObjSuscripcion.CuotasEmitidas, 0))                 ' cantidad de cuotas
+            document.ReplaceText("[Columna L]", Utiles.formateConSeparadorDeMiles(fijacion.Cuotas, 0))                 ' cantidad de cuotas
         End If
 
         document.ReplaceText("[Columna C]", Utiles.FormatodeFecha(Date.Now())) ' Fecha generacion del documento 
@@ -420,6 +421,7 @@ Public Class exportarWord
             End If
 
             document.ReplaceText("[COLUMNA C]", Utiles.FormatodeFecha(Date.Now))         ' Fecha generacion del documento 
+            document.ReplaceText("[COLUMNA Y]", DateAndTime.Now.ToShortTimeString)
             document.ReplaceText("[COLUMNA F]", fijacion.FnNombreCorto)                  ' Nombre de Fondo
             document.ReplaceText("[COLUMNA E]", fijacion.Nemotecnico)                    ' Nombre de la serie
             document.ReplaceText("[COLUMNA H]", fijacion.Rut)                            ' Rut del fondo                        

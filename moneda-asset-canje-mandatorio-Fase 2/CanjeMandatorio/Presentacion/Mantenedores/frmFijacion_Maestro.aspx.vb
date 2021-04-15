@@ -1156,7 +1156,12 @@ Partial Class Presentacion_Mantenedores_frmFijacion_Maestro
         canje.NombreFondo = ddlModalNombreFondoCanje.SelectedValue
         canje.FechaNavSaliente = txtModalFechaNavSaliente.Text
         canje.FechaSolicitud = txtModalFechaSolicitud.Text
-        canje.FechaCanjeDate = txtModalFechaCanje.Text
+        If (txtModalFechaCanje.Text = "") Then
+            canje.FechaCanjeDate = Nothing
+        Else
+            canje.FechaCanjeDate = txtModalFechaCanje.Text
+        End If
+
         canje.FechaObservado = txtModalFechaObservado.Text
         canje.NemotecnicoSaliente = ddlModalNemotecnicoSalienteCanje.SelectedValue
         canje.NombreSerieSaliente = ddlModalSerieSalienteCanje.SelectedValue

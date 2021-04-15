@@ -673,7 +673,10 @@ Public Class WSCanje
         sp.AgregarParametro("CnUsuario", canje.UsuarioIngreso, System.Data.SqlDbType.VarChar)
         sp.AgregarParametro("CnFechaNavEntrante", canje.FechaNavEntrante, System.Data.SqlDbType.Date)
         sp.AgregarParametro("CnTipoCambio", canje.TipoCambio, System.Data.SqlDbType.VarChar)
-        sp.AgregarParametro("cnFechaCanje", canje.FechaCanjeDate, System.Data.SqlDbType.Date)
+        If Not (canje.FechaCanjeDate = Nothing OrElse canje.FechaCanjeDate.ToString("yyyyMMdd").Equals("00010101")) Then
+            sp.AgregarParametro("cnFechaCanje", canje.FechaCanjeDate, System.Data.SqlDbType.Date)
+        End If
+
     End Sub
 
     Private Function fillCanje(datarow As DataRow) As CanjeDTO
