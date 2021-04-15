@@ -1456,44 +1456,12 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         CargarNombreAportantePorRutAportanteModal()
         CargarMultifondoPorRutAportanteModal()
         CargarInfoCuotasDisponibles()
-        'TODO: JOVB y JM ... ver si se debe hacer esta validacion 
 
-        'VALIDA CUOTAS CONTRA CUOTAS DIPONIBLES
-        If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalDisponibles.Text)) Then
-            ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA)
-            txtModalCuota.Text = "0"
-        Else
-            ControlMontoRescateVsPatrimonio()
-        End If
+        ControlMontoRescateVsPatrimonio()
 
         'CARGA LA FECHA Y CUOTA  DCV
         EstablecerDatosDCV()
 
-        CalcularMontoDisponible()
-
-        ''PATRIMONIO UTILIZADO (RESCATES DEL DIA)
-        'Dim RescateHoy As RescatesDTO = New RescatesDTO()
-        'Dim NegocioRescateHoy As RescateNegocio = New RescateNegocio
-        'Dim RescateActualizadoHoy As RescatesDTO = New RescatesDTO()
-
-        'If txtModalFechaSolicitud.Text <> "" Then
-        '    RescateHoy.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
-        'Else
-        '    RescateHoy.RES_Fecha_Solicitud = Nothing
-        'End If
-
-        'RescateHoy.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
-        'RescateHoy.FN_RUT = ddlModalRutFondo.SelectedValue
-        'RescateHoy.AP_RUT = ddlModalRutAportante.SelectedValue
-
-        'RescateActualizadoHoy = NegocioRescateHoy.SelectRescatesHoy(RescateHoy)
-
-        'If RescateActualizadoHoy IsNot Nothing Then
-        '    txtModalUtilizado.Text = Utiles.SetToCapitalizedNumber(RescateActualizadoHoy.RES_Monto)
-        'Else
-        '    txtModalRescates.Text = "0"
-        'End If
-        'txtModalDisponibles.Text = Utiles.SetToCapitalizedNumber(Double.Parse(txtModalRescateMax.Text) - Double.Parse(txtModalUtilizado.Text))
     End Sub
 
     Private Sub CargarNombreAportantePorRutAportanteModal()
@@ -1634,44 +1602,14 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         CargarMultifondoPorNombreAportanteModal()
         CargarInfoCuotasDisponibles()
 
-        'VALIDA CUOTAS CONTRA CUOTAS DIPONIBLES
-        If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalDisponibles.Text)) Then
-            ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA)
-            txtModalCuota.Text = "0"
-        Else
-            If (ddlModalNemotecnico.SelectedValue <> "") Then
-                ControlMontoRescateVsPatrimonio()
-            End If
+        If (ddlModalNemotecnico.SelectedValue <> "") Then
+            ControlMontoRescateVsPatrimonio()
         End If
 
         'CARGA LA FECHA Y CUOTA  DCV
         EstablecerDatosDCV()
 
-        CalcularMontoDisponible()
 
-        ''PATRIMONIO UTILIZADO (RESCATES DEL DIA)
-        'Dim RescateHoy As RescatesDTO = New RescatesDTO()
-        'Dim NegocioRescateHoy As RescateNegocio = New RescateNegocio
-        'Dim RescateActualizadoHoy As RescatesDTO = New RescatesDTO()
-
-        'If txtModalFechaSolicitud.Text <> "" Then
-        '    RescateHoy.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
-        'Else
-        '    RescateHoy.RES_Fecha_Solicitud = Nothing
-        'End If
-
-        'RescateHoy.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
-        'RescateHoy.FN_RUT = ddlModalRutFondo.SelectedValue
-        'RescateHoy.AP_RUT = ddlModalRutAportante.SelectedValue
-
-        'RescateActualizadoHoy = NegocioRescateHoy.SelectRescatesHoy(RescateHoy)
-
-        'If RescateActualizadoHoy IsNot Nothing Then
-        '    txtModalUtilizado.Text = Utiles.SetToCapitalizedNumber(RescateActualizadoHoy.RES_Monto)
-        'Else
-        '    txtModalRescates.Text = "0"
-        'End If
-        'txtModalDisponibles.Text = Utiles.SetToCapitalizedNumber(Double.Parse(txtModalRescateMax.Text) - Double.Parse(txtModalUtilizado.Text))
     End Sub
 
     Private Sub CargarRutAportantePorNombreAportanteModal()
@@ -1764,29 +1702,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
         CalcularMontoDisponible()
 
-        ''PATRIMONIO UTILIZADO (RESCATES DEL DIA)
-        'Dim RescateHoy As RescatesDTO = New RescatesDTO()
-        'Dim NegocioRescateHoy As RescateNegocio = New RescateNegocio
-        'Dim RescateActualizadoHoy As RescatesDTO = New RescatesDTO()
 
-        'If txtModalFechaSolicitud.Text <> "" Then
-        '    RescateHoy.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
-        'Else
-        '    RescateHoy.RES_Fecha_Solicitud = Nothing
-        'End If
-
-        'RescateHoy.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
-        'RescateHoy.FN_RUT = ddlModalRutFondo.SelectedValue
-        'RescateHoy.AP_RUT = ddlModalRutAportante.SelectedValue
-
-        'RescateActualizadoHoy = NegocioRescateHoy.SelectRescatesHoy(RescateHoy)
-
-        'If RescateActualizadoHoy IsNot Nothing Then
-        '    txtModalUtilizado.Text = Utiles.SetToCapitalizedNumber(RescateActualizadoHoy.RES_Monto)
-        'Else
-        '    txtModalRescates.Text = "0"
-        'End If
-        'txtModalDisponibles.Text = Utiles.SetToCapitalizedNumber(Double.Parse(txtModalRescateMax.Text) - Double.Parse(txtModalUtilizado.Text))
     End Sub
 
     Private Sub CargarRutAportantePorMultifondoModal()
@@ -3177,36 +3093,8 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         'CALCULA RESCATE MAX
         txtModalRescateMax.Text = Utiles.SetToCapitalizedNumber(((txtModalPorcentaje.Text / 100) * txtModalPatrimonio.Text))
 
-        CalcularMontoDisponible()
-
-        ''PATRIMONIO UTILIZADO (RESCATES DEL DIA)
-        'Dim RescateHoy As RescatesDTO = New RescatesDTO()
-        'Dim NegocioRescateHoy As RescateNegocio = New RescateNegocio
-        'Dim RescateActualizadoHoy As RescatesDTO = New RescatesDTO()
-
-        'If txtModalFechaSolicitud.Text <> "" Then
-        '    RescateHoy.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
-        'Else
-        '    RescateHoy.RES_Fecha_Solicitud = Nothing
-        'End If
-
-        'RescateHoy.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
-        'RescateHoy.FN_RUT = ddlModalRutFondo.SelectedValue
-        'RescateHoy.AP_RUT = ddlModalRutAportante.SelectedValue
-
-        'RescateActualizadoHoy = NegocioRescateHoy.SelectRescatesHoy(RescateHoy)
-
-        'If RescateActualizadoHoy IsNot Nothing Then
-        '    txtModalUtilizado.Text = Utiles.SetToCapitalizedNumber(RescateActualizadoHoy.RES_Monto)
-        'Else
-        '    txtModalRescates.Text = "0"
-        'End If
-
-        ''CALCULO DISPONIBLES PATRIMONIO
-        'txtModalDisponibles.Text = Utiles.SetToCapitalizedNumber(Double.Parse(txtModalRescateMax.Text) - Double.Parse(txtModalUtilizado.Text))
-
-        '////////////FIN SECCION PATRIMONIO//////////////////
-
+        ' CalcularMontoDisponible()
+        ControlMontoRescateVsPatrimonio()
         EstablecerDatosDCV()
 
         'VALIDA MONEDA PAGO
@@ -3373,19 +3261,10 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             lnkBtnModalFechaPago.Visible = True
             lnkBtnModalFechaTCObs.Visible = True
 
-            'Dim VentanasRescate As VentanasRescateDTO = New VentanasRescateDTO()
-            'Dim NegocioVentanasRescate As VentanasRescateNegocio = New VentanasRescateNegocio
             Dim VentanasRescateActualizado As VentanasRescateDTO = New VentanasRescateDTO()
             VentanasRescateActualizado = Nothing
 
             VentanasRescateActualizado = GetTraerVentanaDeRescate()
-
-            'If ddlModalNombreFondo.Text <> "" And ddlModalNemotecnico.Text <> "" And txtModalFechaSolicitud.Text <> "" Then
-            '    VentanasRescate.FN_Nombre_Corto = ddlModalNombreFondo.SelectedValue
-            '    VentanasRescate.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
-            '    VentanasRescate.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
-            '    VentanasRescateActualizado = NegocioVentanasRescate.SelectFechasNORescatable(VentanasRescate)
-            'End If
 
             If VentanasRescateActualizado IsNot Nothing Then
                 txtModalFechaNAV.Text = ""
