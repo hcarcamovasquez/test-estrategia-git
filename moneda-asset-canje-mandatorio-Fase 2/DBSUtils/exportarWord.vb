@@ -287,10 +287,13 @@ Public Class exportarWord
     End Function
 
     Private Shared Sub setColumnasCanje(document As DocX, fijacion As FijacionDTO)
-        Dim fechaDocumento As String
-        fechaDocumento = Date.Now().ToString("yyyy-MM-dd HH:mm") 'TODO:cambiar por el objeto
+        Dim fechaDocumento As String = ""
+        Dim HoraTransaccion As String = ""
 
         With fijacion
+            HoraTransaccion = .ObjCanje.HoraTransaccion
+            fechaDocumento = String.Format("{0} {1}", .ObjCanje.FechaSolicitud.ToString("yyyy-MM-dd"), HoraTransaccion)
+
             document.ReplaceText("[Columna D]", fechaDocumento)                                 ' Fecha generacion del documento ' TODO (cesar): fecha y hora pide
             document.ReplaceText("[Columna K]", .ObjCanje.NombreFondo)                  ' Nombre del fondo
             document.ReplaceText("[Columna L]", .ObjCanje.NombreSerieSaliente)          ' serie saliente 
@@ -328,7 +331,7 @@ Public Class exportarWord
 
         If fijacion.TipoTransaccion = "Rescate" Then
             fechaPago = "" + fijacion.ObjRescate.RES_Fecha_Pago
-            horaPago = "" + fijacion.ObjRescate.RES_Fecha_Pago.ToString("HH:mm")
+            horaPago = "" + fijacion.ObjRescate.HoraTransaccion
             document.ReplaceText("[Columna D]", "RESCATE")
 
             If fijacion.MonedaPago = "CLP" Then
@@ -347,7 +350,8 @@ Public Class exportarWord
             document.ReplaceText("[Columna L]", Utiles.formateConSeparadorDeMiles(fijacion.Cuotas, 0))                 ' cantidad de cuotas
         Else
             fechaPago = "" + fijacion.ObjSuscripcion.FechaSuscripcion
-            horaPago = "" + fijacion.ObjSuscripcion.FechaSuscripcion.ToString("HH:mm")
+            horaPago = "" + fijacion.ObjSuscripcion.HoraTransaccion
+
             document.ReplaceText("[Columna D]", "APORTE")
 
             If fijacion.MonedaPago = "CLP" Then
