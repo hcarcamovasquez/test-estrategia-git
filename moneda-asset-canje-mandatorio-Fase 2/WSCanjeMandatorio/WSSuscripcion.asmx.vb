@@ -502,7 +502,6 @@ Public Class WSSuscripcion
         sp.AgregarParametro("ScFijacionTC", Suscripcion.FijacionTC, System.Data.SqlDbType.VarChar)
         sp.AgregarParametro("EstadoSuscripcion", Suscripcion.EstadoSuscripcion, System.Data.SqlDbType.VarChar)
 
-        'TODO: CAMBIAR  
         sp.AgregarParametro("FnCuotasEmitidas", Suscripcion.CuotasEmitidas, System.Data.SqlDbType.Decimal)
         sp.AgregarParametro("FnAcumulada", Suscripcion.FnAcumulada, System.Data.SqlDbType.Decimal)
         sp.AgregarParametro("ScActual", Suscripcion.ScActual, System.Data.SqlDbType.Decimal)
@@ -573,6 +572,7 @@ Public Class WSSuscripcion
 
             .EstadoIntencion = dataRow("Sc_EstadoIntencion").ToString().Trim()
 
+            .HoraTransaccion = dataRow("HoraTransaccion").ToString().Trim()
         End With
         Return Suscripcion
     End Function

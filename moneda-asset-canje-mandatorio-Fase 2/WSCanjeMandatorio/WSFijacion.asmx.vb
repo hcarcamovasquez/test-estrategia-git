@@ -458,6 +458,7 @@ Public Class WSFijacion
             .NAV_FIJADO = dataRow("NAV_FIJADO").ToString().Trim()
             .MonedaPago = dataRow("Moneda_Pago").ToString().Trim()
             .EstadoIntencion = dataRow("SC_EstadoIntencion").ToString().Trim()
+            .HoraTransaccion = dataRow("HoraTransaccion").ToString().Trim()
         End With
         Return Fijacion
     End Function

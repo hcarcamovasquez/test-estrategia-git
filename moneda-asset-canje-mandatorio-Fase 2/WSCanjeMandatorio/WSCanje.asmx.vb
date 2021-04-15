@@ -735,7 +735,7 @@ Public Class WSCanje
                 .FechaCanjeDate = datarow("CN_Fecha_Canje").ToString().Trim()
             End If
 
-
+            .HoraTransaccion = datarow("HoraTransaccion").ToString().Trim()
         End With
         Return canje
     End Function

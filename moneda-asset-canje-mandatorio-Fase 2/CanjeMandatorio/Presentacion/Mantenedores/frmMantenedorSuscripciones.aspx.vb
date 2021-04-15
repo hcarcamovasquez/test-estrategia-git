@@ -586,7 +586,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
 
     Private Sub consultarCuotasEmitidas(NombreFondo As String)
         Dim suscripcion As SuscripcionDTO = New SuscripcionDTO()
-        'TODO : Cambiar Dim valorActual As Double
+
         Dim valorActual As Decimal
         valorActual = ObtenerActual(NombreFondo)
         suscripcion = ObtenerCuotasFondo(NombreFondo)
@@ -610,7 +610,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
         If txtDisponibles.Text = "" Then
             suscripcion.ScDisponibles = 0
         Else
-            'TODO: CAmbiar : suscripcion.ScDisponibles = Decimal.Parse(txtDisponiblesEmitidas.Text.ToString()) 
             suscripcion.ScDisponibles = Decimal.Parse(txtDisponiblesEmitidas.Text.ToString())
         End If
 
@@ -632,7 +631,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
 
     End Sub
 
-    'TODO: MODIFICAR Protected Function ObtenerActual(NombreFondo As String) As Double
+
     Protected Function ObtenerActual(NombreFondo As String) As Decimal
         Dim suscripcion As SuscripcionDTO = New SuscripcionDTO()
         Dim susNegocio As SuscripcionNegocio = New SuscripcionNegocio()
@@ -1582,11 +1581,10 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
         If txtDisponiblesEmitidas.Text = "" Then
             Suscripcion.ScDisponibles = 0
         Else
-            'TODO: JOVB
+
             Suscripcion.ScDisponibles = Decimal.Parse(Replace(txtDisponiblesEmitidas.Text.ToString(), ".", ""))
         End If
 
-        'jOVB
         Suscripcion.EstadoIntencion = ddlEstadoIntencion.SelectedValue
 
         Return Suscripcion
@@ -1603,19 +1601,19 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
     Protected Sub llenarCLP()
 
         If (IsNumeric(txtTCObservado.Text) And IsNumeric(txtNAV.Text)) Then
-            txtNAVCLP.Text = Utiles.calcularNAVCLP(txtTCObservado.Text, txtNAV.Text) '  String.Format("{0:N4}", txtNAV.Text * txtTCObservado.Text)
+            txtNAVCLP.Text = Utiles.calcularNAVCLP(txtTCObservado.Text, txtNAV.Text)
         Else
             txtNAVCLP.Text = ""
         End If
 
         If (IsNumeric(txtCuotas.Text) And IsNumeric(txtNAV.Text) And IsNumeric(txtTCObservado.Text)) Then
-            txtMontoCLP.Text = Utiles.calcularMontoCLP(txtCuotas.Text, txtNAV.Text, txtTCObservado.Text) 'String.Format("{0:N2}", NavClpAux)
+            txtMontoCLP.Text = Utiles.calcularMontoCLP(txtCuotas.Text, txtNAV.Text, txtTCObservado.Text)
         End If
     End Sub
 
     Private Sub CalcularMontos()
         txtMontoCLP.Text = Utiles.calcularMontoCLP(txtCuotas.Text, txtNAV.Text, txtTCObservado.Text)
-        txtMonto.Text = Utiles.calcularMonto(txtCuotas.Text, txtNAV.Text, txtMonedaSerie.Text)  ' String.Format("{0:N2}", txtModalCuota.Text * txtModalNAV.Text)
+        txtMonto.Text = Utiles.calcularMonto(txtCuotas.Text, txtNAV.Text, txtMonedaSerie.Text)
 
     End Sub
 #End Region
@@ -2177,7 +2175,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorSuscripciones
 
     Private Sub FillPopUp(Suscripcion As SuscripcionDTO)
         lblPopUpFechaSolicitud.Text = Suscripcion.FechaSuscripcion.ToShortDateString
-        lblPopUpHoraSolicitud.Text = Suscripcion.FechaSuscripcion.ToShortTimeString
+        lblPopUpHoraSolicitud.Text = Suscripcion.HoraTransaccion
         lblPopUpTipo.Text = Suscripcion.TipoTransaccion
         lblPopUpFondo.Text = Suscripcion.Nemotecnico
         lblPopUpNombreFondo.Text = Suscripcion.FondoNombreCorto

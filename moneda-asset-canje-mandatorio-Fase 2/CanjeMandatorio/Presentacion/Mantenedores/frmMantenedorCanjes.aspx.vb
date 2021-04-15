@@ -243,7 +243,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
 
             If solicitud = Constantes.CONST_OPERACION_EXITOSA Then
                 ShowAlert(CONST_EXITO_AL_MODIFICAR)
-                'TODO: DESCOMENTAR
+
                 GenerarPopUp()
             Else
                 ShowAlert(CONST_ERROR_AL_MODIFICAR)
@@ -1356,9 +1356,6 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
         ddlModalMonedaEntrante.DataBind()
         ddlModalMonedaEntrante.SelectedIndex = 0
     End Sub
-
-
-    'TODO: REVISAR EL COMPORTAMIENTO DEL CALENDARIO. 
 
     Private Sub txtModalFSolicitud_TextChanged(sender As Object, e As EventArgs) Handles txtModalFSolicitud.TextChanged
         'txtModalFSolicitud.Text = CalendarModalFechaSolicitud.SelectedDate.ToShortDateString()
@@ -2498,30 +2495,22 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
 
         If canje.MonedaEntrante = "CLP" Then
             txtModalMontoEntrante.Text = Utiles.formatearMonto(canje.MontoEntrante, canje.MonedaEntrante)
-            ' String.Format("{0:N0}", canje.MontoEntrante)
             txtModalNavCLPEntrante.Text = canje.NavCLPEntranteFormat
             txtModalMontoCLPEntrante.Text = Utiles.formatearMontoCLP(canje.MontoCLPEntrante)
-            ' String.Format("{0:N0}", canje.MontoCLPEntrante)
         Else
             txtModalMontoEntrante.Text = Utiles.formatearMonto(canje.MontoEntrante, canje.MonedaEntrante)
-            ' String.Format("{0:N2}", canje.MontoEntrante)
             txtModalNavCLPEntrante.Text = canje.NavCLPEntranteFormat
             txtModalMontoCLPEntrante.Text = Utiles.formatearMontoCLP(canje.MontoCLPEntrante)
-            'String.Format("{0:N2}", canje.MontoCLPEntrante)
         End If
 
         If canje.MonedaSaliente = "CLP" Then
             txtModalMontoSaliente.Text = Utiles.formatearMonto(canje.MontoSaliente, canje.MonedaSaliente)
-            ' String.Format("{0:N0}", canje.MontoSaliente)
             txtModalNavCLPSaliente.Text = canje.NavCLPSalienteFormat
             txtModalMontoCLPSaliente.Text = Utiles.formatearMontoCLP(canje.MontoCLPSaliente)
-            ' String.Format("{0:N0}", canje.MontoCLPSaliente)
         Else
             txtModalMontoSaliente.Text = Utiles.formatearMonto(canje.MontoSaliente, canje.MonedaSaliente)
-            ' String.Format("{0:N2}", canje.MontoSaliente)
             txtModalNavCLPSaliente.Text = canje.NavCLPSalienteFormat
             txtModalMontoCLPSaliente.Text = Utiles.formatearMontoCLP(canje.MontoCLPSaliente)
-            ' String.Format("{0:N2}", canje.MontoCLPSaliente)
         End If
 
 
@@ -2651,7 +2640,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorCanjes
 
     Private Sub FillPopUp(Canje As CanjeDTO)
         lblPopUpFechaSolicitud.Text = Canje.FechaSolicitud.ToShortDateString
-        lblPopUpHoraSolicitud.Text = Canje.FechaSolicitud.ToShortTimeString
+        lblPopUpHoraSolicitud.Text = Canje.HoraTransaccion
         lblPopUpTipo.Text = Canje.TipoTransaccion
         lblPopUpNemoFondo.Text = Canje.NemotecnicoEntrante
         lblPopUpNombreFondo.Text = Canje.NombreFondo

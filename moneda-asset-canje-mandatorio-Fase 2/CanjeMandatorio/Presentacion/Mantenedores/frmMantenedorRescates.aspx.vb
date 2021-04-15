@@ -30,6 +30,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
     Public Const CONST_SIN_RESULTADOS As String = "No se obtuvieron resultados de la búsqueda"
     Public Const CONST_INHABIL_PARA_TC As String = "La fecha TC es inhábil en la moneda. Se moverá al hábil siguiente"
+    Public Const CONST_MONTO_RESCATE_EXCEDE_PATRIMONIO As String = "El monto de rescate debe ser menor o igual a máximo disponible"
 
 #Region "VALIDA PERMISOS"
     Private Sub ValidaPermisosPerfil()
@@ -1046,30 +1047,46 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
     Private Sub CalcularMontoDisponible()
         'PATRIMONIO UTILIZADO (RESCATES DEL DIA)
-        Dim RescateHoy As RescatesDTO = New RescatesDTO()
+        Dim Rescate As RescatesDTO = New RescatesDTO()
         Dim NegocioRescateHoy As RescateNegocio = New RescateNegocio
         Dim RescateActualizadoHoy As RescatesDTO = New RescatesDTO()
+        Dim fondo As FondoDTO = New FondoDTO()
+        Dim negocioFondo As FondosNegocio = New FondosNegocio()
+        Dim negocioRescate As RescateNegocio = New RescateNegocio
+        Dim resultadoCalculo As String
+        Dim resultadoDisponible As Decimal
+        Dim resultado() As String
 
-        If txtModalFechaSolicitud.Text <> "" Then
-            RescateHoy.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
-        Else
-            RescateHoy.RES_Fecha_Solicitud = Nothing
+        Rescate.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
+
+        If (txtAccionHidden.Value.Equals("CREAR")) Then
+            Rescate.RES_Monto = txtModalMonto.Text
+        ElseIf (txtAccionHidden.Value.Equals("MODIFICAR")) Then
+            Rescate.RES_Monto = 0
         End If
 
-        RescateHoy.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
-        RescateHoy.FN_RUT = ddlModalRutFondo.SelectedValue
-        RescateHoy.AP_RUT = ddlModalRutAportante.SelectedValue
+        Rescate.AP_RUT = ddlModalRutAportante.SelectedValue
+        Rescate.AP_Multifondo = ddlModalMultifondo.SelectedValue
+        Rescate.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
+        Rescate.FN_RUT = ddlModalRutFondo.SelectedValue
+        Rescate.FS_Moneda = txtModalMonedaSerie.Text
+        Rescate.FS_Nemotecnico = ddlModalNemotecnico.SelectedValue
 
-        RescateActualizadoHoy = NegocioRescateHoy.SelectRescatesHoy(RescateHoy)
+        Rescate.DesdeProceso = "Rescate"
 
-        If RescateActualizadoHoy IsNot Nothing Then
-            txtModalUtilizado.Text = Utiles.SetToCapitalizedNumber(RescateActualizadoHoy.RES_Monto)
-        Else
-            txtModalRescates.Text = "0"
-        End If
+        fondo.Rut = Rescate.FN_RUT
+        fondo = negocioFondo.GetFondo(fondo)
+        Rescate.FN_Nombre_Corto = fondo.RazonSocial
 
         'CALCULO DISPONIBLES PATRIMONIO
+
+        resultado = negocioRescate.ControlMontoRescateVsPatrimonio(Rescate, fondo).Split(",")
+        resultadoCalculo = resultado(0)
+        resultadoDisponible = resultado(1)
+
+        txtModalUtilizado.Text = Utiles.SetToCapitalizedNumber(resultadoDisponible)
         txtModalDisponibles.Text = Utiles.SetToCapitalizedNumber(Double.Parse(txtModalRescateMax.Text) - Double.Parse(txtModalUtilizado.Text))
+
     End Sub
 
     Private Function GetTraerVentanaDeRescate() As VentanasRescateDTO
@@ -1439,10 +1456,11 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         CargarNombreAportantePorRutAportanteModal()
         CargarMultifondoPorRutAportanteModal()
         CargarInfoCuotasDisponibles()
+        'TODO: JOVB y JM ... ver si se debe hacer esta validacion 
 
         'VALIDA CUOTAS CONTRA CUOTAS DIPONIBLES
         If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalDisponibles.Text)) Then
-            ShowAlert("El monto de rescate debe ser menor o igual a máximo disponible")
+            ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA)
             txtModalCuota.Text = "0"
         Else
             ControlMontoRescateVsPatrimonio()
@@ -1618,7 +1636,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
         'VALIDA CUOTAS CONTRA CUOTAS DIPONIBLES
         If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalDisponibles.Text)) Then
-            ShowAlert("El monto de rescate debe ser menor o igual a máximo disponible")
+            ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA)
             txtModalCuota.Text = "0"
         Else
             If (ddlModalNemotecnico.SelectedValue <> "") Then
@@ -1819,7 +1837,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         End If
 
         If ((Double.Parse(txtModalCuota.Text)) > (Double.Parse(txtModalDisponiblesCuotasDisponibles.Text) + Double.Parse(txtModalCuota.ToolTip)) And ((ddlModalNombreAportante.ToolTip = ddlModalNombreAportante.SelectedValue))) Then
-            ShowAlert("El monto de rescate debe ser menor o igual a máximo disponible")
+            ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA)
             txtModalCuota.Text = "0"
             txtModalMonto.Text = "0"
             txtModalMontoCLP.Text = "0"
@@ -1831,7 +1849,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         'If ((Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalRescateMax.Text))) Then
         ' JOVB y JM : 
         If ((Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalDisponibles.Text))) Then
-            ShowAlert("El monto de rescate debe ser menor o igual a máximo disponible")
+            ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA)
             txtModalCuota.Text = "0"
             txtModalMonto.Text = "0"
             txtModalMontoCLP.Text = "0"
@@ -1948,7 +1966,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
                 'If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalRescateMax.Text)) Then
                 If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalDisponibles.Text)) Then
-                    ShowAlert("El monto de rescate debe ser menor o igual a máximo disponible")
+                    ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA)
                     txtModalCuota.Text = "0"
                     Return
                 Else
@@ -4057,7 +4075,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
     Private Sub FillPopUp(Rescate As RescatesDTO)
         lblPopUpFechaSolicitud.Text = Rescate.RES_Fecha_Solicitud.ToShortDateString
-        lblPopUpHoraSolicitud.Text = Rescate.RES_Fecha_Solicitud.ToShortTimeString
+        lblPopUpHoraSolicitud.Text = Rescate.HoraTransaccion
         lblPopUpTipo.Text = Rescate.RES_Tipo_Transaccion
         lblPopUpNemoFondo.Text = Rescate.FS_Nemotecnico
         lblPopUpNombreFondo.Text = Rescate.FN_Nombre_Corto

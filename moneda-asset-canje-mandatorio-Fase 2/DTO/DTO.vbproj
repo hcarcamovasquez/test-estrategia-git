@@ -110,6 +110,7 @@
     <Compile Include="TipoCalculoNavDTO.vb" />
     <Compile Include="TipoCambioDTO.vb" />
     <Compile Include="MonedasDTO.vb" />
+    <Compile Include="TransaccionBaseDTO.vb" />
     <Compile Include="UsuarioDTO.vb" />
     <Compile Include="VcSerieDTO.vb" />
     <Compile Include="VentanasRescateDTO.vb" />

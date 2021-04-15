@@ -60,7 +60,7 @@ Public Class ObtenerFechasSolicitud
                 Case "FechaNav"
                     fechaParaCalculo = fechaNav
                 Case Else
-                    ' TODO: JOVB Pregunta -> Si No hay configuracion de la serie ¿ que valor le debe poner al TC ? 
+
                     fechaParaCalculo = FechaIntencion
             End Select
 

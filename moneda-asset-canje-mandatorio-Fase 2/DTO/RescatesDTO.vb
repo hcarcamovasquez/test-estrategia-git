@@ -1,4 +1,6 @@
 ﻿Public Class RescatesDTO
+    Inherits TransaccionBaseDTO
+
     Public Property RES_ID As Integer
     Public Property RES_Fecha_Solicitud As DateTime
     Public Property RES_Fecha_Pago As DateTime

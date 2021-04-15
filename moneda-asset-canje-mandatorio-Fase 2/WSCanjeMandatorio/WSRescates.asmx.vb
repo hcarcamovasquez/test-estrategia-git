@@ -656,6 +656,7 @@ Public Class WSRescates
             .FS_Moneda = dataRow("FS_Moneda").ToString().Trim()
             .RES_Maximo = dataRow("RES_Maximo").ToString().Trim()
             .RES_Utilizado = dataRow("RES_Utilizado").ToString().Trim()
+            .HoraTransaccion = dataRow("HoraTransaccion").ToString().Trim()
 
         End With
         Return Rescate

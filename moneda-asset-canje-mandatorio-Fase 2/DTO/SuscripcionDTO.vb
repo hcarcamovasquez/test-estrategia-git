@@ -1,4 +1,6 @@
 Public Class SuscripcionDTO
+    Inherits TransaccionBaseDTO
+
     Public Property IdSuscripcion As Integer
     Public Property TipoTransaccion As String
     Public Property FechaIntencion As Date

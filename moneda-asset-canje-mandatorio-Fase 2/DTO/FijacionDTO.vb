@@ -1,4 +1,6 @@
 ﻿Public Class FijacionDTO
+    Inherits TransaccionBaseDTO
+
     Public Property ID As Int32
     Public Property FechaNav As Date
     Public Property FechaTCObs As Date
@@ -121,7 +123,7 @@
     Public Property MonedaPago As String
 
     Public Sub New()
-        objCanje = New CanjeDTO()
+        ObjCanje = New CanjeDTO()
         ObjSuscripcion = New SuscripcionDTO
         ObjRescate = New RescatesDTO()
     End Sub

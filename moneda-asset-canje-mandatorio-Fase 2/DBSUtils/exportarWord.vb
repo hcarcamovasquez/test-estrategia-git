@@ -253,7 +253,7 @@ Public Class exportarWord
             nombreOutput = Documentos.dirOutputDoc & "COMPROBANTE DE PAGO CANJE"
         End If
 
-        'TODO: Borrar archivo generado anteriormente
+
         If File.Exists(nombreOutput) Then
             File.Delete(nombreOutput)
         End If
