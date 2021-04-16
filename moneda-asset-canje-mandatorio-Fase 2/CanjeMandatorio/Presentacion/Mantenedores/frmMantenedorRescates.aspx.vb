@@ -1752,38 +1752,38 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             txtModalCuota.Text = "0"
         End If
 
-        If ((Double.Parse(txtModalCuota.Text)) > (Double.Parse(txtModalDisponiblesCuotasDisponibles.Text) + Double.Parse(txtModalCuota.ToolTip)) And ((ddlModalNombreAportante.ToolTip = ddlModalNombreAportante.SelectedValue))) Then
-            ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA)
-            txtModalCuota.Text = "0"
-            txtModalMonto.Text = "0"
-            txtModalMontoCLP.Text = "0"
-            Return
-        End If
+        'If ((Double.Parse(txtModalCuota.Text)) > (Double.Parse(txtModalDisponiblesCuotasDisponibles.Text) + Double.Parse(txtModalCuota.ToolTip)) And ((ddlModalNombreAportante.ToolTip = ddlModalNombreAportante.SelectedValue))) Then
+        '    ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA)
+        '    txtModalCuota.Text = "0"
+        '    txtModalMonto.Text = "0"
+        '    txtModalMontoCLP.Text = "0"
+        '    Return
+        'End If
 
         CalcularMontos()
 
         'If ((Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalRescateMax.Text))) Then
         ' JOVB y JM : 
-        If ((Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalDisponibles.Text))) Then
-            ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA)
-            txtModalCuota.Text = "0"
-            txtModalMonto.Text = "0"
-            txtModalMontoCLP.Text = "0"
-            Return
-        Else
-            Dim TipoCalculoNav As TipoCalculoNavDTO = New TipoCalculoNavDTO()
-            Dim NegocioTipoCalculoNav As TipoCalculoNav = New TipoCalculoNav
+        'If ((Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalDisponibles.Text))) Then
+        '    ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA)
+        '    txtModalCuota.Text = "0"
+        '    txtModalMonto.Text = "0"
+        '    txtModalMontoCLP.Text = "0"
+        '    Return
+        'Else
+        Dim TipoCalculoNav As TipoCalculoNavDTO = New TipoCalculoNavDTO()
+        Dim NegocioTipoCalculoNav As TipoCalculoNav = New TipoCalculoNav
 
-            ControlMontoRescateVsPatrimonio()
+        ControlMontoRescateVsPatrimonio()
 
-            If txtIDRescate.Text() <> Nothing Then
-                TipoCalculoNav.ID = txtIDRescate.Text()
-                TipoCalculoNav.TipoTransaccion = "Rescate"
-                TipoCalculoNav.TipoCalculo = "C"
-            End If
-
-            Dim updateCNJ_Tipo_CalculoNAV = NegocioTipoCalculoNav.UpdateTipoCalculoNav(TipoCalculoNav)
+        If txtIDRescate.Text() <> Nothing Then
+            TipoCalculoNav.ID = txtIDRescate.Text()
+            TipoCalculoNav.TipoTransaccion = "Rescate"
+            TipoCalculoNav.TipoCalculo = "C"
         End If
+
+        Dim updateCNJ_Tipo_CalculoNAV = NegocioTipoCalculoNav.UpdateTipoCalculoNav(TipoCalculoNav)
+        'End If
     End Sub
 
     Private Function ControlMontoRescateVsPatrimonio(Optional button As Boolean = False) As Boolean
@@ -1883,14 +1883,14 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
                 CalcularMontos()
 
-                'If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalRescateMax.Text)) Then
-                If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalDisponibles.Text)) Then
-                    ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA)
-                    txtModalCuota.Text = "0"
-                    Return
-                Else
-                    ControlMontoRescateVsPatrimonio()
-                End If
+                ''If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalRescateMax.Text)) Then
+                'If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalDisponibles.Text)) Then
+                '    ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA)
+                '    txtModalCuota.Text = "0"
+                '    Return
+                'Else
+                ControlMontoRescateVsPatrimonio()
+                ' End If
 
                 If txtIDRescate.Text() <> Nothing Then
                     TipoCalculoNav.ID = txtIDRescate.Text()
