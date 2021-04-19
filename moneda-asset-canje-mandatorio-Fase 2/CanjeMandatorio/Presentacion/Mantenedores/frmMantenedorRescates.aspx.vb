@@ -1786,13 +1786,13 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         'End If
     End Sub
 
+    Dim primeraVez As Boolean = True
+
     Private Function ControlMontoRescateVsPatrimonio(Optional button As Boolean = False) As Boolean
         Dim rescate As RescatesDTO = New RescatesDTO()
         Dim negocioRescate As RescateNegocio = New RescateNegocio
         Dim fondo As FondoDTO = New FondoDTO()
         Dim negocioFondo As FondosNegocio = New FondosNegocio
-
-
 
         rescate.RES_Fecha_Solicitud = txtModalFechaSolicitud.Text
 
@@ -1827,8 +1827,12 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         If (resultadoCalculo) Then
             If (fondo.ControlTipoDeConfiguracion = "Pago") Then
                 If (fondo.ControlTipoControl = "Movil") Then
-                    txtModalFechaPago.Text = Utiles.SumaDiasAFechas(rescate.FS_Moneda, txtModalFechaPago.Text, fondo.ControlCantidadDias, IIf(fondo.ControlDiasHabiles = 0, 0, 1)).ToString("dd/MM/yyyy")
-                    CargarTodoCuandoCambiaFechaSolicitud(False) ' al enviar False no recalcula fecha de pago
+                    If primeraVez Then
+                        primeraVez = False
+                        txtModalFechaPago.Text = Utiles.SumaDiasAFechas(rescate.FS_Moneda, txtModalFechaPago.Text, fondo.ControlCantidadDias, IIf(fondo.ControlDiasHabiles = 0, 0, 1)).ToString("dd/MM/yyyy")
+                        CargarTodoCuandoCambiaFechaSolicitud(False) ' al enviar False no recalcula fecha de pago
+                    End If
+
                 ElseIf (fondo.ControlTipoControl = "Ventana") Then
                     'TODO: OBTENER FECHA SOLICITUD DE LA SIGUIETNE VENTANA
                     'Y ESTABLECERLO COMO FECHA DE SOLICITUD EN TextBoxFechaSolicitud Y REALIZAR TODOS LOS CAMBIOS QUE IMPLICA EL CHANGE DE CAMBIO DE FECHA DE SOLICITUD
