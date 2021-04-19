@@ -1828,9 +1828,11 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             If (fondo.ControlTipoDeConfiguracion = "Pago") Then
                 If (fondo.ControlTipoControl = "Movil") Then
                     If primeraVez Then
+                        muestraMensaje = True
                         primeraVez = False
                         txtModalFechaPago.Text = Utiles.SumaDiasAFechas(rescate.FS_Moneda, txtModalFechaPago.Text, fondo.ControlCantidadDias, IIf(fondo.ControlDiasHabiles = 0, 0, 1)).ToString("dd/MM/yyyy")
                         CargarTodoCuandoCambiaFechaSolicitud(False) ' al enviar False no recalcula fecha de pago
+                        muestraMensaje = False
                     End If
 
                 ElseIf (fondo.ControlTipoControl = "Ventana") Then
@@ -3098,7 +3100,10 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         txtModalRescateMax.Text = Utiles.SetToCapitalizedNumber(((txtModalPorcentaje.Text / 100) * txtModalPatrimonio.Text))
 
         ' CalcularMontoDisponible()
-        ControlMontoRescateVsPatrimonio()
+        If Not muestraMensaje Then
+            ControlMontoRescateVsPatrimonio()
+        End If
+
         EstablecerDatosDCV()
 
         'VALIDA MONEDA PAGO
@@ -3664,11 +3669,15 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
 
 #End Region
+    Dim muestraMensaje As Boolean = False
 
     Protected Sub ddlModalMonedaPago_SelectedChange(sender As Object, e As EventArgs) Handles ddlModalMonedaPago.SelectedIndexChanged
         ' txtModalFechaSolicitud.Text = Request.Form(txtModalFechaSolicitud.UniqueID)
+        muestraMensaje = True
+
         CargarTodoCuandoCambiaFechaSolicitud()
         CalcularMontos()
+        muestraMensaje = False
     End Sub
 
     Protected Sub txtModalFechaSolicitud_TextChanged(sender As Object, e As EventArgs) Handles txtModalFechaSolicitud.TextChanged
