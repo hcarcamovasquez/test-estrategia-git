@@ -77,6 +77,7 @@ Public Class exportarWord
     Private Shared Function CartaComprobanteDePagoCanje(fijaciones As List(Of FijacionDTO)) As String
         Return HacerCartaComprobanteDePago("canje", fijaciones)
     End Function
+
     Private Shared Function HacerZip(listadearchivos As List(Of String)) As String
         Const CONST_EXTENSION As String = ".zip"
         Const CONST_NOMBRE_ARCHIVO As String = "Cartas_"
@@ -142,9 +143,6 @@ Public Class exportarWord
         End If
 
         If fijacionesOrdenadas.Count > 0 Then
-            PlantillaWord = DocX.Load(TemplatePath)
-            document = DocX.Create(nombreOutput)
-
             '*******************************************************************************
             'agrupacion de transacciones
             '*******************************************************************************
@@ -164,6 +162,9 @@ Public Class exportarWord
 
             indice += 1
             listaDOcDVC.Add(indice, listaFijacion)
+
+            PlantillaWord = DocX.Load(TemplatePath)
+            document = DocX.Create(nombreOutput)
 
             '*******************************************************************************
             ' Proceso de Generacion de Cartas diferenciadas por "Aporte" o "Canjes" 
@@ -213,20 +214,12 @@ Public Class exportarWord
                 File.Delete(nombreOutput)
             End If
 
+            deleteLastPage(document)
+
             document.SaveAs(nombreOutput)
         End If
         Return nombreOutput + ".docx"
 
-    End Function
-
-    Private Shared Function insertaPagina(document As DocX, plantillaWord As DocX, firstTime As Boolean) As Boolean
-        If firstTime Then
-            document.InsertDocument(plantillaWord, False)
-            firstTime = False
-        Else
-            document.InsertDocument(plantillaWord, True)
-        End If
-        Return firstTime
     End Function
 
     Private Shared Function HacerCartaComprobanteDePago(ByVal tipoDeCarta As String, fijaciones As List(Of FijacionDTO)) As String
@@ -278,12 +271,29 @@ Public Class exportarWord
                 File.Delete(nombreOutput)
             End If
 
+            deleteLastPage(document)
+
             document.SaveAs(nombreOutput)
+
 
         End If
 
         Return nombreOutput + ".docx"
 
+    End Function
+
+    Private Shared Sub deleteLastPage(ByRef document As DocX)
+        'document.RemoveSection(document.Sections.Count())
+    End Sub
+
+    Private Shared Function insertaPagina(document As DocX, plantillaWord As DocX, firstTime As Boolean) As Boolean
+        If firstTime Then
+            document.InsertDocument(plantillaWord, False)
+            firstTime = False
+        Else
+            document.InsertDocument(plantillaWord, True)
+        End If
+        Return firstTime
     End Function
 
     Private Shared Sub setColumnasCanje(document As DocX, fijacion As FijacionDTO)
@@ -391,6 +401,7 @@ Public Class exportarWord
         'End If        
 
     End Sub
+
     Private Shared Function setColumnasDCVCanje(bPrimero As Boolean, document As DocX, newRow As Row, transaccion As FijacionDTO) As Boolean
 
         If bPrimero Then
@@ -448,6 +459,7 @@ Public Class exportarWord
 
         Return bPrimero
     End Function
+
     Private Shared Function getNombreArchivoOutput(fijacion As FijacionDTO) As String
         Dim nombreNuevo As String
 

@@ -727,7 +727,18 @@ namespace Xceed.Document.NET
       return newTable;
     }
 
-    public virtual Section InsertSection()
+        public virtual void RemoveSection(int pagina)
+        {
+            pagina--;
+
+            if (pagina < this.Document.Sections.Count() )
+            {
+                this.Document.Sections.RemoveAt(pagina);
+                this.Document.UpdateCacheSections();
+            }
+        }
+
+        public virtual Section InsertSection()
     {
       return this.InsertSection( false );
     }
