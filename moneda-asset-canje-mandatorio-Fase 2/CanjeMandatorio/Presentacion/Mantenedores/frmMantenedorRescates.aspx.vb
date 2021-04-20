@@ -5,7 +5,7 @@ Imports DBSUtils
 Partial Class Presentacion_Mantenedores_frmMantenedorRescates
     Inherits System.Web.UI.Page
 
-    Private listaCarga As Object
+    ' Private listaCarga As Object
 
     Public Const CONST_TITULO_VALORESCUOTA As String = "Rescate"
     Public Const CONST_TITULO_MODAL_MODIFICAR As String = "Modificar Rescate"
@@ -1245,6 +1245,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             txtModalRescates.Text = "0"
         End If
     End Sub
+
     Private Sub cargaSuscripcionesEnTransito()
         'CARGA SUSCRIPCIONES EN TRANSITO
         Dim suscripcion As SuscripcionDTO = New SuscripcionDTO()
@@ -1263,6 +1264,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             txtModalSuscripciones.Text = "0"
         End If
     End Sub
+
     Private Sub cargaCanjesEnTransito()
         'CARGA DE CANJES EN TRANSITO
         Dim canje As CanjeDTO = New CanjeDTO
@@ -1602,9 +1604,14 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         CargarMultifondoPorNombreAportanteModal()
         CargarInfoCuotasDisponibles()
 
-        If (ddlModalNemotecnico.SelectedValue <> "") Then
-            ControlMontoRescateVsPatrimonio()
-        End If
+        '
+        ' JV, JM y OO -> No se debe realizar el control de Rescates
+        '
+        'If (ddlModalNemotecnico.SelectedValue <> "") Then
+        '    If txtModalMonto.Text > 0 Then
+        '        ControlMontoRescateVsPatrimonio()
+        '    End If
+        'End If
 
         'CARGA LA FECHA Y CUOTA  DCV
         EstablecerDatosDCV()
@@ -1745,6 +1752,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
 #Region "CARGA MONTO  TEXTCHANGED CAMPO CUOTAS"
     Public Sub CargarMontoModal()
+        Dim TipoCalculoNav As TipoCalculoNavDTO = New TipoCalculoNavDTO()
+        Dim NegocioTipoCalculoNav As TipoCalculoNav = New TipoCalculoNav
+
         If txtModalCuota.ToolTip = "" Then
             txtModalCuota.ToolTip = "0"
         End If
@@ -1752,27 +1762,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             txtModalCuota.Text = "0"
         End If
 
-        'If ((Double.Parse(txtModalCuota.Text)) > (Double.Parse(txtModalDisponiblesCuotasDisponibles.Text) + Double.Parse(txtModalCuota.ToolTip)) And ((ddlModalNombreAportante.ToolTip = ddlModalNombreAportante.SelectedValue))) Then
-        '    ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA)
-        '    txtModalCuota.Text = "0"
-        '    txtModalMonto.Text = "0"
-        '    txtModalMontoCLP.Text = "0"
-        '    Return
-        'End If
-
         CalcularMontos()
-
-        'If ((Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalRescateMax.Text))) Then
-        ' JOVB y JM : 
-        'If ((Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalDisponibles.Text))) Then
-        '    ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA)
-        '    txtModalCuota.Text = "0"
-        '    txtModalMonto.Text = "0"
-        '    txtModalMontoCLP.Text = "0"
-        '    Return
-        'Else
-        Dim TipoCalculoNav As TipoCalculoNavDTO = New TipoCalculoNavDTO()
-        Dim NegocioTipoCalculoNav As TipoCalculoNav = New TipoCalculoNav
 
         ControlMontoRescateVsPatrimonio()
 
@@ -1783,7 +1773,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         End If
 
         Dim updateCNJ_Tipo_CalculoNAV = NegocioTipoCalculoNav.UpdateTipoCalculoNav(TipoCalculoNav)
-        'End If
+
     End Sub
 
     Dim primeraVez As Boolean = True
@@ -1828,11 +1818,9 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
             If (fondo.ControlTipoDeConfiguracion = "Pago") Then
                 If (fondo.ControlTipoControl = "Movil") Then
                     If primeraVez Then
-                        muestraMensaje = True
                         primeraVez = False
                         txtModalFechaPago.Text = Utiles.SumaDiasAFechas(rescate.FS_Moneda, txtModalFechaPago.Text, fondo.ControlCantidadDias, IIf(fondo.ControlDiasHabiles = 0, 0, 1)).ToString("dd/MM/yyyy")
-                        CargarTodoCuandoCambiaFechaSolicitud(False) ' al enviar False no recalcula fecha de pago
-                        muestraMensaje = False
+                        CargarTodoCuandoCambiaFechaSolicitud(False, ValidaControlRescate:=False) ' al enviar False no recalcula fecha de pago
                     End If
 
                 ElseIf (fondo.ControlTipoControl = "Ventana") Then
@@ -1874,6 +1862,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
 
 #Region "CARGA CUOTAS TEXTCHANGED CAMPO MONTO"
+
     Public Sub CargarCuotasModal()
         Dim NegocioTipoCalculoNav As TipoCalculoNav = New TipoCalculoNav
         Dim ModalCuota As Decimal
@@ -1881,24 +1870,20 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
         If txtModalMonto.Text = "" Then
             txtModalMonto.Text = "0"
-        Else
-            If txtModalNAV.Text <> "" And txtModalNAV.Text <> "0" And txtModalMonto.Text <> "0" Then
+        End If
 
-                ModalCuota = txtModalMonto.Text / txtModalNAV.Text
-                txtModalCuota.Text = Utiles.SetToCapitalizedNumber(Math.Floor(ModalCuota))
+        If txtModalNAV.Text <> "" And txtModalNAV.Text <> "0" And txtModalMonto.Text <> "0" Then
 
-                CalcularMontos()
+            ModalCuota = txtModalMonto.Text / txtModalNAV.Text
+            txtModalCuota.Text = Utiles.SetToCapitalizedNumber(Math.Floor(ModalCuota))
 
-                ''If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalRescateMax.Text)) Then
-                'If (Double.Parse(txtModalMonto.Text)) > (Double.Parse(txtModalDisponibles.Text)) Then
-                '    ShowAlert(Constantes.CONST_MENSAJE_NO_CUMPLE_REGLA)
-                '    txtModalCuota.Text = "0"
-                '    Return
-                'Else
+            CalcularMontos()
+
+            If txtModalMonto.Text > 0 Then
                 ControlMontoRescateVsPatrimonio()
-                ' End If
+            End If
 
-                If txtIDRescate.Text() <> Nothing Then
+            If txtIDRescate.Text() <> Nothing Then
                     TipoCalculoNav.ID = txtIDRescate.Text()
                     TipoCalculoNav.TipoTransaccion = "Rescate"
                     TipoCalculoNav.TipoCalculo = "M"
@@ -1911,7 +1896,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
                     Dim updateCNJ_Tipo_CalculoNAV = NegocioTipoCalculoNav.UpdateTipoCalculoNav(TipoCalculoNav)
                 End If
             End If
-        End If
+
     End Sub
 #End Region
 
@@ -3000,12 +2985,12 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
     Private Sub CalcularMontos()
         txtModalNAV_CLP.Text = Utiles.calcularNAVCLP(txtModalTCObservado.Text, txtModalNAV.Text)
         txtModalMontoCLP.Text = Utiles.calcularMontoCLP(txtModalCuota.Text, txtModalNAV.Text, txtModalTCObservado.Text)
-        txtModalMonto.Text = Utiles.calcularMonto(txtModalCuota.Text, txtModalNAV.Text, txtModalMonedaSerie.Text)  ' String.Format("{0:N2}", txtModalCuota.Text * txtModalNAV.Text)
-
+        txtModalMonto.Text = Utiles.calcularMonto(txtModalCuota.Text, txtModalNAV.Text, txtModalMonedaSerie.Text)
     End Sub
 
-    Public Sub CargarTodoCuandoCambiaFechaSolicitud(Optional recalcularFechaPago As Boolean = True)
+    Public Sub CargarTodoCuandoCambiaFechaSolicitud(Optional recalcularFechaPago As Boolean = True, Optional ValidaControlRescate As Boolean = True)
         Session("TipodeCalculoTC") = "ActivaRutNombreNemotecnico"
+
         Dim NegocioFondoSerie As FondoSeriesNegocio = New FondoSeriesNegocio
         Dim NegocioRescate As RescateNegocio = New RescateNegocio
 
@@ -3100,7 +3085,7 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
         txtModalRescateMax.Text = Utiles.SetToCapitalizedNumber(((txtModalPorcentaje.Text / 100) * txtModalPatrimonio.Text))
 
         ' CalcularMontoDisponible()
-        If Not muestraMensaje Then
+        If ValidaControlRescate Then
             ControlMontoRescateVsPatrimonio()
         End If
 
@@ -3669,15 +3654,14 @@ Partial Class Presentacion_Mantenedores_frmMantenedorRescates
 
 
 #End Region
-    Dim muestraMensaje As Boolean = False
+    'Dim muestraMensaje As Boolean = False
 
     Protected Sub ddlModalMonedaPago_SelectedChange(sender As Object, e As EventArgs) Handles ddlModalMonedaPago.SelectedIndexChanged
         ' txtModalFechaSolicitud.Text = Request.Form(txtModalFechaSolicitud.UniqueID)
-        muestraMensaje = True
 
-        CargarTodoCuandoCambiaFechaSolicitud()
+        CargarTodoCuandoCambiaFechaSolicitud(ValidaControlRescate:=False)
         CalcularMontos()
-        muestraMensaje = False
+
     End Sub
 
     Protected Sub txtModalFechaSolicitud_TextChanged(sender As Object, e As EventArgs) Handles txtModalFechaSolicitud.TextChanged
